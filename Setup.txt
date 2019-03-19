@@ -1,0 +1,12 @@
+https://facebook.github.io/create-react-app/docs/getting-started
+
+%PROJECT_HOME%
+npx create-react-app celiapp
+cd celiapp
+
+%PROJECT_HOME%/celiapp
+npm start
+
+%PROJECT_HOME%/celiapp
+npx -p @storybook/cli sb init --type react
+npm run storybook
