@@ -1,3 +1,17 @@
+### `Setup.txt´
+%PROJECT_HOME%
+npx create-react-app celiapp
+cd celiapp
+
+%PROJECT_HOME%/celiapp
+npm start
+
+%PROJECT_HOME%/celiapp
+npx -p @storybook/cli sb init --type react
+npm run storybook
+
+
+
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
 ## Available Scripts
