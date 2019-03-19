@@ -1,4 +1,5 @@
 https://facebook.github.io/create-react-app/docs/getting-started
+https://facebook.github.io/react-native/
 
 %PROJECT_HOME%
 npx create-react-app celiapp
