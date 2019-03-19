@@ -1,4 +1,4 @@
-### `Setup.txt´
+# `Setup.txt´
 %PROJECT_HOME%
 npx create-react-app celiapp
 cd celiapp
