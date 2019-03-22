@@ -1,7 +1,7 @@
-                         CELI APP
-   		   - All You Could Eat -
+                         				CELI APP
+   		   				  - All You Could Eat -
 
-#############################################################
+##########################################################################################################################
 
 Setup:
 "npm install"
@@ -9,7 +9,7 @@ Setup:
 Run:
 "npm start" / "npm run expo"
 
-#############################################################
+##########################################################################################################################
 
 celiapp
     ./package.json		NPM Installation Module
@@ -35,14 +35,15 @@ celiapp/src/screens
     ./***.js			MainTabNavigator Screens
     ./***/***.js		Sub Screens, Dialogs, ...
 
-#############################################################
+##########################################################################################################################
 
-REACT NATIVE: 	https://facebook.github.io/react-native/docs/getting-started
-EXPO: 		https://expo.io/
-Android Studio: https://developer.android.com/studio
-Icons Library: 	https://ionicons.com/
+REACT NATIVE: 		https://facebook.github.io/react-native/docs/getting-started
+EXPO: 			https://expo.io/
+Android Studio: 	https://developer.android.com/studio
+Icons Library: 		https://ionicons.com/
+Import Organizer: 	https://github.com/tleunen/babel-plugin-module-resolver
 
-#############################################################
+##########################################################################################################################
 
 		      Useful Git Commands
 
