@@ -20,7 +20,7 @@ celiapp
     ./app.json			Application Configuration
     ./App.js			Application Entry
     ./babel.config.js		Babel Configuration File (EXPO)
-    ./docdev/*			Development Documentation Files
+    ./docdev/***		Development Documentation Files
 
 celiapp/__tests__
     ./***-test.js		Application Test Files (JEST)	
