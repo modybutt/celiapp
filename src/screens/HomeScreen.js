@@ -3,8 +3,12 @@ import {
   View,
   Image,
   StyleSheet,
+  TouchableOpacity,
+  Button
   //Platform  
 } from 'react-native';
+
+import { Icon } from 'expo';
 
 export default class HomeScreen extends React.Component {
   static navigationOptions = {
@@ -12,6 +16,8 @@ export default class HomeScreen extends React.Component {
   };
 
   render() {
+    const {navigate} = this.props.navigation;
+
     return (
 		<View style = {styles.container}>
 			<Image source = {
@@ -29,6 +35,20 @@ export default class HomeScreen extends React.Component {
 				borderColor: '#000',
 				borderRadius: 360,
 			}} />
+
+        <Button
+        title="Go to Jane's profile"
+        onPress={() => navigate('Settings')}
+      />
+
+
+          <TouchableOpacity onPress={() => navigate('Settings')}>
+              <Icon.Ionicons
+                      name="md-add-circle"
+                      size={50}
+                      style={{ marginBottom: -3 }}
+                    />
+           </TouchableOpacity>
 		</View>
 	);
   }  

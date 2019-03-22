@@ -48,7 +48,7 @@ CalendarStack.navigationOptions = {
   tabBarIcon: ({ focused }) => (
     <TabBarIcon
       focused={focused}
-      name={Platform.OS === 'ios' ? 'ios-options' : 'md-calendar'}
+      name={Platform.OS === 'ios' ? 'ios-options' : 'md-calendar'}    // TODO iOS: md-calendar
     />
   ),
 };
@@ -58,6 +58,7 @@ export default createBottomTabNavigator({
   HomeStack,
   CalendarStack,
 }, {
+  initialRouteName: 'HomeStack',
   //tabBarPosition: 'bottom',
   tabBarOptions: {
     showLabel: false,

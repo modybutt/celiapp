@@ -1,5 +1,5 @@
 import React from 'react';
-import { Platform, StatusBar, StyleSheet, View } from 'react-native';
+import { Platform, StatusBar, StyleSheet, View, TouchableOpacity } from 'react-native';
 import { AppLoading, Asset, Font, Icon } from 'expo';
 import AppNavigator from './src/navigation/AppNavigator';
 
@@ -21,7 +21,14 @@ export default class App extends React.Component {
       return (
         <View style={styles.container}>
           {Platform.OS === 'ios' && <StatusBar barStyle="default" />}
-          <AppNavigator />
+          <AppNavigator/>
+          <TouchableOpacity activeOpacity={0.5} style={styles.TouchableOpacity} onPress={() => alert('Settings')}>
+              <Icon.Ionicons
+                      name="md-add-circle"
+                      size={50}
+                      style={{ marginBottom: -3 }}
+                    />
+           </TouchableOpacity>
         </View>
       );
     }
@@ -59,4 +66,13 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: '#fff',
   },
+  TouchableOpacity: {
+    position: 'absolute',
+    //width: 100,
+    //height: 100,
+    //alignItems: 'center',
+    //justifyContent: 'center',
+    right: 30,
+    bottom: 60,
+  }
 });
