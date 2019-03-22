@@ -3,9 +3,23 @@ import { Platform } from 'react-native';
 import { createStackNavigator, createBottomTabNavigator } from 'react-navigation';
 
 import TabBarIcon from '../components/TabBarIcon';
+import EvaluationScreen from '../screens/EvaluationScreen';
 import HomeScreen from '../screens/HomeScreen';
-import LinksScreen from '../screens/LinksScreen';
-import SettingsScreen from '../screens/SettingsScreen';
+import CalendarScreen from '../screens/CalendarScreen';
+
+const EvaluationStack = createStackNavigator({
+  Evaluation: EvaluationScreen,
+});
+
+EvaluationStack.navigationOptions = {
+  tabBarLabel: 'Evaluation',
+  tabBarIcon: ({ focused }) => (
+    <TabBarIcon
+      focused={focused}
+      name={Platform.OS === 'ios' ? 'ios-link' : 'md-trending-up'}
+    />
+  ),
+};
 
 const HomeStack = createStackNavigator({
   Home: HomeScreen,
@@ -18,43 +32,35 @@ HomeStack.navigationOptions = {
       focused={focused}
       name={
         Platform.OS === 'ios'
-          ? `ios-information-circle${focused ? '' : '-outline'}`
-          : 'md-information-circle'
+          ? `ios-information-circle${focused ? '' : '-outline'}`    // TODO iOS: md-paw
+          : 'md-paw'
       }
     />
   ),
 };
 
-const LinksStack = createStackNavigator({
-  Links: LinksScreen,
+const CalendarStack = createStackNavigator({
+  Calendar: CalendarScreen,
 });
 
-LinksStack.navigationOptions = {
-  tabBarLabel: 'Links',
+CalendarStack.navigationOptions = {
+  tabBarLabel: 'Calendar',
   tabBarIcon: ({ focused }) => (
     <TabBarIcon
       focused={focused}
-      name={Platform.OS === 'ios' ? 'ios-link' : 'md-link'}
-    />
-  ),
-};
-
-const SettingsStack = createStackNavigator({
-  Settings: SettingsScreen,
-});
-
-SettingsStack.navigationOptions = {
-  tabBarLabel: 'Settings',
-  tabBarIcon: ({ focused }) => (
-    <TabBarIcon
-      focused={focused}
-      name={Platform.OS === 'ios' ? 'ios-options' : 'md-options'}
+      name={Platform.OS === 'ios' ? 'ios-options' : 'md-calendar'}
     />
   ),
 };
 
 export default createBottomTabNavigator({
+  EvaluationStack,
   HomeStack,
-  LinksStack,
-  SettingsStack,
+  CalendarStack,
+}, {
+  //tabBarPosition: 'bottom',
+  tabBarOptions: {
+    showLabel: false,
+    //swipeEnabled: true,
+  }
 });
