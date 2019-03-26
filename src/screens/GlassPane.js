@@ -21,6 +21,7 @@ export default class GlassPane extends React.Component {
             </Text>
             <Button title="Back" onPress={() => this.props.navigation.goBack()} />
             <Button title="Oops!" onPress={() => this.props.navigation.navigate('Main')} />
+            <Button title="Foo" onPress={() => this.props.navigation.navigate('Calendar')} />
         </View>
 	);
   }  

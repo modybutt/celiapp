@@ -1,15 +1,16 @@
 import React from 'react';
 import { View, Button, StyleSheet } from 'react-native';
 
-export default class EvaluationScreen extends React.Component {
+export default class Evaluation_1 extends React.Component {
   static navigationOptions = {
-    title: 'Evaluation',
+    title: 'Evaluation_1',
   };
 
   render() {
     return (
         <View style={this.styles}>
-          <Button title="next" onPress={() => this.props.navigation.navigate('Evaluation_1')} />
+          <Button title="prev" onPress={() => this.props.navigation.goBack()} />
+          <Button title="next" onPress={() => this.props.navigation.navigate('Evaluation_2')} />
         </View>
     );
   }

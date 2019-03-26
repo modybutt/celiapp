@@ -7,61 +7,64 @@ import EvaluationScreen from '../screens/EvaluationScreen';
 import HomeScreen from '../screens/HomeScreen';
 import CalendarScreen from '../screens/CalendarScreen';
 
+import Evaluation_1 from '../screens/evaluation/Evaluation_1';
+import Evaluation_2 from '../screens/evaluation/Evaluation_2';
+
 const EvaluationStack = createStackNavigator({
   Evaluation: EvaluationScreen,
+  Evaluation_1: Evaluation_1,
+  Evaluation_2: Evaluation_2,
 });
-
-EvaluationStack.navigationOptions = {
-  tabBarLabel: 'Evaluation',
-  tabBarIcon: ({ focused }) => (
-    <TabBarIcon
-      focused={focused}
-      name={Platform.OS === 'ios' ? 'ios-link' : 'md-trending-up'}
-    />
-  ),
-};
 
 const HomeStack = createStackNavigator({
   Home: HomeScreen,
 });
 
-HomeStack.navigationOptions = {
-  tabBarLabel: 'Home',
-  tabBarIcon: ({ focused }) => (
-    <TabBarIcon
-      focused={focused}
-      name={
-        Platform.OS === 'ios'
-          ? `ios-information-circle${focused ? '' : '-outline'}`    // TODO iOS: md-paw
-          : 'md-paw'
-      }
-    />
-  ),
-};
-
 const CalendarStack = createStackNavigator({
   Calendar: CalendarScreen,
 });
 
-CalendarStack.navigationOptions = {
-  tabBarLabel: 'Calendar',
-  tabBarIcon: ({ focused }) => (
-    <TabBarIcon
-      focused={focused}
-      name={Platform.OS === 'ios' ? 'ios-options' : 'md-calendar'}    // TODO iOS: md-calendar
-    />
-  ),
-};
-
 export default createBottomTabNavigator({
-  EvaluationStack,
-  HomeStack,
-  CalendarStack,
+    Evaluation: {
+        screen: EvaluationStack,
+        navigationOptions: {
+          tabBarLabel: 'Evaluation',
+          tabBarIcon: ({ focused }) => (
+            <TabBarIcon
+              focused={focused}
+              name={Platform.OS === 'ios' ? 'ios-link' : 'md-trending-up'}
+            />
+          ),
+        }
+    },
+    Home: {
+        screen: HomeStack,
+        navigationOptions: {
+          tabBarLabel: 'Home',
+          tabBarIcon: ({ focused }) => (
+            <TabBarIcon
+              focused={focused}
+              name={
+                Platform.OS === 'ios'
+                  ? `ios-information-circle${focused ? '' : '-outline'}`    // TODO iOS: md-paw
+                  : 'md-paw'
+              }
+            />
+          )
+      }
+    },
+    Calendar: {
+        screen: CalendarStack,
+        navigationOptions: {
+          tabBarLabel: 'Calendar',
+          tabBarIcon: ({ focused }) => (
+            <TabBarIcon
+              focused={focused}
+              name={Platform.OS === 'ios' ? 'ios-options' : 'md-calendar'}    // TODO iOS: md-calendar
+            />
+          )
+        }
+    }
 }, {
-  initialRouteName: 'HomeStack',
-  //tabBarPosition: 'bottom',
-  tabBarOptions: {
-    showLabel: false,
-    //swipeEnabled: true,
-  }
+    initialRouteName: 'Home',
 });
