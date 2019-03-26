@@ -1,19 +1,29 @@
-                         CELI APP
-   		   - All You Could Eat -
+                         				CELI APP
+   		   				  - All You Could Eat -
 
-#############################################################
+##########################################################################################################################
+
+						      Install & Run
 
 Setup:
 "npm install"
 
 Run:
-"npm start" / "npm run expo"
+"npm start"
 
-#############################################################
+##########################################################################################################################
+
+						     Application Files
 
 celiapp
     ./package.json		NPM Installation Module
+    ./app.json			Application Configuration
     ./App.js			Application Entry
+    ./babel.config.js		Babel Configuration File (EXPO)
+    ./docdev/***		Development Documentation Files
+
+celiapp/__tests__
+    ./***-test.js		Application Test Files (JEST)	
 
 celiapp/src/constants
     ./***.js			Global Configuration Files
@@ -35,16 +45,21 @@ celiapp/src/screens
     ./***.js			MainTabNavigator Screens
     ./***/***.js		Sub Screens, Dialogs, ...
 
-#############################################################
+##########################################################################################################################
 
-REACT NATIVE: 	https://facebook.github.io/react-native/docs/getting-started
-EXPO: 		https://expo.io/
-Android Studio: https://developer.android.com/studio
-Icons Library: 	https://ionicons.com/
+						Tools & Tutorails
 
-#############################################################
+REACT NATIVE: 		https://facebook.github.io/react-native/docs/getting-started
+EXPO: 			https://expo.io
+JEST:			https://jestjs.io
+Android Studio: 	https://developer.android.com/studio
+Icons Library: 		https://ionicons.com
+Import Organizer: 	https://github.com/tleunen/babel-plugin-module-resolver
+Tortoise GitSVN: 	https://tortoisegit.org
 
-		      Useful Git Commands
+##########################################################################################################################
+
+		      				Useful Git Commands
 
 git pull			update repo from master
 git commit -m "Commit Message"	commit local changes to repo
