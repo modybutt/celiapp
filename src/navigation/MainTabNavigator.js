@@ -70,7 +70,7 @@ export default createBottomTabNavigator({
       screen: createStackNavigator({Debug: DebugScreen}),
       navigationOptions: {
         //tabBarLabel: 'Debug',
-        //tabBarVisible: ({ navigation }) => { return false; },
+        tabBarVisible: {__DEV__},       // FIXME disable tab in production mode
         tabBarIcon: ({ focused }) => (
           <TabBarIcon
             focused={focused}
