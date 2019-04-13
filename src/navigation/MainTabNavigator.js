@@ -9,6 +9,7 @@ import CalendarScreen from '../screens/CalendarScreen';
 
 import Evaluation_1 from '../screens/evaluation/Evaluation_1';
 import Evaluation_2 from '../screens/evaluation/Evaluation_2';
+import DebugScreen from '../screens/DebugScreen';
 
 const EvaluationStack = createStackNavigator({
   Evaluation: EvaluationScreen,
@@ -28,7 +29,7 @@ export default createBottomTabNavigator({
     Evaluation: {
         screen: EvaluationStack,
         navigationOptions: {
-          tabBarLabel: 'Evaluation',
+          //tabBarLabel: 'Evaluation',
           tabBarIcon: ({ focused }) => (
             <TabBarIcon
               focused={focused}
@@ -40,7 +41,7 @@ export default createBottomTabNavigator({
     Home: {
         screen: HomeStack,
         navigationOptions: {
-          tabBarLabel: 'Home',
+          //tabBarLabel: 'Home',
           tabBarIcon: ({ focused }) => (
             <TabBarIcon
               focused={focused}
@@ -56,7 +57,7 @@ export default createBottomTabNavigator({
     Calendar: {
         screen: CalendarStack,
         navigationOptions: {
-          tabBarLabel: 'Calendar',
+          //tabBarLabel: 'Calendar',
           tabBarIcon: ({ focused }) => (
             <TabBarIcon
               focused={focused}
@@ -64,6 +65,18 @@ export default createBottomTabNavigator({
             />
           )
         }
+    },
+    Debug: { 
+      screen: createStackNavigator({Debug: DebugScreen}),
+      navigationOptions: {
+        //tabBarLabel: 'Debug',
+        tabBarIcon: ({ focused }) => (
+          <TabBarIcon
+            focused={focused}
+            name={Platform.OS === 'ios' ? 'ios-options' : 'md-hammer'}    // TODO iOS: md-calendar
+          />
+        )
+      }
     }
 }, {
     initialRouteName: 'Home',
