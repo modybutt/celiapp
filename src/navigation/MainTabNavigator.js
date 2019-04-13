@@ -3,58 +3,85 @@ import { Platform } from 'react-native';
 import { createStackNavigator, createBottomTabNavigator } from 'react-navigation';
 
 import TabBarIcon from '../components/TabBarIcon';
+import EvaluationScreen from '../screens/EvaluationScreen';
 import HomeScreen from '../screens/HomeScreen';
-import LinksScreen from '../screens/LinksScreen';
-import SettingsScreen from '../screens/SettingsScreen';
+import CalendarScreen from '../screens/CalendarScreen';
+
+import Evaluation_1 from '../screens/evaluation/Evaluation_1';
+import Evaluation_2 from '../screens/evaluation/Evaluation_2';
+import DebugScreen from '../screens/DebugScreen';
+
+const EvaluationStack = createStackNavigator({
+  Evaluation: EvaluationScreen,
+  Evaluation_1: Evaluation_1,
+  Evaluation_2: Evaluation_2,
+});
 
 const HomeStack = createStackNavigator({
   Home: HomeScreen,
 });
 
-HomeStack.navigationOptions = {
-  tabBarLabel: 'Home',
-  tabBarIcon: ({ focused }) => (
-    <TabBarIcon
-      focused={focused}
-      name={
-        Platform.OS === 'ios'
-          ? `ios-information-circle${focused ? '' : '-outline'}`
-          : 'md-information-circle'
-      }
-    />
-  ),
-};
-
-const LinksStack = createStackNavigator({
-  Links: LinksScreen,
+const CalendarStack = createStackNavigator({
+  Calendar: CalendarScreen,
 });
-
-LinksStack.navigationOptions = {
-  tabBarLabel: 'Links',
-  tabBarIcon: ({ focused }) => (
-    <TabBarIcon
-      focused={focused}
-      name={Platform.OS === 'ios' ? 'ios-link' : 'md-link'}
-    />
-  ),
-};
-
-const SettingsStack = createStackNavigator({
-  Settings: SettingsScreen,
-});
-
-SettingsStack.navigationOptions = {
-  tabBarLabel: 'Settings',
-  tabBarIcon: ({ focused }) => (
-    <TabBarIcon
-      focused={focused}
-      name={Platform.OS === 'ios' ? 'ios-options' : 'md-options'}
-    />
-  ),
-};
 
 export default createBottomTabNavigator({
-  HomeStack,
-  LinksStack,
-  SettingsStack,
+    Evaluation: {
+        screen: EvaluationStack,
+        navigationOptions: {
+          //tabBarLabel: 'Evaluation',
+          tabBarIcon: ({ focused }) => (
+            <TabBarIcon
+              focused={focused}
+              name={Platform.OS === 'ios' ? 'ios-link' : 'md-trending-up'}
+            />
+          ),
+        }
+    },
+    Home: {
+        screen: HomeStack,
+        navigationOptions: {
+          //tabBarLabel: 'Home',
+          tabBarIcon: ({ focused }) => (
+            <TabBarIcon
+              focused={focused}
+              name={
+                Platform.OS === 'ios'
+                  ? `ios-information-circle${focused ? '' : '-outline'}`    // TODO iOS: md-paw
+                  : 'md-paw'
+              }
+            />
+          )
+      }
+    },
+    Calendar: {
+        screen: CalendarStack,
+        navigationOptions: {
+          //tabBarLabel: 'Calendar',
+          tabBarIcon: ({ focused }) => (
+            <TabBarIcon
+              focused={focused}
+              name={Platform.OS === 'ios' ? 'ios-options' : 'md-calendar'}    // TODO iOS: md-calendar
+            />
+          )
+        }
+    },
+    Debug: { 
+      screen: createStackNavigator({Debug: DebugScreen}),
+      navigationOptions: {
+        //tabBarLabel: 'Debug',
+        //tabBarVisible: ({ navigation }) => { return false; },
+        tabBarIcon: ({ focused }) => (
+          <TabBarIcon
+            focused={focused}
+            name={Platform.OS === 'ios' ? 'ios-options' : 'md-hammer'}    // TODO iOS: md-calendar
+          />
+        )
+      }
+    }
+}, {
+    initialRouteName: 'Home',
+    tabBarOptions: {
+        showLabel: false,
+    }
 });

@@ -3,6 +3,7 @@
 # dependencies
 /node_modules
 .expo
+.idea
 /.pnp
 .pnp.js
 
