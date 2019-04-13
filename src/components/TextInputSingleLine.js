@@ -1,22 +1,22 @@
 import React from 'react';
 import { StyleSheet, Text, View, AppRegistry, TextInput } from 'react-native';
 
-export class TextInputSingleLine extends React.Component {
+export default class TextInputSingleLine extends React.Component {
  render() {
       return (
- <View style={{top:20}}>
-      <View style={style.Text}>
-         <TextInput
-          {...this.props}
-          maxLength = {30}
-          style={{marginRight: 20}}
-          onChangeText={(text) => this.setState({text})}
-          value={this.props.preText}
-        />
-        </View>
+        <View style={{top:20}}>
+            <View style={styles.Text}>
+                <TextInput
+                {...this.props}
+                maxLength = {30}
+                style={{marginRight: 20}}
+                onChangeText={(text) => this.setState({text})}
+                value={this.props.preText}
+                />
+            </View>
         </View>
         );
-        }
+    }
 }
 
 const styles = StyleSheet.create({

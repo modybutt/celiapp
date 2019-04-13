@@ -7,6 +7,9 @@ import {
   Image,
 } from 'react-native';
 
+import TextInputSingleLine from '../components/TextInputSingleLine';
+import TextInputMultiLine from '../components/TextInputMultiLine';
+
 export default class DebugScreen extends React.Component {
   static navigationOptions = {
     title: 'Debug',
@@ -19,6 +22,8 @@ export default class DebugScreen extends React.Component {
       <ScrollView style = {styles.container}>
         {createStory("Image", <Image source = {__DEV__ ? require('../assets/images/robot-dev.png') : require('../assets/images/robot-prod.png')} style = {styles.image} />)}
         {createStory("RoundImage", <Image source = {__DEV__ ? require('../assets/images/robot-dev.png') : require('../assets/images/robot-prod.png')} style = {styles.roundImage} />)}
+        {createStory("TextInputSingleLine", <TextInputSingleLine />)}
+        {createStory("TextInputMultiLine", <TextInputMultiLine />)}
         {createStory("Foo", <Text>Bar</Text>)}
       </ScrollView>
 	  );

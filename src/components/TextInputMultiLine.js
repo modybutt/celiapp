@@ -23,16 +23,16 @@ import { StyleSheet, Text, View, AppRegistry, TextInput } from 'react-native';
     }
 }*/
 
-class TextFieldMultiline extends React.Component {
+export default class TextFieldMultiline extends React.Component {
     render() {
         return (
-        <View style = {style.Text}>
+        <View style = {styles.Text}>
             <TextInput
-        {...this.props} // Inherit any props passed to it; e.g., multiline, numberOfLines below
-        editable = {true}
-        maxLength = {400}
-        multiline = {true}
-        />
+                {...this.props} // Inherit any props passed to it; e.g., multiline, numberOfLines below
+                editable = {true}
+                maxLength = {400}
+                multiline = {true}
+            />
         </View>
     );
     }
