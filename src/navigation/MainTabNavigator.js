@@ -70,6 +70,7 @@ export default createBottomTabNavigator({
       screen: createStackNavigator({Debug: DebugScreen}),
       navigationOptions: {
         //tabBarLabel: 'Debug',
+        //tabBarVisible: ({ navigation }) => { return false; },
         tabBarIcon: ({ focused }) => (
           <TabBarIcon
             focused={focused}

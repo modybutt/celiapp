@@ -17,11 +17,12 @@ export default class DebugScreen extends React.Component {
 
   render() {
     const {navigate} = this.props.navigation;
+    const image = __DEV__ ? require('../assets/images/robot-dev.png') : require('../assets/images/robot-prod.png');
 
     return (
       <ScrollView style = {styles.container}>
-        {createStory("Image", <Image source = {__DEV__ ? require('../assets/images/robot-dev.png') : require('../assets/images/robot-prod.png')} style = {styles.image} />)}
-        {createStory("RoundImage", <Image source = {__DEV__ ? require('../assets/images/robot-dev.png') : require('../assets/images/robot-prod.png')} style = {styles.roundImage} />)}
+        {createStory("Image", <Image source = {image} style = {styles.image} />)}
+        {createStory("RoundImage", <Image source = {image} style = {styles.roundImage} />)}
         {createStory("TextInputSingleLine", <TextInputSingleLine />)}
         {createStory("TextInputMultiLine", <TextInputMultiLine />)}
         {createStory("Foo", <Text>Bar</Text>)}
