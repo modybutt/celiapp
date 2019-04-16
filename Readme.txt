@@ -11,6 +11,8 @@ Setup:
 Run:
 "npm start"
 
+Start Online: https://snack.expo.io/@git/github.com/modybutt/celiapp@hadouken
+
 ##########################################################################################################################
 
 						     Application Files
