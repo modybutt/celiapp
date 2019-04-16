@@ -1,10 +1,10 @@
 import React from 'react';
 import { 
-  ScrollView, 
   View, 
   Text, 
   StyleSheet,
   Image,
+  FlatList
 } from 'react-native';
 
 import TextInputSingleLine from '../components/TextInputSingleLine';
@@ -20,17 +20,34 @@ export default class DebugScreen extends React.Component {
     const image = __DEV__ ? require('../assets/images/robot-dev.png') : require('../assets/images/robot-prod.png');
 
     return (
-      <ScrollView style = {styles.container}>
-        {createStory("Image", <Image source = {image} style = {styles.image} />)}
-        {createStory("RoundImage", <Image source = {image} style = {styles.roundImage} />)}
-        {createStory("TextInputSingleLine", <TextInputSingleLine />)}
-        {createStory("TextInputMultiLine", <TextInputMultiLine />)}
-        {createStory("Foo", <Text>Bar</Text>)}
-      </ScrollView>
+      <View style = {styles.container}>
+        <FlatList
+          data={[
+            {key: 'Image', value: <Image source = {image} style = {styles.image} />},
+            {key: 'RoundImage', value: <Image source = {image} style = {styles.roundImage} />},
+            {key: 'TextInputSingleLine', value: <TextInputSingleLine />},
+            {key: 'TextInputMultiLine', value: <TextInputMultiLine />},
+            {key: 'Foo', value: <Text>Bar</Text>},
+          ]}
+
+          renderItem={({item}) => this.renderItem(item)}
+        />       
+      </View>
 	  );
   }  
+
+  renderItem(item)
+  {
+    return (
+      <View style = {styles.story}>
+        <Text style = {styles.text}>{item.key}</Text>
+        {item.value}
+      </View>
+    )
+  }
 }
 
+// DEPRECATED
 function createStory(title, comp) {
   return (
     <View style = {styles.story}>
@@ -38,7 +55,7 @@ function createStory(title, comp) {
       {comp}
     </View>
   )
-}
+} // -- END DEPRECATED
 
 const styles = StyleSheet.create({
   container: {
