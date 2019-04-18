@@ -36,8 +36,7 @@ export default class DebugScreen extends React.Component {
 	  );
   }  
 
-  renderItem(item)
-  {
+  renderItem(item) {
     return (
       <View style = {styles.story}>
         <Text style = {styles.text}>{item.key}</Text>

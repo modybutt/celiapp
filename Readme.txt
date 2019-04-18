@@ -58,6 +58,7 @@ Android Studio: 	https://developer.android.com/studio
 Icons Library: 		https://ionicons.com
 Import Organizer: 	https://github.com/tleunen/babel-plugin-module-resolver
 Tortoise GitSVN: 	https://tortoisegit.org
+EXPO-SQLite:		https://github.com/expo/expo/tree/master/packages/expo-sqlite
 
 ##########################################################################################################################
 
