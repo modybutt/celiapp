@@ -4,11 +4,13 @@ import {
   Text, 
   StyleSheet,
   Image,
-  FlatList
+  FlatList,
+  TouchableOpacity
 } from 'react-native';
 
 import TextInputSingleLine from '../components/TextInputSingleLine';
 import TextInputMultiLine from '../components/TextInputMultiLine';
+import { Icon } from 'expo';
 
 export default class DebugScreen extends React.Component {
   static navigationOptions = {
@@ -27,6 +29,15 @@ export default class DebugScreen extends React.Component {
             {key: 'RoundImage', value: <Image source = {image} style = {styles.roundImage} />},
             {key: 'TextInputSingleLine', value: <TextInputSingleLine />},
             {key: 'TextInputMultiLine', value: <TextInputMultiLine />},
+            {key: 'HoverButton', value: 
+              <TouchableOpacity onPress={() => navigate('Settings')}>
+                <Icon.Ionicons
+                      name="md-add-circle"
+                      size={50}
+                      style={{ marginBottom: -3 }}
+                    />
+              </TouchableOpacity>
+            },
             {key: 'Foo', value: <Text>Bar</Text>},
           ]}
 

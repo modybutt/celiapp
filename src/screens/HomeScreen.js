@@ -1,14 +1,14 @@
 import React from 'react';
 import {
   View,
-  Image,
   StyleSheet,
-  TouchableOpacity,
-  Button
-  //Platform  
+  ImageBackground,
+  Text,
+  Image
 } from 'react-native';
 
-import { Icon } from 'expo';
+import Background from "../assets/images/wiesecut.png";
+import Gluton from "../components/Gluton";
 
 export default class HomeScreen extends React.Component {
   static navigationOptions = {
@@ -16,33 +16,25 @@ export default class HomeScreen extends React.Component {
   };
 
   render() {
-    const {navigate} = this.props.navigation;
-
     return (
-		<View style = {styles.container}>
-        <Button
-        title="Go to Jane's profile"
-        onPress={() => navigate('Settings')}
-      />
-
-
-          <TouchableOpacity onPress={() => navigate('Settings')}>
-              <Icon.Ionicons
-                      name="md-add-circle"
-                      size={50}
-                      style={{ marginBottom: -3 }}
-                    />
-           </TouchableOpacity>
-		</View>
-	);
+      <View style = {styles.container}>
+        <ImageBackground source={Background} style={styles.scene}>
+          <Gluton style={styles.gluton}/>
+        </ImageBackground>
+      </View>
+	  );
   }  
 }
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
-    paddingTop: 15,
     backgroundColor: '#666',
+  },
+  scene: {
+    width: '100%', 
+    height: '100%',
+    alignItems: 'center',
+    justifyContent: 'center',
   },
 });
 
