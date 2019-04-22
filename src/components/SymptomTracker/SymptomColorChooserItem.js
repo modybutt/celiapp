@@ -7,8 +7,7 @@ export default class SymptomColorChooserItem extends React.Component{
     render(){
         return(
             <View>
-                <Text>SymptomColorChooserItem {this.props.type} </Text>
-                <RoundPictureButton radius = {35} isColorButton = {true} color={this.props.type}/>
+                <RoundPictureButton radius = {20} isColorButton = {true} color={this.props.type}/>
             </View>
         )
     }

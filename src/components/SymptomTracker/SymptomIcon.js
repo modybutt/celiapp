@@ -12,7 +12,7 @@ export default class SymptomIcon extends React.Component{
         super(props);
         this.state = {
             colorToUse: 'white',
-            showSeverityIcon: false,
+            showSeverityIcon: true,
             imageURI: "http://www.free-avatars.com/data/media/37/cat_avatar_0597.jpg"
         }
     }
@@ -23,7 +23,15 @@ export default class SymptomIcon extends React.Component{
 
         if(this.state.showSeverityIcon){
             return(
-                <View>
+                <View style={{
+                    height:200,
+                    width:200,
+                    flexDirection: 'row',
+                    justifyContent: 'space-between',
+                    alignItems: 'stretch',
+                }}
+                
+                >
                     <SymptomColorChooserItem type = 'red'/>
                     <SymptomColorChooserItem type = 'orange'/>
                     <SymptomColorChooserItem type = 'yellow'/>
