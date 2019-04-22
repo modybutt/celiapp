@@ -7,8 +7,8 @@ export default class MoreSymptomsButton extends React.Component{
     render(){
         return(
             <View>
+                <RoundPictureButton imageURI=".../assets/images/robot-prod.png"/>
                 <Text>MoreSymptomsButton</Text>
-                <RoundPictureButton/>
             </View>
  
         )

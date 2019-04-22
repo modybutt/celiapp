@@ -32,7 +32,7 @@ export default class HomeScreen extends React.Component {
                       size={50}
                       style={{ marginBottom: -3 }}
                     />
-           </TouchableOpacity>
+           </TouchableOpacity>  
 		</View>
 	);
   }  

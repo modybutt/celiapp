@@ -38,6 +38,7 @@ export default class DebugScreen extends React.Component {
                                                 />
         )}
         {createStory("SymptomTracker", <SymptomTracker/>)}
+        {createStory("CustomButton", <CustomButton/>)}
 
         <ActionButton buttonColor="rgba(231,76,60,1)">
            <ActionButton.Item buttonColor='#9b59b6' title="Add Emotion" onPress={() => Alert.alert("Add Emotion Clicked")}>

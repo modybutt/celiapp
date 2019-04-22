@@ -1,13 +1,14 @@
 
 import React from 'react';
 import {Text, View} from 'react-native';
-import { ViewPagerAndroid } from 'react-native-gesture-handler';
+import TextInputMultiLine from './TextInputMultiLine';
 
 export default class NoteEdit extends React.Component{
     render(){
         return(
             <View>
                 <Text>NoteEdit</Text>
+                <TextInputMultiLine/>
             </View>
         )
     }
