@@ -27,7 +27,7 @@ export default class DebugScreen extends React.Component {
         {createStory("TextInputSingleLine", <TextInputSingleLine />)}
         {createStory("TextInputMultiLine", <TextInputMultiLine />)}
         {createStory("Foo", <Text>Bar</Text>)}
-        {createStory("SearchSymptom", SearchSymptom)}
+        {createStory("SearchSymptom", <SearchSymptom/>)}
       </ScrollView>
 	  );
   }  
