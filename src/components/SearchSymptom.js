@@ -1,7 +1,6 @@
 import React from 'react';
 import { SearchBar } from 'react-native-paper';
-import { View, Text, FlatList } from "react-native";
-
+import { View, Text, FlatList, ListItem,  ActivityIndicator } from "react-native";
 
 export default class SearchSymptom extends React.Component {
   constructor(props) {
