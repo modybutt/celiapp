@@ -11,7 +11,7 @@ import Gluton_SAD from "../assets/images/vielfrass_sad.png";
 
 export default class Gluton extends React.Component {
     state = {
-        trust: 150,
+        trust: .5,
         happy: true,
         message: 'Hello World!\nMy Name is Gluton.\n\nNice to meet you, Buddy!',
     }
@@ -21,12 +21,14 @@ export default class Gluton extends React.Component {
             <View>
                 <Text style={styles.message}>{this.state.message}</Text>   
                 <View style={styles.bubble} />
-                <Image style={
-                    {
-                        width: this.state.trust, 
-                        height: this.state.trust, 
-                        resizeMode: 'contain',
-                    }} source={this.state.happy ? Gluton_HAPPY : Gluton_SAD} />
+                <View style={{alignItems: 'center'}}>
+                    <Image style={
+                        {
+                            width: 284 * this.state.trust, 
+                            height: 360 * this.state.trust,
+                            borderWidth: 1,
+                        }} source={this.state.happy ? Gluton_HAPPY : Gluton_SAD} />
+                </View>                    
             </View>
         );
     }  
