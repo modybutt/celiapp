@@ -3,8 +3,6 @@ import {
   View,
   StyleSheet,
   ImageBackground,
-  Text,
-  Image
 } from 'react-native';
 
 import Background from "../assets/images/wiesecut.png";
