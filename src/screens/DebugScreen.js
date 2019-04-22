@@ -9,6 +9,7 @@ import {
 
 import TextInputSingleLine from '../components/TextInputSingleLine';
 import TextInputMultiLine from '../components/TextInputMultiLine';
+import SearchSymptom from '../components/SearchSymptom';
 
 export default class DebugScreen extends React.Component {
   static navigationOptions = {
@@ -26,6 +27,7 @@ export default class DebugScreen extends React.Component {
         {createStory("TextInputSingleLine", <TextInputSingleLine />)}
         {createStory("TextInputMultiLine", <TextInputMultiLine />)}
         {createStory("Foo", <Text>Bar</Text>)}
+        {createStory("SearchSymptom", SearchSymptom)}
       </ScrollView>
 	  );
   }  
