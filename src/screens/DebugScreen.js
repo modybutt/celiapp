@@ -16,6 +16,7 @@ import RoundPictureButton from '../components/RoundPictureButton';
 import ActionButton from 'react-native-action-button';
 import SymptomTracker from './SymptomTracker';
 import CustomButton from '../components/CustomButton'
+import SearchSymptom from '../components/SearchSymptom';
 
 export default class DebugScreen extends React.Component {
   static navigationOptions = {
@@ -66,6 +67,7 @@ export default class DebugScreen extends React.Component {
                 </ActionButton>
               </View>
             },
+			      {key: 'SearchSymptom', value: <SearchSymptom />},
             {key: 'Foo', value: <Text>Bar</Text>},
           ]}
 
