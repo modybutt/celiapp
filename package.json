@@ -13,9 +13,14 @@
   "dependencies": {
     "@expo/samples": "2.1.1",
     "expo": "^32.0.0",
+    "expo-sqlite": "^4.0.0",
     "react": "16.5.0",
     "react-native": "https://github.com/expo/react-native/archive/sdk-32.0.0.tar.gz",
     "react-native-action-button": "^2.8.5",
+    "react-native-dynamic-search-bar": "^0.1.11",
+    "react-native-paper": "^2.15.2",
+    "react-native-search-bar": "^3.4.2",
+    "react-native-vector-icons": "^6.4.2",
     "react-navigation": "^3.0.9"
   },
   "devDependencies": {

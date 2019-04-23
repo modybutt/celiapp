@@ -1,20 +1,22 @@
 import React from 'react';
 import { 
-  ScrollView, 
   View, 
   Text, 
   StyleSheet,
   Image,
+  FlatList,
+  TouchableOpacity,
   Alert,
 } from 'react-native';
 
 import TextInputSingleLine from '../components/TextInputSingleLine';
 import TextInputMultiLine from '../components/TextInputMultiLine';
+import { Icon } from 'expo';
 import RoundPictureButton from '../components/RoundPictureButton';
 import ActionButton from 'react-native-action-button';
-import Icon from 'react-native-vector-icons/Ionicons';
 import SymptomTracker from './SymptomTracker';
 import CustomButton from '../components/CustomButton'
+import SearchSymptom from '../components/SearchSymptom';
 
 export default class DebugScreen extends React.Component {
   static navigationOptions = {
@@ -26,43 +28,63 @@ export default class DebugScreen extends React.Component {
     const image = __DEV__ ? require('../assets/images/robot-dev.png') : require('../assets/images/robot-prod.png');
 
     return (
-      <ScrollView style = {styles.container}>
-        {createStory("Image", <Image source = {image} style = {styles.image} />)}
-        {createStory("RoundImage", <Image source = {image} style = {styles.roundImage} />)}
-        {createStory("TextInputSingleLine", <TextInputSingleLine />)}
-        {createStory("TextInputMultiLine", <TextInputMultiLine />)}
-        {createStory("Foo", <Text>Bar</Text>)}
-        {createStory("Round Picture Button", <RoundPictureButton 
-                                                imageURI = "http://www.free-avatars.com/data/media/37/cat_avatar_0597.jpg"
-                                                radius = {60}
-                                                />
-        )}
-        {createStory("SymptomTracker", <SymptomTracker/>)}
-        {createStory("CustomButton", <CustomButton/>)}
+      <View style = {styles.container}>
+        <FlatList
+          data={[
+            {key: 'Image', value: <Image source = {image} style = {styles.image} />},
+            {key: 'RoundImage', value: <Image source = {image} style = {styles.roundImage} />},
+            {key: 'TextInputSingleLine', value: <TextInputSingleLine />},
+            {key: 'TextInputMultiLine', value: <TextInputMultiLine />},
+            {key: 'HoverButton', value: 
+              <TouchableOpacity onPress={() => navigate('Settings')}>
+                <Icon.Ionicons
+                      name="md-add-circle"
+                      size={50}
+                      style={{ marginBottom: -3 }}
+                    />
+              </TouchableOpacity>
+            },
+            {key: 'SymptomTracker', value: <SymptomTracker />},
+            {key: 'CustomButton', value: <CustomButton />},
+            {key: 'RoundPictureButton', value:
+              <RoundPictureButton 
+                imageURI = "http://www.free-avatars.com/data/media/37/cat_avatar_0597.jpg"
+                radius = {60}
+              />
+            },
+            {key: 'ActionButton', value: 
+              <View style={{width: '100%', height: 200}}>
+                <ActionButton buttonColor="rgba(231,76,60,1)">
+                  <ActionButton.Item buttonColor='#9b59b6' title="Add Emotion" onPress={() => Alert.alert("Add Emotion Clicked")}>
+                  <Icon.Ionicons name="md-create" style={styles.actionButtonIcon} />
+                  </ActionButton.Item>
+                  <ActionButton.Item buttonColor='#3498db' title="Add Meal" onPress={() => {Alert.alert("Add Meal Clicked")}}>
+                    <Icon.Ionicons name="md-notifications-off" style={styles.actionButtonIcon} />
+                  </ActionButton.Item>
+                  <ActionButton.Item buttonColor='#1abc9c' title="Add Symptom" onPress={() => {Alert.alert("Add Symptom Clicked")}}>
+                    <Icon.Ionicons name="md-done-all" style={styles.actionButtonIcon} />
+                  </ActionButton.Item>
+                </ActionButton>
+              </View>
+            },
+			      {key: 'SearchSymptom', value: <SearchSymptom />},
+            {key: 'Foo', value: <Text>Bar</Text>},
+          ]}
 
-        <ActionButton buttonColor="rgba(231,76,60,1)">
-           <ActionButton.Item buttonColor='#9b59b6' title="Add Emotion" onPress={() => Alert.alert("Add Emotion Clicked")}>
-            <Icon name="md-create" style={styles.actionButtonIcon} />
-           </ActionButton.Item>
-           <ActionButton.Item buttonColor='#3498db' title="Add Meal" onPress={() => {Alert.alert("Add Meal Clicked")}}>
-             <Icon name="md-notifications-off" style={styles.actionButtonIcon} />
-           </ActionButton.Item>
-           <ActionButton.Item buttonColor='#1abc9c' title="Add Symptom" onPress={() => {Alert.alert("Add Symptom Clicked")}}>
-             <Icon name="md-done-all" style={styles.actionButtonIcon} />
-          </ActionButton.Item>
-        </ActionButton>    
-      </ScrollView>
+          renderItem={({item}) => this.renderItem(item)}
+        />       
+      </View>
 	  );
   }  
-}
 
-function createStory(title, comp) {
-  return (
-    <View style = {styles.story}>
-      <Text style = {styles.text}>{title}</Text>
-      {comp}
-    </View>
-  )
+  renderItem(item) {
+    return (
+      <View style = {styles.story}>
+        <Text style = {styles.text}>{item.key}</Text>
+        {item.value}
+      </View>
+    )
+  }
 }
 
 const styles = StyleSheet.create({
