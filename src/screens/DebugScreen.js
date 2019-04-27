@@ -14,14 +14,16 @@ import TextInputMultiLine from '../components/TextInputMultiLine';
 import { Icon } from 'expo';
 import RoundPictureButton from '../components/RoundPictureButton';
 import ActionButton from 'react-native-action-button';
-import SymptomTracker from './SymptomTracker';
+import SymptomTrackerScreen from './SymptomTrackerScreen';
 import CustomButton from '../components/CustomButton'
 import SearchSymptom from '../components/SearchSymptom';
+import DayChooser from "../components/DayChooser";
 
 export default class DebugScreen extends React.Component {
   static navigationOptions = {
     title: 'Debug',
   };
+  
 
   render() {
     const {navigate} = this.props.navigation;
@@ -44,7 +46,7 @@ export default class DebugScreen extends React.Component {
                     />
               </TouchableOpacity>
             },
-            {key: 'SymptomTracker', value: <SymptomTracker />},
+            {key: 'SymptomTracker', value: <SymptomTrackerScreen />},
             {key: 'CustomButton', value: <CustomButton />},
             {key: 'RoundPictureButton', value:
               <RoundPictureButton 
@@ -69,6 +71,7 @@ export default class DebugScreen extends React.Component {
             },
 			      {key: 'SearchSymptom', value: <SearchSymptom />},
             {key: 'Foo', value: <Text>Bar</Text>},
+            {key: 'DayChooser', value: <DayChooser date = {getDate()}/>},
           ]}
 
           renderItem={({item}) => this.renderItem(item)}
@@ -86,6 +89,11 @@ export default class DebugScreen extends React.Component {
     )
   }
 }
+
+function getDate(){
+  return new Date()
+}
+
 
 const styles = StyleSheet.create({
   container: {
