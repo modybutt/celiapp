@@ -6,7 +6,7 @@ import {
 } from 'react-native';
 import CalendarPicker from 'react-native-calendar-picker';
 
-export default class App extends Component {
+export default class SymptomCalendarPicker extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -32,10 +32,6 @@ export default class App extends Component {
 		  minDate={minDate}
 		  maxDate={maxDate}
         />
-
-        <View>
-          <Text>SELECTED DATE:{ startDate }</Text>
-        </View>
       </View>
     );
   }
@@ -45,6 +41,6 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: '#FFFFFF',
-    marginTop: 100,
+    marginTop: -20,
   },
 });
