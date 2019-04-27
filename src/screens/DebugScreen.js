@@ -36,7 +36,11 @@ export default class DebugScreen extends React.Component {
             {key: 'Image', value: <Image source = {image} style = {styles.image} />},
             {key: 'RoundImage', value: <Image source = {image} style = {styles.roundImage} />},
             {key: 'TextInputSingleLine', value: <TextInputSingleLine />},
-            {key: 'TextInputMultiLine', value: <TextInputMultiLine />},
+            {key: 'TextInputMultiLine', value: 
+              <View style={{height: 200}}>
+                <TextInputMultiLine/>
+              </View>
+            },
             {key: 'HoverButton', value: 
               <TouchableOpacity onPress={() => navigate('Settings')}>
                 <Icon.Ionicons
@@ -46,7 +50,7 @@ export default class DebugScreen extends React.Component {
                     />
               </TouchableOpacity>
             },
-            {key: 'SymptomTracker', value: <SymptomTrackerScreen />},
+            {key: 'SymptomTracker', value: <SymptomTrackerScreen date = {getTodayDate()}/>},
             {key: 'CustomButton', value: <CustomButton />},
             {key: 'RoundPictureButton', value:
               <RoundPictureButton 
@@ -71,7 +75,7 @@ export default class DebugScreen extends React.Component {
             },
 			      {key: 'SearchSymptom', value: <SearchSymptom />},
             {key: 'Foo', value: <Text>Bar</Text>},
-            {key: 'DayChooser', value: <DayChooser date = {getDate()}/>},
+            {key: 'DayChooser', value: <DayChooser date = {getTodayDate()}/>},
           ]}
 
           renderItem={({item}) => this.renderItem(item)}
@@ -90,7 +94,7 @@ export default class DebugScreen extends React.Component {
   }
 }
 
-function getDate(){
+function getTodayDate(){
   return new Date()
 }
 

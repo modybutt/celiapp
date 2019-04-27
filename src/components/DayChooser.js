@@ -19,13 +19,13 @@ export default class DayChooser extends React.Component{
     changeDay(next){
         if(next){
             daysDiffToProp++;
-            Alert.alert(daysDiffToProp.toString);
-            this.setState({currDateString: "next"});
         }else{
             daysDiffToProp--;
-            Alert.alert(daysDiffToProp.toString);
-            this.setState({currDateString: "vorheriger"});
         }
+        var newDate = new Date(this.props.date)
+        newDate.setDate(newDate.getDate() + daysDiffToProp);
+        var newDateString = new Date(newDate).getDate() + "." + (new Date(newDate).getMonth()+1) + "." + new Date(newDate).getFullYear()
+        this.setState({currDateString: newDateString});
     }
 
 
@@ -37,13 +37,13 @@ export default class DayChooser extends React.Component{
                 alignItems:'stretch'
                 }}>
                 <View>
-                    <Button title = "  <  " style={styles.arrowButton} onPress={() => this.changeDay(false)}/>
+                    <Button buttonStyle={styles.button} title = "  <  "  onPress={() => this.changeDay(false)}/>
                 </View>
                 <View>
                     <Text style ={styles.dateText}> {this.state.currDateString} </Text>
                 </View>
                 <View>      
-                    <Button title = "  >  " style={styles.arrowButton} onPress={() => this.changeDay(true)}/>
+                    <Button buttonStyle={styles.button} title = "  >  " onPress={() => this.changeDay(true)}/>
                 </View>
             </View>
         )
@@ -51,11 +51,14 @@ export default class DayChooser extends React.Component{
 }
 
 var styles = StyleSheet.create({
-    arrowButton: {
-        fontSize: 30,
-        color: 'white',
-      },
     dateText:{
         fontSize: 20,
-    }
+    },
+    button: {
+        fontSize: 30,
+        backgroundColor: '#00aeef',
+        borderColor: 'red',
+        borderWidth: 5,
+        borderRadius: 15       
+     }
 });
