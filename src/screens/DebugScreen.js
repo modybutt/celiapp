@@ -18,7 +18,7 @@ import SymptomTrackerScreen from './SymptomTrackerScreen';
 import CustomButton from '../components/CustomButton'
 import SearchSymptom from '../components/SearchSymptom';
 import EntryList from '../components/EntryList';
-import DayChooser from "../components/DayChooser";
+import DayChooser from '../components/DayChooser';
 
 export default class DebugScreen extends React.Component {
   static navigationOptions = {
@@ -76,7 +76,6 @@ export default class DebugScreen extends React.Component {
               </View>
             },
 			      {key: 'SearchSymptom', value: <SearchSymptom />},
-            {key: 'Foo', value: <Text>Bar</Text>},
             {key: 'DayChooser', value: <DayChooser date = {getTodayDate()}/>},
           ]}
 

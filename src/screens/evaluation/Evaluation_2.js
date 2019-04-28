@@ -9,8 +9,6 @@ import {
 } from 'react-native';
 import { Constants, SQLite } from 'expo';
 
-const db = SQLite.openDatabase('app.db');
-
 export default class Evaluation_2 extends React.Component {
   static navigationOptions = {
     title: 'SQLite',
@@ -34,7 +32,7 @@ export default class Evaluation_2 extends React.Component {
         <Text style={styles.heading}>SQLite Example</Text>
         <View style={styles.flexRow}>
           <TextInput
-            onChangeText={text => this.setState({ text })}
+            onChangeText={(text) => this.setState({ text })}
             onSubmitEditing={() => {
               this.add(this.state.text);
               this.setState({ text: null });
@@ -98,44 +96,6 @@ export default class Evaluation_2 extends React.Component {
   };
 }
 
-const styles = StyleSheet.create({
-  container: {
-    backgroundColor: '#fff',
-    flex: 1,
-    paddingTop: Constants.statusBarHeight,
-  },
-  heading: {
-    fontSize: 20,
-    fontWeight: 'bold',
-    textAlign: 'center'
-  },
-  flexRow: {
-    flexDirection: 'row'
-  },
-  input: {
-    borderColor: '#4630eb',
-    borderRadius: 4,
-    borderWidth: 1,
-    flex: 1,
-    height: 48,
-    margin: 16,
-    padding: 8
-  },
-  listArea: {
-    backgroundColor: '#f0f0f0',
-    flex: 1,
-    paddingTop: 16
-  },
-  sectionContainer: {
-    marginBottom: 16,
-    marginHorizontal: 16
-  },
-  sectionHeading: {
-    fontSize: 18,
-    marginBottom: 8
-  },
-});
-
 class Items extends React.Component {
   state = {
     items: null
@@ -184,3 +144,43 @@ class Items extends React.Component {
     });
   }
 }
+
+const db = SQLite.openDatabase('app.db');
+
+const styles = StyleSheet.create({
+  container: {
+    backgroundColor: '#fff',
+    flex: 1,
+    paddingTop: Constants.statusBarHeight,
+  },
+  heading: {
+    fontSize: 20,
+    fontWeight: 'bold',
+    textAlign: 'center'
+  },
+  flexRow: {
+    flexDirection: 'row'
+  },
+  input: {
+    borderColor: '#4630eb',
+    borderRadius: 4,
+    borderWidth: 1,
+    flex: 1,
+    height: 48,
+    margin: 16,
+    padding: 8
+  },
+  listArea: {
+    backgroundColor: '#f0f0f0',
+    flex: 1,
+    paddingTop: 16
+  },
+  sectionContainer: {
+    marginBottom: 16,
+    marginHorizontal: 16
+  },
+  sectionHeading: {
+    fontSize: 18,
+    marginBottom: 8
+  },
+});

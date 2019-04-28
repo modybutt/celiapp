@@ -9,7 +9,6 @@ export default class Evaluation_1 extends React.Component {
   render() {
     return (
         <View style={this.styles}>
-          <Button title="prev" onPress={() => this.props.navigation.goBack()} />
           <Button title="next" onPress={() => this.props.navigation.navigate('Evaluation_2')} />
         </View>
     );
