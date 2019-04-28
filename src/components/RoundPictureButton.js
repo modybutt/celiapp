@@ -17,15 +17,15 @@ export default class RoundPictureButton extends React.Component {
       if(this.props.isColorButton){
         return (
          <View style={styles.container}>
-          <View style={style = {borderRadius: this.props.radius, width: this.props.radius*2, height: this.props.radius*2, backgroundColor: this.props.color}} onPress={this.props.onPress} onLongPress={this.props.onLongPress}>
-            <View style={style={width: this.props.radius*2, height: this.props.radius*2, borderRadius:this.props.radius, backgroundColor: this.props.color}} />
+          <View style={{borderRadius: this.props.radius, width: this.props.radius*2, height: this.props.radius*2, backgroundColor: this.props.color}} onPress={this.props.onPress} onLongPress={this.props.onLongPress}>
+            <View style={{width: this.props.radius*2, height: this.props.radius*2, borderRadius:this.props.radius, backgroundColor: this.props.color}} />
           </View>
         </View>
         )}
       return (
         <View style={styles.container}>
-        <TouchableHighlight style={ style={height: this.props.radius*2, height: this.props.radius*2, borderRadius: this.props.radius}} onPress={this.props.onPress} onLongPress={this.props.onLongPress}>
-             <Image style={ style = {width: this.props.radius*2, height: this.props.radius*2, borderRadius:this.props.radius, color: this.props.color}} source={{ uri: this.props.imageURI }} />
+        <TouchableHighlight style={{height: this.props.radius*2, height: this.props.radius*2, borderRadius: this.props.radius}} onPress={this.props.onPress} onLongPress={this.props.onLongPress}>
+             <Image source={{ uri: this.props.imageURI }} style={{width: this.props.radius*2, height: this.props.radius*2, borderRadius:this.props.radius, backgroundColor: this.props.color}} />
         </TouchableHighlight> 
        </View> 
       )

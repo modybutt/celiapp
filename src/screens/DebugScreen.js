@@ -29,7 +29,7 @@ export default class DebugScreen extends React.Component {
   render() {
     const {navigate} = this.props.navigation;
     const image = __DEV__ ? require('../assets/images/robot-dev.png') : require('../assets/images/robot-prod.png');
-
+    
     return (
       <View style = {styles.container}>
         <FlatList
