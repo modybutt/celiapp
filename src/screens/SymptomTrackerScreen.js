@@ -4,15 +4,16 @@ import {Icon, View, Text} from 'react-native';
 import SymptomGroup from '../components/SymptomTracker/SymptomGroup';
 import NoteEdit from '../components/NoteEdit';
 import DayChooser from '../components/DayChooser';
+import HorizontalLine from '../components/HorizontalLine';
 
-export default class SymptomTracker extends React.Component{
+export default class SymptomTrackerScreen extends React.Component{
     render(){
         return(
             <View>
-                <Text>SymptomTracker</Text>
-                <DayChooser/>
+                <DayChooser date = {this.props.date}/>
                 <SymptomGroup/>
                 <NoteEdit/>
+                <HorizontalLine />
             </View>
         )
     }
