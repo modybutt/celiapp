@@ -67,6 +67,7 @@ export default class SearchSymptom extends React.Component {
         title={item.name.first}
         subtitle={item.name.last}
         leftAvatar={{ source: { uri: item.picture.thumbnail } }}
+
       />
     );
   } 

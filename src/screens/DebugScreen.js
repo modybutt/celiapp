@@ -17,6 +17,7 @@ import ActionButton from 'react-native-action-button';
 import SymptomTrackerScreen from './SymptomTrackerScreen';
 import CustomButton from '../components/CustomButton'
 import SearchSymptom from '../components/SearchSymptom';
+import EntryList from '../components/EntryList';
 import DayChooser from "../components/DayChooser";
 
 export default class DebugScreen extends React.Component {
@@ -33,6 +34,7 @@ export default class DebugScreen extends React.Component {
       <View style = {styles.container}>
         <FlatList
           data={[
+	          {key: 'EntryList', value: <EntryList/>},
             {key: 'Image', value: <Image source = {image} style = {styles.image} />},
             {key: 'RoundImage', value: <Image source = {image} style = {styles.roundImage} />},
             {key: 'TextInputSingleLine', value: <TextInputSingleLine />},
