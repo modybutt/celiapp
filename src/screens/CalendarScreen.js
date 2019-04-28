@@ -9,6 +9,8 @@ import {
   TouchableOpacity
 } from 'react-native';
 import { Constants, SQLite } from 'expo';
+import SymptomCalendarPicker from "../components/CalendarPicker";  
+import EntryList from "../components/EntryList"
 
 const db = SQLite.openDatabase('app.db');
 
@@ -32,45 +34,12 @@ export default class CalendarScreen extends React.Component {
   render() {
     return (
       <View style={styles.container}>
-        <Text style={styles.heading}>SQLite Example</Text>
-        <View style={styles.flexRow}>
-          <TextInput
-            onChangeText={text => this.setState({ text })}
-            onSubmitEditing={() => {
-              this.add(this.state.text);
-              this.setState({ text: null });
-            }}
-            placeholder="what do you need to do?"
-            style={styles.input}
-            value={this.state.text}
-          />
-        </View>
-        <ScrollView style={styles.listArea}>
-          <Items
-            done={false}
-            ref={todo => (this.todo = todo)}
-            onPressItem={id =>
-              db.transaction(
-                tx => {
-                  tx.executeSql(`update items set done = 1 where id = ?;`, [id]);
-                },
-                null,
-                this.update
-              )}
-          />
-          <Items
-            done={true}
-            ref={done => (this.done = done)}
-            onPressItem={id =>
-              db.transaction(
-                tx => {
-                  tx.executeSql(`delete from items where id = ?;`, [id]);
-                },
-                null,
-                this.update
-              )}
-          />
-        </ScrollView>
+	  <View style={styles.calenderArea}>
+		<SymptomCalendarPicker/>
+		</View>
+		<View style={styles.listArea}>
+		<EntryList />
+		</View>
       </View>
     );
   }
@@ -103,6 +72,9 @@ const styles = StyleSheet.create({
   container: {
     backgroundColor: '#fff',
     flex: 1,
+	alignItems:'stretch',
+	justifyContent:'flex-start',
+	flexDirection: 'column',
     paddingTop: Constants.statusBarHeight,
   },
   heading: {
@@ -123,9 +95,15 @@ const styles = StyleSheet.create({
     padding: 8
   },
   listArea: {
-    backgroundColor: '#f0f0f0',
-    flex: 1,
-    paddingTop: 16
+    backgroundColor: 'white',
+    flex: 2,
+    paddingTop: 10,
+	
+  },
+  calenderArea: {
+    backgroundColor: 'white',
+    flex: 3,
+	
   },
   sectionContainer: {
     marginBottom: 16,

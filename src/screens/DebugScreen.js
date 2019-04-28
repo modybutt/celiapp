@@ -14,14 +14,17 @@ import TextInputMultiLine from '../components/TextInputMultiLine';
 import { Icon } from 'expo';
 import RoundPictureButton from '../components/RoundPictureButton';
 import ActionButton from 'react-native-action-button';
-import SymptomTracker from './SymptomTracker';
+import SymptomTrackerScreen from './SymptomTrackerScreen';
 import CustomButton from '../components/CustomButton'
 import SearchSymptom from '../components/SearchSymptom';
+import EntryList from '../components/EntryList';
+import DayChooser from "../components/DayChooser";
 
 export default class DebugScreen extends React.Component {
   static navigationOptions = {
     title: 'Debug',
   };
+  
 
   render() {
     const {navigate} = this.props.navigation;
@@ -31,10 +34,15 @@ export default class DebugScreen extends React.Component {
       <View style = {styles.container}>
         <FlatList
           data={[
+	          {key: 'EntryList', value: <EntryList/>},
             {key: 'Image', value: <Image source = {image} style = {styles.image} />},
             {key: 'RoundImage', value: <Image source = {image} style = {styles.roundImage} />},
             {key: 'TextInputSingleLine', value: <TextInputSingleLine />},
-            {key: 'TextInputMultiLine', value: <TextInputMultiLine />},
+            {key: 'TextInputMultiLine', value: 
+              <View style={{height: 200}}>
+                <TextInputMultiLine/>
+              </View>
+            },
             {key: 'HoverButton', value: 
               <TouchableOpacity onPress={() => navigate('Settings')}>
                 <Icon.Ionicons
@@ -44,7 +52,7 @@ export default class DebugScreen extends React.Component {
                     />
               </TouchableOpacity>
             },
-            {key: 'SymptomTracker', value: <SymptomTracker />},
+            {key: 'SymptomTracker', value: <SymptomTrackerScreen date = {getTodayDate()}/>},
             {key: 'CustomButton', value: <CustomButton />},
             {key: 'RoundPictureButton', value:
               <RoundPictureButton 
@@ -69,6 +77,7 @@ export default class DebugScreen extends React.Component {
             },
 			      {key: 'SearchSymptom', value: <SearchSymptom />},
             {key: 'Foo', value: <Text>Bar</Text>},
+            {key: 'DayChooser', value: <DayChooser date = {getTodayDate()}/>},
           ]}
 
           renderItem={({item}) => this.renderItem(item)}
@@ -86,6 +95,11 @@ export default class DebugScreen extends React.Component {
     )
   }
 }
+
+function getTodayDate(){
+  return new Date()
+}
+
 
 const styles = StyleSheet.create({
   container: {
