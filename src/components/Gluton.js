@@ -28,7 +28,7 @@ export default class Gluton extends React.Component {
                             height: 360 * this.state.trust,
                             borderWidth: 1,
                         }} source={this.state.happy ? Gluton_HAPPY : Gluton_SAD} />
-                </View>                    
+                </View>                
             </View>
         );
     }  

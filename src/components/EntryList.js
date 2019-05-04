@@ -2,6 +2,10 @@ import React from 'react';
 import { View, Text, FlatList, ActivityIndicator,StyleSheet,TouchableHighlight,Image,Alert,TouchableOpacity } from "react-native";
 import { ListItem, SearchBar } from 'react-native-elements';
 
+import { NavigationEvents } from 'react-navigation';
+
+import DatabaseManager from '../brokers/DatabaseManager';
+
 export default class EntryList extends React.Component {
 	
 
@@ -13,26 +17,34 @@ export default class EntryList extends React.Component {
   }
 
   componentDidMount() {
-    this.makeRemoteRequest();
+    //this.makeRemoteRequest();
   }
 
   makeRemoteRequest() {
-    const url = `https://randomuser.me/api/?&results=20`;
+    //const url = `https://randomuser.me/api/?&results=20`;
     this.setState({ loading: true });
 
-    fetch(url)
-      .then(res => res.json())
-      .then(res => {
-        this.setState({
-          data: res.results,
-          error: res.error || null,
-          loading: false,
-        });
-        this.arrayholder = res.results;
-      })
-      .catch(error => {
-        this.setState({ error, loading: false });
-      });
+    DatabaseManager.getInstance().getAll(true, () => { alert("ERROR")}, (_, {rows: { _array }}) => this.setState(
+      {
+        data: _array,
+        //error: res.error || null,
+        loading: false,
+      }));
+  
+
+    // fetch(url)
+    //   .then(res => res.json())
+    //   .then(res => {
+    //     this.setState({
+    //       data: res.results,
+    //       error: res.error || null,
+    //       loading: false,
+    //     });
+    //     this.arrayholder = res.results;
+    //   })
+    //   .catch(error => {
+    //     this.setState({ error, loading: false });
+    //   });
   }
   
     onPressTouchable(){
@@ -48,9 +60,9 @@ export default class EntryList extends React.Component {
         <TouchableHighlight onPress={this.onPressTouchable} onLongPress={this.onLongPressTouchable}> 
 			<View>
 			  <ListItem
-				title={item.name.first}
-				subtitle={item.name.last}
-				leftAvatar={{ source: { uri: item.picture.thumbnail }}}
+				title={item.value}
+				//subtitle={item.name.last}
+				//leftAvatar={{ source: { uri: item.picture.thumbnail }}}
 				
 			  />
 			  
@@ -75,6 +87,9 @@ export default class EntryList extends React.Component {
   render() {
     return (
       <View>
+        <NavigationEvents
+          onWillFocus={(payload) => this.makeRemoteRequest()}
+        />
         <FlatList
           data={this.state.data}
           renderItem={({item}) => this.renderItem(item)}

@@ -1,6 +1,6 @@
 import React from 'react';
 import { Platform } from 'react-native';
-import { createStackNavigator, createBottomTabNavigator } from 'react-navigation';
+import { createStackNavigator, createMaterialTopTabNavigator } from 'react-navigation';
 
 import TabBarIcon from '../components/TabBarIcon';
 import EvaluationScreen from '../screens/EvaluationScreen';
@@ -25,7 +25,7 @@ const CalendarStack = createStackNavigator({
   Calendar: CalendarScreen,
 });
 
-export default createBottomTabNavigator({
+export default createMaterialTopTabNavigator({//createBottomTabNavigator({
     Evaluation: {
         screen: EvaluationStack,
         navigationOptions: {
@@ -42,7 +42,7 @@ export default createBottomTabNavigator({
         screen: HomeStack,
         navigationOptions: {
           //tabBarLabel: 'Home',
-          tabBarIcon: ({ focused }) => (
+          tabBarIcon: ({focused}) => (
             <TabBarIcon
               focused={focused}
               name={
@@ -81,7 +81,16 @@ export default createBottomTabNavigator({
     }
 }, {
     initialRouteName: 'Home',
+    tabBarPosition: 'bottom',
+    lazy: true,
     tabBarOptions: {
         showLabel: false,
+        showIcon: true,
+        style: {
+          backgroundColor: 'transparent',
+        },
+        indicatorStyle: {
+          backgroundColor: 'darkblue',
+        }
     }
 });
