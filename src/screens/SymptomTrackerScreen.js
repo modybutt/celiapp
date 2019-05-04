@@ -9,6 +9,10 @@ import SymptomTimePicker from '../components/SymptomTimePicker';
 import HorizontalLineWithText from '../components/HorizontalLineWithText';
 
 export default class SymptomTrackerScreen extends React.Component{
+    static navigationOptions = {
+        title: 'Add Symptom',
+    };
+
     render(){
         return(
             <View>

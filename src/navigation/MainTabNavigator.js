@@ -70,7 +70,6 @@ export default createMaterialTopTabNavigator({//createBottomTabNavigator({
       screen: createStackNavigator({Debug: DebugScreen}),
       navigationOptions: {
         //tabBarLabel: 'Debug',
-        tabBarVisible: {__DEV__},       // FIXME disable tab in production mode
         tabBarIcon: ({ focused }) => (
           <TabBarIcon
             focused={focused}
@@ -82,7 +81,7 @@ export default createMaterialTopTabNavigator({//createBottomTabNavigator({
 }, {
     initialRouteName: 'Home',
     tabBarPosition: 'bottom',
-    lazy: true,
+    swipeEnabled: false,
     tabBarOptions: {
         showLabel: false,
         showIcon: true,
