@@ -1,20 +1,40 @@
 
 import React from 'react';
-import {Icon, View, Text} from 'react-native';
+import {Icon, View, Text, StyleSheet} from 'react-native';
 import SymptomGroup from '../components/SymptomTracker/SymptomGroup';
 import NoteEdit from '../components/NoteEdit';
 import DayChooser from '../components/DayChooser';
 import HorizontalLine from '../components/HorizontalLine';
+import SymptomTimePicker from '../components/SymptomTimePicker';
+import HorizontalLineWithText from '../components/HorizontalLineWithText';
 
 export default class SymptomTrackerScreen extends React.Component{
     render(){
         return(
             <View>
-                <DayChooser date = {this.props.date}/>
+                <Text style={styles.headText}>SymptomTracker</Text>
+                <HorizontalLineWithText text = "Date"/>
+                <DayChooser date = {getTodayDate()}/>
+                <HorizontalLineWithText text = "Time"/>
+                <SymptomTimePicker/>
+                <HorizontalLineWithText text = "Symptoms"/>
                 <SymptomGroup/>
+                <HorizontalLineWithText text = "Notes"/>
                 <NoteEdit/>
-                <HorizontalLine />
             </View>
         )
     }
 }
+
+function getTodayDate(){
+    return new Date()
+}
+  
+
+var styles = StyleSheet.create({
+ headText:{
+    fontSize: 20,
+    textAlign: 'center',
+    margin: 10
+ }
+});
