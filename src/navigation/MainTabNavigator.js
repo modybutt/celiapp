@@ -82,6 +82,7 @@ export default createMaterialTopTabNavigator({//createBottomTabNavigator({
 }, {
     initialRouteName: 'Home',
     tabBarPosition: 'bottom',
+    lazy: true,
     tabBarOptions: {
         showLabel: false,
         showIcon: true,
