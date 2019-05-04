@@ -7,6 +7,10 @@ import DayChooser from '../components/DayChooser';
 import HorizontalLine from '../components/HorizontalLine';
 
 export default class SymptomTrackerScreen extends React.Component{
+    static navigationOptions = {
+        title: 'Add Symptom',
+    };
+
     render(){
         return(
             <View>

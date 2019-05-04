@@ -13,7 +13,13 @@ export default class DatabaseManager {
     static getInstance() {
         if (DatabaseManager.instance == null) {
             DatabaseManager.instance = new DatabaseManager();
+
             this.instance.db = SQLite.openDatabase('app.db');
+            this.instance.db.transaction(tx => {
+              tx.executeSql(
+                  'create table if not exists items (id integer primary key not null, done int, value text);'
+              );
+          });
         }
 
         return this.instance;

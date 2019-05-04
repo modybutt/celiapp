@@ -2,10 +2,8 @@ import React from 'react';
 import { Platform } from 'react-native';
 import { createStackNavigator } from 'react-navigation';
 
-import GlassPaneScreen from '../screens/GlassPane';
+import SymptomTrackerScreen from '../screens/SymptomTrackerScreen';
 
 export default createStackNavigator({
-  GlassPane: GlassPaneScreen,
-}, {
-  headerMode: 'none',
+  SymptomTracker: SymptomTrackerScreen,
 })

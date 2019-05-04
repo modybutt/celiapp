@@ -7,10 +7,10 @@ import {
   TextInput,
   TouchableOpacity
 } from 'react-native';
-import { NavigationEvents } from 'react-navigation';
 
 import SymptomCalendarPicker from "../components/CalendarPicker";  
 import EntryList from "../components/EntryList"
+import MenuButton from '../components/MenuButton';
 
 export default class CalendarScreen extends React.Component {
   static navigationOptions = {
@@ -21,26 +21,16 @@ export default class CalendarScreen extends React.Component {
     text: null
   };
 
-  componentDidUpdate() {
-    alert("FOO")
-  }
-
   render() {
-    
     return (
       <View style={styles.container}>
-      <NavigationEvents
-        onWillFocus={payload => console.log('will focus',payload)}
-        onDidFocus={payload => console.log('did focus',payload)}
-        onWillBlur={payload => console.log('will blur',payload)}
-        onDidBlur={payload => console.log('did blur',payload)}
-      />
         <View style={styles.calenderArea}>
           <SymptomCalendarPicker/>
         </View>
         <View style={styles.listArea}>
           <EntryList />
         </View>
+        <MenuButton navigation={this.props.navigation}/>
       </View>
     );
   }
