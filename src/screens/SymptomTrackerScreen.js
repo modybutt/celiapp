@@ -1,12 +1,13 @@
 
 import React from 'react';
-import {Icon, View, Alert, Button, Text, StyleSheet} from 'react-native';
+import {Icon, ScrollView, View, Alert, Button, Text, StyleSheet} from 'react-native';
 import SymptomGroup from '../components/SymptomTracker/SymptomGroup';
 import NoteEdit from '../components/NoteEdit';
 import DayChooser from '../components/DayChooser';
 import HorizontalLine from '../components/HorizontalLine';
 import SymptomTimePicker from '../components/SymptomTimePicker';
 import HorizontalLineWithText from '../components/HorizontalLineWithText';
+import DatabaseManager from '../brokers/DatabaseManager';
 
 export default class SymptomTrackerScreen extends React.Component{
     static navigationOptions = {
@@ -15,7 +16,7 @@ export default class SymptomTrackerScreen extends React.Component{
 
     render(){
         return(
-            <View>
+            <ScrollView>
                 <Text style={styles.headText}>SymptomTracker</Text>
                 <HorizontalLineWithText text = "Date"/>
                 <DayChooser date = {getTodayDate()}/>
@@ -33,14 +34,19 @@ export default class SymptomTrackerScreen extends React.Component{
                 }}           
                 >
                     <View>
-                        <Button title = "OK" onPress={() => this.props.navigation.navigate('Home')}/>
+                        <Button title = "OK" onPress={() => this.onOkPressed()}/>
                     </View>
                     <View>
                         <Button title = "Cancel" onPress={() => this.props.navigation.navigate('Home')}/>
                     </View>
                 </View>
-            </View>
+            </ScrollView>
         )
+    }
+
+    onOkPressed() {
+        DatabaseManager.getInstance().insertSymptom(3, "Hello World", Date.now(), (_, error) => console.log(error), () => alert("SUCCESS"));
+        this.props.navigation.navigate('Home');
     }
 }
 

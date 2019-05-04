@@ -8,7 +8,7 @@ import {
   TouchableOpacity
 } from 'react-native';
 
-import SymptomCalendarPicker from "../components/CalendarPicker";  
+import SymptomCalendarPicker from "../components/SymptomCalendarPicker";  
 import EntryList from "../components/EntryList"
 import MenuButton from '../components/MenuButton';
 

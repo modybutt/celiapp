@@ -11,8 +11,9 @@ export default class EntryList extends React.Component {
 
   state = {
     
-    loading: false,
+    loading: true,
     data: [],
+    events: null,
     error: null,
   }
 
@@ -22,15 +23,21 @@ export default class EntryList extends React.Component {
 
   makeRemoteRequest() {
     //const url = `https://randomuser.me/api/?&results=20`;
-    this.setState({ loading: true });
+    //this.setState({ loading: true });
 
-    DatabaseManager.getInstance().getAll(true, () => { alert("ERROR")}, (_, {rows: { _array }}) => this.setState(
+    DatabaseManager.getInstance().fetchStaticData(() => { alert("ERROR")}, (_, {rows: { _array }}) => this.setState(
+    {
+      data: _array,
+      //error: res.error || null,
+      //loading: false,
+    }));
+  
+    DatabaseManager.getInstance().fetchSymptoms(() => { alert("ERROR")}, (_, {rows: { _array }}) => this.setState(
       {
-        data: _array,
+        events: _array,
         //error: res.error || null,
         loading: false,
       }));
-  
 
     // fetch(url)
     //   .then(res => res.json())
@@ -60,9 +67,10 @@ export default class EntryList extends React.Component {
         <TouchableHighlight onPress={this.onPressTouchable} onLongPress={this.onLongPressTouchable}> 
 			<View>
 			  <ListItem
-				title={item.value}
-				//subtitle={item.name.last}
-				//leftAvatar={{ source: { uri: item.picture.thumbnail }}}
+          title={item.name}
+          subtitle={new Date(item.created).toUTCString()}
+          // "../assets/images/SymptomTracker/headache.png"
+          leftAvatar={{source: require("../assets/images/SymptomTracker/vomiting.png") }}
 				
 			  />
 			  
@@ -91,9 +99,10 @@ export default class EntryList extends React.Component {
           onWillFocus={(payload) => this.makeRemoteRequest()}
         />
         <FlatList
-          data={this.state.data}
+          //data={this.state.data}
+          data={this.state.events}
           renderItem={({item}) => this.renderItem(item)}
-          keyExtractor={item => item.email}
+          keyExtractor={item => item.id}
           ItemSeparatorComponent={this.renderSeparator}
         />
       </View>
