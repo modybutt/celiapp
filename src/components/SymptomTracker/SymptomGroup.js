@@ -2,53 +2,39 @@
 import React from 'react';
 import {Icon, View, Text} from 'react-native';
 import SymptomIcon from './SymptomIcon';
+import SymptomIconButton from './SymptomIconButton';
 import MoreSymptomsButton from './MoreSymptomsButton'
 import HorizontalLineWithText from '../HorizontalLineWithText';
+import HorizontalLine from '../HorizontalLine';
 
 
 export default class SymptomGroup extends React.Component{
-  
     render(){
         return(
-            // <View>
-            //     <HorizontalLineWithText text = "Symptome"/>
-            //     <View style={{
-            //         height:200,
-            //         width:300,
-            //         flexDirection: 'row',
-            //         justifyContent: 'space-between',
-            //         alignItems: 'stretch',
-            //     }}>
-            //         <SymptomIcon SymptomName = 'Headache' ID = {1}/>
-            //         <SymptomIcon SymptomName = 'Fuß abgefallen' ID = {2}/>
-            //         <SymptomIcon SymptomName = 'Kotzen' ID = {3}/>
-            //         <SymptomIcon SymptomName = 'Rückenschmerzen' ID = {4}/>
-            //     </View>
-            //     <View style={{
-            //         height:200,
-            //         width:300,
-            //         flexDirection:'row',
-            //         justifyContent:'space-between',
-            //         alignItems:'stretch',
-            //     }}>
-            //         <SymptomIcon SymptomName = 'Scheisserei' ID = {5}/>
-            //         <SymptomIcon SymptomName = 'Pain' ID = {6}/>
-            //         <SymptomIcon SymptomName = 'Stomacheache' ID = {7}/>
-            //         <MoreSymptomsButton/>
-            //     </View>
-            // </View>
             <View>
-                <HorizontalLineWithText text = "Symptome"/>
-                <View
-                style={{
+                <View style={{
                     height:200,
-                    width:300,
                     flexDirection: 'row',
                     justifyContent: 'space-between',
-                    alignItems: 'stretch',}}
-                >
-                    <SymptomIcon SymptomName = 'Headache' ID = {1}/>
+                    alignItems: 'center',
+                }}>
+                    <SymptomIconButton type = {1} symptomID={1}/>
+                    <SymptomIconButton type = {2} symptomID={2}/>
+                    <SymptomIconButton type = {2} symptomID={3}/>
+                    <SymptomIconButton type = {3} symptomID={4}/>
                 </View>
+                <View style={{
+                    height:200,
+                    flexDirection:'row',
+                    justifyContent: 'space-around',
+                    alignItems:'center',
+                }}>
+                    <SymptomIconButton type = {1} symptomID={5}/>
+                    <SymptomIconButton type = {2} symptomID={6}/>
+                    <SymptomIconButton type = {2} symptomID={7}/>
+                    <SymptomIconButton type = {4} symptomID={8}/>
+                </View>
+                <HorizontalLine />
             </View>
         )
     }
