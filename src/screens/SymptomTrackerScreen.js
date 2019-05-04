@@ -8,7 +8,7 @@ import HorizontalLine from '../components/HorizontalLine';
 import SymptomTimePicker from '../components/SymptomTimePicker';
 import HorizontalLineWithText from '../components/HorizontalLineWithText';
 
-export default class SymptomTracker extends React.Component{
+export default class SymptomTrackerScreen extends React.Component{
     render(){
         return(
             <View>
