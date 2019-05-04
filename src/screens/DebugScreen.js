@@ -2,6 +2,7 @@ import React from 'react';
 import { 
   View, 
   Text, 
+  Button,
   StyleSheet,
   Image,
   FlatList,
@@ -17,11 +18,37 @@ import ActionButton from 'react-native-action-button';
 import SymptomTracker from './SymptomTracker';
 import CustomButton from '../components/CustomButton'
 import SearchSymptom from '../components/SearchSymptom';
+import SymptomIconButton from '../components/SymptomTracker/SymptomIconButton';
+import DayChooser from "../components/DayChooser";
+import SymptomTimePicker from  '../components/SymptomTimePicker';
 
 export default class DebugScreen extends React.Component {
   static navigationOptions = {
     title: 'Debug',
   };
+
+  constructor(props){
+    super(props);
+    this.state = {
+      isDateTimePickerVisible: false
+    }
+}
+
+  showDateTimePicker = () => {
+    this.setState({ isDateTimePickerVisible: true });
+  };
+ 
+  hideDateTimePicker = () => {
+    this.setState({ isDateTimePickerVisible: false });
+  };
+ 
+  handleDatePicked = date => {
+    console.log("A date has been picked: ", date);
+    this.hideDateTimePicker();
+  };
+
+
+
 
   render() {
     const {navigate} = this.props.navigation;
@@ -44,6 +71,10 @@ export default class DebugScreen extends React.Component {
                     />
               </TouchableOpacity>
             },
+            {key: "SymptomIconButtonCenter", value: <View style={{justifyContent: "center", alignItems: "center", height: 400}}><SymptomIconButton type = {2}/></View>},
+            {key: "SymptomIconButtonLeft", value: <View style={{justifyContent: "center", alignItems: "center", height: 400}}><SymptomIconButton type = {1}/></View>},
+            {key: "SymptomIconButtonRight", value: <View style={{justifyContent: "center", alignItems: "center", height: 400}}><SymptomIconButton type = {3}/></View>},
+            
             {key: 'SymptomTracker', value: <SymptomTracker />},
             {key: 'CustomButton', value: <CustomButton />},
             {key: 'RoundPictureButton', value:
@@ -67,8 +98,10 @@ export default class DebugScreen extends React.Component {
                 </ActionButton>
               </View>
             },
-			      {key: 'SearchSymptom', value: <SearchSymptom />},
+            {key: 'SearchSymptom', value: <SearchSymptom />},
+            {key: 'DayChooser', value: <DayChooser date = {getTodayDate()}/>},
             {key: 'Foo', value: <Text>Bar</Text>},
+            {key: 'TimePicker', value: <SymptomTimePicker/>},
           ]}
 
           renderItem={({item}) => this.renderItem(item)}
@@ -76,7 +109,6 @@ export default class DebugScreen extends React.Component {
       </View>
 	  );
   }  
-
   renderItem(item) {
     return (
       <View style = {styles.story}>
@@ -86,6 +118,12 @@ export default class DebugScreen extends React.Component {
     )
   }
 }
+
+
+function getTodayDate(){
+  return new Date()
+}
+
 
 const styles = StyleSheet.create({
   container: {
