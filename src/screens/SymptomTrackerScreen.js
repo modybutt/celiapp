@@ -1,6 +1,6 @@
 
 import React from 'react';
-import {Icon, View, Text, StyleSheet} from 'react-native';
+import {Icon, View, Alert, Button, Text, StyleSheet} from 'react-native';
 import SymptomGroup from '../components/SymptomTracker/SymptomGroup';
 import NoteEdit from '../components/NoteEdit';
 import DayChooser from '../components/DayChooser';
@@ -25,6 +25,20 @@ export default class SymptomTrackerScreen extends React.Component{
                 <SymptomGroup/>
                 <HorizontalLineWithText text = "Notes"/>
                 <NoteEdit/>
+                <View style={{
+                    flexDirection: 'row',
+                    justifyContent: 'space-around',
+                    alignItems: 'center',
+                    margin: 20,
+                }}           
+                >
+                    <View>
+                        <Button title = "OK" onPress={() => this.props.navigation.navigate('Home')}/>
+                    </View>
+                    <View>
+                        <Button title = "Cancel" onPress={() => this.props.navigation.navigate('Home')}/>
+                    </View>
+                </View>
             </View>
         )
     }

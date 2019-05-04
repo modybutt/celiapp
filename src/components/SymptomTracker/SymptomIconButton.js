@@ -48,7 +48,8 @@ export default class SymptomIconButton extends Component {
 						selected: false,
 						bigBubbleColor: "rgb(180, 180, 180)",
 						imgSource: images.userDefinedSymptom.uri,
-						symptomName: images.userDefinedSymptom.imgName
+						symptomName: images.userDefinedSymptom.imgName,
+						zIndexNumber: -1
 					};
 				break;
 			case 1:
@@ -56,7 +57,8 @@ export default class SymptomIconButton extends Component {
 						selected: false,
 						bigBubbleColor: "rgb(180, 180, 180)",
 						imgSource: images.cloating.uri,
-						symptomName: images.cloating.imgName
+						symptomName: images.cloating.imgName,
+						zIndexNumber: -1
 					};
 				break;
 			case 2:
@@ -64,7 +66,8 @@ export default class SymptomIconButton extends Component {
 						selected: false,
 						bigBubbleColor: "rgb(180, 180, 180)",
 						imgSource: images.diarrhea.uri,
-						symptomName: images.diarrhea.imgName
+						symptomName: images.diarrhea.imgName,
+						zIndexNumber: -1
 					};
 				break;
 			case 3:
@@ -72,7 +75,8 @@ export default class SymptomIconButton extends Component {
 						selected: false,
 						bigBubbleColor: "rgb(180, 180, 180)",
 						imgSource: images.headache.uri,
-						symptomName: images.headache.imgName
+						symptomName: images.headache.imgName,
+						zIndexNumber: -1
 					};
 				break;
 			case 4:
@@ -80,7 +84,8 @@ export default class SymptomIconButton extends Component {
 						selected: false,
 						bigBubbleColor: "rgb(180, 180, 180)",
 						imgSource: images.irritability.uri,
-						symptomName: images.irritability.imgName
+						symptomName: images.irritability.imgName,
+						zIndexNumber: -1
 					};
 				break;
 			case 5:
@@ -88,7 +93,8 @@ export default class SymptomIconButton extends Component {
 						selected: false,
 						bigBubbleColor: "rgb(180, 180, 180)",
 						imgSource: images.stomachAche.uri,
-						symptomName: images.stomachAche.imgName
+						symptomName: images.stomachAche.imgName,
+						zIndexNumber: -1
 					};
 				break;
 			case 6:
@@ -96,7 +102,8 @@ export default class SymptomIconButton extends Component {
 						selected: false,
 						bigBubbleColor: "rgb(180, 180, 180)",
 						imgSource: images.vomiting.uri,
-						symptomName: images.vomiting.imgName
+						symptomName: images.vomiting.imgName,
+						zIndexNumber: -1
 					};
 				break;
 			case 7:
@@ -104,7 +111,8 @@ export default class SymptomIconButton extends Component {
 						selected: false,
 						bigBubbleColor: "rgb(180, 180, 180)",
 						imgSource: images.weightLoss.uri,
-						symptomName: images.weightLoss.imgName
+						symptomName: images.weightLoss.imgName,
+						zIndexNumber: -1
 					};
 				break;
 			case 8:
@@ -112,14 +120,16 @@ export default class SymptomIconButton extends Component {
 						selected: false,
 						bigBubbleColor: "rgb(180, 180, 180)",
 						imgSource: images.moreSymptoms.uri,
-						symptomName: images.moreSymptoms.imgName
+						symptomName: images.moreSymptoms.imgName,
+						zIndexNumber: -1
 					};	
 			default:
 					this.state = {
 						selected: false,
 						bigBubbleColor: "rgb(180, 180, 180)",
 						imgSource: images.userDefinedSymptom.uri,
-						symptomName: images.userDefinedSymptom.imgName
+						symptomName: images.userDefinedSymptom.imgName,
+						zIndexNumber: -1
 					};
 				break;
 		}
@@ -133,36 +143,51 @@ export default class SymptomIconButton extends Component {
 			if(this.state.bigBubbleColor.localeCompare('rgb(180, 180, 180)')){
 				this.setState({bigBubbleColor: 'rgb(180, 180, 180)'})
 			}else{
-				this.callAnimation();
+				this.callAnimation(false);
 			}
 		}
 	}
 
-	callAnimation(){
-		let { selected } = this.state;
-		if(selected) {
-			this.animateReverse(0);
-		}
-		else {
-			this.animate(1);
-		}
-		this.setState({selected: !selected});
+	callAnimation(setEnabled){
+			let { selected } = this.state;
+			if(selected) {
+				this.animateReverse(0);
+				this.setState({zIndexNumber: -1})
+				this.setState({selected: !selected});
+				this.props.onSeverityChooserHandled(true);
+			}
+			else {
+				if(this.props.canOpenSeverity){
+					this.animate(1);
+					this.setState({zIndexNumber: 1})					
+					this.props.onSeverityChooserHandled(false);
+					this.setState({selected: !selected});
+				}else{
+					if(setEnabled){
+						Alert.alert("hallo");
+						this.props.onSeverityChooserHandled(true);
+					}
+				}
+			}	
 	}
 
 
 	onPressYellow = () => {
 		this.setState({bigBubbleColor: 'rgb(255, 215, 0)'})
-		this.callAnimation();
+		this.callAnimation(true);
+		this.props.onSeverityChooserHandled(true);
 	}
 
 	onPressOrange = () => {
 		this.setState({bigBubbleColor: 'rgb(255, 165, 0)'})
-		this.callAnimation();
+		this.callAnimation(true);
+		this.props.onSeverityChooserHandled(true);
 	}
 
 	onPressRed = () => {
 		this.setState({bigBubbleColor: 'rgb(255, 0, 0)'})
-		this.handleAddButtonPress();
+		this.handleAddButtonPress(true);
+		this.props.onSeverityChooserHandled(true);
 	}
 
 	animate = (toValue) => {
@@ -250,8 +275,8 @@ export default class SymptomIconButton extends Component {
 
 		if(this.props.type == 1){
 			center = {
-				top: 8,
-				left: 30,
+				top: -15,
+				left: 15,
 			};
 			
 			topCenter = {
@@ -270,8 +295,8 @@ export default class SymptomIconButton extends Component {
 			};
 		}else if(this.props.type == 2){
 			center = {
-				top: 8,
-				left: 30,
+				top: -15,
+				left: 15,
 			};
 			
 			topCenter = {
@@ -291,8 +316,8 @@ export default class SymptomIconButton extends Component {
 	
 		}else if(this.props.type == 3){
 			center = {
-				top: 8,
-				left: 30,
+				top: -15,
+				left: 15,
 			};
 			
 			topCenter = {
@@ -311,8 +336,8 @@ export default class SymptomIconButton extends Component {
 			};
 		}else{
 			center = {
-				top: 8,
-				left: 30,
+				top: -15,
+				left: 15,
 			};
 			
 			topCenter = {
@@ -409,7 +434,7 @@ export default class SymptomIconButton extends Component {
 								},
 							],
 							opacity: this.topLeftValue,
-							zIndex: -1,
+							zIndex: this.state.zIndexNumber,
 						},
 					]}
 				>
@@ -445,7 +470,7 @@ export default class SymptomIconButton extends Component {
 								},
 							],
 							opacity: this.topCenterValue,
-							zIndex: -1,
+							zIndex: this.state.zIndexNumber,
 						},
 					]}
 				>
@@ -481,7 +506,7 @@ export default class SymptomIconButton extends Component {
 								},
 							],
 							opacity: this.topRightValue,
-							zIndex: -1,
+							zIndex: this.state.zIndexNumber,
 						},
 					]}
 				>

@@ -9,8 +9,7 @@ export default class NoteEdit extends React.Component{
     render(){
         return(
             <View>
-                <HorizontalLineWithText  text = "Note"/>
-                <View style={{height: 200}}>
+                <View style={{height: 150}}>
                      <TextInputMultiLine/>
                 </View>
                 <HorizontalLine/>

@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, StyleSheet } from 'react-native';
+import { View, StyleSheet, Alert } from 'react-native';
 import ActionButton from 'react-native-action-button';
 import { Icon } from 'expo';
 
