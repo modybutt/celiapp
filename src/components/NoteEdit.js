@@ -6,11 +6,24 @@ import HorizontalLineWithText from './HorizontalLineWithText';
 import HorizontalLine from "./HorizontalLine";
 
 export default class NoteEdit extends React.Component{
+
+    constructor(props) {
+        super(props);
+        this.noteEditedHandled = this.noteEditedHandled.bind(this);
+     }
+
+
+     noteEditedHandled(note){
+        this.props.onTextChanged(note)
+    }
+
+
+
     render(){
         return(
             <View>
                 <View style={{height: 150}}>
-                     <TextInputMultiLine/>
+                     <TextInputMultiLine onTextChanged={this.noteEditedHandled}/>
                 </View>
                 <HorizontalLine/>
             </View>

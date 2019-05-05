@@ -41,39 +41,39 @@ export const delay = 0;
 export const images = {
 	diarrhea: {
 		imgName: 'Diarrhea', 
-		uri: require('./images/diarrhea.png')
+		uri: require('../../assets/images/SymptomIcon/diarrhea.png')
 	},
 	headache: {
 		imgName: 'Headache', 
-		uri: require('./images/headache.png')	
+		uri: require('../../assets/images/SymptomIcon/headache.png')	
 	},
 	irritability: {
 		imgName: 'Irritability', 
-		uri: require('./images/irritability.png')	
+		uri: require('../../assets/images/SymptomIcon/irritability.png')	
 	},
 	stomachAche: {
 		imgName: 'Stomachache', 
-		uri: require('./images/stomachAche.png')	
+		uri: require('../../assets/images/SymptomIcon/stomachAche.png')	
 	},
 	userDefinedSymptom: {
 		imgName: 'UDS', 
-		uri: require('./images/userDefinedSymptom.png')	
+		uri: require('../../assets/images/SymptomIcon/userDefinedSymptom.png')	
 	},
 	vomiting: {
 		imgName: 'Vomiting', 
-		uri: require('./images/vomiting.png')	
+		uri: require('../../assets/images/SymptomIcon/vomiting.png')	
 	},
 	weightLoss: {
 		imgName: 'Weight Loss', 
-		uri: require('./images/weightLoss.png')	
+		uri: require('../../assets/images/SymptomIcon/weightLoss.png')	
 	},
 	cloating: {
 		imgName: 'Cloating', 
-		uri: require('./images/cloating.png')	
+		uri: require('../../assets/images/SymptomIcon/cloating.png')	
 	},
 	moreSymptoms: {
 		imgName: "More Symptoms",
-		uri: require('./images/moreSymptoms.png')
+		uri: require('../../assets/images/SymptomIcon/moreSymptoms.png')
 	}
 	}
   
