@@ -1,5 +1,5 @@
 import React from 'react';
-import { StyleSheet, Text, View, AppRegistry, TextInput } from 'react-native';
+import { StyleSheet, Alert, View, AppRegistry, TextInput } from 'react-native';
 
 
 /*export class TextFieldMultiline extends React.Component {
@@ -23,12 +23,33 @@ import { StyleSheet, Text, View, AppRegistry, TextInput } from 'react-native';
     }
 }*/
 
+
+
+
+
+
+
 export default class TextFieldMultiline extends React.Component {
+
+    constructor(props) {
+        super(props);
+        this.state = {
+            text: "",
+        } 
+     }
+
+
+     onNoteEdit = (text) =>{
+        this.props.onTextChanged(text);
+    }
+
     render() {
         return (
         <View style = {styles.Text}>
             <TextInput
                 {...this.props} // Inherit any props passed to it; e.g., multiline, numberOfLines below
+                //onChangeText={(text) => {this.setState({text}); this.onNoteEdit; }}
+                onChangeText={(text) => {this.onNoteEdit(text)}}
                 style={{height: "100%"}}
                 editable = {true}
                 maxLength = {400}

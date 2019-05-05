@@ -16,10 +16,10 @@ import RoundPictureButton from '../components/RoundPictureButton';
 import ActionButton from 'react-native-action-button';
 import SymptomTrackerScreen from './SymptomTrackerScreen';
 import CustomButton from '../components/CustomButton'
-import SearchSymptom from '../components/SearchSymptom';
+import SearchSymptom from '../components/SymptomTracker/SearchSymptom';
 import EntryList from '../components/EntryList';
 import DayChooser from '../components/DayChooser';
-import SymptomTimePicker from  '../components/SymptomTimePicker';
+import SymptomTimePicker from  '../components/SymptomTracker/SymptomTimePicker';
 
 export default class DebugScreen extends React.Component {
   static navigationOptions = {

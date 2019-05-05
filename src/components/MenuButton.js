@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, StyleSheet } from 'react-native';
+import { View, StyleSheet, Alert } from 'react-native';
 import ActionButton from 'react-native-action-button';
 import { Icon } from 'expo';
 
@@ -11,10 +11,10 @@ export default class MenuButton extends React.Component {
         return (
             <View style={styles.container}>
                 <ActionButton buttonColor="rgba(231,76,60,1)">
-                  <ActionButton.Item buttonColor='#9b59b6' title="Add Emotion" onPress={() => Alert.alert("Add Emotion Clicked")}>
+                  <ActionButton.Item buttonColor='#9b59b6' title="Add Emotion" onPress={() => this.props.navigation.navigate('AddEmote')}>
                     <Icon.Ionicons name="md-create" style={styles.actionButtonIcon} />
                   </ActionButton.Item>
-                  <ActionButton.Item buttonColor='#3498db' title="Add Meal" onPress={() => {Alert.alert("Add Meal Clicked")}}>
+                  <ActionButton.Item buttonColor='#3498db' title="Add Meal" onPress={() => this.props.navigation.navigate('AddFood')}>
                     <Icon.Ionicons name="md-notifications-off" style={styles.actionButtonIcon} />
                   </ActionButton.Item>
                   <ActionButton.Item buttonColor='#1abc9c' title="Add Symptom" onPress={() => this.props.navigation.navigate('AddSymptom')}>
