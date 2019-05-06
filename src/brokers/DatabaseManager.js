@@ -21,7 +21,7 @@ export default class DatabaseManager {
             this.instance.db = SQLite.openDatabase('app.db');
             this.instance.db.transaction(tx => {
               tx.executeSql(
-                'CREATE TABLE IF NOT EXISTS symptom_items (id INTEGER PRIMARY KEY AUTOINCREMENT, name TEXT, icon TEXT);', null, null, (_, error) => { console.log(error) });
+                'CREATE TABLE IF NOT EXISTS symptom_items (id INTEGER PRIMARY KEY AUTOINCREMENT, name TEXT, icon TEXT);');
               tx.executeSql(
                 'INSERT OR IGNORE INTO symptom_items VALUES '
                 + '(1, "Cloating", "../assets/images/SymptomTracker/cloating.png"), '
@@ -30,10 +30,10 @@ export default class DatabaseManager {
                 + '(4, "Irritability", "../assets/images/SymptomTracker/irritability.png"), '
                 + '(5, "StomacheAche", "../assets/images/SymptomTracker/stomacheAche.png"), '
                 + '(6, "Vomiting", "../assets/images/SymptomTracker/vomiting.png"), '
-                + '(7, "WeightLoss", "../assets/images/SymptomTracker/weightLoss.png");', null, null, (_, error) => { console.log(error) });
+                + '(7, "WeightLoss", "../assets/images/SymptomTracker/weightLoss.png");');
               tx.executeSql(
-                'CREATE TABLE IF NOT EXISTS symptom_events (id INTEGER PRIMARY KEY AUTOINCREMENT, symptomID INTEGER KEY NOT NULL, created INT, modified INT, note TEXT);', null, null, (_, error) => { console.log(error) });
-            }, (_, error) => { console.log(error) });
+                'CREATE TABLE IF NOT EXISTS symptom_events (id INTEGER PRIMARY KEY AUTOINCREMENT, symptomID INTEGER NOT NULL, severity INTEGER NOT NULL, created INT, modified INT, note TEXT);');
+            });
         }
 
         return this.instance;
@@ -41,15 +41,15 @@ export default class DatabaseManager {
 
     //createSymptom()
 
-    insertSymptom(symptomID, note, timestamp, onError, onSuccess) {
+    insertSymptom(symptomID, severity, note, timestamp, onError, onSuccess) {
       this.db.transaction(tx => {
-        tx.executeSql('INSERT INTO symptom_events (symptomID, created, note) VALUES (?, ?, ?)', [symptomID, timestamp, note]);
+        tx.executeSql('INSERT INTO symptom_events (symptomID, severity, created, note) VALUES (?, ?, ?, ?)', [symptomID, severity, timestamp, note]);
       }, onError, onSuccess);
     }
 
-    updateSymptom(symptomID, note, timestamp, onError, onSuccess) {
+    updateSymptom(symptomID, severity, note, timestamp, onError, onSuccess) {
       this.db.transaction(tx => {
-        tx.executeSql('UPDATE symptom_events SET (modified, note) values (?, ?) WHERE id = ?', [timestamp, note, symptomID]);
+        tx.executeSql('UPDATE symptom_events SET (severity, modified, note) values (?, ?) WHERE id = ?', [severity, timestamp, note, symptomID]);
       }, onError, onSuccess);
     }
 

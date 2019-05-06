@@ -24,6 +24,7 @@ export default class SymptomTimePicker extends React.Component {
       handleDatePicked = choosenDate => {
         this.setState({selectedTime: choosenDate})
         this.hideDateTimePicker();
+        this.props.onTimeChanged(choosenDate);
       };
 
     render(){

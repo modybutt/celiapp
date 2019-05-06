@@ -54,8 +54,9 @@ export default class EntryList extends React.Component {
     //   });
   }
   
-    onPressTouchable(){
-      Alert.alert("You selected the symptom")
+    onPressTouchable(item) {
+      alert(item.note)
+      //Alert.alert("You selected the symptom")
     }
 
     onLongPressTouchable(){
@@ -64,7 +65,7 @@ export default class EntryList extends React.Component {
 
   renderItem(item) {
     return (
-        <TouchableHighlight onPress={this.onPressTouchable} onLongPress={this.onLongPressTouchable}> 
+        <TouchableHighlight onPress={() => this.onPressTouchable(item)} onLongPress={this.onLongPressTouchable}> 
 			<View>
 			  <ListItem
           title={item.name}

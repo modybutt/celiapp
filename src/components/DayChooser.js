@@ -26,6 +26,7 @@ export default class DayChooser extends React.Component{
         newDate.setDate(newDate.getDate() + daysDiffToProp);
         var newDateString = new Date(newDate).getDate() + "." + (new Date(newDate).getMonth()+1) + "." + new Date(newDate).getFullYear()
         this.setState({currDateString: newDateString});
+        this.props.onDateChanged(newDate);
     }
 
 
