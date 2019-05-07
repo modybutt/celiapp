@@ -1,12 +1,12 @@
 
 import React from 'react';
-import { View, Button, Alert, Text, StyleSheet} from 'react-native';
+import { ScrollView, View, Button, Alert, Text, StyleSheet} from 'react-native';
 import SymptomGroup from '../components/SymptomTracker/SymptomGroup';
 import NoteEdit from '../components/NoteEdit';
 import DayChooser from '../components/DayChooser';
 import SymptomTimePicker from '../components/SymptomTracker/SymptomTimePicker';
 import HorizontalLineWithText from '../components/HorizontalLineWithText';
-
+import DatabaseManager from '../brokers/DatabaseManager';
 
 export default class SymptomTrackerScreen extends React.Component{
     static navigationOptions = {
@@ -74,7 +74,7 @@ export default class SymptomTrackerScreen extends React.Component{
 
     render(){
         return(
-            <View>
+            <ScrollView>
                 <Text style={styles.headText}>SymptomTracker</Text>
                 <HorizontalLineWithText text = "Date"/>
                 <DayChooser date = {getTodayDate()} onDateChanged={this.dateEditedHandler}/>
@@ -92,16 +92,27 @@ export default class SymptomTrackerScreen extends React.Component{
                 }}           
                 >
                     <View>
-                        <Button title = "OK" onPress={() => this.props.navigation.navigate('Home')}/>
+                        <Button title = "OK" onPress={() => this.onOkPressed()}/>
                     </View>
                     <View>
                         <Button title = "Cancel" onPress={() => this.props.navigation.navigate('Home')}/>
                     </View>
                 </View>
-            </View>
+            </ScrollView>
         )
     }
+
+    onOkPressed() {
+        for (let symptom of this.state.selectedSymptoms)
+        {
+            DatabaseManager.getInstance().insertSymptom(symptom[0], symptom[1], this.state.symptomEntryNote, Date.now());
+        }
+
+        this.props.navigation.navigate('Home');
+    }
 }
+
+
 
 function getTodayDate(){
     return new Date()
