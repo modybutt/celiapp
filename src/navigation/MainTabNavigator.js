@@ -1,31 +1,43 @@
 import React from 'react';
-import { Platform } from 'react-native';
 import { createStackNavigator, createMaterialTopTabNavigator } from 'react-navigation';
 
 import TabBarIcon from '../components/TabBarIcon';
 import EvaluationScreen from '../screens/EvaluationScreen';
 import HomeScreen from '../screens/HomeScreen';
 import CalendarScreen from '../screens/CalendarScreen';
+// import DebugScreen from '../screens/DebugScreen';
 
-import Evaluation_1 from '../screens/evaluation/Evaluation_1';
-import Evaluation_2 from '../screens/evaluation/Evaluation_2';
-import DebugScreen from '../screens/DebugScreen';
+import SymptomTrackerScreen from '../screens/SymptomTrackerScreen';
+import FoodDiaryScreen from '../screens/FoodDiaryScreen';
+import EmoteTrackerScreen from '../screens/EmoteTrackerScreen';
 
 const EvaluationStack = createStackNavigator({
   Evaluation: EvaluationScreen,
-  Evaluation_1: Evaluation_1,
-  Evaluation_2: Evaluation_2,
-});
-
-const HomeStack = createStackNavigator({
-  Home: HomeScreen,
 });
 
 const CalendarStack = createStackNavigator({
   Calendar: CalendarScreen,
 });
 
-export default createMaterialTopTabNavigator({//createBottomTabNavigator({
+const AddSymptomStack = createStackNavigator({
+  AddSymptom: SymptomTrackerScreen,
+}, {
+  headerMode: 'none',
+});
+
+const AddMealStack = createStackNavigator({
+  AddMeal: FoodDiaryScreen,
+}, {
+  headerMode: 'none',
+});
+
+const AddEmoteStack = createStackNavigator({
+  AddEmote: EmoteTrackerScreen,
+}, {
+  headerMode: 'none',
+});
+
+const TabNavStack = createMaterialTopTabNavigator({
     Evaluation: {
         screen: EvaluationStack,
         navigationOptions: {
@@ -33,23 +45,19 @@ export default createMaterialTopTabNavigator({//createBottomTabNavigator({
           tabBarIcon: ({ focused }) => (
             <TabBarIcon
               focused={focused}
-              name={Platform.OS === 'ios' ? 'ios-link' : 'md-trending-up'}
+              name={'md-trending-up'}
             />
           ),
         }
     },
     Home: {
-        screen: HomeStack,
+        screen: HomeScreen,
         navigationOptions: {
           //tabBarLabel: 'Home',
           tabBarIcon: ({focused}) => (
             <TabBarIcon
               focused={focused}
-              name={
-                Platform.OS === 'ios'
-                  ? `ios-information-circle${focused ? '' : '-outline'}`    // TODO iOS: md-paw
-                  : 'md-paw'
-              }
+              name={'md-paw'}
             />
           )
       }
@@ -61,23 +69,23 @@ export default createMaterialTopTabNavigator({//createBottomTabNavigator({
           tabBarIcon: ({ focused }) => (
             <TabBarIcon
               focused={focused}
-              name={Platform.OS === 'ios' ? 'ios-options' : 'md-calendar'}    // TODO iOS: md-calendar
+              name={'md-calendar'}
             />
           )
         }
     },
-    Debug: { 
+    /* Debug: { 
       screen: createStackNavigator({Debug: DebugScreen}),
       navigationOptions: {
         //tabBarLabel: 'Debug',
         tabBarIcon: ({ focused }) => (
           <TabBarIcon
             focused={focused}
-            name={Platform.OS === 'ios' ? 'ios-options' : 'md-hammer'}    // TODO iOS: md-calendar
+            name={'md-hammer'}
           />
         )
       }
-    }
+    } */
 }, {
     initialRouteName: 'Home',
     tabBarPosition: 'bottom',
@@ -92,4 +100,31 @@ export default createMaterialTopTabNavigator({//createBottomTabNavigator({
           backgroundColor: 'darkblue',
         }
     }
+});
+
+export default createStackNavigator({
+  TabBar: {
+    screen: TabNavStack,
+    navigationOptions: {
+      header: null,
+    }
+  },
+  AddSymptom: {
+    screen: AddSymptomStack,
+    navigationOptions: {
+      title: 'Add Symptom',
+    }
+  },
+  AddMeal: {
+    screen: AddMealStack,
+    navigationOptions: {
+      title: 'Add Meal',
+    }
+  },
+  AddEmote: {
+    screen: AddEmoteStack,
+    navigationOptions: {
+      title: 'Add Emotion',
+    }
+  }
 });

@@ -9,11 +9,6 @@ import HorizontalLineWithText from '../components/HorizontalLineWithText';
 import DatabaseManager from '../brokers/DatabaseManager';
 
 export default class SymptomTrackerScreen extends React.Component{
-    static navigationOptions = {
-        title: 'Add Symptom',
-    };
-
-
     constructor(props) {
         super(props);
         this.noteEditedHandler = this.noteEditedHandler.bind(this);
@@ -75,7 +70,6 @@ export default class SymptomTrackerScreen extends React.Component{
     render(){
         return(
             <ScrollView>
-                <Text style={styles.headText}>SymptomTracker</Text>
                 <HorizontalLineWithText text = "Date"/>
                 <DayChooser date = {getTodayDate()} onDateChanged={this.dateEditedHandler}/>
                 <HorizontalLineWithText text = "Time"/>

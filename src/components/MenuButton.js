@@ -14,7 +14,7 @@ export default class MenuButton extends React.Component {
                   <ActionButton.Item buttonColor='#9b59b6' title="Add Emotion" onPress={() => this.props.navigation.navigate('AddEmote')}>
                     <Icon.Ionicons name="md-create" style={styles.actionButtonIcon} />
                   </ActionButton.Item>
-                  <ActionButton.Item buttonColor='#3498db' title="Add Meal" onPress={() => this.props.navigation.navigate('AddFood')}>
+                  <ActionButton.Item buttonColor='#3498db' title="Add Meal" onPress={() => this.props.navigation.navigate('AddMeal')}>
                     <Icon.Ionicons name="md-notifications-off" style={styles.actionButtonIcon} />
                   </ActionButton.Item>
                   <ActionButton.Item buttonColor='#1abc9c' title="Add Symptom" onPress={() => this.props.navigation.navigate('AddSymptom')}>

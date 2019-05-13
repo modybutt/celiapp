@@ -24,15 +24,8 @@ export default class EntryList extends React.Component {
   makeRemoteRequest() {
     //const url = `https://randomuser.me/api/?&results=20`;
     //this.setState({ loading: true });
-
-    DatabaseManager.getInstance().fetchStaticData(() => { alert("ERROR")}, (_, {rows: { _array }}) => this.setState(
-    {
-      data: _array,
-      //error: res.error || null,
-      //loading: false,
-    }));
   
-    DatabaseManager.getInstance().fetchSymptoms(() => { alert("ERROR")}, (_, {rows: { _array }}) => this.setState(
+    DatabaseManager.getInstance().fetchSymptoms(null, () => { alert("ERROR")}, (_, {rows: { _array }}) => this.setState(
       {
         events: _array,
         //error: res.error || null,
@@ -67,11 +60,13 @@ export default class EntryList extends React.Component {
     return (
         <TouchableHighlight onPress={() => this.onPressTouchable(item)} onLongPress={this.onLongPressTouchable}> 
 			<View>
+        
 			  <ListItem
           title={item.name}
           subtitle={new Date(item.created).toUTCString()}
           // "../assets/images/SymptomTracker/headache.png"
-          leftAvatar={{source: require("../assets/images/SymptomTracker/vomiting.png") }}
+          leftAvatar={{ source: item.icon }}
+          //containerStyle={{backgroundColor: 'red'}}
 				
 			  />
 			  
@@ -103,7 +98,7 @@ export default class EntryList extends React.Component {
           //data={this.state.data}
           data={this.state.events}
           renderItem={({item}) => this.renderItem(item)}
-          keyExtractor={item => item.id}
+          keyExtractor={item => item.id.toString()}
           ItemSeparatorComponent={this.renderSeparator}
         />
       </View>

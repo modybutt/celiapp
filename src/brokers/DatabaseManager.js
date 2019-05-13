@@ -1,6 +1,5 @@
 import { SQLite } from 'expo';
-
-import Alert from 'react-native';
+import { images as SymptomIcons } from '../components/SymptomTracker/SymptomIconButtonConstants';
 
 export default class DatabaseManager {
 
@@ -8,7 +7,7 @@ export default class DatabaseManager {
         this.insertSymptom = this.insertSymptom.bind(this);
         this.updateSymptom = this.updateSymptom.bind(this);
         this.fetchSymptoms = this.fetchSymptoms.bind(this);
-        this.fetchStaticData = this.fetchStaticData.bind(this);
+        this.fetchHistory = this.fetchHistory.bind(this);
     }
 
     /**
@@ -24,13 +23,13 @@ export default class DatabaseManager {
                 'CREATE TABLE IF NOT EXISTS symptom_items (id INTEGER PRIMARY KEY AUTOINCREMENT, name TEXT, icon TEXT);');
               tx.executeSql(
                 'INSERT OR IGNORE INTO symptom_items VALUES '
-                + '(1, "Cloating", "../assets/images/SymptomTracker/cloating.png"), '
-                + '(2, "Diarrhea", "../assets/images/SymptomTracker/diarrhea.png"), '
-                + '(3, "Headache", "../assets/images/SymptomTracker/headache.png"), '
-                + '(4, "Irritability", "../assets/images/SymptomTracker/irritability.png"), '
-                + '(5, "StomacheAche", "../assets/images/SymptomTracker/stomacheAche.png"), '
-                + '(6, "Vomiting", "../assets/images/SymptomTracker/vomiting.png"), '
-                + '(7, "WeightLoss", "../assets/images/SymptomTracker/weightLoss.png");');
+                + '(1, "' + SymptomIcons.cloating.imgName + '", "' + SymptomIcons.cloating.uri + '"),'
+                + '(2, "' + SymptomIcons.diarrhea.imgName + '", "' + SymptomIcons.diarrhea.uri + '"),'
+                + '(3, "' + SymptomIcons.headache.imgName + '", "' + SymptomIcons.headache.uri + '"),'
+                + '(4, "' + SymptomIcons.irritability.imgName + '", "' + SymptomIcons.irritability.uri + '"),'
+                + '(5, "' + SymptomIcons.stomachAcheimgName + '", "' + SymptomIcons.stomachAche + '"),'
+                + '(6, "' + SymptomIcons.vomiting.imgName + '", "' + SymptomIcons.vomiting.uri + '"),'
+                + '(7, "' + SymptomIcons.weightLoss.imgName + '", "' + SymptomIcons.weightLoss.uri + '");');
               tx.executeSql(
                 'CREATE TABLE IF NOT EXISTS symptom_events (id INTEGER PRIMARY KEY AUTOINCREMENT, symptomID INTEGER NOT NULL, severity INTEGER NOT NULL, created INT, modified INT, note TEXT);');
             });
@@ -39,6 +38,7 @@ export default class DatabaseManager {
         return this.instance;
     }
 
+    // JSON.stringify(item)
     //createSymptom()
 
     insertSymptom(symptomID, severity, note, timestamp, onError, onSuccess) {
@@ -47,22 +47,33 @@ export default class DatabaseManager {
       }, onError, onSuccess);
     }
 
-    updateSymptom(symptomID, severity, note, timestamp, onError, onSuccess) {
+    updateSymptom(eventID, severity, note, timestamp, onError, onSuccess) {
       this.db.transaction(tx => {
-        tx.executeSql('UPDATE symptom_events SET (severity, modified, note) values (?, ?) WHERE id = ?', [severity, timestamp, note, symptomID]);
+        tx.executeSql('UPDATE symptom_events SET (severity, modified, note) values (?, ?) WHERE id = ?', [severity, timestamp, note, eventID]);
       }, onError, onSuccess);
     }
 
-    fetchSymptoms(onError, onSuccess) {
+    fetchSymptoms(timestamp, onError, onSuccess) {
+      if (timestamp == null) {
+        timestamp = Date.now();
+      }
+
+      let start = new Date(timestamp);
+      let end = new Date(timestamp);
+      start.setHours(0, 0, 0);
+      end.setHours(23, 59, 59);
+
       this.db.transaction(tx => {
-        tx.executeSql('SELECT * FROM symptom_events INNER JOIN symptom_items ON symptom_events.symptomID = symptom_items.id;', null, onSuccess, onError);
+        tx.executeSql('SELECT * FROM symptom_items INNER JOIN symptom_events ON symptom_events.symptomID = symptom_items.id '
+                    + 'WHERE symptom_events.created BETWEEN ? AND ? '
+                    + 'ORDER BY symptom_events.created DESC', [start.getTime(), end.getTime()], onSuccess, onError);
       });
     }
 
-    // DEPRECATED
-    fetchStaticData(onError, onSuccess) {
+    fetchHistory(onError, onSuccess) {
       this.db.transaction(tx => {
-        tx.executeSql('SELECT * FROM symptom_items;', null, onSuccess, onError);
+        tx.executeSql('SELECT * FROM symptom_items INNER JOIN symptom_events ON symptom_events.symptomID = symptom_items.id '
+                    + 'ORDER BY symptom_events.created DESC', null, onSuccess, onError);
       });
     }
 }

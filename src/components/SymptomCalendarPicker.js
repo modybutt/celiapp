@@ -20,6 +20,7 @@ export default class SymptomCalendarPicker extends Component {
       selectedStartDate: date,
     });
   }
+  
   render() {
     const { selectedStartDate } = this.state;
     const startDate = selectedStartDate ? selectedStartDate.toString() : '';
