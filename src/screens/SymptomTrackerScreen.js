@@ -29,6 +29,7 @@ export default class SymptomTrackerScreen extends React.Component{
             selectedSymptoms: [], //bit buggy when deleting existing symptoms from list
             dayChangeDialogVisible: false,
             resetSymptomGroup: false,
+            cancelSaveDialogVisible: false
         } 
      }
 
@@ -53,9 +54,33 @@ export default class SymptomTrackerScreen extends React.Component{
       }
 
 
-     showDayChangeSaveDialog = () => {
+
+
+      showBackDiscardDialog = () => {
+        this.setState({ cancelSaveDialogVisible: true });
+      };
+
+      handleBack = () => {
+        this.setState({ cancelSaveDialogVisible: false });
+      };
+
+      handleDiscard = () => {
+        this.navigateHome()
+        this.setState({ cancelSaveDialogVisible: false });
+      };
+
+
+
+
+
+
+
+
+
+      showDayChangeSaveDialog = () => {
         this.setState({ dayChangeDialogVisible: true });
       };
+
      
       handleDayChangeCancel = () => {
           //do nothing, dont change date
@@ -89,6 +114,15 @@ export default class SymptomTrackerScreen extends React.Component{
       };
 
      
+
+
+
+
+
+
+
+
+
     noteEditedHandler = (note) =>{
         this.setState({
             symptomEntryNote: note,
@@ -157,19 +191,31 @@ export default class SymptomTrackerScreen extends React.Component{
                         <Button title = "OK" onPress={() => this.saveCurrentData(true)}/>
                     </View>
                     <View>
-                        <Button title = "Cancel" onPress={() => this.props.navigation.navigate('Home')}/>
+                        <Button title = "Cancel" onPress={() => this.handleCancelButton()}/>
                     </View>
                 </View>
 
                 {/*Dialog for Day Change Save Dialog*/}
                 <View>
                     <Dialog.Container visible={this.state.dayChangeDialogVisible}>
-                    <Dialog.Title>Save Symptoms</Dialog.Title>
+                    <Dialog.Title>Day Change</Dialog.Title>
                     <Dialog.Description>
                         Do you want to save the entries?
                     </Dialog.Description>
                     <Dialog.Button label="Cancel" onPress={this.handleDayChangeCancel} />
                     <Dialog.Button label="Save" onPress={this.handleDayChangeSave} />
+                    </Dialog.Container>
+                </View>
+
+                {/*Dialog for Day Change Save Dialog*/}
+                 <View>
+                    <Dialog.Container visible={this.state.cancelSaveDialogVisible}>
+                    <Dialog.Title>Cancel</Dialog.Title>
+                    <Dialog.Description>
+                        Do you really want to discard the entries?
+                    </Dialog.Description>
+                    <Dialog.Button label="Back" onPress={this.handleBack} />
+                    <Dialog.Button label="Discard" onPress={this.handleDiscard} />
                     </Dialog.Container>
                 </View>
             </ScrollView>
@@ -184,13 +230,22 @@ export default class SymptomTrackerScreen extends React.Component{
             DatabaseManager.getInstance().insertSymptom(symptom[0], symptom[1], this.state.symptomEntryNote, tmpDateTime);
         }
         if(goHome){
-            navigateHome()
+            this.navigateHome()
         }
     }
 
     navigateHome = () =>{
         this.props.navigation.navigate('Home');
     }
+
+    handleCancelButton = () =>{
+        if(Array.isArray(this.state.selectedSymptoms) && this.state.selectedSymptoms.length){
+            this.showBackDiscardDialog()
+        }else{
+            this.navigateHome()
+        }
+    }
+
 }
 
 
