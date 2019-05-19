@@ -20,6 +20,22 @@ export default class SymptomGroup extends React.Component{
            symptomAndSeverityList: [],
        } 
     }
+
+
+    deleteSymptoms(){
+        this.setState({
+            canOpenSeverityChooser: true, 
+            symptomAndSeverityList: []
+        })
+        //reset every symptom 
+        this._sympIc1.resetSymptom();
+        this._sympIc2.resetSymptom();
+        this._sympIc3.resetSymptom();
+        this._sympIc4.resetSymptom();
+        this._sympIc5.resetSymptom();
+        this._sympIc6.resetSymptom();
+        this._sympIc7.resetSymptom();
+    }
     
 
     severityChooserHandler(setActive){
@@ -71,10 +87,10 @@ export default class SymptomGroup extends React.Component{
                     alignItems: 'center',
                     marginTop: 25,
                 }}>
-                    <SymptomIconButton type = {1} symptomID={1} onSeverityChooserHandled = {this.severityChooserHandler} canOpenSeverity = {this.state.canOpenSeverityChooser} onSymptomSelected = {this.symptomSelected} onSymptomDeselected = {this.symptomDeselected}/>
-                    <SymptomIconButton type = {2} symptomID={2} onSeverityChooserHandled = {this.severityChooserHandler} canOpenSeverity = {this.state.canOpenSeverityChooser} onSymptomSelected = {this.symptomSelected} onSymptomDeselected = {this.symptomDeselected}/>
-                    <SymptomIconButton type = {2} symptomID={3} onSeverityChooserHandled = {this.severityChooserHandler} canOpenSeverity = {this.state.canOpenSeverityChooser} onSymptomSelected = {this.symptomSelected} onSymptomDeselected = {this.symptomDeselected}/>
-                    <SymptomIconButton type = {3} symptomID={4} onSeverityChooserHandled = {this.severityChooserHandler} canOpenSeverity = {this.state.canOpenSeverityChooser} onSymptomSelected = {this.symptomSelected} onSymptomDeselected = {this.symptomDeselected}/>
+                    <SymptomIconButton ref={component => this._sympIc1 = component} type = {1} symptomID={1} onSeverityChooserHandled = {this.severityChooserHandler} canOpenSeverity = {this.state.canOpenSeverityChooser} onSymptomSelected = {this.symptomSelected} onSymptomDeselected = {this.symptomDeselected}/>
+                    <SymptomIconButton ref={component => this._sympIc2 = component} type = {2} symptomID={2} onSeverityChooserHandled = {this.severityChooserHandler} canOpenSeverity = {this.state.canOpenSeverityChooser} onSymptomSelected = {this.symptomSelected} onSymptomDeselected = {this.symptomDeselected}/>
+                    <SymptomIconButton ref={component => this._sympIc3 = component} type = {2} symptomID={3} onSeverityChooserHandled = {this.severityChooserHandler} canOpenSeverity = {this.state.canOpenSeverityChooser} onSymptomSelected = {this.symptomSelected} onSymptomDeselected = {this.symptomDeselected}/>
+                    <SymptomIconButton ref={component => this._sympIc4 = component} type = {3} symptomID={4} onSeverityChooserHandled = {this.severityChooserHandler} canOpenSeverity = {this.state.canOpenSeverityChooser} onSymptomSelected = {this.symptomSelected} onSymptomDeselected = {this.symptomDeselected}/>
                 </View>
                 <View style={{
                     height:150,
@@ -82,10 +98,10 @@ export default class SymptomGroup extends React.Component{
                     justifyContent: 'space-around',
                     alignItems:'center',
                 }}>
-                    <SymptomIconButton type = {1} symptomID={5} onSeverityChooserHandled = {this.severityChooserHandler} canOpenSeverity = {this.state.canOpenSeverityChooser} onSymptomSelected = {this.symptomSelected} onSymptomDeselected = {this.symptomDeselected}/>
-                    <SymptomIconButton type = {2} symptomID={6} onSeverityChooserHandled = {this.severityChooserHandler} canOpenSeverity = {this.state.canOpenSeverityChooser} onSymptomSelected = {this.symptomSelected} onSymptomDeselected = {this.symptomDeselected}/>
-                    <SymptomIconButton type = {2} symptomID={7} onSeverityChooserHandled = {this.severityChooserHandler} canOpenSeverity = {this.state.canOpenSeverityChooser} onSymptomSelected = {this.symptomSelected} onSymptomDeselected = {this.symptomDeselected}/>
-                    <SymptomIconButton type = {4} symptomID={8} onSeverityChooserHandled = {this.severityChooserHandler} canOpenSeverity = {this.state.canOpenSeverityChooser} onSymptomSelected = {this.symptomSelected} onSymptomDeselected = {this.symptomDeselected}/>
+                    <SymptomIconButton ref={component => this._sympIc5 = component} type = {1} symptomID={5} onSeverityChooserHandled = {this.severityChooserHandler} canOpenSeverity = {this.state.canOpenSeverityChooser} onSymptomSelected = {this.symptomSelected} onSymptomDeselected = {this.symptomDeselected}/>
+                    <SymptomIconButton ref={component => this._sympIc6 = component} type = {2} symptomID={6} onSeverityChooserHandled = {this.severityChooserHandler} canOpenSeverity = {this.state.canOpenSeverityChooser} onSymptomSelected = {this.symptomSelected} onSymptomDeselected = {this.symptomDeselected}/>
+                    <SymptomIconButton ref={component => this._sympIc7 = component} type = {2} symptomID={7} onSeverityChooserHandled = {this.severityChooserHandler} canOpenSeverity = {this.state.canOpenSeverityChooser} onSymptomSelected = {this.symptomSelected} onSymptomDeselected = {this.symptomDeselected}/>
+                    <SymptomIconButton ref={component => this._moreSymp = component} type = {4} symptomID={8} onSeverityChooserHandled = {this.severityChooserHandler} canOpenSeverity = {this.state.canOpenSeverityChooser} onSymptomSelected = {this.symptomSelected} onSymptomDeselected = {this.symptomDeselected}/>
                 </View>
                 <HorizontalLine />
             </View>

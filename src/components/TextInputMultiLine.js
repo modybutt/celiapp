@@ -34,13 +34,20 @@ export default class TextFieldMultiline extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            text: "",
+            text: this.props.text,
         } 
      }
 
+     deleteText(){
+         this.setState({text: ""})
+     }
 
-     onNoteEdit = (text) =>{
-        this.props.onTextChanged(text);
+
+     onNoteEdit = (newtext) =>{
+        this.props.onTextChanged(newtext);
+        this.setState({
+            text: newtext
+        })
     }
 
     render() {
@@ -49,6 +56,7 @@ export default class TextFieldMultiline extends React.Component {
             <TextInput
                 {...this.props} // Inherit any props passed to it; e.g., multiline, numberOfLines below
                 //onChangeText={(text) => {this.setState({text}); this.onNoteEdit; }}
+                value={this.state.text}
                 onChangeText={(text) => {this.onNoteEdit(text)}}
                 style={{height: "100%"}}
                 editable = {true}
