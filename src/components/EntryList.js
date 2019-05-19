@@ -4,7 +4,7 @@ import { ListItem, SearchBar } from 'react-native-elements';
 
 import { NavigationEvents } from 'react-navigation';
 
-import DatabaseManager from '../brokers/DatabaseManager';
+import DatabaseManager from '../persistance/DatabaseManager';
 
 export default class EntryList extends React.Component {
 	
@@ -25,7 +25,9 @@ export default class EntryList extends React.Component {
     //const url = `https://randomuser.me/api/?&results=20`;
     //this.setState({ loading: true });
   
-    DatabaseManager.getInstance().fetchSymptoms(null, () => { alert("ERROR")}, (_, {rows: { _array }}) => this.setState(
+    DatabaseManager.getInstance().fetchTrackings(Date.now(), 
+      (_, error) => { alert(error)}, 
+      (_, {rows: { _array }}) => this.setState(
       {
         events: _array,
         //error: res.error || null,
@@ -65,7 +67,7 @@ export default class EntryList extends React.Component {
           title={item.name}
           subtitle={new Date(item.created).toUTCString()}
           // "../assets/images/SymptomTracker/headache.png"
-          leftAvatar={{ source: item.icon }}
+          leftAvatar={{source: item.icon}}
           //containerStyle={{backgroundColor: 'red'}}
 				
 			  />

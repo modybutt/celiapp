@@ -2,23 +2,23 @@ import React, { Component } from "react";
 import { Platform, StyleSheet, Text, View, Alert, YellowBox} from "react-native";
 import { Menu, MenuProvider, MenuOptions, MenuOption, MenuTrigger} from "react-native-popup-menu";
 
-export default class HomeActivity extends Component {
+export default class DropDownMenue extends Component {
 
   constructor(props) {
-     super(props);
-     YellowBox.ignoreWarnings([
+    super(props);
+    YellowBox.ignoreWarnings([
       'Warning: isMounted(...) is deprecated', 'Module RCTImageLoader'
     ]);
    }
 
   render() {
     return (
-      <MenuProvider style={{ flexDirection: "column", padding: 30 }}>
+      <MenuProvider style={styles.container}>
         <Menu onSelect={value => alert(`You Clicked : ${value}`)}>
 
-          <MenuTrigger  >
-          <Text style={styles.headerText}>...</Text>
-          </MenuTrigger  >
+          <MenuTrigger >
+            <Text style={styles.headerText}>...</Text>
+          </MenuTrigger >
 
           <MenuOptions>
             <MenuOption value={"Edit"}>
@@ -27,7 +27,6 @@ export default class HomeActivity extends Component {
             <MenuOption value={"Delete"}>
               <Text style={styles.menuContent}>Delete</Text>
             </MenuOption>
-            
             {/*<MenuOption value={3} disabled={true}>
               <Text style={styles.menuContent}>Disabled Menu</Text>
             </MenuOption>*/}
@@ -41,19 +40,17 @@ export default class HomeActivity extends Component {
 
 const styles = StyleSheet.create({
 	container: {
-	flex: 1,
-	alignItems: 'center',
-	justifyContent: 'center',
+    flex: 1,
   }, 
-    headerText: {
+  headerText: {
     fontSize: 20,
-    margin: 10,
+    //margin: 10,
     fontWeight: "bold"
   },
   menuContent: {
     color: "#000",
     fontWeight: "bold",
-    padding: 2,
+    //padding: 2,
     fontSize: 20
   }
 });

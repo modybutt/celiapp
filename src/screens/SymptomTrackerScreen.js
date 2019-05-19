@@ -6,9 +6,13 @@ import NoteEdit from '../components/NoteEdit';
 import DayChooser from '../components/DayChooser';
 import SymptomTimePicker from '../components/SymptomTracker/SymptomTimePicker';
 import HorizontalLineWithText from '../components/HorizontalLineWithText';
-import DatabaseManager from '../brokers/DatabaseManager';
+import DatabaseManager from '../persistance/DatabaseManager';
 
 export default class SymptomTrackerScreen extends React.Component{
+    static navigationOptions = ({navigation}) => ({
+        headerRight: <Button title="SAVE" onPress={() => navigation.state.params.onOkPressed()}/>
+    })
+
     constructor(props) {
         super(props);
         this.noteEditedHandler = this.noteEditedHandler.bind(this);
@@ -22,7 +26,14 @@ export default class SymptomTrackerScreen extends React.Component{
         } 
      }
 
-     
+    componentDidMount() {
+        this.props.navigation.setParams({ onOkPressed: this.testSave.bind(this) })
+    }
+
+    testSave() {
+        alert("Test")
+    }
+
     noteEditedHandler(note){
         this.setState({
             symptomEntryNote: note,
@@ -89,7 +100,7 @@ export default class SymptomTrackerScreen extends React.Component{
                         <Button title = "OK" onPress={() => this.onOkPressed()}/>
                     </View>
                     <View>
-                        <Button title = "Cancel" onPress={() => this.props.navigation.navigate('Home')}/>
+                        <Button title = "Cancel" onPress={() => this.props.navigation.goBack()}/>
                     </View>
                 </View>
             </ScrollView>
@@ -102,7 +113,7 @@ export default class SymptomTrackerScreen extends React.Component{
             DatabaseManager.getInstance().insertSymptom(symptom[0], symptom[1], this.state.symptomEntryNote, Date.now());
         }
 
-        this.props.navigation.navigate('Home');
+        this.props.navigation.goBack();
     }
 }
 

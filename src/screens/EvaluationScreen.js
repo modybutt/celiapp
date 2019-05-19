@@ -1,7 +1,7 @@
 import React from 'react';
 import { View, FlatList, Image, Text, StyleSheet } from 'react-native';
 import { NavigationEvents } from 'react-navigation';
-import DatabaseManager from '../brokers/DatabaseManager';
+import DatabaseManager from '../persistance/DatabaseManager';
 import MenuButton from '../components/MenuButton';
 
 export default class EvaluationScreen extends React.Component {
@@ -18,8 +18,8 @@ export default class EvaluationScreen extends React.Component {
 
   refreshData() {
     this.setState({ history: { loading: true } });
-    DatabaseManager.getInstance().fetchHistory(
-      () => { alert("ERROR")}, 
+    DatabaseManager.getInstance().fetchTrackings(null,
+      (_, error) => { alert(error)}, 
       (_, {rows: { _array }}) => this.setState({
         history: {
           loading: false,

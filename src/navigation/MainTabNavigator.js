@@ -1,4 +1,5 @@
 import React from 'react';
+import { Button } from 'react-native';
 import { createStackNavigator, createMaterialTopTabNavigator } from 'react-navigation';
 
 import TabBarIcon from '../components/TabBarIcon';
@@ -110,9 +111,9 @@ export default createStackNavigator({
     }
   },
   AddSymptom: {
-    screen: AddSymptomStack,
+    screen: SymptomTrackerScreen,
     navigationOptions: {
-      title: 'Add Symptom',
+      title: 'Add Symptom'
     }
   },
   AddMeal: {
