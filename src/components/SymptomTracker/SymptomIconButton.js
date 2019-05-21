@@ -34,6 +34,15 @@ export default class SymptomIconButton extends Component {
 	//Prop: symptomID --> 1 - 7 --> systemIcons. 8 --> more symptoms button. All IDs higher than that show the userDefinedIcon.
 	
 
+	resetSymptom(){
+		this.setState({
+			selected: false,
+			bigBubbleColor: 'rgb(180, 180, 180)',
+			selectedSeverity: 0
+		})
+	}
+
+
 	constructor(props) {
 		super(props);
 		this.animatedValue = new Animated.Value(0);
@@ -188,7 +197,7 @@ export default class SymptomIconButton extends Component {
 		this.setState({selectedSeverity: 1})
 		this.callAnimation(true);
 		this.props.onSeverityChooserHandled(true);
-		this.props.onSymptomSelected(this.props.symptomID, 1) //3 --> yellow severity
+		this.props.onSymptomSelected(this.props.symptomID, 1) //1 --> yellow severity
 	}
 
 	onPressOrange = () => {
@@ -204,7 +213,7 @@ export default class SymptomIconButton extends Component {
 		this.setState({selectedSeverity: 3})
 		this.handleAddButtonPress(true);
 		this.props.onSeverityChooserHandled(true);
-		this.props.onSymptomSelected(this.props.symptomID, 3) //2 --> red severity
+		this.props.onSymptomSelected(this.props.symptomID, 3) //3 --> red severity
 	}
 
 	animate = (toValue) => {

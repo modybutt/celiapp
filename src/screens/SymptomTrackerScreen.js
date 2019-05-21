@@ -1,12 +1,14 @@
 
 import React from 'react';
-import { ScrollView, View, Button, Alert, Text, StyleSheet} from 'react-native';
+import { ScrollView, TouchableOpacity, View, Button, Alert, Text, StyleSheet} from 'react-native';
 import SymptomGroup from '../components/SymptomTracker/SymptomGroup';
 import NoteEdit from '../components/NoteEdit';
 import DayChooser from '../components/DayChooser';
 import SymptomTimePicker from '../components/SymptomTracker/SymptomTimePicker';
 import HorizontalLineWithText from '../components/HorizontalLineWithText';
 import DatabaseManager from '../brokers/DatabaseManager';
+import Dialog from "react-native-dialog";
+
 
 export default class SymptomTrackerScreen extends React.Component{
     static navigationOptions = {
@@ -22,38 +24,130 @@ export default class SymptomTrackerScreen extends React.Component{
         this.symptomSelectedIDsChangedHandler = this.symptomSelectedIDsChangedHandler.bind(this);
         this.state = {
             symptomEntryNote: "", //works correctly \o/
-            selectedDateAndTime: new Date(), //doesnt work yet
-            selectedSymptoms: [],
+            tempDate: new Date(), //used to temporarliy save date and then set it to selectedDateAndTime after corresponding checks
+            selectedDateAndTime: new Date(), //works correctly \o/
+            selectedSymptoms: [], //bit buggy when deleting existing symptoms from list
+            dayChangeDialogVisible: false,
+            resetSymptomGroup: false,
+            cancelSaveDialogVisible: false
         } 
      }
 
+     clearNoteText = () => {
+         this.setState({
+             symptomEntryNote: ""
+         })
+        this._noteEdit.deleteNote();
+      }
+
+
+      clearSymptomGroup = () =>{
+        this.setState({
+            selectedSymptoms: []
+        })
+        this._symptomGroup.deleteSymptoms();
+      }
+
+
+      setBackDayChooserOneDay = () =>{
+        this._dayChooser.changeDay(false);
+      }
+
+
+
+
+      showBackDiscardDialog = () => {
+        this.setState({ cancelSaveDialogVisible: true });
+      };
+
+      handleBack = () => {
+        this.setState({ cancelSaveDialogVisible: false });
+      };
+
+      handleDiscard = () => {
+        this.navigateHome()
+        this.setState({ cancelSaveDialogVisible: false });
+      };
+
+
+
+
+
+
+
+
+
+      showDayChangeSaveDialog = () => {
+        this.setState({ dayChangeDialogVisible: true });
+      };
+
      
-    noteEditedHandler(note){
+      handleDayChangeCancel = () => {
+          //do nothing, dont change date
+          this.setBackDayChooserOneDay()
+        this.setState({ dayChangeDialogVisible: false });
+      };
+     
+      handleDayChangeSave = () => {
+        //Save Data and go on to next date
+
+        //Alert.alert("onDateEditedHandler called");
+        // //Only update the date of the current selectedDateAndTime
+        let tmpDateTime = this.state.selectedDateAndTime
+        // //TODO: Change date of 
+        tmpDateTime.setDate(this.state.tempDate.getDate())
+        tmpDateTime.setMonth(this.state.tempDate.getMonth())
+        tmpDateTime.setYear(this.state.tempDate.getYear())
+
+        this.saveCurrentData(false)
+
+
+        //delete data
+
+        this.setState({ 
+            selectedDateAndTime: tmpDateTime,
+            dayChangeDialogVisible: false, 
+        });
+
+        this.clearNoteText()
+        this.clearSymptomGroup()
+      };
+
+     
+
+
+
+
+
+
+
+
+
+    noteEditedHandler = (note) =>{
         this.setState({
             symptomEntryNote: note,
         });
     }
 
-    dateEditedHandler(dateTime){
-        Alert.alert("onDateEditedHandler called");
-        // //Only update the date of the current selectedDateAndTime
-        // let tmpDateTime = selectedDateAndTime
-        // //TODO: Change date of 
-        tmpDateTime.setDate(dateTime.getDate())
-        tmpDateTime.setMonth(dateTime.getMonth())
-        tmpDateTime.setYear(dateTime.getYear())
-
-        this.setState({
-            selectedDateAndTime: tmpDateTime,
-        })
+    dateEditedHandler = (dateTime) =>{
+        //TODO: if symptoms selected and not saved, ask user. Then refresh page.
+        this.state.tempDate = dateTime
+        if(Array.isArray(this.state.selectedSymptoms) && this.state.selectedSymptoms.length){
+            this.showDayChangeSaveDialog()
+        }else{
+            //symptoms were not edited, but maybe the note. Delete note and update noteEdit
+            this.setState({
+                symptomEntryNote: ""
+            })
+            this.clearNoteText()
+        }
     }
 
 
-    timeEditedHandler(dateTime){
-        Alert.alert("onTimeEditedHandler called");
+    timeEditedHandler = (dateTime) =>{
         // //Only update the time of the current selectedDateAndTime
 
-        let tmpDateTime = selectedDateAndTime
+        let tmpDateTime = this.state.selectedDateAndTime
         tmpDateTime.setHours(dateTime.getHours())
         tmpDateTime.setMinutes(dateTime.getMinutes())
         //TODO: Change time of tmpDateTime
@@ -63,7 +157,7 @@ export default class SymptomTrackerScreen extends React.Component{
         })
     }
 
-    symptomSelectedIDsChangedHandler(sympIDsAndSeverity){
+    symptomSelectedIDsChangedHandler = (sympIDsAndSeverity) =>{
         Alert.alert("symptomSelectedIDsChangedHandler called");
         this.setState({
             selectedSymptoms: sympIDsAndSeverity,
@@ -72,18 +166,20 @@ export default class SymptomTrackerScreen extends React.Component{
 
 
 
+
+
+
     render(){
         return(
             <ScrollView>
-                <Text style={styles.headText}>SymptomTracker</Text>
                 <HorizontalLineWithText text = "Date"/>
-                <DayChooser date = {getTodayDate()} onDateChanged={this.dateEditedHandler}/>
+                <DayChooser ref={component => this._dayChooser = component} date = {getTodayDate()} onDateChanged={this.dateEditedHandler}/>
                 <HorizontalLineWithText text = "Time"/>
-                <SymptomTimePicker onTimeChanged={this.timeEditedHandler}/>
+                <SymptomTimePicker ref={component => this._timePicker = component} onTimeChanged={this.timeEditedHandler}/>
                 <HorizontalLineWithText text = "Symptoms"/>
-                <SymptomGroup onSelectedSymptomIDsChanged={this.symptomSelectedIDsChangedHandler}/>
+                <SymptomGroup ref={component => this._symptomGroup = component} onSelectedSymptomIDsChanged={this.symptomSelectedIDsChangedHandler}/>
                 <HorizontalLineWithText text = "Notes"/>
-                <NoteEdit onTextChanged={this.noteEditedHandler}/>
+                <NoteEdit ref={component => this._noteEdit = component} note={this.state.symptomEntryNote} onTextChanged={this.noteEditedHandler}/>
                 <View style={{
                     flexDirection: 'row',
                     justifyContent: 'space-around',
@@ -92,24 +188,64 @@ export default class SymptomTrackerScreen extends React.Component{
                 }}           
                 >
                     <View>
-                        <Button title = "OK" onPress={() => this.onOkPressed()}/>
+                        <Button title = "OK" onPress={() => this.saveCurrentData(true)}/>
                     </View>
                     <View>
-                        <Button title = "Cancel" onPress={() => this.props.navigation.navigate('Home')}/>
+                        <Button title = "Cancel" onPress={() => this.handleCancelButton()}/>
                     </View>
+                </View>
+
+                {/*Dialog for Day Change Save Dialog*/}
+                <View>
+                    <Dialog.Container visible={this.state.dayChangeDialogVisible}>
+                    <Dialog.Title>Day Change</Dialog.Title>
+                    <Dialog.Description>
+                        Do you want to save the entries?
+                    </Dialog.Description>
+                    <Dialog.Button label="Cancel" onPress={this.handleDayChangeCancel} />
+                    <Dialog.Button label="Save" onPress={this.handleDayChangeSave} />
+                    </Dialog.Container>
+                </View>
+
+                {/*Dialog for Day Change Save Dialog*/}
+                 <View>
+                    <Dialog.Container visible={this.state.cancelSaveDialogVisible}>
+                    <Dialog.Title>Cancel</Dialog.Title>
+                    <Dialog.Description>
+                        Do you really want to discard the entries?
+                    </Dialog.Description>
+                    <Dialog.Button label="Back" onPress={this.handleBack} />
+                    <Dialog.Button label="Discard" onPress={this.handleDiscard} />
+                    </Dialog.Container>
                 </View>
             </ScrollView>
         )
     }
 
-    onOkPressed() {
+    saveCurrentData = (goHome) =>{
         for (let symptom of this.state.selectedSymptoms)
         {
-            DatabaseManager.getInstance().insertSymptom(symptom[0], symptom[1], this.state.symptomEntryNote, Date.now());
+            let tmpDateTime = this.state.selectedDateAndTime
+            tmpDateTime.setFullYear(tmpDateTime.getFullYear() + 1900)
+            DatabaseManager.getInstance().insertSymptom(symptom[0], symptom[1], this.state.symptomEntryNote, tmpDateTime);
         }
+        if(goHome){
+            this.navigateHome()
+        }
+    }
 
+    navigateHome = () =>{
         this.props.navigation.navigate('Home');
     }
+
+    handleCancelButton = () =>{
+        if(Array.isArray(this.state.selectedSymptoms) && this.state.selectedSymptoms.length){
+            this.showBackDiscardDialog()
+        }else{
+            this.navigateHome()
+        }
+    }
+
 }
 
 
