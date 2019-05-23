@@ -18,7 +18,7 @@ export default class EvaluationScreen extends React.Component {
 
   refreshData() {
     this.setState({ history: { loading: true } });
-    DatabaseManager.getInstance().fetchTrackings(null,
+    DatabaseManager.getInstance().fetchSymptoms(null,
       (_, error) => { alert(error)}, 
       (_, {rows: { _array }}) => this.setState({
         history: {
@@ -32,7 +32,7 @@ export default class EvaluationScreen extends React.Component {
     return (
       <View>
         <Image source={item.icon} style={{ width: 50, height: 50 }}/>
-        <Text>{item.name}</Text>
+        <Text>{item.eventType}</Text>
         <Text>{new Date(item.created).toUTCString()}</Text>
       </View>
     )
