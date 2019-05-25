@@ -5,6 +5,7 @@ export default class HorizontalLineWithText extends React.Component{
         return(
         <View style={{
             borderBottomColor: 'black',
+            marginBottom: 8,
             borderBottomWidth: StyleSheet.hairlineWidth,
         }}>
             <Text>{this.props.text}</Text>

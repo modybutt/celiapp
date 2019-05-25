@@ -25,7 +25,7 @@ export default class EntryList extends React.Component {
     //const url = `https://randomuser.me/api/?&results=20`;
     //this.setState({ loading: true });
   
-    DatabaseManager.getInstance().fetchTrackings(Date.now(), 
+    DatabaseManager.getInstance().fetchEvents(Date.now(), 
       (_, error) => { alert(error)}, 
       (_, {rows: { _array }}) => this.setState(
       {
@@ -64,10 +64,10 @@ export default class EntryList extends React.Component {
 			<View>
         
 			  <ListItem
-          title={item.name}
+          title={JSON.parse(item.objData).name}
           subtitle={new Date(item.created).toUTCString()}
           // "../assets/images/SymptomTracker/headache.png"
-          leftAvatar={{source: item.icon}}
+          leftAvatar={{source: JSON.parse(item.objData).icon}}
           //containerStyle={{backgroundColor: 'red'}}
 				
 			  />

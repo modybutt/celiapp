@@ -18,7 +18,12 @@ export default class EvaluationScreen extends React.Component {
 
   refreshData() {
     this.setState({ history: { loading: true } });
-    DatabaseManager.getInstance().fetchSymptoms(null,
+
+
+    //DatabaseManager.getInstance().createEvent(0, Date.now(), {name: "test", id: Date.now()}, (param) => alert(JSON.stringify(param)),  (param) => alert(JSON.stringify(param)));
+
+
+    DatabaseManager.getInstance().fetchEvents(null,
       (_, error) => { alert(error)}, 
       (_, {rows: { _array }}) => this.setState({
         history: {
@@ -29,13 +34,33 @@ export default class EvaluationScreen extends React.Component {
   }
 
   renderItem(item) {
-    return (
-      <View>
-        <Image source={item.icon} style={{ width: 50, height: 50 }}/>
-        <Text>{item.eventType}</Text>
-        <Text>{new Date(item.created).toUTCString()}</Text>
-      </View>
-    )
+    switch(item.eventType) {
+      // case 0: {
+      //   return (
+      //     <View>
+      //       <Image source={item.icon} style={{ width: 50, height: 50 }}/>
+      //       <Text>{item.name}</Text>
+      //       <Text>{new Date(item.created).toUTCString()}</Text>
+      //     </View>
+      //   )
+      // }
+      case 0: {
+        return (
+          <View>
+            <Text>{item.objData}</Text>
+            <Text>{JSON.parse(item.objData).severity}</Text>
+            <Text>{new Date(item.created).toUTCString()}</Text>
+          </View>
+        )
+      }
+      default: {
+        return (
+          <View>
+            <Text>{JSON.stringify(item)}</Text>
+          </View>
+        )
+      }
+    }
   }
 
   render() {
