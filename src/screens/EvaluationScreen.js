@@ -5,7 +5,7 @@ import EntryList from '../components/EntryList';
 
 export default class EvaluationScreen extends React.Component {
   static navigationOptions = {
-    title: 'Evaluation',
+    title: 'Trackings',
   };
 
   render() {

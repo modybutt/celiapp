@@ -58,6 +58,6 @@ const styles = StyleSheet.create({
   calenderArea: {
     backgroundColor: 'white',
     flex: 3,
-    //paddingTop: 10,
+    paddingTop: 15,
   },
 });
