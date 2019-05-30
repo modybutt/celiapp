@@ -134,7 +134,23 @@ export default class DatabaseManager {
      *                          EMOTION TRACKER 
      ********************************************************************/
 
-    
+    createEmotionEvent(type, note, timestamp, onError, onSuccess) {
+      objData = {
+        type,
+        note
+      }
+      
+      this.createEvent(2, timestamp, objData, onError, onSuccess);
+    }
+
+    updateEmotionEvent(eventID, type, note, onError, onSuccess) {
+      objData = {
+        type,
+        note
+      }
+
+      this.updateEvent(eventID, objData, onError, onSuccess);
+    }    
 
     /******************************************************************* 
      *                          EVENT TRACKER

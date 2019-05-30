@@ -117,13 +117,13 @@ export default createStackNavigator({
     }
   },
   AddMeal: {
-    screen: AddMealStack,
+    screen: FoodDiaryScreen,
     navigationOptions: {
       title: 'Add Meal',
     }
   },
   AddEmote: {
-    screen: AddEmoteStack,
+    screen: EmoteTrackerScreen,
     navigationOptions: {
       title: 'Add Emotion',
     }
