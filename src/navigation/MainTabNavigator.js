@@ -98,7 +98,7 @@ const TabNavStack = createMaterialTopTabNavigator({
           backgroundColor: 'transparent',
         },
         indicatorStyle: {
-          backgroundColor: 'darkblue',
+          backgroundColor: 'lightblue',
         }
     }
 });

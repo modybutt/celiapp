@@ -237,14 +237,14 @@ export default class SymptomTrackerScreen extends React.Component{
     }
 
     saveCurrentData = (goHome) =>{
-        for (let symptom of this.state.selectedSymptoms)
-        {
+        for (let symptom of this.state.selectedSymptoms) {
             let tmpDateTime = this.state.selectedDateAndTime
-            tmpDateTime.setFullYear(tmpDateTime.getFullYear() + 1900);
+            tmpDateTime.setFullYear(tmpDateTime.getFullYear());
             DatabaseManager.getInstance().createSymptomEvent(symptom[0], symptom[1], this.state.symptomEntryNote, tmpDateTime.getTime(), (error) => { alert(error)}, null);
         }
-        if(goHome){
-            this.navigateHome()
+
+        if (goHome) {
+            setTimeout(() => this.navigateHome(), 100);
         }
     }
 

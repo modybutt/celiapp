@@ -18,17 +18,22 @@ export default class CalendarScreen extends React.Component {
   };
 
   state = {
-    text: null
-  };
+    selectedDate: Date.now()
+  }
+
+  onDateChange(date) {
+    this.list.updateList(date)
+    this.setState({selectedDate: date})
+  }
 
   render() {
     return (
       <View style={styles.container}>
         <View style={styles.calenderArea}>
-          <SymptomCalendarPicker/>
+          <SymptomCalendarPicker selectedDate={this.state.selectedDate} onDateChange={(date) => this.onDateChange(date)}/>
         </View>
         <View style={styles.listArea}>
-          <EntryList />
+          <EntryList selectedDate={this.state.selectedDate} ref={list => this.list = list} />
         </View>
         <MenuButton navigation={this.props.navigation}/>
       </View>

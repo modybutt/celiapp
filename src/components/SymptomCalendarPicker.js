@@ -1,37 +1,21 @@
-import React, { Component } from 'react';
-import {
-  StyleSheet,
-  Text,
-  View
-} from 'react-native';
+import React from 'react';
+import { View, StyleSheet } from 'react-native';
 import CalendarPicker from 'react-native-calendar-picker';
 
-export default class SymptomCalendarPicker extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      selectedStartDate: null,
-    };
-    this.onDateChange = this.onDateChange.bind(this);
-  }
-
-  onDateChange(date) {
-    this.setState({
-      selectedStartDate: date,
-    });
-  }
-  
+export default class SymptomCalendarPicker extends React.Component {
   render() {
-    const { selectedStartDate } = this.state;
-    const startDate = selectedStartDate ? selectedStartDate.toString() : '';
-	const maxDate = new Date(2030,1,1);
-	const minDate = new Date(2019,1,1);
+    //const { selectedStartDate } = this.state;
+    //const startDate = selectedStartDate ? selectedStartDate.toString() : '';
+    //const maxDate = new Date(2030,1,1);
+    //const minDate = new Date(2019,1,1);
+
     return (
       <View style={styles.container}>
         <CalendarPicker
-          onDateChange={this.onDateChange}
-		  minDate={minDate}
-		  maxDate={maxDate}
+          onDateChange={(date, type) => this.props.onDateChange(date)}
+          //minDate={minDate}
+          //maxDate={maxDate}
+          selectedStartDate={this.props.selectedDate}
         />
       </View>
     );

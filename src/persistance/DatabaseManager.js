@@ -71,7 +71,7 @@ export default class DatabaseManager {
         tx.executeSql('SELECT * FROM symptoms WHERE id = ?', [symptomID], 
           (_, {rows: {_array}}) => {
             objData.name = _array[0].name;
-            //objData.icon = _array[0].icon;
+            objData.icon = _array[0].icon;
 
             this.createEvent(0, timestamp, objData, onError, onSuccess);
           }, 
@@ -79,17 +79,56 @@ export default class DatabaseManager {
       });
     }
 
-    updateSymptomEvent(symptomID, name, icon, onError, onSuccess) {
+    updateSymptomEvent(eventID, symptomID, severity, note, onError, onSuccess) {
+      objData = {
+        symptomID,
+        //name: "",
+        //icon: "",
+        severity,
+        note
+      }
+
       this.db.transaction(tx => {
-        tx.executeSql('UPDATE symptoms SET (name, icon, modified) VALUES (?, ?, ?) WHERE id = ?', [name, icon, Date.now(), symptomID]);
-      }, onError, onSuccess);
+        tx.executeSql('SELECT * FROM symptoms WHERE id = ?', [symptomID], 
+          (_, {rows: {_array}}) => {
+            objData.name = _array[0].name;
+            objData.icon = _array[0].icon;
+
+            this.updateEvent(eventID, objData, onError, onSuccess);
+          }, 
+          (_, param) => alert("-create events: " + JSON.stringify(param)));
+      });
     }
 
     /******************************************************************* 
      *                          FOOD TRACKER 
      *******************************************************************/   
 
-    
+    createMealEvent(name, type, tag, rating, note, timestamp, onError, onSuccess) {
+      objData = {
+        name,
+        type,
+        tag,
+        rating,
+        //icon,
+        note
+      }
+      
+      this.createEvent(1, timestamp, objData, onError, onSuccess);
+    }
+
+    updateMealEvent(eventID, name, type, tag, rating, note, onError, onSuccess) {
+      objData = {
+        name,
+        type,
+        tag,
+        rating,
+        //icon,
+        note
+      }
+
+      this.updateEvent(eventID, objData, onError, onSuccess);
+    }
 
     /******************************************************************* 
      *                          EMOTION TRACKER 
