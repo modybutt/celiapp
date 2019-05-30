@@ -1,7 +1,15 @@
 import React from 'react';
-import { View, Text, FlatList, ActivityIndicator,StyleSheet,TouchableHighlight,Image,Alert,TouchableOpacity } from "react-native";
-import { ListItem, SearchBar } from 'react-native-elements';
-import { NavigationEvents, withNavigationFocus } from 'react-navigation';
+import { 
+  View, 
+  Text, 
+  FlatList, 
+  ActivityIndicator,
+  StyleSheet,
+  Image,
+  TouchableOpacity 
+} from "react-native";
+import { ListItem } from 'react-native-elements';
+import { NavigationEvents } from 'react-navigation';
 
 import DatabaseManager from '../persistance/DatabaseManager';
 
@@ -10,10 +18,6 @@ export default class EntryList extends React.Component {
     loading: true,
     events: null,
     //error: null,
-  }
-
-  componentDidMount() {
-    this.updateList(this.props.selectedDate)
   }
 
   updateList(timestamp) {
@@ -80,6 +84,7 @@ export default class EntryList extends React.Component {
         return (
           <View>
             <Text>{JSON.stringify(item)}</Text>
+            {/* <Image source={objData.icon} /> */}
           </View>
         )
       }
@@ -110,9 +115,9 @@ export default class EntryList extends React.Component {
   render() {
     return (
       <View>
-        {/* <NavigationEvents
-          onDidFocus={() => alert("once")}
-        /> */}
+        <NavigationEvents
+          onDidFocus={() => this.updateList(this.props.selectedDate)}
+        />
         {this.renderEventList()}
       </View>
     );
