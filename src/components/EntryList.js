@@ -6,6 +6,7 @@ import {
   ActivityIndicator,
   StyleSheet,
   Image,
+  ScrollView,
   TouchableOpacity 
 } from "react-native";
 import { ListItem } from 'react-native-elements';
@@ -113,12 +114,12 @@ export default class EntryList extends React.Component {
 
   render() {
     return (
-      <View>
+      <ScrollView>
         <NavigationEvents
           onDidFocus={() => this.updateList(this.props.selectedDate)}
         />
         {this.renderEventList()}
-      </View>
+      </ScrollView>
     );
   }
 }
