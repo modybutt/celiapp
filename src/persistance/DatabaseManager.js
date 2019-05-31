@@ -58,6 +58,12 @@ export default class DatabaseManager {
       }, onError, onSuccess);
     }
 
+    updateSymptomUsage(symptomID, onError, onSuccess) {
+      this.db.transaction(tx => {
+        tx.executeSql('UPDATE symptoms SET usage = usage + 1 WHERE id = ?', [symptomID]);
+      }, onError, onSuccess);
+    }
+
     createSymptomEvent(symptomID, severity, note, timestamp, onError, onSuccess) {
       objData = {
         symptomID,
@@ -72,8 +78,10 @@ export default class DatabaseManager {
           (_, {rows: {_array}}) => {
             objData.name = _array[0].name;
             objData.icon = _array[0].icon;
+            //objData.usage = _array[0].usage;
 
             this.createEvent(0, timestamp, objData, onError, onSuccess);
+            this.updateSymptomUsage(symptomID, onError, onSuccess);
           }, 
           (_, param) => alert("-create events: " + JSON.stringify(param)));
       });

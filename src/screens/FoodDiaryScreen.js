@@ -32,16 +32,16 @@ export default class FoodDiaryScreen extends React.Component{
         }
     }
 
-    navigateHome() {
-        this.props.navigation.goBack();
-    }
-
     handleCancelButton() {
         if (this.state.modified == true) {
             this.showBackDiscardDialog()
         } else {
             this.navigateHome()
         }
+    }
+
+    navigateHome() {
+        this.props.navigation.goBack();
     }
 
     showBackDiscardDialog() {
@@ -53,24 +53,24 @@ export default class FoodDiaryScreen extends React.Component{
     };
 
     handleDiscard() {
-        this.navigateHome()
         this.setState({ cancelSaveDialogVisible: false });
+        this.navigateHome()
     };
 
-    render(){
-        return(
+    render() {
+        return (
             <View>
                 <Text style={styles.headText}>FoodDiary</Text>
 
                 {/*Dialog for Day Change Save Dialog*/}
                 <View>
                     <Dialog.Container visible={this.state.cancelSaveDialogVisible}>
-                    <Dialog.Title>Cancel</Dialog.Title>
-                    <Dialog.Description>
-                        Do you really want to discard the entries?
-                    </Dialog.Description>
-                    <Dialog.Button label="Back" onPress={() => this.handleBack()} />
-                    <Dialog.Button label="Discard" onPress={() => this.handleDiscard()} />
+                        <Dialog.Title>Cancel</Dialog.Title>
+                        <Dialog.Description>
+                            Do you really want to discard the entries?
+                        </Dialog.Description>
+                        <Dialog.Button label="Back" onPress={() => this.handleBack()} />
+                        <Dialog.Button label="Discard" onPress={() => this.handleDiscard()} />
                     </Dialog.Container>
                 </View>
             </View>
