@@ -30,7 +30,7 @@ export default class CalendarScreen extends React.Component {
     return (
       <View style={styles.container}>
         <SymptomCalendarPicker selectedDate={this.state.selectedDate} onDateChange={(date) => this.onDateChange(date)}/>
-        <EntryList selectedDate={this.state.selectedDate} ref={list => this.list = list} />
+        <EntryList navigation={this.props.navigation} selectedDate={this.state.selectedDate} ref={list => this.list = list} />
         <MenuButton navigation={this.props.navigation}/>
       </View>
     );

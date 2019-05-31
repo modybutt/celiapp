@@ -11,6 +11,9 @@ import CalendarScreen from '../screens/CalendarScreen';
 import SymptomTrackerScreen from '../screens/SymptomTrackerScreen';
 import FoodDiaryScreen from '../screens/FoodDiaryScreen';
 import EmoteTrackerScreen from '../screens/EmoteTrackerScreen';
+import SymptomViewScreen from '../screens/SymptomViewScreen';
+import MealViewScreen from '../screens/MealViewScreen';
+import EmoteViewScreen from '../screens/EmoteViewScreen';
 
 const EvaluationStack = createStackNavigator({
   Evaluation: EvaluationScreen,
@@ -18,24 +21,6 @@ const EvaluationStack = createStackNavigator({
 
 const CalendarStack = createStackNavigator({
   Calendar: CalendarScreen,
-});
-
-const AddSymptomStack = createStackNavigator({
-  AddSymptom: SymptomTrackerScreen,
-}, {
-  headerMode: 'none',
-});
-
-const AddMealStack = createStackNavigator({
-  AddMeal: FoodDiaryScreen,
-}, {
-  headerMode: 'none',
-});
-
-const AddEmoteStack = createStackNavigator({
-  AddEmote: EmoteTrackerScreen,
-}, {
-  headerMode: 'none',
 });
 
 const TabNavStack = createMaterialTopTabNavigator({
@@ -116,16 +101,34 @@ export default createStackNavigator({
       title: 'Add Symptom'
     }
   },
+  ViewSymptom: {
+    screen: SymptomViewScreen,
+    navigationOptions: {
+      title: 'View Symptom'
+    }
+  },  
   AddMeal: {
     screen: FoodDiaryScreen,
     navigationOptions: {
       title: 'Add Meal',
     }
   },
+  ViewMeal: {
+    screen: MealViewScreen,
+    navigationOptions: {
+      title: 'Meal Symptom'
+    }
+  },    
   AddEmote: {
     screen: EmoteTrackerScreen,
     navigationOptions: {
       title: 'Add Emotion',
     }
-  }
+  },
+  ViewEmote: {
+    screen: EmoteViewScreen,
+    navigationOptions: {
+      title: 'View Emote'
+    }
+  },    
 });
