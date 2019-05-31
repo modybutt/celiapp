@@ -2,7 +2,7 @@ import React from 'react';
 import { View, Text } from 'react-native';
 
 
-export default class MealViewScreen extends React.Component {
+export default class EmoteViewScreen extends React.Component {
     render() {
         return (
             <View>

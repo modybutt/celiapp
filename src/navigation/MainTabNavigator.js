@@ -12,7 +12,7 @@ import SymptomTrackerScreen from '../screens/SymptomTrackerScreen';
 import FoodDiaryScreen from '../screens/FoodDiaryScreen';
 import EmoteTrackerScreen from '../screens/EmoteTrackerScreen';
 import SymptomViewScreen from '../screens/SymptomViewScreen';
-import MealViewScreen from '../screens/MealViewScreen';
+import FoodViewScreen from '../screens/FoodViewScreen';
 import EmoteViewScreen from '../screens/EmoteViewScreen';
 
 const EvaluationStack = createStackNavigator({
@@ -114,9 +114,9 @@ export default createStackNavigator({
     }
   },
   ViewMeal: {
-    screen: MealViewScreen,
+    screen: FoodViewScreen,
     navigationOptions: {
-      title: 'Meal Symptom'
+      title: 'View Meal'
     }
   },    
   AddEmote: {
