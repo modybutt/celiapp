@@ -72,7 +72,7 @@ export default class EntryList extends React.Component {
             title={objData.name}
             subtitle={new Date(item.created).toUTCString()}
             leftAvatar={{
-              source: objData.icon,
+              source: Image.resolveAssetSource(objData.icon),
               overlayContainerStyle: {
                 backgroundColor: color
               }
