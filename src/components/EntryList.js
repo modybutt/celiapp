@@ -7,7 +7,8 @@ import {
   StyleSheet,
   Image,
   ScrollView,
-  TouchableOpacity 
+  TouchableOpacity,
+  Button
 } from "react-native";
 import { ListItem } from 'react-native-elements';
 import { NavigationEvents } from 'react-navigation';
@@ -31,7 +32,8 @@ export default class EntryList extends React.Component {
         events: _array,
         //error: res.error || null,
         loading: false,
-      }));
+      })
+    );
   }
   
   onPressTouchable(item) {
@@ -69,16 +71,18 @@ export default class EntryList extends React.Component {
         }
         
         return (
-          <ListItem
-            title={objData.name}
-            subtitle={new Date(item.created).toUTCString()}
-            leftAvatar={{
-              source: Image.resolveAssetSource(objData.icon),
-              overlayContainerStyle: {
-                backgroundColor: color
-              }
-            }}
-          />
+          <TouchableOpacity onPress={() => this.props.navigation.navigate('ViewSymptom', {event: item})}>
+            <ListItem
+              title={objData.name}
+              subtitle={new Date(item.created).toUTCString()}
+              leftAvatar={{
+                source: Image.resolveAssetSource(objData.icon),
+                overlayContainerStyle: {
+                  backgroundColor: color
+                }
+              }}
+            />
+          </TouchableOpacity>
         )
       }
       default: {

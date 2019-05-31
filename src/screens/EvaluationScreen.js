@@ -11,8 +11,8 @@ export default class EvaluationScreen extends React.Component {
   render() {
     return (
       <View style={styles.container}>
-        <EntryList />
-        <MenuButton navigation={this.props.navigation}/>
+        <EntryList  navigation={this.props.navigation} />
+        <MenuButton navigation={this.props.navigation} />
       </View>
     );
   }

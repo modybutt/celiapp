@@ -9,6 +9,7 @@ import CalendarScreen from '../screens/CalendarScreen';
 // import DebugScreen from '../screens/DebugScreen';
 
 import SymptomTrackerScreen from '../screens/SymptomTrackerScreen';
+import SymptomViewScreen from '../screens/SymptomViewScreen';
 import FoodDiaryScreen from '../screens/FoodDiaryScreen';
 import EmoteTrackerScreen from '../screens/EmoteTrackerScreen';
 
@@ -22,6 +23,7 @@ const CalendarStack = createStackNavigator({
 
 const AddSymptomStack = createStackNavigator({
   AddSymptom: SymptomTrackerScreen,
+  ViewSymptom: SymptomViewScreen,
 }, {
   headerMode: 'none',
 });
@@ -116,6 +118,12 @@ export default createStackNavigator({
       title: 'Add Symptom'
     }
   },
+  ViewSymptom: {
+    screen: SymptomViewScreen,
+    navigationOptions: {
+      title: 'View Symptom'
+    }
+  },  
   AddMeal: {
     screen: FoodDiaryScreen,
     navigationOptions: {
