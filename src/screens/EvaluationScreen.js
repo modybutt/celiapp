@@ -10,10 +10,8 @@ export default class EvaluationScreen extends React.Component {
 
   render() {
     return (
-      <View style={{flex: 1}}>
-        <View style={this.styles}>
-          <EntryList />
-        </View>
+      <View style={styles.container}>
+        <EntryList />
         <MenuButton navigation={this.props.navigation}/>
       </View>
     );
@@ -23,7 +21,5 @@ export default class EvaluationScreen extends React.Component {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    paddingTop: 15,
-    backgroundColor: '#fff',
   },
 });

@@ -17,8 +17,8 @@ export default class SymptomCalendarPicker extends React.Component {
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
-    backgroundColor: '#FFFFFF',
-    marginTop: -20,
+    //flex: 1,
+    //backgroundColor: '#FFFFFF',
+    //marginTop: -20,
   },
 });

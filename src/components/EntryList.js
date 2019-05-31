@@ -84,7 +84,6 @@ export default class EntryList extends React.Component {
         return (
           <View>
             <Text>{JSON.stringify(item)}</Text>
-            {/* <Image source={objData.icon} /> */}
           </View>
         )
       }
