@@ -1,20 +1,23 @@
-
 import React from 'react';
-import { ScrollView, TouchableOpacity, View, Button, Alert, Text, StyleSheet} from 'react-native';
+import { ScrollView, TouchableOpacity, View, Button, Alert, Text, StyleSheet, BackHandler } from 'react-native';
+import { HeaderBackButton } from 'react-navigation'
+import Dialog from "react-native-dialog";
 import SymptomGroup from '../components/SymptomTracker/SymptomGroup';
 import NoteEdit from '../components/NoteEdit';
 import DayChooser from '../components/DayChooser';
 import SymptomTimePicker from '../components/SymptomTracker/SymptomTimePicker';
 import HorizontalLineWithText from '../components/HorizontalLineWithText';
-import DatabaseManager from '../brokers/DatabaseManager';
-import Dialog from "react-native-dialog";
+import DatabaseManager from '../persistance/DatabaseManager';
 
 
 export default class SymptomTrackerScreen extends React.Component{
-    static navigationOptions = {
-        title: 'Add Symptom',
-    };
+    static navigationOptions = ({navigation}) => ({
+        headerLeft: <HeaderBackButton onPress={() => navigation.state.params.onCancelPressed()}/>,
+        headerRight: <View style={{paddingRight: 10}}><Button title="SAVE" onPress={() => navigation.state.params.onOkPressed(true)}/></View>
+    })
 
+    //_didFocusSubscription;
+    //_willBlurSubscription;
 
     constructor(props) {
         super(props);
@@ -31,9 +34,39 @@ export default class SymptomTrackerScreen extends React.Component{
             resetSymptomGroup: false,
             cancelSaveDialogVisible: false
         } 
-     }
 
-     clearNoteText = () => {
+        // this._didFocusSubscription = props.navigation.addListener('didFocus', payload =>
+        //     BackHandler.addEventListener('hardwareBackPress', this.onBackButtonPressAndroid)
+        // );
+    }
+
+    componentDidMount() {
+    //     this._willBlurSubscription = this.props.navigation.addListener('willBlur', payload =>
+    //         BackHandler.removeEventListener('hardwareBackPress', this.onBackButtonPressAndroid)
+    //     );
+        
+        this.props.navigation.setParams({ 
+            onOkPressed: this.saveCurrentData.bind(this) ,
+            onCancelPressed: this.handleCancelButton.bind(this) ,
+        })
+    }
+
+    // onBackButtonPressAndroid = () => {
+    //     alert("B")
+    // };
+
+    // componentWillUnmount() {
+    //     this._didFocusSubscription && this._didFocusSubscription.remove();
+    //     this._willBlurSubscription && this._willBlurSubscription.remove();
+    // }
+    
+
+
+
+
+
+
+    clearNoteText = () => {
          this.setState({
              symptomEntryNote: ""
          })
@@ -42,6 +75,14 @@ export default class SymptomTrackerScreen extends React.Component{
 
 
       clearSymptomGroup = () =>{
+        this.setState({
+            selectedSymptoms: []
+        })
+        this._symptomGroup.deleteSymptoms();
+      }
+
+
+    noteEditedHandler(note){
         this.setState({
             selectedSymptoms: []
         })
@@ -180,20 +221,7 @@ export default class SymptomTrackerScreen extends React.Component{
                 <SymptomGroup ref={component => this._symptomGroup = component} onSelectedSymptomIDsChanged={this.symptomSelectedIDsChangedHandler}/>
                 <HorizontalLineWithText text = "Notes"/>
                 <NoteEdit ref={component => this._noteEdit = component} note={this.state.symptomEntryNote} onTextChanged={this.noteEditedHandler}/>
-                <View style={{
-                    flexDirection: 'row',
-                    justifyContent: 'space-around',
-                    alignItems: 'center',
-                    margin: 20,
-                }}           
-                >
-                    <View>
-                        <Button title = "OK" onPress={() => this.saveCurrentData(true)}/>
-                    </View>
-                    <View>
-                        <Button title = "Cancel" onPress={() => this.handleCancelButton()}/>
-                    </View>
-                </View>
+                <View style={{paddingBottom: 10}} />
 
                 {/*Dialog for Day Change Save Dialog*/}
                 <View>
@@ -223,19 +251,19 @@ export default class SymptomTrackerScreen extends React.Component{
     }
 
     saveCurrentData = (goHome) =>{
-        for (let symptom of this.state.selectedSymptoms)
-        {
+        for (let symptom of this.state.selectedSymptoms) {
             let tmpDateTime = this.state.selectedDateAndTime
-            tmpDateTime.setFullYear(tmpDateTime.getFullYear() + 1900)
-            DatabaseManager.getInstance().insertSymptom(symptom[0], symptom[1], this.state.symptomEntryNote, tmpDateTime);
+            tmpDateTime.setFullYear(tmpDateTime.getFullYear());
+            DatabaseManager.getInstance().createSymptomEvent(symptom[0], symptom[1], this.state.symptomEntryNote, tmpDateTime.getTime(), (error) => { alert(error)}, null);
         }
-        if(goHome){
-            this.navigateHome()
+
+        if (goHome) {
+            setTimeout(() => this.navigateHome(), 100);
         }
     }
 
     navigateHome = () =>{
-        this.props.navigation.navigate('Home');
+        this.props.navigation.goBack();
     }
 
     handleCancelButton = () =>{

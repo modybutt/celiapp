@@ -18,18 +18,19 @@ export default class CalendarScreen extends React.Component {
   };
 
   state = {
-    text: null
-  };
+    selectedDate: Date.now()
+  }
+
+  onDateChange(date) {
+    this.list.updateList(date)
+    this.setState({selectedDate: date})
+  }
 
   render() {
     return (
       <View style={styles.container}>
-        <View style={styles.calenderArea}>
-          <SymptomCalendarPicker/>
-        </View>
-        <View style={styles.listArea}>
-          <EntryList />
-        </View>
+        <SymptomCalendarPicker selectedDate={this.state.selectedDate} onDateChange={(date) => this.onDateChange(date)}/>
+        <EntryList navigation={this.props.navigation} selectedDate={this.state.selectedDate} ref={list => this.list = list} />
         <MenuButton navigation={this.props.navigation}/>
       </View>
     );
@@ -38,21 +39,6 @@ export default class CalendarScreen extends React.Component {
 
 const styles = StyleSheet.create({
   container: {
-    backgroundColor: '#fff',
     flex: 1,
-    alignItems:'stretch',
-    justifyContent:'flex-start',
-    flexDirection: 'column',
-  },
-  listArea: {
-    backgroundColor: 'white',
-    flex: 2,
-    paddingTop: 10,
-	
-  },
-  calenderArea: {
-    backgroundColor: 'white',
-    flex: 3,
-    //paddingTop: 10,
   },
 });

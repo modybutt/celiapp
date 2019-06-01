@@ -1,17 +1,18 @@
-
 import React from 'react';
 import { View, Alert, StyleSheet, Button} from 'react-native';
+import { HeaderBackButton } from 'react-navigation'
+import Dialog from "react-native-dialog";
 import EmoteTrackerSymbolGroup from '../components/EmoteTracker/EmoteTrackerSymbolGroup';
 import HorizontalLineWithText from '../components/HorizontalLineWithText';
 import NoteEdit from '../components/NoteEdit';
-import DatabaseManager from '../brokers/DatabaseManager';
-import Dialog from "react-native-dialog";
+import DatabaseManager from '../persistance/DatabaseManager';
 
 
 export default class EmoteTrackerScreen extends React.Component{
-    static navigationOptions = {
-        title: 'Add Emotion',
-    };
+    static navigationOptions = ({navigation}) => ({
+        headerLeft: <HeaderBackButton onPress={() => navigation.state.params.onCancelPressed()}/>,
+        headerRight: <View style={{paddingRight: 10}}><Button title="SAVE" onPress={() => navigation.state.params.onOkPressed(true)}/></View>
+    })
 
     constructor(props){
         super(props)
@@ -22,6 +23,13 @@ export default class EmoteTrackerScreen extends React.Component{
             selectedSymbolID: 0, // 0 --> none selected. 1: unhappy, ... , 5: happy
             emoteNote: "",
         }
+    }
+
+    componentDidMount() {        
+        this.props.navigation.setParams({ 
+            onOkPressed: this.saveCurrentData.bind(this) ,
+            onCancelPressed: this.handleCancelButton.bind(this) ,
+        })
     }
 
     noteEditedHandler = (note) =>{
@@ -49,21 +57,7 @@ export default class EmoteTrackerScreen extends React.Component{
                 <EmoteTrackerSymbolGroup ref={component => this._dayChooser = component} onEmotionChanged={this.emotionChangedHandler}/>
                 <HorizontalLineWithText text = "Note"/>
                 <NoteEdit ref={component => this._noteEdit = component} onTextChanged={this.noteEditedHandler}/>
-
-                <View style={{
-                    flexDirection: 'row',
-                    justifyContent: 'space-around',
-                    alignItems: 'center',
-                    margin: 20,
-                }}           
-                >
-                    <View>
-                        <Button title = "OK" onPress={() => this.saveCurrentData()}/>
-                    </View>
-                    <View>
-                        <Button title = "Cancel" onPress={() => this.handleCancelButton()}/>
-                    </View>
-                </View>
+                <View style={{paddingBottom: 10}} />
 
                 {/*Dialog for Day Change Save Dialog*/}
                 <View>
@@ -82,14 +76,16 @@ export default class EmoteTrackerScreen extends React.Component{
     }
 
 
-    saveCurrentData = () =>{
-        //TODO: Save Data, obviously
-        this.navigateHome()
+    saveCurrentData = (goHome) =>{
+        DatabaseManager.getInstance().createEmotionEvent(this.state.selectedSymbolID, this.state.emoteNote, Date.now(), (error) => { alert(error)}, null);
 
+        if (goHome) {
+            setTimeout(() => this.navigateHome(), 100);
+        }
     }
 
     navigateHome = () =>{
-        this.props.navigation.navigate('Home');
+        this.props.navigation.goBack();
     }
 
     handleCancelButton = () =>{

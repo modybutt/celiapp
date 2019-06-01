@@ -1,16 +1,19 @@
 import React from 'react';
-import { View, Button, StyleSheet } from 'react-native';
+import { View, StyleSheet, } from 'react-native';
+import MenuButton from '../components/MenuButton';
+import EntryList from '../components/EntryList';
 
 export default class EvaluationScreen extends React.Component {
   static navigationOptions = {
-    title: 'Evaluation',
+    title: 'Trackings',
   };
 
   render() {
     return (
-        <View style={this.styles}>
-          <Button title="next" onPress={() => this.props.navigation.navigate('Evaluation_1')} />
-        </View>
+      <View style={styles.container}>
+        <EntryList  navigation={this.props.navigation} />
+        <MenuButton navigation={this.props.navigation} />
+      </View>
     );
   }
 }
@@ -18,7 +21,5 @@ export default class EvaluationScreen extends React.Component {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    paddingTop: 15,
-    backgroundColor: '#fff',
   },
 });
