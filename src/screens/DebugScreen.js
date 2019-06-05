@@ -14,7 +14,6 @@ import TextInputMultiLine from '../components/TextInputMultiLine';
 import { Icon } from 'expo';
 import RoundPictureButton from '../components/RoundPictureButton';
 import ActionButton from 'react-native-action-button';
-import SymptomTrackerScreen from './SymptomTrackerScreen';
 import CustomButton from '../components/CustomButton'
 import SearchSymptom from '../components/SymptomTracker/SearchSymptom';
 import EntryList from '../components/EntryList';
@@ -22,11 +21,6 @@ import DayChooser from '../components/DayChooser';
 import SymptomTimePicker from  '../components/SymptomTracker/SymptomTimePicker';
 
 export default class DebugScreen extends React.Component {
-  static navigationOptions = {
-    title: 'Debug',
-  };
-  
-
   render() {
     const {navigate} = this.props.navigation;
     const image = __DEV__ ? require('../assets/images/robot-dev.png') : require('../assets/images/robot-prod.png');
@@ -35,7 +29,7 @@ export default class DebugScreen extends React.Component {
       <View style = {styles.container}>
         <FlatList
           data={[
-	          {key: 'EntryList', value: <EntryList/>},
+	          // {key: 'EntryList', value: <EntryList/>},
             {key: 'Image', value: <Image source = {image} style = {styles.image} />},
             {key: 'RoundImage', value: <Image source = {image} style = {styles.roundImage} />},
             {key: 'TextInputSingleLine', value: <TextInputSingleLine />},
@@ -53,7 +47,6 @@ export default class DebugScreen extends React.Component {
                     />
               </TouchableOpacity>
             },
-            {key: 'SymptomTracker', value: <SymptomTrackerScreen date = {getTodayDate()}/>},
             {key: 'CustomButton', value: <CustomButton />},
             {key: 'RoundPictureButton', value:
               <RoundPictureButton 
