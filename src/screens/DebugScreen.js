@@ -31,6 +31,7 @@ export default class DebugScreen extends React.Component {
         <FlatList
           data={[
             // {key: 'EntryList', value: <EntryList/>},
+            {key: 'RatingBar View', value: <RatingBar rating={2.5} active={false} />},
             {key: 'RatingBar', value: <RatingBar />},
             {key: 'Image', value: <Image source = {image} style = {styles.image} />},
             {key: 'RoundImage', value: <Image source = {image} style = {styles.roundImage} />},
