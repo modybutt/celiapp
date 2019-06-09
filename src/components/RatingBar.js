@@ -13,12 +13,12 @@ export default class RatingBar extends React.Component {
         rating: 0,
     }
 
-    onRatingChanged(rating) {
+    changeRating(rating) {
+        this.setState({rating});
+
         if (this.props.onRatingChanged != null) {
             this.props.onRatingChanged(rating);
         }
-
-        this.setState({rating});
     }
 
     iconName(index) {
@@ -32,19 +32,19 @@ export default class RatingBar extends React.Component {
     render() {
         return (
             <View style={styles.container}>
-                <TouchableOpacity onPress={() => this.onRatingChanged(1)} style={styles.star}>
+                <TouchableOpacity onPress={() => this.changeRating(1)} style={styles.star}>
                     <Icon.Ionicons name={this.iconName(1)} size={50} />
                 </TouchableOpacity>
-                <TouchableOpacity onPress={() => this.onRatingChanged(2)} style={styles.star}>
+                <TouchableOpacity onPress={() => this.changeRating(2)} style={styles.star}>
                     <Icon.Ionicons name={this.iconName(2)} size={50} />
                 </TouchableOpacity>
-                <TouchableOpacity onPress={() => this.onRatingChanged(3)} style={styles.star}>
+                <TouchableOpacity onPress={() => this.changeRating(3)} style={styles.star}>
                     <Icon.Ionicons name={this.iconName(3)} size={50} />
                 </TouchableOpacity>
-                <TouchableOpacity onPress={() => this.onRatingChanged(4)} style={styles.star}>
+                <TouchableOpacity onPress={() => this.changeRating(4)} style={styles.star}>
                     <Icon.Ionicons name={this.iconName(4)} size={50} />
                 </TouchableOpacity>
-                <TouchableOpacity onPress={() => this.onRatingChanged(5)} style={styles.star}>
+                <TouchableOpacity onPress={() => this.changeRating(5)} style={styles.star}>
                     <Icon.Ionicons name={this.iconName(5)} size={50} />
                 </TouchableOpacity>
             </View>
