@@ -3,7 +3,7 @@ import React from 'react';
 import { View, Button, Text, StyleSheet} from 'react-native';
 import Dialog from "react-native-dialog";
 import { HeaderBackButton } from 'react-navigation'
-import DatabaseManager from '../persistance/DatabaseManager';
+import DatabaseManager from '../manager/DatabaseManager';
 
 
 export default class FoodDiaryScreen extends React.Component{
@@ -25,7 +25,7 @@ export default class FoodDiaryScreen extends React.Component{
     }
 
     saveCurrentData(goHome) {
-        DatabaseManager.getInstance().createMealEvent("Example MealEvent", 0, 0, 3, "Example", Date.now(), (error) => { alert(error)}, null);
+        DatabaseManager.getInstance().createMealEvent("Example MealEvent", 0, 0, 3, "Example", null, Date.now(), (error) => { alert(error)}, null);
 
         if (goHome) {
             setTimeout(() => this.navigateHome(), 100);

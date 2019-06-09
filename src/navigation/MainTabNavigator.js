@@ -6,14 +6,15 @@ import TabBarIcon from '../components/TabBarIcon';
 import EvaluationScreen from '../screens/EvaluationScreen';
 import HomeScreen from '../screens/HomeScreen';
 import CalendarScreen from '../screens/CalendarScreen';
-// import DebugScreen from '../screens/DebugScreen';
-
+import DebugScreen from '../screens/DebugScreen';
 import SymptomTrackerScreen from '../screens/SymptomTrackerScreen';
 import FoodDiaryScreen from '../screens/FoodDiaryScreen';
 import EmoteTrackerScreen from '../screens/EmoteTrackerScreen';
 import SymptomViewScreen from '../screens/SymptomViewScreen';
 import FoodViewScreen from '../screens/FoodViewScreen';
 import EmoteViewScreen from '../screens/EmoteViewScreen';
+import SettingsScreen from '../screens/SettingsScreen';
+import CameraScreen from '../screens/CameraScreen';
 
 const EvaluationStack = createStackNavigator({
   Evaluation: EvaluationScreen,
@@ -59,19 +60,7 @@ const TabNavStack = createMaterialTopTabNavigator({
             />
           )
         }
-    },
-    /* Debug: { 
-      screen: createStackNavigator({Debug: DebugScreen}),
-      navigationOptions: {
-        //tabBarLabel: 'Debug',
-        tabBarIcon: ({ focused }) => (
-          <TabBarIcon
-            focused={focused}
-            name={'md-hammer'}
-          />
-        )
-      }
-    } */
+    }
 }, {
     initialRouteName: 'Home',
     tabBarPosition: 'bottom',
@@ -130,5 +119,23 @@ export default createStackNavigator({
     navigationOptions: {
       title: 'View Emote'
     }
-  },    
+  },   
+  Settings: {
+    screen: SettingsScreen,
+    navigationOptions: {
+      title: 'Settings'
+    }
+  },
+  Debug: {
+    screen: DebugScreen,
+    navigationOptions: {
+      title: 'Debug'
+    }
+  },
+  Camera: {
+    screen: CameraScreen,
+    navigationOptions: {
+      title: 'Cam'
+    }
+  } 
 });

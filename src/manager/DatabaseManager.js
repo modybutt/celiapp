@@ -22,7 +22,7 @@ export default class DatabaseManager {
             this.instance.db.transaction(tx => {
               tx.executeSql(
                 'CREATE TABLE IF NOT EXISTS symptoms (id INTEGER PRIMARY KEY AUTOINCREMENT, name TEXT, icon TEXT, created INT, modified INT, usage INT);', 
-                (param) => alert("create table symptoms: " + JSON.stringify(param)));
+                (param) => alert("create table symptoms: " + JSON.stringify(param)));            
               tx.executeSql(
                 'INSERT OR IGNORE INTO symptoms (id, name, icon, created, usage) VALUES '
                 + '(1, "Cloating", "' + require('../assets/images/SymptomTracker/cloating.png') + '", ' + Date.now() + ',0),'
@@ -112,13 +112,13 @@ export default class DatabaseManager {
      *                          FOOD TRACKER 
      *******************************************************************/   
 
-    createMealEvent(name, type, tag, rating, note, timestamp, onError, onSuccess) {
+    createMealEvent(name, type, tag, rating, note, icon, timestamp, onError, onSuccess) {
       objData = {
         name,
         type,
         tag,
         rating,
-        //icon,
+        icon,
         note
       }
       
