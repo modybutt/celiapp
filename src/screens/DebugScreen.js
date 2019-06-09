@@ -19,6 +19,7 @@ import SearchSymptom from '../components/SymptomTracker/SearchSymptom';
 import EntryList from '../components/EntryList';
 import DayChooser from '../components/DayChooser';
 import SymptomTimePicker from  '../components/SymptomTracker/SymptomTimePicker';
+import RatingBar from '../components/RatingBar';
 
 export default class DebugScreen extends React.Component {
   render() {
@@ -29,7 +30,8 @@ export default class DebugScreen extends React.Component {
       <View style = {styles.container}>
         <FlatList
           data={[
-	          // {key: 'EntryList', value: <EntryList/>},
+            // {key: 'EntryList', value: <EntryList/>},
+            {key: 'RatingBar', value: <RatingBar />},
             {key: 'Image', value: <Image source = {image} style = {styles.image} />},
             {key: 'RoundImage', value: <Image source = {image} style = {styles.roundImage} />},
             {key: 'TextInputSingleLine', value: <TextInputSingleLine />},
