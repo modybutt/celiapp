@@ -14,6 +14,7 @@ import SymptomViewScreen from '../screens/SymptomViewScreen';
 import FoodViewScreen from '../screens/FoodViewScreen';
 import EmoteViewScreen from '../screens/EmoteViewScreen';
 import SettingsScreen from '../screens/SettingsScreen';
+import CameraScreen from '../screens/CameraScreen';
 
 const EvaluationStack = createStackNavigator({
   Evaluation: EvaluationScreen,
@@ -130,5 +131,11 @@ export default createStackNavigator({
     navigationOptions: {
       title: 'Debug'
     }
-  }  
+  },
+  Camera: {
+    screen: CameraScreen,
+    navigationOptions: {
+      title: 'Cam'
+    }
+  } 
 });

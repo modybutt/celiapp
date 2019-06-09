@@ -5,7 +5,7 @@ import Dialog from "react-native-dialog";
 import EmoteTrackerSymbolGroup from '../components/EmoteTracker/EmoteTrackerSymbolGroup';
 import HorizontalLineWithText from '../components/HorizontalLineWithText';
 import NoteEdit from '../components/NoteEdit';
-import DatabaseManager from '../persistance/DatabaseManager';
+import DatabaseManager from '../manager/DatabaseManager';
 
 
 export default class EmoteTrackerScreen extends React.Component{

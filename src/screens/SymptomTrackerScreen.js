@@ -7,7 +7,7 @@ import NoteEdit from '../components/NoteEdit';
 import DayChooser from '../components/DayChooser';
 import SymptomTimePicker from '../components/SymptomTracker/SymptomTimePicker';
 import HorizontalLineWithText from '../components/HorizontalLineWithText';
-import DatabaseManager from '../persistance/DatabaseManager';
+import DatabaseManager from '../manager/DatabaseManager';
 
 
 export default class SymptomTrackerScreen extends React.Component{
