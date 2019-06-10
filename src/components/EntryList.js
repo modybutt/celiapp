@@ -13,7 +13,7 @@ import {
 import { ListItem } from 'react-native-elements';
 import { NavigationEvents } from 'react-navigation';
 
-import DatabaseManager from '../persistance/DatabaseManager';
+import DatabaseManager from '../manager/DatabaseManager';
 
 export default class EntryList extends React.Component {
   state = {
@@ -89,6 +89,7 @@ export default class EntryList extends React.Component {
         return (
           <TouchableOpacity onPress={() => this.props.navigation.navigate('ViewMeal', {event: item})}>
             <Text>{JSON.stringify(item)}</Text>
+            <Image source={Image.resolveAssetSource(objData.icon)} style={{width: 200, height: 200}} />
           </TouchableOpacity>
         )
       }

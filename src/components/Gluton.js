@@ -53,9 +53,9 @@ export default class Gluton extends React.Component {
     
     render() {
         return (
-            <View>
+            <View style={this.props.style}>
                 <Text style={styles.message}>{this.state.message}</Text>   
-                <View style={styles.bubble} />
+                <View style={styles.bubbleSeparator} />
                 <View style={{alignItems: 'center'}}>
                     <TouchableOpacity activeOpacity={0} onPress={() => this.onSpreadTheLove()}>
                         <Image style={
@@ -82,7 +82,7 @@ export default class Gluton extends React.Component {
 }
 
 const styles = StyleSheet.create({
-    bubble: {
+    bubbleSeparator: {
         width: 0,
         height: 0,
         marginLeft: 33,
@@ -103,6 +103,6 @@ const styles = StyleSheet.create({
         textAlignVertical: 'center',
         padding: 10,
         paddingLeft: 20,
-        width: '50%',
+        //width: '50%',
     },
 });

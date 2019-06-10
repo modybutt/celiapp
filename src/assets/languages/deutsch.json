@@ -1,0 +1,10 @@
+{
+	"language": "Deutsch",
+	"keys": {
+		"WELCOME": "Hallo!",
+		"ADD_SYMPTOM": "Symptom hinzufügen",
+		"ADD_MEAL": "Mahlzeit hinzufügen",
+		"ADD_EMOTION": "Emotion hinzufügen",
+		"LANGUAGE": "Sprache"
+	}
+}
