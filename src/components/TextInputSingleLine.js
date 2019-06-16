@@ -4,7 +4,7 @@ import { StyleSheet, Text, View, AppRegistry, TextInput } from 'react-native';
 export default class TextInputSingleLine extends React.Component {
  render() {
       return (
-        <View style={{top:20}}>
+        <View style={{top:10, bottom: 15}}>
             <View style={styles.Text}>
                 <TextInput
                 {...this.props}

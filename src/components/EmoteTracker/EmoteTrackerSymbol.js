@@ -18,35 +18,40 @@ export default class EmoteTrackerSymbol extends React.Component{
                 this.state = {
                     imgSource: images.unhappy.uri,
                     imgName: images.unhappy.imgName,
-                    selected: false
+                    selected: false,
+                    selectedColor: 'rgb(180, 180, 180)',
                 };
                 break;
             case 2:
                 this.state = {
                     imgSource: images.slightlyUnhappy.uri,
                     imgName: images.slightlyUnhappy.imgName,
-                    selected: false
+                    selected: false,
+                    selectedColor: 'rgb(180, 180, 180)',
                 };
                 break;
             case 3:
                 this.state = {
                     imgSource: images.neither.uri,
                     imgName: images.neither.imgName,
-                    selected: false
+                    selected: false,
+                    selectedColor: 'rgb(180, 180, 180)',
                 };
                 break;
             case 4:
                 this.state = {
                     imgSource: images.slightlyHappy.uri,
                     imgName: images.slightlyHappy.imgName,
-                    selected: false
+                    selected: false,
+                    selectedColor: 'rgb(180, 180, 180)',
                 };
                 break;
             case 5:
                 this.state = {
                     imgSource: images.happy.uri,
                     imgName: images.happy.imgName,
-                    selected: false
+                    selected: false,
+                    selectedColor: 'rgb(180, 180, 180)',
                 };
                 break;
        }
@@ -57,6 +62,7 @@ export default class EmoteTrackerSymbol extends React.Component{
         if(!this.state.selected){
             this.setState({
                 selected: true,
+                selectedColor: 'rgb(255, 165, 0)',
             });
             this.props.onEmoteSelected(this.props.emoteID)
         }
@@ -80,7 +86,7 @@ export default class EmoteTrackerSymbol extends React.Component{
         return(
                 <View style={styles.container}>
                     <TouchableHighlight style={{height: 80, borderRadius: 40}} onPress={this.selectEmotion}>
-                        <Image source={this.state.imgSource} style={{width: 80, height: 80, borderRadius:40}} />
+                        <Image source={this.state.imgSource} style={{width: 80, height: 80, borderRadius:40, borderColor: this.state.selectedColor}} />
                     </TouchableHighlight> 
                 </View>                
 
