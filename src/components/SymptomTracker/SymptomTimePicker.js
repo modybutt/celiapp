@@ -30,14 +30,16 @@ export default class SymptomTimePicker extends React.Component {
     render(){
         return(
             <View>
-                <Text>Symptom occured: {new Date(this.state.selectedTime).getHours() + ":" + (new Date(this.state.selectedTime).getMinutes())}</Text>
-                <Button title="SelectTime" onPress={this.showDateTimePicker} />
-                <DateTimePicker
-                  isVisible={this.state.isDateTimePickerVisible}
-                  onConfirm={this.handleDatePicked}
-                  onCancel={this.hideDateTimePicker}
-                  mode = {'time'}
-                />
+              <View style={styles.rowContainer}>
+                <Button title="Select Time" onPress={this.showDateTimePicker} />
+                <Text style={styles.occuredText}>Symptom occured: {new Date(this.state.selectedTime).getHours() + ":" + (new Date(this.state.selectedTime).getMinutes())}</Text>
+                </View>
+              <DateTimePicker
+                isVisible={this.state.isDateTimePickerVisible}
+                onConfirm={this.handleDatePicked}
+                onCancel={this.hideDateTimePicker}
+                mode = {'time'}
+               />
             </View>
         )
     }
@@ -45,7 +47,13 @@ export default class SymptomTimePicker extends React.Component {
 
 
 var styles = StyleSheet.create({
-    scheissReact:{
-
+    rowContainer:{
+      flexDirection: 'row',
+      justifyContent: 'space-around'
+    },
+    occuredText:{
+      fontSize: 20,
+      justifyContent: 'center',
+      alignItems: 'center'
     }
    });

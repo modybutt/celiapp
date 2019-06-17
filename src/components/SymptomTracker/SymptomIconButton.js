@@ -174,18 +174,18 @@ export default class SymptomIconButton extends Component {
 				this.animateReverse(0);
 				this.setState({zIndexNumber: -1})
 				this.setState({selected: !selected});
-				this.props.onSeverityChooserHandled(true);
+				this.props.onSeverityChooserHandled(true, this.props.symptomID);
 			}
 			else {
 				if(this.props.canOpenSeverity){
 					this.animate(1);
 					this.setState({zIndexNumber: 1})					
-					this.props.onSeverityChooserHandled(false);
+					this.props.onSeverityChooserHandled(false, this.props.symptomID);
 					this.setState({selected: !selected});
 				}else{
 					if(setEnabled){
 						Alert.alert("hallo");
-						this.props.onSeverityChooserHandled(true);
+						this.props.onSeverityChooserHandled(true, this.props.symptomID);
 					}
 				}
 			}	
@@ -542,6 +542,7 @@ export default class SymptomIconButton extends Component {
 						color="#FFF"
 					/> */}
 				</AnimatedTouchable>
+				
 			</View>
 		);
 	}
@@ -591,3 +592,4 @@ const style = StyleSheet.create({
 	  margin: -25
 	},
 });
+

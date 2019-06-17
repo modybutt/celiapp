@@ -17,12 +17,13 @@ export default class DayChooser extends React.Component{
     }
 
     changeDay(next){
-        if(next){
-            daysDiffToProp++;
-        }else{
-            daysDiffToProp--;
-        }
         var newDate = new Date(this.props.date)
+        if(next){
+            newDate.setDate(newDate.getDate() + 1);
+        }else{
+            newDate.setDate(newDate.getDate() - 1);
+        }
+        
         newDate.setDate(newDate.getDate() + daysDiffToProp);
         var newDateString = new Date(newDate).getDate() + "." + (new Date(newDate).getMonth()+1) + "." + new Date(newDate).getFullYear()
         this.setState({currDateString: newDateString});
