@@ -14,7 +14,7 @@ export default class EmoteTrackerScreen extends React.Component{
         headerRight: <View style={{paddingRight: 10}}><Button title="SAVE" onPress={() => navigation.state.params.onOkPressed(true)}/></View>
     })
 
-    constructor(props){
+    constructor(props){ 
         super(props)
         this.noteEditedHandler = this.noteEditedHandler.bind(this);
         this.emotionChangedHandler = this.emotionChangedHandler.bind(this);
