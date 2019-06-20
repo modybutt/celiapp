@@ -1,6 +1,5 @@
-
 import React from 'react';
-import {View, StyleSheet, Alert, TouchableHighlight, Image} from 'react-native';
+import {View, StyleSheet, Text, TouchableHighlight, Alert, Image} from 'react-native';
 
 // constants
 import {
@@ -12,52 +11,62 @@ export default class EmoteTrackerSymbol extends React.Component{
 
     constructor(props) {
        super(props);
-
        switch(this.props.emoteID){ // 1 = unhappy, 5 = happy
             case 1:
                 this.state = {
                     imgSource: images.unhappy.uri,
                     imgName: images.unhappy.imgName,
-                    selected: false
+                    selected: this.props.selected === 1,
+                    selectedColor: 'rgb(180, 180, 180)',
                 };
                 break;
             case 2:
                 this.state = {
                     imgSource: images.slightlyUnhappy.uri,
                     imgName: images.slightlyUnhappy.imgName,
-                    selected: false
+                    selected: this.props.selected === 2,
+                    selectedColor: 'rgb(180, 180, 180)',
                 };
                 break;
             case 3:
                 this.state = {
                     imgSource: images.neither.uri,
                     imgName: images.neither.imgName,
-                    selected: false
+                    selected: this.props.selected === 3,
+                    selectedColor: 'rgb(180, 180, 180)',
                 };
                 break;
             case 4:
                 this.state = {
                     imgSource: images.slightlyHappy.uri,
                     imgName: images.slightlyHappy.imgName,
-                    selected: false
+                    selected: this.props.selected === 4,
+                    selectedColor: 'rgb(180, 180, 180)',
                 };
                 break;
             case 5:
                 this.state = {
                     imgSource: images.happy.uri,
                     imgName: images.happy.imgName,
-                    selected: false
+                    selected: this.props.selected == 5,
+                    selectedColor: 'rgb(180, 180, 180)',
                 };
                 break;
        }
     }
 
+
+    setSelected(isSelected){
+        this.setState({selected: isSelected})
+    }
+
     //only select emotion, because deselection happens when another emote gets selected. --> needs to be handled in emotionGroup
     selectEmotion = () =>{
         if(!this.state.selected){
-            this.setState({
-                selected: true,
-            });
+            // this.setState({
+            //     selected: true,
+            //     selectedColor: 'rgb(255, 165, 0)',
+            // });
             this.props.onEmoteSelected(this.props.emoteID)
         }
     }
@@ -77,14 +86,24 @@ export default class EmoteTrackerSymbol extends React.Component{
 
     //TODO: If selected, then color the border in some color defined in EmoteTrackerConstants(not yet added)
     render(){
-        return(
+        
+        if(!this.state.selected){
+            return(
                 <View style={styles.container}>
-                    <TouchableHighlight style={{height: 80, borderRadius: 40}} onPress={this.selectEmotion}>
-                        <Image source={this.state.imgSource} style={{width: 80, height: 80, borderRadius:40}} />
+                    <TouchableHighlight style={{height: 80, borderRadius: 40, justifyContent: 'center', alignItems: 'center'}} onPress={this.selectEmotion}>
+                        <Image source={this.state.imgSource} style={{width: 75, height: 75, borderRadius:40}} />
                     </TouchableHighlight> 
                 </View>                
-
-        )
+            )
+        }else{
+            return(
+                <View style={styles.container}>
+                    <TouchableHighlight style={{height: 80, borderRadius: 40, backgroundColor: 'rgb(33,150,243)', justifyContent: 'center', alignItems: 'center'}} onPress={this.selectEmotion}>
+                        <Image source={this.state.imgSource} style={{width: 75, height: 75, borderRadius:40}} />
+                    </TouchableHighlight> 
+                </View>                
+            )
+        }
     }
 
 
