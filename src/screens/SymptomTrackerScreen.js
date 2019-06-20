@@ -1,5 +1,5 @@
 import React from 'react';
-import { ScrollView, TouchableOpacity, View, Button, Alert, Text, StyleSheet, BackHandler } from 'react-native';
+import { ScrollView, Keyboard, View, Button, Alert, Text, StyleSheet, BackHandler } from 'react-native';
 import { HeaderBackButton } from 'react-navigation'
 import Dialog from "react-native-dialog";
 import SymptomGroup from '../components/SymptomTracker/SymptomGroup';
@@ -8,14 +8,15 @@ import DayChooser from '../components/DayChooser';
 import SymptomTimePicker from '../components/SymptomTracker/SymptomTimePicker';
 import HorizontalLineWithText from '../components/HorizontalLineWithText';
 import DatabaseManager from '../manager/DatabaseManager';
+import KeyboardListener from 'react-native-keyboard-listener';
 
-//merging started
 
 export default class SymptomTrackerScreen extends React.Component{
     static navigationOptions = ({navigation}) => ({
         headerLeft: <HeaderBackButton onPress={() => navigation.state.params.onCancelPressed()}/>,
         headerRight: <View style={{paddingRight: 10}}><Button title="SAVE" onPress={() => navigation.state.params.onOkPressed(true)}/></View>
     })
+
 
     //_didFocusSubscription;
     //_willBlurSubscription;
@@ -33,7 +34,8 @@ export default class SymptomTrackerScreen extends React.Component{
             selectedSymptoms: [], //bit buggy when deleting existing symptoms from list
             dayChangeDialogVisible: false,
             resetSymptomGroup: false,
-            cancelSaveDialogVisible: false
+            cancelSaveDialogVisible: false,
+            keyboardOpen: false
         } 
 
         // this._didFocusSubscription = props.navigation.addListener('didFocus', payload =>
@@ -60,11 +62,6 @@ export default class SymptomTrackerScreen extends React.Component{
     //     this._didFocusSubscription && this._didFocusSubscription.remove();
     //     this._willBlurSubscription && this._willBlurSubscription.remove();
     // }
-    
-
-
-
-
 
 
     clearNoteText = () => {
@@ -174,6 +171,14 @@ export default class SymptomTrackerScreen extends React.Component{
     dateEditedHandler = (dateTime) =>{
         //TODO: if symptoms selected and not saved, ask user. Then refresh page.
         this.state.tempDate = dateTime
+
+        let tmpDateTime = this.state.selectedDateAndTime
+        tmpDateTime.setDate(dateTime.getDate())
+        tmpDateTime.setMonth(dateTime.getMonth())
+        tmpDateTime.setFullYear(dateTime.getFullYear())
+        this.setState({
+            selectedDateAndTime: tmpDateTime,
+        })
         if(Array.isArray(this.state.selectedSymptoms) && this.state.selectedSymptoms.length){
             this.showDayChangeSaveDialog()
         }else{
@@ -200,7 +205,7 @@ export default class SymptomTrackerScreen extends React.Component{
     }
 
     symptomSelectedIDsChangedHandler = (sympIDsAndSeverity) =>{
-        Alert.alert("symptomSelectedIDsChangedHandler called");
+        //Alert.alert("symptomSelectedIDsChangedHandler called");
         this.setState({
             selectedSymptoms: sympIDsAndSeverity,
         })
@@ -213,9 +218,9 @@ export default class SymptomTrackerScreen extends React.Component{
 
     render(){
         return(
-            <ScrollView>
+            <ScrollView style={{margin: 100}}>
                 <HorizontalLineWithText text = "Date"/>
-                <DayChooser ref={component => this._dayChooser = component} date = {getTodayDate()} onDateChanged={this.dateEditedHandler}/>
+                <DayChooser ref={component => this._dayChooser = component} date = {this.state.selectedDateAndTime} onDateChanged={this.dateEditedHandler}/>
                 <HorizontalLineWithText text = "Time"/>
                 <SymptomTimePicker ref={component => this._timePicker = component} onTimeChanged={this.timeEditedHandler}/>
                 <HorizontalLineWithText text = "Symptoms"/>
@@ -247,14 +252,23 @@ export default class SymptomTrackerScreen extends React.Component{
                     <Dialog.Button label="Discard" onPress={this.handleDiscard} />
                     </Dialog.Container>
                 </View>
+                <KeyboardListener
+                    onWillShow={() => { this.setState({ keyboardOpen: true }); }}
+                    onWillHide={() => { this.setState({ keyboardOpen: false }); }}
+                />
             </ScrollView>
         )
     }
 
     saveCurrentData = (goHome) =>{
+        let added = 1;
         for (let symptom of this.state.selectedSymptoms) {
             let tmpDateTime = this.state.selectedDateAndTime
-            tmpDateTime.setFullYear(tmpDateTime.getFullYear());
+            // if(!(tmpDateTime.getFullYear() >= 1900)){
+            //     tmpDateTime.setFullYear(tmpDateTime.getFullYear() + 1900);
+            // }
+
+            Alert.alert(tmpDateTime.toUTCString())
             DatabaseManager.getInstance().createSymptomEvent(symptom[0], symptom[1], this.state.symptomEntryNote, tmpDateTime.getTime(), (error) => { alert(error)}, null);
         }
 

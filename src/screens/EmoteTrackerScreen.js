@@ -20,7 +20,7 @@ export default class EmoteTrackerScreen extends React.Component{
         this.emotionChangedHandler = this.emotionChangedHandler.bind(this);
         this.state={
             show: false,
-            selectedSymbolID: 0, // 0 --> none selected. 1: unhappy, ... , 5: happy
+            selectedSymbolID: 3, // 1: unhappy, ... , 5: happy
             emoteNote: "",
         }
     }
@@ -36,16 +36,12 @@ export default class EmoteTrackerScreen extends React.Component{
         this.setState({
             emoteNote: note,
         });
-
-        Alert.alert("Note: " + note)
     }
 
     emotionChangedHandler = (emotionID) =>{
         this.setState({
             selectedSymbolID: emotionID,
         });
-
-        Alert.alert("Selected Emotion: " + emotionID)
     }
 
     //TODO Uplift selectedSymbolID
