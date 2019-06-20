@@ -8,10 +8,12 @@ import DayChooser from '../components/DayChooser';
 import SymptomTimePicker from '../components/SymptomTracker/SymptomTimePicker';
 import HorizontalLineWithText from '../components/HorizontalLineWithText';
 import DatabaseManager from '../manager/DatabaseManager';
+import LanguageManager from '../manager/LanguageManager';
 
 
 export default class SymptomTrackerScreen extends React.Component{
     static navigationOptions = ({navigation}) => ({
+        title: LanguageManager.getInstance().getText("ADD_SYMPTOM"),
         headerLeft: <HeaderBackButton onPress={() => navigation.state.params.onCancelPressed()}/>,
         headerRight: <View style={{paddingRight: 10}}><Button title="SAVE" onPress={() => navigation.state.params.onOkPressed(true)}/></View>
     })
@@ -249,37 +251,37 @@ export default class SymptomTrackerScreen extends React.Component{
             return(
                 <ScrollView style={{marginBottom: marginToUse}}>
                     {/* <TextInput onSubmitEditing={Keyboard.dismiss} /> */}
-                    <HorizontalLineWithText text = "Date"/>
+                    <HorizontalLineWithText text = {LanguageManager.getInstance().getText("DATE")}/>
                     <DayChooser ref={component => this._dayChooser = component} date = {this.state.selectedDateAndTime} onDateChanged={this.dateEditedHandler}/>
-                    <HorizontalLineWithText text = "Time"/>
+                    <HorizontalLineWithText text = {LanguageManager.getInstance().getText("TIME")}/>
                     <SymptomTimePicker ref={component => this._timePicker = component} onTimeChanged={this.timeEditedHandler}/>
-                    <HorizontalLineWithText text = "Symptoms"/>
+                    <HorizontalLineWithText text = {LanguageManager.getInstance().getText("SYMPTOMS")}/>
                     <SymptomGroup ref={component => this._symptomGroup = component} onSelectedSymptomIDsChanged={this.symptomSelectedIDsChangedHandler}/>
-                    <HorizontalLineWithText text = "Notes"/>
+                    <HorizontalLineWithText text = {LanguageManager.getInstance().getText("NOTES")}/>
                     <NoteEdit ref={component => this._noteEdit = component} note={this.state.symptomEntryNote} onTextChanged={this.noteEditedHandler}/>
                     <View style={{paddingBottom: 10}} />
     
                     {/*Dialog for Day Change Save Dialog*/}
                     <View>
                         <Dialog.Container visible={this.state.dayChangeDialogVisible}>
-                        <Dialog.Title>Day Change</Dialog.Title>
+                        <Dialog.Title>{LanguageManager.getInstance().getText("SAVE")}</Dialog.Title>
                         <Dialog.Description>
-                            Do you want to save the entries?
+                            {LanguageManager.getInstance().getText("DO_YOU_WANT_TO_SAVE")}
                         </Dialog.Description>
-                        <Dialog.Button label="Cancel" onPress={this.handleDayChangeCancel} />
-                        <Dialog.Button label="Save" onPress={this.handleDayChangeSave} />
+                        <Dialog.Button label={LanguageManager.getInstance().getText("CANCEL")} onPress={this.handleDayChangeCancel} />
+                        <Dialog.Button label={LanguageManager.getInstance().getText("SAVE")} onPress={this.handleDayChangeSave} />
                         </Dialog.Container>
                     </View>
     
                     {/*Dialog for Day Change Save Dialog*/}
                      <View>
                         <Dialog.Container visible={this.state.cancelSaveDialogVisible}>
-                        <Dialog.Title>Cancel</Dialog.Title>
+                        <Dialog.Title>{LanguageManager.getInstance().getText("DISCARD")}</Dialog.Title>
                         <Dialog.Description>
-                            Do you really want to discard the entries?
+                        {LanguageManager.getInstance().getText("DO_YOU_WANT_TO_DISCARD")}
                         </Dialog.Description>
-                        <Dialog.Button label="Back" onPress={this.handleBack} />
-                        <Dialog.Button label="Discard" onPress={this.handleDiscard} />
+                        <Dialog.Button label={LanguageManager.getInstance().getText("BACK")} onPress={this.handleBack} />
+                        <Dialog.Button label={LanguageManager.getInstance().getText("DISCARD")} onPress={this.handleDiscard} />
                         </Dialog.Container>
                     </View>
                     {/* <KeyboardListener
