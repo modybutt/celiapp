@@ -13,5 +13,8 @@
 		"TRACKINGS": "Aufzeichnungen",
 		"CALENDAR": "Kalender",
 		"SETTINGS": "Einstellungen",
+		"GLUTON_WELCOME": "Hallo!\nMein name ist Gluton.\n\nFreut mich dich kennenzulernen, {0}!",
+		"GLUTON_TICKLE": "Hahaha!\nBitte An der Stelle bin ich besonders kitzlig!\nHahaha!",
+		"GLUTON_THANKS": "Vielen Dank!\n\nEcht super von dir, {0}! Weiter so."
 	}
 }
