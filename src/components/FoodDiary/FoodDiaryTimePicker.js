@@ -2,7 +2,7 @@ import React from 'react';
 import {View, Button, Text, Alert, StyleSheet} from 'react-native';
 import DateTimePicker from "react-native-modal-datetime-picker";
 
-export default class SymptomTimePicker extends React.Component {
+export default class FoodDiaryTimePicker extends React.Component {
 
 
     constructor(props){
@@ -31,7 +31,7 @@ export default class SymptomTimePicker extends React.Component {
         return(
             <View>
               <View style={styles.rowContainer}>
-                <Text style={styles.occuredText}>Symptom occured: {new Date(this.state.selectedTime).getHours() + ":" + (new Date(this.state.selectedTime).getMinutes())}</Text>
+                <Text style={styles.occuredText}>Meal eaten: {new Date(this.state.selectedTime).getHours() + ":" + (new Date(this.state.selectedTime).getMinutes())}</Text>
                 <Button title="Select Time" onPress={this.showDateTimePicker} />
                 </View>
               <DateTimePicker

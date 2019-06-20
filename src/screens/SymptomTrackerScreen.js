@@ -1,5 +1,5 @@
 import React from 'react';
-import { ScrollView, TouchableOpacity, View, Button, Alert, Text, StyleSheet, BackHandler } from 'react-native';
+import { ScrollView, Keyboard, View, Button, Alert, TextInput, StyleSheet, BackHandler } from 'react-native';
 import { HeaderBackButton } from 'react-navigation'
 import Dialog from "react-native-dialog";
 import SymptomGroup from '../components/SymptomTracker/SymptomGroup';
@@ -15,6 +15,7 @@ export default class SymptomTrackerScreen extends React.Component{
         headerLeft: <HeaderBackButton onPress={() => navigation.state.params.onCancelPressed()}/>,
         headerRight: <View style={{paddingRight: 10}}><Button title="SAVE" onPress={() => navigation.state.params.onOkPressed(true)}/></View>
     })
+
 
     //_didFocusSubscription;
     //_willBlurSubscription;
@@ -32,7 +33,8 @@ export default class SymptomTrackerScreen extends React.Component{
             selectedSymptoms: [], //bit buggy when deleting existing symptoms from list
             dayChangeDialogVisible: false,
             resetSymptomGroup: false,
-            cancelSaveDialogVisible: false
+            cancelSaveDialogVisible: false,
+            keyboardOpen: false
         } 
 
         // this._didFocusSubscription = props.navigation.addListener('didFocus', payload =>
@@ -49,7 +51,34 @@ export default class SymptomTrackerScreen extends React.Component{
             onOkPressed: this.saveCurrentData.bind(this) ,
             onCancelPressed: this.handleCancelButton.bind(this) ,
         })
+
+        this.keyboardDidShowListener = Keyboard.addListener(
+            'keyboardDidShow',
+            this._keyboardDidShow,
+          );
+          this.keyboardDidHideListener = Keyboard.addListener(
+            'keyboardDidHide',
+            this._keyboardDidHide,
+          );
+
     }
+
+    componentWillUnmount() {
+        this.keyboardDidShowListener.remove();
+        this.keyboardDidHideListener.remove();
+      }
+
+      _keyboardDidShow = ()  => {
+        this.setState({
+            keyboardOpen: true,
+        })
+      }
+    
+      _keyboardDidHide = ()  => {
+        this.setState({
+            keyboardOpen: false,
+        })
+      }
 
     // onBackButtonPressAndroid = () => {
     //     alert("B")
@@ -59,11 +88,6 @@ export default class SymptomTrackerScreen extends React.Component{
     //     this._didFocusSubscription && this._didFocusSubscription.remove();
     //     this._willBlurSubscription && this._willBlurSubscription.remove();
     // }
-    
-
-
-
-
 
 
     clearNoteText = () => {
@@ -173,6 +197,14 @@ export default class SymptomTrackerScreen extends React.Component{
     dateEditedHandler = (dateTime) =>{
         //TODO: if symptoms selected and not saved, ask user. Then refresh page.
         this.state.tempDate = dateTime
+
+        let tmpDateTime = this.state.selectedDateAndTime
+        tmpDateTime.setDate(dateTime.getDate())
+        tmpDateTime.setMonth(dateTime.getMonth())
+        tmpDateTime.setFullYear(dateTime.getFullYear())
+        this.setState({
+            selectedDateAndTime: tmpDateTime,
+        })
         if(Array.isArray(this.state.selectedSymptoms) && this.state.selectedSymptoms.length){
             this.showDayChangeSaveDialog()
         }else{
@@ -199,7 +231,7 @@ export default class SymptomTrackerScreen extends React.Component{
     }
 
     symptomSelectedIDsChangedHandler = (sympIDsAndSeverity) =>{
-        Alert.alert("symptomSelectedIDsChangedHandler called");
+        //Alert.alert("symptomSelectedIDsChangedHandler called");
         this.setState({
             selectedSymptoms: sympIDsAndSeverity,
         })
@@ -211,49 +243,62 @@ export default class SymptomTrackerScreen extends React.Component{
 
 
     render(){
-        return(
-            <ScrollView>
-                <HorizontalLineWithText text = "Date"/>
-                <DayChooser ref={component => this._dayChooser = component} date = {getTodayDate()} onDateChanged={this.dateEditedHandler}/>
-                <HorizontalLineWithText text = "Time"/>
-                <SymptomTimePicker ref={component => this._timePicker = component} onTimeChanged={this.timeEditedHandler}/>
-                <HorizontalLineWithText text = "Symptoms"/>
-                <SymptomGroup ref={component => this._symptomGroup = component} onSelectedSymptomIDsChanged={this.symptomSelectedIDsChangedHandler}/>
-                <HorizontalLineWithText text = "Notes"/>
-                <NoteEdit ref={component => this._noteEdit = component} note={this.state.symptomEntryNote} onTextChanged={this.noteEditedHandler}/>
-                <View style={{paddingBottom: 10}} />
 
-                {/*Dialog for Day Change Save Dialog*/}
-                <View>
-                    <Dialog.Container visible={this.state.dayChangeDialogVisible}>
-                    <Dialog.Title>Day Change</Dialog.Title>
-                    <Dialog.Description>
-                        Do you want to save the entries?
-                    </Dialog.Description>
-                    <Dialog.Button label="Cancel" onPress={this.handleDayChangeCancel} />
-                    <Dialog.Button label="Save" onPress={this.handleDayChangeSave} />
-                    </Dialog.Container>
-                </View>
+        const marginToUse = ((this.state.keyboardOpen) ? 300 : 0);
 
-                {/*Dialog for Day Change Save Dialog*/}
-                 <View>
-                    <Dialog.Container visible={this.state.cancelSaveDialogVisible}>
-                    <Dialog.Title>Cancel</Dialog.Title>
-                    <Dialog.Description>
-                        Do you really want to discard the entries?
-                    </Dialog.Description>
-                    <Dialog.Button label="Back" onPress={this.handleBack} />
-                    <Dialog.Button label="Discard" onPress={this.handleDiscard} />
-                    </Dialog.Container>
-                </View>
-            </ScrollView>
-        )
+            return(
+                <ScrollView style={{marginBottom: marginToUse}}>
+                    {/* <TextInput onSubmitEditing={Keyboard.dismiss} /> */}
+                    <HorizontalLineWithText text = "Date"/>
+                    <DayChooser ref={component => this._dayChooser = component} date = {this.state.selectedDateAndTime} onDateChanged={this.dateEditedHandler}/>
+                    <HorizontalLineWithText text = "Time"/>
+                    <SymptomTimePicker ref={component => this._timePicker = component} onTimeChanged={this.timeEditedHandler}/>
+                    <HorizontalLineWithText text = "Symptoms"/>
+                    <SymptomGroup ref={component => this._symptomGroup = component} onSelectedSymptomIDsChanged={this.symptomSelectedIDsChangedHandler}/>
+                    <HorizontalLineWithText text = "Notes"/>
+                    <NoteEdit ref={component => this._noteEdit = component} note={this.state.symptomEntryNote} onTextChanged={this.noteEditedHandler}/>
+                    <View style={{paddingBottom: 10}} />
+    
+                    {/*Dialog for Day Change Save Dialog*/}
+                    <View>
+                        <Dialog.Container visible={this.state.dayChangeDialogVisible}>
+                        <Dialog.Title>Day Change</Dialog.Title>
+                        <Dialog.Description>
+                            Do you want to save the entries?
+                        </Dialog.Description>
+                        <Dialog.Button label="Cancel" onPress={this.handleDayChangeCancel} />
+                        <Dialog.Button label="Save" onPress={this.handleDayChangeSave} />
+                        </Dialog.Container>
+                    </View>
+    
+                    {/*Dialog for Day Change Save Dialog*/}
+                     <View>
+                        <Dialog.Container visible={this.state.cancelSaveDialogVisible}>
+                        <Dialog.Title>Cancel</Dialog.Title>
+                        <Dialog.Description>
+                            Do you really want to discard the entries?
+                        </Dialog.Description>
+                        <Dialog.Button label="Back" onPress={this.handleBack} />
+                        <Dialog.Button label="Discard" onPress={this.handleDiscard} />
+                        </Dialog.Container>
+                    </View>
+                    {/* <KeyboardListener
+                        onWillShow={() => { this.setState({ keyboardOpen: true }); }}
+                        onWillHide={() => { this.setState({ keyboardOpen: false }); }}
+                    /> */}
+                </ScrollView>
+            )
     }
 
     saveCurrentData = (goHome) =>{
+        let added = 1;
         for (let symptom of this.state.selectedSymptoms) {
             let tmpDateTime = this.state.selectedDateAndTime
-            tmpDateTime.setFullYear(tmpDateTime.getFullYear());
+            // if(!(tmpDateTime.getFullYear() >= 1900)){
+            //     tmpDateTime.setFullYear(tmpDateTime.getFullYear() + 1900);
+            // }
+
+            Alert.alert(tmpDateTime.toUTCString())
             DatabaseManager.getInstance().createSymptomEvent(symptom[0], symptom[1], this.state.symptomEntryNote, tmpDateTime.getTime(), (error) => { alert(error)}, null);
         }
 

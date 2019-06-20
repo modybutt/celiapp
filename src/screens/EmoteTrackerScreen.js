@@ -1,11 +1,12 @@
 import React from 'react';
-import { View, Alert, StyleSheet, Button} from 'react-native';
+import { View, Keyboard, ScrollView, StyleSheet, Button} from 'react-native';
 import { HeaderBackButton } from 'react-navigation'
 import Dialog from "react-native-dialog";
 import EmoteTrackerSymbolGroup from '../components/EmoteTracker/EmoteTrackerSymbolGroup';
 import HorizontalLineWithText from '../components/HorizontalLineWithText';
 import NoteEdit from '../components/NoteEdit';
 import DatabaseManager from '../manager/DatabaseManager';
+import DayChooser from '../components/DayChooser';
 
 
 export default class EmoteTrackerScreen extends React.Component{
@@ -17,42 +18,103 @@ export default class EmoteTrackerScreen extends React.Component{
     constructor(props){ 
         super(props)
         this.noteEditedHandler = this.noteEditedHandler.bind(this);
+        this.dateEditedHandler = this.dateEditedHandler.bind(this);
         this.emotionChangedHandler = this.emotionChangedHandler.bind(this);
         this.state={
             show: false,
-            selectedSymbolID: 0, // 0 --> none selected. 1: unhappy, ... , 5: happy
+            selectedSymbolID: 3, // 1: unhappy, ... , 5: happy
+            selectedDateAndTime: new Date(), //works correctly \o/
+            tempDate: new Date(), //used to temporarliy save date and then set it to selectedDateAndTime after corresponding checks
             emoteNote: "",
+            keyboardOpen: false
         }
     }
+
+    clearNoteText = () => {
+        this.setState({
+            emoteNote: ""
+        })
+       this._noteEdit.deleteNote();
+     }
 
     componentDidMount() {        
         this.props.navigation.setParams({ 
             onOkPressed: this.saveCurrentData.bind(this) ,
             onCancelPressed: this.handleCancelButton.bind(this) ,
         })
+
+        this.keyboardDidShowListener = Keyboard.addListener(
+            'keyboardDidShow',
+            this._keyboardDidShow,
+          );
+          this.keyboardDidHideListener = Keyboard.addListener(
+            'keyboardDidHide',
+            this._keyboardDidHide,
+          );
+
     }
+
+    
+    componentWillUnmount() {
+        this.keyboardDidShowListener.remove();
+        this.keyboardDidHideListener.remove();
+      }
+
+      _keyboardDidShow = ()  => {
+        this.setState({
+            keyboardOpen: true,
+        })
+      }
+    
+      _keyboardDidHide = ()  => {
+        this.setState({
+            keyboardOpen: false,
+        })
+      }
+
 
     noteEditedHandler = (note) =>{
         this.setState({
             emoteNote: note,
         });
-
-        Alert.alert("Note: " + note)
     }
 
     emotionChangedHandler = (emotionID) =>{
         this.setState({
             selectedSymbolID: emotionID,
         });
+    }
 
-        Alert.alert("Selected Emotion: " + emotionID)
+    dateEditedHandler = (dateTime) =>{
+        //TODO: if symptoms selected and not saved, ask user. Then refresh page.
+        this.state.tempDate = dateTime
+
+        let tmpDateTime = this.state.selectedDateAndTime
+        tmpDateTime.setDate(dateTime.getDate())
+        tmpDateTime.setMonth(dateTime.getMonth())
+        tmpDateTime.setFullYear(dateTime.getFullYear())
+        this.setState({
+            selectedDateAndTime: tmpDateTime,
+        })
+        if(Array.isArray(this.state.selectedSymptoms) && this.state.selectedSymptoms.length){
+            this.showDayChangeSaveDialog()
+        }else{
+            //symptoms were not edited, but maybe the note. Delete note and update noteEdit
+            this.setState({
+                symptomEntryNote: ""
+            })
+            this.clearNoteText()
+        }
     }
 
     //TODO Uplift selectedSymbolID
 
     render(){
+        const marginToUse = ((this.state.keyboardOpen) ? 300 : 0);
         return(
-            <View style={{marginTop: 50}}>
+            <ScrollView style={{marginBottom: marginToUse}}>
+                <HorizontalLineWithText text = "Date"/>
+                <DayChooser ref={component => this._dayChooser = component} date = {this.state.selectedDateAndTime} onDateChanged={this.dateEditedHandler}/>
                 <HorizontalLineWithText text = "Emotion"/>
                 <EmoteTrackerSymbolGroup ref={component => this._dayChooser = component} onEmotionChanged={this.emotionChangedHandler}/>
                 <HorizontalLineWithText text = "Note"/>
@@ -71,7 +133,7 @@ export default class EmoteTrackerScreen extends React.Component{
                     </Dialog.Container>
                 </View>
 
-            </View>
+            </ScrollView>
         )
     }
 
