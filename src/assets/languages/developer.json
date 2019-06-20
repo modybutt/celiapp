@@ -1,10 +1,17 @@
 {
-	"language": "Developer",
+	"name": "Developer",
 	"keys": {
 		"WELCOME": "Zewas!",
 		"ADD_SYMPTOM": "An Zuastand",
 		"ADD_MEAL": "Neus Eassa",
 		"ADD_EMOTION": "Neus Gfühl",
-		"LANGUAGE": "Sproch"
+		"VIEW_SYMPTOM": "Zuastand aschaua",
+		"VIEW_MEAL": "Eassa aschaua",
+		"VIEW_EMOTION": "Gfühl aschaua",
+		"LANGUAGE": "Sproch",
+		"SAVE": "Speichra",
+		"TRACKINGS": "Ufzeichnunga",
+		"CALENDAR": "Kalendr",
+		"SETTINGS": "Istelliga",
 	}
 }

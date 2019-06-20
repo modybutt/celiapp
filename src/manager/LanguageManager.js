@@ -11,23 +11,33 @@ export default class LanguageManager {
   static getInstance() {
       if (LanguageManager.instance == null) {
         LanguageManager.instance = new LanguageManager();
-        LanguageManager.instance.lang = languages.developer;
+        this.instance.lang = languages.developer;
       }
 
       return this.instance;
   }
 
+  getAllLanguages() {
+    return languages;
+  }
+
   setLanguage(language) {
     if (languages[language] != null) {
       this.lang = languages[language];
+    } else {
+      for (i in languages) {
+        if (language === languages[i].name) {
+          this.lang = languages[i];
+        }
+      }
     }
   }
 
   getLanguage() {
-    return this.lang.language;
+    return this.lang.name;
   }
 
-  getText(key) {      
+  getText(key) {    
     return this.lang.keys[key] == null ? key : this.lang.keys[key];
   }
 }

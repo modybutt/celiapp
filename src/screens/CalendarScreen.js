@@ -11,11 +11,12 @@ import {
 import SymptomCalendarPicker from "../components/SymptomCalendarPicker";  
 import EntryList from "../components/EntryList"
 import MenuButton from '../components/MenuButton';
+import LanguageManager from '../manager/LanguageManager';
 
 export default class CalendarScreen extends React.Component {
-  static navigationOptions = {
-    title: 'Calendar',
-  };
+  static navigationOptions = ({navigation}) => ({
+    title: LanguageManager.getInstance().getText("CALENDAR"),
+  });
 
   state = {
     selectedDate: Date.now()

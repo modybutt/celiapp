@@ -8,12 +8,14 @@ import DayChooser from '../components/DayChooser';
 import SymptomTimePicker from '../components/SymptomTracker/SymptomTimePicker';
 import HorizontalLineWithText from '../components/HorizontalLineWithText';
 import DatabaseManager from '../manager/DatabaseManager';
+import LanguageManager from '../manager/LanguageManager';
 
 
 export default class SymptomTrackerScreen extends React.Component{
     static navigationOptions = ({navigation}) => ({
+        title: LanguageManager.getInstance().getText("ADD_SYMPTOM"),
         headerLeft: <HeaderBackButton onPress={() => navigation.state.params.onCancelPressed()}/>,
-        headerRight: <View style={{paddingRight: 10}}><Button title="SAVE" onPress={() => navigation.state.params.onOkPressed(true)}/></View>
+        headerRight: <View style={{paddingRight: 10}}><Button title={LanguageManager.getInstance().getText("SAVE")} onPress={() => navigation.state.params.onOkPressed(true)}/></View>
     })
 
     //_didFocusSubscription;

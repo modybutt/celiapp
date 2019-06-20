@@ -10,13 +10,15 @@ import DayChooser from '../components/DayChooser';
 import SymptomTimePicker from '../components/SymptomTracker/SymptomTimePicker';
 import HorizontalLineWithText from '../components/HorizontalLineWithText';
 import RatingBar from '../components/RatingBar';
+import LanguageManager from '../manager/LanguageManager';
 
 
 
 export default class FoodDiaryScreen extends React.Component{
     static navigationOptions = ({navigation}) => ({
+        title: LanguageManager.getInstance().getText("ADD_MEAL"),
         headerLeft: <HeaderBackButton onPress={() => navigation.state.params.onCancelPressed()}/>,
-        headerRight: <View style={{paddingRight: 10}}><Button title="SAVE" onPress={() => navigation.state.params.onOkPressed(true)}/></View>
+        headerRight: <View style={{paddingRight: 10}}><Button title={LanguageManager.getInstance().getText("SAVE")} onPress={() => navigation.state.params.onOkPressed(true)}/></View>
     })
 
     constructor(props) {

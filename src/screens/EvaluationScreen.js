@@ -2,11 +2,12 @@ import React from 'react';
 import { View, StyleSheet, } from 'react-native';
 import MenuButton from '../components/MenuButton';
 import EntryList from '../components/EntryList';
+import LanguageManager from '../manager/LanguageManager';
 
 export default class EvaluationScreen extends React.Component {
-  static navigationOptions = {
-    title: 'Trackings',
-  };
+  static navigationOptions = ({navigation}) => ({
+    title: LanguageManager.getInstance().getText("TRACKINGS"),
+  });
 
   render() {
     return (

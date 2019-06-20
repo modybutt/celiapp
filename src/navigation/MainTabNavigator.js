@@ -86,56 +86,29 @@ export default createStackNavigator({
   },
   AddSymptom: {
     screen: SymptomTrackerScreen,
-    navigationOptions: {
-      title: 'Add Symptom'
-    }
   },
   ViewSymptom: {
     screen: SymptomViewScreen,
-    navigationOptions: {
-      title: 'View Symptom'
-    }
   },  
   AddMeal: {
     screen: FoodDiaryScreen,
-    navigationOptions: {
-      title: 'Add Meal',
-    }
   },
   ViewMeal: {
     screen: FoodViewScreen,
-    navigationOptions: {
-      title: 'View Meal'
-    }
   },    
   AddEmote: {
     screen: EmoteTrackerScreen,
-    navigationOptions: {
-      title: 'Add Emotion',
-    }
   },
   ViewEmote: {
     screen: EmoteViewScreen,
-    navigationOptions: {
-      title: 'View Emote'
-    }
   },   
   Settings: {
     screen: SettingsScreen,
-    navigationOptions: {
-      title: 'Settings'
-    }
   },
   Debug: {
     screen: DebugScreen,
-    navigationOptions: {
-      title: 'Debug'
-    }
   },
   Camera: {
     screen: CameraScreen,
-    navigationOptions: {
-      title: 'Cam'
-    }
   } 
 });

@@ -1,10 +1,17 @@
 {
-	"language": "Deutsch",
+	"name": "Deutsch",
 	"keys": {
 		"WELCOME": "Hallo!",
 		"ADD_SYMPTOM": "Symptom hinzufügen",
 		"ADD_MEAL": "Mahlzeit hinzufügen",
 		"ADD_EMOTION": "Emotion hinzufügen",
-		"LANGUAGE": "Sprache"
+		"VIEW_SYMPTOM": "Eintrag: Symptom",
+		"VIEW_MEAL": "Eintrag: Mahlzeit",
+		"VIEW_EMOTION": "Eintrag: Emotion",
+		"LANGUAGE": "Sprache",
+		"SAVE": "Speichern",
+		"TRACKINGS": "Aufzeichnungen",
+		"CALENDAR": "Kalender",
+		"SETTINGS": "Einstellungen",
 	}
 }
