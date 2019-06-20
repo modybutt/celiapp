@@ -11,7 +11,6 @@ import MenuButton from '../components/MenuButton';
 import PopUpMenu from '../components/PopUpMenu';
 import LanguageManager from '../manager/LanguageManager';
 
-
 export default class HomeScreen extends React.Component {
   onPopupEvent(eventName, index) {
     if (eventName !== 'itemSelected') {
@@ -26,11 +25,16 @@ export default class HomeScreen extends React.Component {
   }
 
   render() {
+    let popupNames = [
+      LanguageManager.getInstance().getText("SETTINGS"),
+      LanguageManager.getInstance().getText("CAMERA"),
+      LanguageManager.getInstance().getText("DEBUG"),
+    ];
+
     return (
       <ImageBackground source={Background} style={styles.background}>
-        <Text>{LanguageManager.getInstance().getText('WELCOME')}</Text>
         <Gluton style={styles.gluton}/>
-        <PopUpMenu style={styles.popup} actions={['Settings', 'Camera', 'Debug']} onPress={(name, index) => this.onPopupEvent(name, index)} />
+        <PopUpMenu style={styles.popup} actions={popupNames} onPress={(name, index) => this.onPopupEvent(name, index)} />
         <MenuButton navigation={this.props.navigation}/>
       </ImageBackground>
 	  );
@@ -53,5 +57,4 @@ const styles = StyleSheet.create({
     left: '25%',
   },
 });
-
 

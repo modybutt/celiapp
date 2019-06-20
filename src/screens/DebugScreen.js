@@ -20,8 +20,12 @@ import EntryList from '../components/EntryList';
 import DayChooser from '../components/DayChooser';
 import SymptomTimePicker from  '../components/SymptomTracker/SymptomTimePicker';
 import FoodDiaryRatingBar from '../components/FoodDiary/FoodDiaryRatingBar';
+import LanguageManager from '../manager/LanguageManager';
 
 export default class DebugScreen extends React.Component {
+  static navigationOptions = ({navigation}) => ({
+    title: LanguageManager.getInstance().getText("DEBUG"),
+  });
   render() {
     const {navigate} = this.props.navigation;
     const image = __DEV__ ? require('../assets/images/robot-dev.png') : require('../assets/images/robot-prod.png');

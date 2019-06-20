@@ -2,9 +2,14 @@ import React from 'react';
 import { Text, View, TouchableOpacity, Button, Image } from 'react-native';
 import { Camera, Permissions } from 'expo';
 import DatabaseManager from '../manager/DatabaseManager';
+import LanguageManager from '../manager/LanguageManager';
 
 
 export default class SettingsScreen extends React.Component {
+  static navigationOptions = ({navigation}) => ({
+    title: LanguageManager.getInstance().getText("CAMERA"),
+  });
+  
   state = {
     hasCameraPermission: null,
     type: Camera.Constants.Type.back,

@@ -157,7 +157,8 @@ export default class SymptomIconButton extends Component {
 
 	handleAddButtonPress = () => {
 		if(this.props.type == 4){
-			Alert.alert("MOAR SYMPTOMSSSSSSSSSSS");
+			//TODO: Show List
+			//Alert.alert("MOAR SYMPTOMSSSSSSSSSSS");
 		}else{
 			if(this.state.bigBubbleColor.localeCompare('rgb(180, 180, 180)')){
 				this.setState({bigBubbleColor: 'rgb(180, 180, 180)'})
@@ -184,7 +185,7 @@ export default class SymptomIconButton extends Component {
 					this.setState({selected: !selected});
 				}else{
 					if(setEnabled){
-						Alert.alert("hallo");
+						//Alert.alert("hallo");
 						this.props.onSeverityChooserHandled(true, this.props.symptomID);
 					}
 				}

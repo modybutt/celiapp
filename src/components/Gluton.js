@@ -11,12 +11,14 @@ import {
 import Gluton_HAPPY from "../assets/images/vielfrass_org.png";
 import Gluton_SAD from "../assets/images/vielfrass_sad.png";
 import Gluton_LOVE from "../assets/images/heart.png";
+import LanguageManager from '../manager/LanguageManager';
+
 
 export default class Gluton extends React.Component {
     state = {
         trust: .5,
         happy: true,
-        message: "Hello World!\nMy Name is Gluton.\n\nNice to meet you, Buddy!",
+        message: LanguageManager.getInstance().getText("GLUTON_WELCOME"),
         love: new Animated.Value(0),
     }
 
@@ -42,7 +44,7 @@ export default class Gluton extends React.Component {
             ]).start();                        // Starts the animation
 
             let currMsg = this.state.message;
-            this.setState({message: "Hahahahaha!\nStop tickling me like that!\nHahahahaha!"});
+            this.setState({message: LanguageManager.getInstance().getText("GLUTON_TICKLE")});
 
             setTimeout(() => { 
                 this.setState({message: currMsg});

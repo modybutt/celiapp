@@ -12,11 +12,12 @@ import HorizontalLineWithText from '../components/HorizontalLineWithText';
 import FoodDiaryRatingBar from '../components/FoodDiary/FoodDiaryRatingBar';
 import FoodDiaryTagEdit from '../components/FoodDiary/FoodDiaryTagEdit'
 import FoodDiaryImageEdit from '../components/FoodDiary/FoodDiaryImageEdit'
-
+import LanguageManager from '../manager/LanguageManager';
 
 
 export default class FoodDiaryScreen extends React.Component{
     static navigationOptions = ({navigation}) => ({
+        title: LanguageManager.getInstance().getText("ADD_MEAL"),
         headerLeft: <HeaderBackButton onPress={() => navigation.state.params.onCancelPressed()}/>,
         headerRight: <View style={{paddingRight: 10}}><Button title="SAVE" onPress={() => navigation.state.params.onOkPressed(true)}/></View>
     })
@@ -29,7 +30,7 @@ export default class FoodDiaryScreen extends React.Component{
         this.timeEditedHandler = this.timeEditedHandler.bind(this);
         this.ratingEditedHandler = this.ratingEditedHandler.bind(this);
         this.state = {
-            foodEntryNote: "", 
+            foodEntryNote: "",
             tempDate: new Date(), 
             foodEntryName: "", 
             selectedDateAndTime: new Date(), 
@@ -173,31 +174,31 @@ export default class FoodDiaryScreen extends React.Component{
 
         return (
             <ScrollView style={{marginBottom: marginToUse}}>
-                <HorizontalLineWithText text = "Date"/>
+                <HorizontalLineWithText text = {LanguageManager.getInstance().getText("DATE")}/>
                 <DayChooser ref={component => this._dayChooser = component} date = {this.state.selectedDateAndTime} onDateChanged={this.dateEditedHandler}/>
-                <HorizontalLineWithText text = "Time"/>
+                <HorizontalLineWithText text = {LanguageManager.getInstance().getText("TIME")}/>
                 <FoodDiaryTimePicker ref={component => this._timePicker = component} onTimeChanged={this.timeEditedHandler}/>
-                <HorizontalLineWithText text = "Name"/>
+                <HorizontalLineWithText text = {LanguageManager.getInstance().getText("NAME")}/>
                 <TextInputSingleLine ref={component => this._name = component} onTextChanged={this.nameEditedHandler} style={{Top: 10}}/>
-                <HorizontalLineWithText text = "Tag"/>
+                <HorizontalLineWithText text = {LanguageManager.getInstance().getText("TAGS")}/>
                 <FoodDiaryTagEdit/>
-                <HorizontalLineWithText text = "Image"/>
+                <HorizontalLineWithText text = {LanguageManager.getInstance().getText("IMAGE")}/>
                 <FoodDiaryImageEdit/>
-                <HorizontalLineWithText text = "Rating"/>
+                <HorizontalLineWithText text = {LanguageManager.getInstance().getText("RATING")}/>
                 <View style={styles.ratingBarView}>
                     <FoodDiaryRatingBar ref={component => this._rating = component}  onRatingChanged={this.ratingEditedHandler}/>
                 </View> 
-                <HorizontalLineWithText text = "Notes" style={{Top: 10}}/>
+                <HorizontalLineWithText text = {LanguageManager.getInstance().getText("NOTES")} style={{Top: 10}}/>
                 <NoteEdit ref={component => this._noteEdit = component} note={this.state.symptomEntryNote} onTextChanged={this.noteEditedHandler} style={{Top: 10}}/>
                
                 <View>
                     <Dialog.Container visible={this.state.cancelSaveDialogVisible}>
-                        <Dialog.Title>Cancel</Dialog.Title>
+                        <Dialog.Title>{LanguageManager.getInstance().getText("DISCARD")}</Dialog.Title>
                         <Dialog.Description>
-                            Do you really want to discard the entries?
+                        {LanguageManager.getInstance().getText("DO_YOU_WANT_TO_DISCARD")}
                         </Dialog.Description>
-                        <Dialog.Button label="Back" onPress={() => this.handleBack()} />
-                        <Dialog.Button label="Discard" onPress={() => this.handleDiscard()} />
+                        <Dialog.Button label={LanguageManager.getInstance().getText("BACK")} onPress={() => this.handleBack()} />
+                        <Dialog.Button label={LanguageManager.getInstance().getText("DISCARD")} onPress={() => this.handleDiscard()} />
                     </Dialog.Container>
                 </View>
             </ScrollView>
@@ -205,9 +206,7 @@ export default class FoodDiaryScreen extends React.Component{
     }
 
 }
-    function getTodayDate(){
-        return new Date()
-    }
+
       
     
     var styles = StyleSheet.create({
