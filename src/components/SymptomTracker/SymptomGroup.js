@@ -93,7 +93,7 @@ export default class SymptomGroup extends React.Component{
             <View>
                 <View style={{zIndex: 0}}>
                 <View style={{
-                    height:150,
+                    height:130,
                     flexDirection: 'row',
                     justifyContent: 'space-around',
                     alignItems: 'center',
@@ -113,7 +113,7 @@ export default class SymptomGroup extends React.Component{
                     </View>              
                 </View>
                 <View style={{
-                    height:150,
+                    height:130,
                     flexDirection:'row',
                     justifyContent: 'space-around',
                     alignItems:'center',
@@ -133,7 +133,6 @@ export default class SymptomGroup extends React.Component{
                         <SymptomIconButton ref={component => this._moreSymp = component} type = {4} symptomID={8} onSeverityChooserHandled = {this.severityChooserHandler} canOpenSeverity = {this.state.canOpenSeverityChooser} onSymptomSelected = {this.symptomSelected} onSymptomDeselected = {this.symptomDeselected}/>
                     </View>
                 </View>
-                <HorizontalLine />
                 </View>
                 {/* Trying to implement a transprant background when one item is clicked. Doesnt work with tap targets of symptom severities... not clickable}*/}
                 {/* <View style={{

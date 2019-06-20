@@ -87,7 +87,7 @@ export default createStackNavigator({
   AddSymptom: {
     screen: SymptomTrackerScreen,
     navigationOptions: {
-      title: 'Add Symptom'
+      title: 'Symptomtracker'
     }
   },
   ViewSymptom: {
@@ -99,7 +99,7 @@ export default createStackNavigator({
   AddMeal: {
     screen: FoodDiaryScreen,
     navigationOptions: {
-      title: 'Add Meal',
+      title: 'Food Diary',
     }
   },
   ViewMeal: {
@@ -111,7 +111,7 @@ export default createStackNavigator({
   AddEmote: {
     screen: EmoteTrackerScreen,
     navigationOptions: {
-      title: 'Add Emotion',
+      title: 'Emotions',
     }
   },
   ViewEmote: {

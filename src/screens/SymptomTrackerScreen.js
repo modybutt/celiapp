@@ -1,5 +1,5 @@
 import React from 'react';
-import { ScrollView, Keyboard, View, Button, Alert, Text, StyleSheet, BackHandler } from 'react-native';
+import { ScrollView, Keyboard, View, Button, Alert, TextInput, StyleSheet, BackHandler } from 'react-native';
 import { HeaderBackButton } from 'react-navigation'
 import Dialog from "react-native-dialog";
 import SymptomGroup from '../components/SymptomTracker/SymptomGroup';
@@ -8,7 +8,6 @@ import DayChooser from '../components/DayChooser';
 import SymptomTimePicker from '../components/SymptomTracker/SymptomTimePicker';
 import HorizontalLineWithText from '../components/HorizontalLineWithText';
 import DatabaseManager from '../manager/DatabaseManager';
-import KeyboardListener from 'react-native-keyboard-listener';
 
 
 export default class SymptomTrackerScreen extends React.Component{
@@ -52,7 +51,34 @@ export default class SymptomTrackerScreen extends React.Component{
             onOkPressed: this.saveCurrentData.bind(this) ,
             onCancelPressed: this.handleCancelButton.bind(this) ,
         })
+
+        this.keyboardDidShowListener = Keyboard.addListener(
+            'keyboardDidShow',
+            this._keyboardDidShow,
+          );
+          this.keyboardDidHideListener = Keyboard.addListener(
+            'keyboardDidHide',
+            this._keyboardDidHide,
+          );
+
     }
+
+    componentWillUnmount() {
+        this.keyboardDidShowListener.remove();
+        this.keyboardDidHideListener.remove();
+      }
+
+      _keyboardDidShow = ()  => {
+        this.setState({
+            keyboardOpen: true,
+        })
+      }
+    
+      _keyboardDidHide = ()  => {
+        this.setState({
+            keyboardOpen: false,
+        })
+      }
 
     // onBackButtonPressAndroid = () => {
     //     alert("B")
@@ -217,47 +243,51 @@ export default class SymptomTrackerScreen extends React.Component{
 
 
     render(){
-        return(
-            <ScrollView style={{margin: 100}}>
-                <HorizontalLineWithText text = "Date"/>
-                <DayChooser ref={component => this._dayChooser = component} date = {this.state.selectedDateAndTime} onDateChanged={this.dateEditedHandler}/>
-                <HorizontalLineWithText text = "Time"/>
-                <SymptomTimePicker ref={component => this._timePicker = component} onTimeChanged={this.timeEditedHandler}/>
-                <HorizontalLineWithText text = "Symptoms"/>
-                <SymptomGroup ref={component => this._symptomGroup = component} onSelectedSymptomIDsChanged={this.symptomSelectedIDsChangedHandler}/>
-                <HorizontalLineWithText text = "Notes"/>
-                <NoteEdit ref={component => this._noteEdit = component} note={this.state.symptomEntryNote} onTextChanged={this.noteEditedHandler}/>
-                <View style={{paddingBottom: 10}} />
 
-                {/*Dialog for Day Change Save Dialog*/}
-                <View>
-                    <Dialog.Container visible={this.state.dayChangeDialogVisible}>
-                    <Dialog.Title>Day Change</Dialog.Title>
-                    <Dialog.Description>
-                        Do you want to save the entries?
-                    </Dialog.Description>
-                    <Dialog.Button label="Cancel" onPress={this.handleDayChangeCancel} />
-                    <Dialog.Button label="Save" onPress={this.handleDayChangeSave} />
-                    </Dialog.Container>
-                </View>
+        const marginToUse = ((this.state.keyboardOpen) ? 300 : 0);
 
-                {/*Dialog for Day Change Save Dialog*/}
-                 <View>
-                    <Dialog.Container visible={this.state.cancelSaveDialogVisible}>
-                    <Dialog.Title>Cancel</Dialog.Title>
-                    <Dialog.Description>
-                        Do you really want to discard the entries?
-                    </Dialog.Description>
-                    <Dialog.Button label="Back" onPress={this.handleBack} />
-                    <Dialog.Button label="Discard" onPress={this.handleDiscard} />
-                    </Dialog.Container>
-                </View>
-                <KeyboardListener
-                    onWillShow={() => { this.setState({ keyboardOpen: true }); }}
-                    onWillHide={() => { this.setState({ keyboardOpen: false }); }}
-                />
-            </ScrollView>
-        )
+            return(
+                <ScrollView style={{marginBottom: marginToUse}}>
+                    {/* <TextInput onSubmitEditing={Keyboard.dismiss} /> */}
+                    <HorizontalLineWithText text = "Date"/>
+                    <DayChooser ref={component => this._dayChooser = component} date = {this.state.selectedDateAndTime} onDateChanged={this.dateEditedHandler}/>
+                    <HorizontalLineWithText text = "Time"/>
+                    <SymptomTimePicker ref={component => this._timePicker = component} onTimeChanged={this.timeEditedHandler}/>
+                    <HorizontalLineWithText text = "Symptoms"/>
+                    <SymptomGroup ref={component => this._symptomGroup = component} onSelectedSymptomIDsChanged={this.symptomSelectedIDsChangedHandler}/>
+                    <HorizontalLineWithText text = "Notes"/>
+                    <NoteEdit ref={component => this._noteEdit = component} note={this.state.symptomEntryNote} onTextChanged={this.noteEditedHandler}/>
+                    <View style={{paddingBottom: 10}} />
+    
+                    {/*Dialog for Day Change Save Dialog*/}
+                    <View>
+                        <Dialog.Container visible={this.state.dayChangeDialogVisible}>
+                        <Dialog.Title>Day Change</Dialog.Title>
+                        <Dialog.Description>
+                            Do you want to save the entries?
+                        </Dialog.Description>
+                        <Dialog.Button label="Cancel" onPress={this.handleDayChangeCancel} />
+                        <Dialog.Button label="Save" onPress={this.handleDayChangeSave} />
+                        </Dialog.Container>
+                    </View>
+    
+                    {/*Dialog for Day Change Save Dialog*/}
+                     <View>
+                        <Dialog.Container visible={this.state.cancelSaveDialogVisible}>
+                        <Dialog.Title>Cancel</Dialog.Title>
+                        <Dialog.Description>
+                            Do you really want to discard the entries?
+                        </Dialog.Description>
+                        <Dialog.Button label="Back" onPress={this.handleBack} />
+                        <Dialog.Button label="Discard" onPress={this.handleDiscard} />
+                        </Dialog.Container>
+                    </View>
+                    {/* <KeyboardListener
+                        onWillShow={() => { this.setState({ keyboardOpen: true }); }}
+                        onWillHide={() => { this.setState({ keyboardOpen: false }); }}
+                    /> */}
+                </ScrollView>
+            )
     }
 
     saveCurrentData = (goHome) =>{

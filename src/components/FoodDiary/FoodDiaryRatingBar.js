@@ -7,7 +7,7 @@ import {
 import { Icon } from 'expo';
 
 
-export default class RatingBar extends React.Component {
+export default class FoodDiaryRatingBar extends React.Component {
     
     state = {
         rating: this.props.rating == null ? 0 : this.props.rating,
