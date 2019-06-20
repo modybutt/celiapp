@@ -9,6 +9,7 @@ import SymptomTimePicker from '../components/SymptomTracker/SymptomTimePicker';
 import HorizontalLineWithText from '../components/HorizontalLineWithText';
 import DatabaseManager from '../manager/DatabaseManager';
 
+//merging started
 
 export default class SymptomTrackerScreen extends React.Component{
     static navigationOptions = ({navigation}) => ({
