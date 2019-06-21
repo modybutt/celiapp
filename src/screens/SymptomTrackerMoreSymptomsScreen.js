@@ -67,7 +67,7 @@ export default class SymptomTrackerMoreSymptomsScreen extends React.Component{
         return(
             <View>
             <SearchSymptomList/>
-            <ScrollView>
+            <ScrollView style={{marginBottom: 100}}>
                 <SymptomListRow ref={component => this._symptomList = component} onSelectedSymptomIDsChanged={this.symptomSelectedIDsChangedHandler}/>
             </ScrollView>
             </View>
