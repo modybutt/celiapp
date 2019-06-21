@@ -14,7 +14,7 @@
 		"CALENDAR": "Kalender",
 		"SETTINGS": "Einstellungen",
 		"GLUTON_WELCOME": "Hallo!\nMein name ist Gluton.\n\nFreut mich dich kennenzulernen, {0}!",
-		"GLUTON_TICKLE": "Hahaha!\nBitte An der Stelle bin ich besonders kitzlig!\nHahaha!",
+		"GLUTON_TICKLE": "Hahaha!\nNicht! an der Stelle bin ich besonders kitzlig!\nHahaha!",
 		"GLUTON_THANKS": "Vielen Dank!\n\nEcht super von dir, {0}! Weiter so.",
 		"GLUTON_BUDDY": "Kumpel",
 		"DATE": "Datum",
@@ -35,7 +35,7 @@
 		"USER_DEFINED_SYMPTOM": "NDS",
 		"VOMITING": "Erbrechen",
 		"WEIGHT_LOSS": "Gewichtsverlust",
-		"CLOATING": "Cloating",
+		"CLOATING": "Blähungen",
 		"MORE_SYMPTOMS": "Mehr...",
 		"NAME": "Name",
 		"TAGS": "Tags",
@@ -51,6 +51,7 @@
 		"CAMERA": "Kamera",
 		"DEBUG": "Debug",
 		"SYMPTOM_LIST": "Symptomliste",
-		"SEARCH": "Suchen"
+		"SEARCH": "Suchen",
+		"NICKNAME": "Spitzname"
 	}
 }
