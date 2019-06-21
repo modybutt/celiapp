@@ -256,7 +256,7 @@ export default class SymptomTrackerScreen extends React.Component{
                     <HorizontalLineWithText text = {LanguageManager.getInstance().getText("TIME")}/>
                     <SymptomTimePicker ref={component => this._timePicker = component} onTimeChanged={this.timeEditedHandler}/>
                     <HorizontalLineWithText text = {LanguageManager.getInstance().getText("SYMPTOMS")}/>
-                    <SymptomGroup ref={component => this._symptomGroup = component} onSelectedSymptomIDsChanged={this.symptomSelectedIDsChangedHandler} selectedDate = {this.state.selectedDateAndTime} navigation = {this.props.navigation}/>
+                    <SymptomGroup ref={component => this._symptomGroup = component} onSelectedSymptomIDsChanged={this.symptomSelectedIDsChangedHandler} navigation = {this.props.navigation}/>
                     <HorizontalLineWithText text = {LanguageManager.getInstance().getText("NOTES")}/>
                     <NoteEdit ref={component => this._noteEdit = component} note={this.state.symptomEntryNote} onTextChanged={this.noteEditedHandler}/>
                     <View style={{paddingBottom: 10}} />
