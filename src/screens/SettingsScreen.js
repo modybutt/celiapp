@@ -1,10 +1,12 @@
 import React from 'react';
-import { Text, View, Button, Picker } from 'react-native';
+import { View, Button, Picker, TextInput } from 'react-native';
 import Dialog from "react-native-dialog";
 import { HeaderBackButton } from 'react-navigation'
+// import TextInputSingleLine from '../components/TextInputSingleLine';
+import HorizontalLineWithText from '../components/HorizontalLineWithText';
 import LanguageManager from '../manager/LanguageManager';
 import DatabaseManager from '../manager/DatabaseManager';
-
+import GlutonManager from '../manager/GlutonManager';
 
 export default class SettingsScreen extends React.Component {
   static navigationOptions = ({navigation}) => ({
@@ -17,6 +19,7 @@ export default class SettingsScreen extends React.Component {
     modified: true, // true for DEBUG now
     cancelSaveDialogVisible: false,
     language: LanguageManager.getInstance().getLanguage(),
+    nickname: GlutonManager.getInstance().getBuddy(),
   }
 
   componentDidMount() {        
@@ -28,8 +31,11 @@ export default class SettingsScreen extends React.Component {
 
   saveCurrentData(goHome) {
     LanguageManager.getInstance().setLanguage(this.state.language);
-    DatabaseManager.getInstance().saveSettings('language', LanguageManager.getInstance().getLanguage(), (error) => {alert(error)}, null);
+    GlutonManager.getInstance().setBuddy(this.state.nickname);
 
+    DatabaseManager.getInstance().saveSettings('language', LanguageManager.getInstance().getLanguage(), (error) => {alert(error)}, null);
+    DatabaseManager.getInstance().saveSettings('nickname', GlutonManager.getInstance().getBuddy(), (error) => {alert(error)}, null);
+    
     if (goHome) {
         setTimeout(() => this.props.navigation.goBack(), 100);
     }
@@ -59,7 +65,7 @@ export default class SettingsScreen extends React.Component {
   render() {
     return (
       <View>
-        <Text>Language</Text>
+        <HorizontalLineWithText text={LanguageManager.getInstance().getText("LANGUAGE")}/>
         <Picker
           selectedValue={this.state.language}
           style={{height: 50, width: '50%'}}
@@ -70,7 +76,9 @@ export default class SettingsScreen extends React.Component {
             <Picker.Item key={lang.name} label={lang.name} value={lang.name} />
           ))}
         </Picker>
-
+        <HorizontalLineWithText text={LanguageManager.getInstance().getText("NICKNAME")}/>
+        {/* <TextInputSingleLine defaultValue={this.state.nickname} onChangText={(name) => this.setState({nickname: name})} style={{Top: 10}}/> */}
+        <TextInput onChangeText={(text) => this.setState({nickname: text})} value={this.state.nickname} />
 
         <View>
             <Dialog.Container visible={this.state.cancelSaveDialogVisible}>

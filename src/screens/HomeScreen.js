@@ -52,9 +52,11 @@ const styles = StyleSheet.create({
     top: 40,
   },
   gluton: {
-    position: 'absolute',
+    //position: 'absolute',
     top: '25%',
-    left: '25%',
+    //left: '25%',
+    width: '100%',
+    alignItems: 'center'
   },
 });
 

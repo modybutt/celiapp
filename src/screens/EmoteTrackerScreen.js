@@ -6,8 +6,9 @@ import EmoteTrackerSymbolGroup from '../components/EmoteTracker/EmoteTrackerSymb
 import HorizontalLineWithText from '../components/HorizontalLineWithText';
 import NoteEdit from '../components/NoteEdit';
 import DatabaseManager from '../manager/DatabaseManager';
-import DayChooser from '../components/DayChooser';
 import LanguageManager from '../manager/LanguageManager';
+import GlutonManager from '../manager/GlutonManager';
+import DayChooser from '../components/DayChooser';
 
 export default class EmoteTrackerScreen extends React.Component{
     static navigationOptions = ({navigation}) => ({
@@ -141,7 +142,10 @@ export default class EmoteTrackerScreen extends React.Component{
 
     saveCurrentData = (goHome) =>{
         let tmpDateTime = this.state.selectedDateAndTime
-        DatabaseManager.getInstance().createEmotionEvent(this.state.selectedSymbolID, this.state.emoteNote, tmpDateTime.getTime(), (error) => { alert(error)}, null);
+        DatabaseManager.getInstance().createEmotionEvent(this.state.selectedSymbolID, this.state.emoteNote, tmpDateTime.getTime(), 
+            (error) => {alert(error)}, 
+            () => {GlutonManager.getInstance().setMessage(2)}
+        );
 
         if (goHome) {
             setTimeout(() => this.navigateHome(), 100);

@@ -12,7 +12,7 @@ export default class LanguageManager {
   static getInstance() {
       if (LanguageManager.instance == null) {
         LanguageManager.instance = new LanguageManager();
-        LanguageManager.instance.lang = languages.deutsch;
+        this.instance.lang = languages.developer;
       }
 
       return this.instance;
@@ -35,10 +35,18 @@ export default class LanguageManager {
   }
 
   getLanguage() {
-    return this.lang.language;
+    return this.lang.name;
   }
 
-  getText(key) {      
-    return this.lang.keys[key] == null ? key : this.lang.keys[key];
+  getText(key, params) {    
+    text = this.lang.keys[key] == null ? key : this.lang.keys[key];
+
+    if (params != null) {
+      for (i in params) {
+        text = text.split("{" + i + "}").join(params[i]);
+      }
+    }
+
+    return text;
   }
 }

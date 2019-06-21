@@ -13,6 +13,7 @@ import FoodDiaryRatingBar from '../components/FoodDiary/FoodDiaryRatingBar';
 import FoodDiaryTagEdit from '../components/FoodDiary/FoodDiaryTagEdit'
 import FoodDiaryImageEdit from '../components/FoodDiary/FoodDiaryImageEdit'
 import LanguageManager from '../manager/LanguageManager';
+import GlutonManager from '../manager/GlutonManager';
 
 
 export default class FoodDiaryScreen extends React.Component{
@@ -136,7 +137,10 @@ export default class FoodDiaryScreen extends React.Component{
     saveCurrentData(goHome) {
         let tmpDateTime = this.state.selectedDateAndTime
         tmpDateTime.setFullYear(tmpDateTime.getFullYear());
-        DatabaseManager.getInstance().createMealEvent(this.foodEntryName, 0, 0, this.foodRating, this.foodEntryNote, null, tmpDateTime.getTime(), (error) => { alert(error)}, null);
+        DatabaseManager.getInstance().createMealEvent(this.foodEntryName, 0, 0, this.foodRating, this.foodEntryNote, null, tmpDateTime.getTime(), 
+            (error) => {alert(error)}, 
+            () => {GlutonManager.getInstance().setMessage(2)}
+        );
 
         if (goHome) {
             setTimeout(() => this.navigateHome(), 100);
