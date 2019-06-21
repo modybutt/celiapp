@@ -15,7 +15,7 @@ export default class SymptomTrackerScreen extends React.Component{
     static navigationOptions = ({navigation}) => ({
         title: LanguageManager.getInstance().getText("ADD_SYMPTOM"),
         headerLeft: <HeaderBackButton onPress={() => navigation.state.params.onCancelPressed()}/>,
-        headerRight: <View style={{paddingRight: 10}}><Button title="SAVE" onPress={() => navigation.state.params.onOkPressed(true)}/></View>
+        headerRight: <View style={{paddingRight: 10}}><Button title={LanguageManager.getInstance().getText("SAVE")} onPress={() => navigation.state.params.onOkPressed(true)}/></View>
     })
 
 
@@ -256,7 +256,7 @@ export default class SymptomTrackerScreen extends React.Component{
                     <HorizontalLineWithText text = {LanguageManager.getInstance().getText("TIME")}/>
                     <SymptomTimePicker ref={component => this._timePicker = component} onTimeChanged={this.timeEditedHandler}/>
                     <HorizontalLineWithText text = {LanguageManager.getInstance().getText("SYMPTOMS")}/>
-                    <SymptomGroup ref={component => this._symptomGroup = component} onSelectedSymptomIDsChanged={this.symptomSelectedIDsChangedHandler}/>
+                    <SymptomGroup ref={component => this._symptomGroup = component} onSelectedSymptomIDsChanged={this.symptomSelectedIDsChangedHandler} selectedDate = {selectedDateAndTime}/>
                     <HorizontalLineWithText text = {LanguageManager.getInstance().getText("NOTES")}/>
                     <NoteEdit ref={component => this._noteEdit = component} note={this.state.symptomEntryNote} onTextChanged={this.noteEditedHandler}/>
                     <View style={{paddingBottom: 10}} />
@@ -299,8 +299,6 @@ export default class SymptomTrackerScreen extends React.Component{
             // if(!(tmpDateTime.getFullYear() >= 1900)){
             //     tmpDateTime.setFullYear(tmpDateTime.getFullYear() + 1900);
             // }
-
-            Alert.alert(tmpDateTime.toUTCString())
             DatabaseManager.getInstance().createSymptomEvent(symptom[0], symptom[1], this.state.symptomEntryNote, tmpDateTime.getTime(), (error) => { alert(error)}, null);
         }
 

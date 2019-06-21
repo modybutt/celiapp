@@ -58,8 +58,6 @@ export default class SymptomGroup extends React.Component{
             });
         }
 
-        Alert.alert("SymptomID: " + symptomID)
-
     }
 
 
