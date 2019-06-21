@@ -1,5 +1,5 @@
 import React from 'react';
-import {View, Text} from 'react-native';
+import {View, Text, Button} from 'react-native';
 import LanguageManager from '../../manager/LanguageManager';
 
 
@@ -16,6 +16,7 @@ export default class FoodDiaryImageEdit extends React.Component {
         return(
             <View>
                 <Text>Hallo</Text>
+                <Button title="kamera" onPress={() => this.props.navigation.navigate('Camera')}/>
             </View>       
     )}
 }

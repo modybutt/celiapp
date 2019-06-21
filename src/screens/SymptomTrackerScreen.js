@@ -257,7 +257,7 @@ export default class SymptomTrackerScreen extends React.Component{
                     <HorizontalLineWithText text = {LanguageManager.getInstance().getText("TIME")}/>
                     <SymptomTimePicker ref={component => this._timePicker = component} onTimeChanged={this.timeEditedHandler}/>
                     <HorizontalLineWithText text = {LanguageManager.getInstance().getText("SYMPTOMS")}/>
-                    <SymptomGroup ref={component => this._symptomGroup = component} onSelectedSymptomIDsChanged={this.symptomSelectedIDsChangedHandler}/>
+                    <SymptomGroup ref={component => this._symptomGroup = component} onSelectedSymptomIDsChanged={this.symptomSelectedIDsChangedHandler} navigation = {this.props.navigation}/>
                     <HorizontalLineWithText text = {LanguageManager.getInstance().getText("NOTES")}/>
                     <NoteEdit ref={component => this._noteEdit = component} note={this.state.symptomEntryNote} onTextChanged={this.noteEditedHandler}/>
                     <View style={{paddingBottom: 10}} />
@@ -300,7 +300,7 @@ export default class SymptomTrackerScreen extends React.Component{
             // if(!(tmpDateTime.getFullYear() >= 1900)){
             //     tmpDateTime.setFullYear(tmpDateTime.getFullYear() + 1900);
             // }
-
+            
             Alert.alert(tmpDateTime.toUTCString())
             DatabaseManager.getInstance().createSymptomEvent(symptom[0], symptom[1], this.state.symptomEntryNote, tmpDateTime.getTime(), 
                 (error) => {alert(error)}, 

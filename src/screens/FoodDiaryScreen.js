@@ -1,6 +1,6 @@
 
 import React from 'react';
-import { View, Button, ScrollView, Keyboard, StyleSheet} from 'react-native';
+import { View, Button, ScrollView, Keyboard,Alert,StyleSheet} from 'react-native';
 import Dialog from "react-native-dialog";
 import { HeaderBackButton } from 'react-navigation'
 import DatabaseManager from '../manager/DatabaseManager';
@@ -172,6 +172,7 @@ export default class FoodDiaryScreen extends React.Component{
         this.navigateHome()
     };
 
+
     render() {
 
         const marginToUse = ((this.state.keyboardOpen) ? 300 : 0);
@@ -187,7 +188,7 @@ export default class FoodDiaryScreen extends React.Component{
                 <HorizontalLineWithText text = {LanguageManager.getInstance().getText("TAGS")}/>
                 <FoodDiaryTagEdit/>
                 <HorizontalLineWithText text = {LanguageManager.getInstance().getText("IMAGE")}/>
-                <FoodDiaryImageEdit/>
+                <FoodDiaryImageEdit navigation = {this.props.navigation}/>
                 <HorizontalLineWithText text = {LanguageManager.getInstance().getText("RATING")}/>
                 <View style={styles.ratingBarView}>
                     <FoodDiaryRatingBar ref={component => this._rating = component}  onRatingChanged={this.ratingEditedHandler}/>
