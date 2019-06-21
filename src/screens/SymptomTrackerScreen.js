@@ -9,6 +9,7 @@ import SymptomTimePicker from '../components/SymptomTracker/SymptomTimePicker';
 import HorizontalLineWithText from '../components/HorizontalLineWithText';
 import DatabaseManager from '../manager/DatabaseManager';
 import LanguageManager from '../manager/LanguageManager';
+import GlutonManager from '../manager/GlutonManager';
 
 
 export default class SymptomTrackerScreen extends React.Component{
@@ -256,7 +257,10 @@ export default class SymptomTrackerScreen extends React.Component{
         for (let symptom of this.state.selectedSymptoms) {
             let tmpDateTime = this.state.selectedDateAndTime
             tmpDateTime.setFullYear(tmpDateTime.getFullYear());
-            DatabaseManager.getInstance().createSymptomEvent(symptom[0], symptom[1], this.state.symptomEntryNote, tmpDateTime.getTime(), (error) => { alert(error)}, null);
+            DatabaseManager.getInstance().createSymptomEvent(symptom[0], symptom[1], this.state.symptomEntryNote, tmpDateTime.getTime(), 
+                (error) => {alert(error)}, 
+                () => {GlutonManager.getInstance().setMessage(2)}
+            );
         }
 
         if (goHome) {

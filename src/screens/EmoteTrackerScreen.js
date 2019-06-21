@@ -7,6 +7,7 @@ import HorizontalLineWithText from '../components/HorizontalLineWithText';
 import NoteEdit from '../components/NoteEdit';
 import DatabaseManager from '../manager/DatabaseManager';
 import LanguageManager from '../manager/LanguageManager';
+import GlutonManager from '../manager/GlutonManager';
 
 
 export default class EmoteTrackerScreen extends React.Component{
@@ -79,7 +80,10 @@ export default class EmoteTrackerScreen extends React.Component{
 
 
     saveCurrentData = (goHome) =>{
-        DatabaseManager.getInstance().createEmotionEvent(this.state.selectedSymbolID, this.state.emoteNote, Date.now(), (error) => { alert(error)}, null);
+        DatabaseManager.getInstance().createEmotionEvent(this.state.selectedSymbolID, this.state.emoteNote, Date.now(), 
+            (error) => {alert(error)}, 
+            () => {GlutonManager.getInstance().setMessage(2)}
+        );
 
         if (goHome) {
             setTimeout(() => this.navigateHome(), 100);

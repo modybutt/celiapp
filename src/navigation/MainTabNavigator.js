@@ -1,5 +1,4 @@
 import React from 'react';
-import { Button } from 'react-native';
 import { createStackNavigator, createMaterialTopTabNavigator } from 'react-navigation';
 
 import TabBarIcon from '../components/TabBarIcon';

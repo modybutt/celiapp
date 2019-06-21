@@ -4,6 +4,7 @@ import AppNavigator from './src/navigation/AppNavigator';
 import LoadingScreen from './src/screens/LoadingScreen';
 import DatabaseManager from './src/manager/DatabaseManager';
 import LanguageManager from './src/manager/LanguageManager';
+import GlutonManager from './src/manager/GlutonManager';
 
 export default class App extends React.Component {
   state = {
@@ -28,6 +29,8 @@ export default class App extends React.Component {
 
   initApplication(settings) {
     LanguageManager.getInstance().setLanguage(settings.language);
+    GlutonManager.getInstance().setBuddy(settings.nickname);
+
     this.setState({isSplashReady: true});
     setTimeout(() =>  this.setState({isAppReady: true}), 3000);
   }

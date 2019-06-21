@@ -37,7 +37,15 @@ export default class LanguageManager {
     return this.lang.name;
   }
 
-  getText(key) {    
-    return this.lang.keys[key] == null ? key : this.lang.keys[key];
+  getText(key, params) {    
+    text = this.lang.keys[key] == null ? key : this.lang.keys[key];
+
+    if (params != null) {
+      for (i in params) {
+        text = text.split("{" + i + "}").join(params[i]);
+      }
+    }
+
+    return text;
   }
 }
