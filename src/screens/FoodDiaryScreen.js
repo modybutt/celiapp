@@ -1,18 +1,19 @@
 
 import React from 'react';
-import { View, Button, ScrollView, StyleSheet} from 'react-native';
+import { View, Button, ScrollView, Keyboard, StyleSheet} from 'react-native';
 import Dialog from "react-native-dialog";
 import { HeaderBackButton } from 'react-navigation'
 import DatabaseManager from '../manager/DatabaseManager';
 import TextInputSingleLine from '../components/TextInputSingleLine';
 import NoteEdit from '../components/NoteEdit';
 import DayChooser from '../components/DayChooser';
-import SymptomTimePicker from '../components/SymptomTracker/SymptomTimePicker';
+import FoodDiaryTimePicker from '../components/FoodDiary/FoodDiaryTimePicker';
 import HorizontalLineWithText from '../components/HorizontalLineWithText';
-import RatingBar from '../components/RatingBar';
+import FoodDiaryRatingBar from '../components/FoodDiary/FoodDiaryRatingBar';
+import FoodDiaryTagEdit from '../components/FoodDiary/FoodDiaryTagEdit'
+import FoodDiaryImageEdit from '../components/FoodDiary/FoodDiaryImageEdit'
 import LanguageManager from '../manager/LanguageManager';
 import GlutonManager from '../manager/GlutonManager';
-
 
 
 export default class FoodDiaryScreen extends React.Component{
@@ -30,11 +31,12 @@ export default class FoodDiaryScreen extends React.Component{
         this.timeEditedHandler = this.timeEditedHandler.bind(this);
         this.ratingEditedHandler = this.ratingEditedHandler.bind(this);
         this.state = {
-            foodEntryNote: "", 
+            foodEntryNote: "",
             tempDate: new Date(), 
             foodEntryName: "", 
             selectedDateAndTime: new Date(), 
             foodRating: 0,
+            keyboardOpen: false,
         } 
     }
 
@@ -48,8 +50,28 @@ export default class FoodDiaryScreen extends React.Component{
             onOkPressed: this.saveCurrentData.bind(this) ,
             onCancelPressed: this.handleCancelButton.bind(this) ,
         })
+        this.keyboardDidShowListener = Keyboard.addListener(
+            'keyboardDidShow',
+            this._keyboardDidShow,
+          );
+          this.keyboardDidHideListener = Keyboard.addListener(
+            'keyboardDidHide',
+            this._keyboardDidHide,
+          );
+
     }
 
+    componentWillUnmount() {
+        this.keyboardDidShowListener.remove();
+        this.keyboardDidHideListener.remove();
+      }
+
+    clearNoteText = () => {
+        this.setState({
+            foodEntryNote: ""
+        })
+       this._noteEdit.deleteNote();
+     }
     
     timeEditedHandler = (dateTime) =>{
         let tmpDateTime = this.state.selectedDateAndTime
@@ -61,12 +83,33 @@ export default class FoodDiaryScreen extends React.Component{
         })
     }
 
+    _keyboardDidShow = ()  => {
+        this.setState({
+            keyboardOpen: true,
+        })
+      }
     
+      _keyboardDidHide = ()  => {
+        this.setState({
+            keyboardOpen: false,
+        })
+      }
+
+
     dateEditedHandler = (dateTime) =>{
         this.state.tempDate = dateTime
+
+        let tmpDateTime = this.state.selectedDateAndTime
+        tmpDateTime.setDate(dateTime.getDate())
+        tmpDateTime.setMonth(dateTime.getMonth())
+        tmpDateTime.setFullYear(dateTime.getFullYear())
+        this.setState({
+            selectedDateAndTime: tmpDateTime,
+        })
         if(Array.isArray(this.state.selectedSymptoms) && this.state.selectedSymptoms.length){
             this.showDayChangeSaveDialog()
         }else{
+            //symptoms were not edited, but maybe the note. Delete note and update noteEdit
             this.setState({
                 symptomEntryNote: ""
             })
@@ -130,27 +173,36 @@ export default class FoodDiaryScreen extends React.Component{
     };
 
     render() {
+
+        const marginToUse = ((this.state.keyboardOpen) ? 300 : 0);
+
         return (
-            <ScrollView>
-                 <HorizontalLineWithText text = "Date"/>
-                <DayChooser ref={component => this._dayChooser = component} date = {getTodayDate()} onDateChanged={this.dateEditedHandler}/>
-                <HorizontalLineWithText text = "Time"/>
-                <SymptomTimePicker ref={component => this._timePicker = component} onTimeChanged={this.timeEditedHandler}/>
-                <HorizontalLineWithText text = "Name"/>
+            <ScrollView style={{marginBottom: marginToUse}}>
+                <HorizontalLineWithText text = {LanguageManager.getInstance().getText("DATE")}/>
+                <DayChooser ref={component => this._dayChooser = component} date = {this.state.selectedDateAndTime} onDateChanged={this.dateEditedHandler}/>
+                <HorizontalLineWithText text = {LanguageManager.getInstance().getText("TIME")}/>
+                <FoodDiaryTimePicker ref={component => this._timePicker = component} onTimeChanged={this.timeEditedHandler}/>
+                <HorizontalLineWithText text = {LanguageManager.getInstance().getText("NAME")}/>
                 <TextInputSingleLine ref={component => this._name = component} onTextChanged={this.nameEditedHandler} style={{Top: 10}}/>
-                <HorizontalLineWithText text = "Rating"/>
-                <RatingBar ref={component => this._rating = component}  onRatingChanged={this.ratingEditedHandler}/>
-                <HorizontalLineWithText text = "Notes" style={{Top: 10}}/>
+                <HorizontalLineWithText text = {LanguageManager.getInstance().getText("TAGS")}/>
+                <FoodDiaryTagEdit/>
+                <HorizontalLineWithText text = {LanguageManager.getInstance().getText("IMAGE")}/>
+                <FoodDiaryImageEdit/>
+                <HorizontalLineWithText text = {LanguageManager.getInstance().getText("RATING")}/>
+                <View style={styles.ratingBarView}>
+                    <FoodDiaryRatingBar ref={component => this._rating = component}  onRatingChanged={this.ratingEditedHandler}/>
+                </View> 
+                <HorizontalLineWithText text = {LanguageManager.getInstance().getText("NOTES")} style={{Top: 10}}/>
                 <NoteEdit ref={component => this._noteEdit = component} note={this.state.symptomEntryNote} onTextChanged={this.noteEditedHandler} style={{Top: 10}}/>
                
                 <View>
                     <Dialog.Container visible={this.state.cancelSaveDialogVisible}>
-                        <Dialog.Title>Cancel</Dialog.Title>
+                        <Dialog.Title>{LanguageManager.getInstance().getText("DISCARD")}</Dialog.Title>
                         <Dialog.Description>
-                            Do you really want to discard the entries?
+                        {LanguageManager.getInstance().getText("DO_YOU_WANT_TO_DISCARD")}
                         </Dialog.Description>
-                        <Dialog.Button label="Back" onPress={() => this.handleBack()} />
-                        <Dialog.Button label="Discard" onPress={() => this.handleDiscard()} />
+                        <Dialog.Button label={LanguageManager.getInstance().getText("BACK")} onPress={() => this.handleBack()} />
+                        <Dialog.Button label={LanguageManager.getInstance().getText("DISCARD")} onPress={() => this.handleDiscard()} />
                     </Dialog.Container>
                 </View>
             </ScrollView>
@@ -158,9 +210,7 @@ export default class FoodDiaryScreen extends React.Component{
     }
 
 }
-    function getTodayDate(){
-        return new Date()
-    }
+
       
     
     var styles = StyleSheet.create({
@@ -168,5 +218,8 @@ export default class FoodDiaryScreen extends React.Component{
         fontSize: 20,
         textAlign: 'center',
         margin: 10
+     },
+     ratingBarView:{
+         alignItems: 'center',
      }
     });

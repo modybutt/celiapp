@@ -42,7 +42,7 @@ export default class EntryList extends React.Component {
   }
 
   onLongPressTouchable(){
-    Alert.alert("You opened the severity chooser")
+    //Alert.alert("You opened the severity chooser")
   }
 
   renderSeparator() {

@@ -1,6 +1,7 @@
 const languages = {
   developer: require('../assets/languages/developer.json'),
   deutsch: require('../assets/languages/deutsch.json'),
+  english: require('../assets/languages/english.json')
 }
 
 export default class LanguageManager {

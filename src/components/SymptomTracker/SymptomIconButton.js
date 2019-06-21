@@ -157,7 +157,8 @@ export default class SymptomIconButton extends Component {
 
 	handleAddButtonPress = () => {
 		if(this.props.type == 4){
-			Alert.alert("MOAR SYMPTOMSSSSSSSSSSS");
+			//TODO: Show List
+			//Alert.alert("MOAR SYMPTOMSSSSSSSSSSS");
 		}else{
 			if(this.state.bigBubbleColor.localeCompare('rgb(180, 180, 180)')){
 				this.setState({bigBubbleColor: 'rgb(180, 180, 180)'})
@@ -174,18 +175,18 @@ export default class SymptomIconButton extends Component {
 				this.animateReverse(0);
 				this.setState({zIndexNumber: -1})
 				this.setState({selected: !selected});
-				this.props.onSeverityChooserHandled(true);
+				this.props.onSeverityChooserHandled(true, this.props.symptomID);
 			}
 			else {
 				if(this.props.canOpenSeverity){
 					this.animate(1);
 					this.setState({zIndexNumber: 1})					
-					this.props.onSeverityChooserHandled(false);
+					this.props.onSeverityChooserHandled(false, this.props.symptomID);
 					this.setState({selected: !selected});
 				}else{
 					if(setEnabled){
-						Alert.alert("hallo");
-						this.props.onSeverityChooserHandled(true);
+						//Alert.alert("hallo");
+						this.props.onSeverityChooserHandled(true, this.props.symptomID);
 					}
 				}
 			}	
@@ -542,6 +543,7 @@ export default class SymptomIconButton extends Component {
 						color="#FFF"
 					/> */}
 				</AnimatedTouchable>
+				
 			</View>
 		);
 	}

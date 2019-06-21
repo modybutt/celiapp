@@ -15,6 +15,7 @@ import Gluton_HAPPY from "../assets/images/vielfrass_org.png";
 import Gluton_SAD from "../assets/images/vielfrass_sad.png";
 import Gluton_LOVE from "../assets/images/heart.png";
 
+
 export default class Gluton extends React.Component {
     state = {
         trust: .5,
