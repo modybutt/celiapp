@@ -128,7 +128,7 @@ export default class SymptomGroup extends React.Component{
                         <SymptomIconButton ref={component => this._sympIc7 = component} type = {2} symptomID={7} onSeverityChooserHandled = {this.severityChooserHandler} canOpenSeverity = {this.state.canOpenSeverityChooser} onSymptomSelected = {this.symptomSelected} onSymptomDeselected = {this.symptomDeselected}/>
                     </View>
                     <View>
-                        <SymptomIconButton ref={component => this._moreSymp = component} type = {4} symptomID={8} onSeverityChooserHandled = {this.severityChooserHandler} canOpenSeverity = {this.state.canOpenSeverityChooser} onSymptomSelected = {this.symptomSelected} onSymptomDeselected = {this.symptomDeselected}/>
+                        <SymptomIconButton ref={component => this._moreSymp = component} type = {4} symptomID={8} onSeverityChooserHandled = {this.severityChooserHandler} canOpenSeverity = {this.state.canOpenSeverityChooser} onSymptomSelected = {this.symptomSelected} onSymptomDeselected = {this.symptomDeselected} navigation={this.props.navigation}/>
                     </View>
                 </View>
                 </View>

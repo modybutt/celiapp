@@ -31,7 +31,7 @@
 		"HEADACHE": "Kopfschmerzen",
 		"IRRITABILITY": "Irritabilität",
 		"STOMACHACHE": "Bauchschmerz",
-		"USER_DEFINED_SYMPTOM": "Mehr...",
+		"USER_DEFINED_SYMPTOM": "NDS",
 		"VOMITING": "Erbrechen",
 		"WEIGHT_LOSS": "Gewichtsverlust",
 		"CLOATING": "Cloating",
@@ -48,6 +48,7 @@
 		"SLIGHTLY_HAPPY": "Etwas\nglücklich",
 		"HAPPY": "Glücklich",
 		"CAMERA": "Kamera",
-		"DEBUG": "Debug"
+		"DEBUG": "Debug",
+		"SYMPTOM_LIST": "Symptomliste"
 	}
 }
