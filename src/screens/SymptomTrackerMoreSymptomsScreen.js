@@ -4,7 +4,7 @@ import { HeaderBackButton } from 'react-navigation'
 import SymptomListRow from '../components/SymptomTracker/MoreSymptomsList/SymptomListRow'
 import LanguageManager from '../manager/LanguageManager';
 import SearchSymptomList from '../components/SymptomTracker/MoreSymptomsList/SearchSymptomList';
-
+import ActionButton from 'react-native-action-button';
 
 export default class SymptomTrackerMoreSymptomsScreen extends React.Component{
     static navigationOptions = ({navigation}) => ({
@@ -66,8 +66,9 @@ export default class SymptomTrackerMoreSymptomsScreen extends React.Component{
     render(){
         return(
             <View>
+            <ActionButton buttonColor="rgba(231,76,60,1)" onPress={() => this.props.navigation.navigate('AddNewSymptom')} style={{position: "absolute", bottom: 100, right: 0, zIndex: 2}}/>
             <SearchSymptomList/>
-            <ScrollView style={{marginBottom: 100}}>
+            <ScrollView>
                 <SymptomListRow ref={component => this._symptomList = component} onSelectedSymptomIDsChanged={this.symptomSelectedIDsChangedHandler}/>
             </ScrollView>
             </View>
@@ -79,3 +80,4 @@ export default class SymptomTrackerMoreSymptomsScreen extends React.Component{
 
 
 }
+

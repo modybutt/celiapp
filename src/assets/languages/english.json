@@ -49,6 +49,8 @@
 		"HAPPY": "Happy",
 		"CAMERA": "Camera",
 		"DEBUG": "Debug",
-		"SYMPTOM_LIST": "Symptomlist"
+		"SYMPTOM_LIST": "Symptomlist",
+		"SEARCH": "Search",
+		"ADD_NEW_SYMPTOM": "New symptom"
 	}
 }

@@ -51,6 +51,7 @@
 		"CAMERA": "Kamera",
 		"DEBUG": "Debug",
 		"SYMPTOM_LIST": "Symptomliste",
-		"SEARCH": "Suchen"
+		"SEARCH": "Suchen",
+		"ADD_NEW_SYMPTOM": "Neues Symptom"
 	}
 }
