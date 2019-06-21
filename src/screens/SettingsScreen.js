@@ -82,12 +82,12 @@ export default class SettingsScreen extends React.Component {
 
         <View>
             <Dialog.Container visible={this.state.cancelSaveDialogVisible}>
-                <Dialog.Title>Cancel</Dialog.Title>
+                <Dialog.Title>{LanguageManager.getInstance().getText("DISCARD")}</Dialog.Title>
                 <Dialog.Description>
-                    Do you really want to discard the entries?
+                {LanguageManager.getInstance().getText("DO_YOU_WANT_TO_DISCARD")}
                 </Dialog.Description>
-                <Dialog.Button label="Back" onPress={() => this.handleBack()} />
-                <Dialog.Button label="Discard" onPress={() => this.handleDiscard()} />
+                <Dialog.Button label={LanguageManager.getInstance().getText("BACK")} onPress={() => this.handleBack()} />
+                <Dialog.Button label={LanguageManager.getInstance().getText("DISCARD")} onPress={() => this.handleDiscard()} />
             </Dialog.Container>
         </View>
       </View>
