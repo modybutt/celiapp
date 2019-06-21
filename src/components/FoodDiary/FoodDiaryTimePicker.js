@@ -1,6 +1,7 @@
 import React from 'react';
 import {View, Button, Text, Alert, StyleSheet} from 'react-native';
 import DateTimePicker from "react-native-modal-datetime-picker";
+import LanguageManager from '../../manager/LanguageManager';
 
 export default class FoodDiaryTimePicker extends React.Component {
 
@@ -28,11 +29,16 @@ export default class FoodDiaryTimePicker extends React.Component {
       };
 
     render(){
+
+      
+      const hourString = (new Date(this.state.selectedTime).getHours() > 9) ? new Date(this.state.selectedTime).getHours() : "0" + new Date(this.state.selectedTime).getHours()
+      const minuteString = (new Date(this.state.selectedTime).getMinutes() > 9) ? new Date(this.state.selectedTime).getMinutes() : "0" + new Date(this.state.selectedTime).getMinutes()
+
         return(
             <View>
               <View style={styles.rowContainer}>
-                <Text style={styles.occuredText}>Meal eaten: {new Date(this.state.selectedTime).getHours() + ":" + (new Date(this.state.selectedTime).getMinutes())}</Text>
-                <Button title="Select Time" onPress={this.showDateTimePicker} />
+                <Text style={styles.occuredText}>{LanguageManager.getInstance().getText("EATEN_AT")} {hourString + ":" + minuteString}</Text>
+                <Button title={LanguageManager.getInstance().getText("SELECT_TIME")} onPress={this.showDateTimePicker} />
                 </View>
               <DateTimePicker
                 isVisible={this.state.isDateTimePickerVisible}

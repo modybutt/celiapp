@@ -1,5 +1,4 @@
 import React from 'react';
-import { Button } from 'react-native';
 import { createStackNavigator, createMaterialTopTabNavigator } from 'react-navigation';
 
 import TabBarIcon from '../components/TabBarIcon';
@@ -15,6 +14,7 @@ import FoodViewScreen from '../screens/FoodViewScreen';
 import EmoteViewScreen from '../screens/EmoteViewScreen';
 import SettingsScreen from '../screens/SettingsScreen';
 import CameraScreen from '../screens/CameraScreen';
+import SymptomTrackerMoreSymptomsScreen from '../screens/SymptomTrackerMoreSymptomsScreen'
 
 const EvaluationStack = createStackNavigator({
   Evaluation: EvaluationScreen,
@@ -86,56 +86,32 @@ export default createStackNavigator({
   },
   AddSymptom: {
     screen: SymptomTrackerScreen,
-    navigationOptions: {
-      title: 'Symptomtracker'
-    }
+  },
+  MoreSymptoms:{
+    screen: SymptomTrackerMoreSymptomsScreen,
   },
   ViewSymptom: {
     screen: SymptomViewScreen,
-    navigationOptions: {
-      title: 'View Symptom'
-    }
   },  
   AddMeal: {
     screen: FoodDiaryScreen,
-    navigationOptions: {
-      title: 'Food Diary',
-    }
   },
   ViewMeal: {
     screen: FoodViewScreen,
-    navigationOptions: {
-      title: 'View Meal'
-    }
   },    
   AddEmote: {
     screen: EmoteTrackerScreen,
-    navigationOptions: {
-      title: 'Emotions',
-    }
   },
   ViewEmote: {
     screen: EmoteViewScreen,
-    navigationOptions: {
-      title: 'View Emote'
-    }
   },   
   Settings: {
     screen: SettingsScreen,
-    navigationOptions: {
-      title: 'Settings'
-    }
   },
   Debug: {
     screen: DebugScreen,
-    navigationOptions: {
-      title: 'Debug'
-    }
   },
   Camera: {
     screen: CameraScreen,
-    navigationOptions: {
-      title: 'Cam'
-    }
   } 
 });

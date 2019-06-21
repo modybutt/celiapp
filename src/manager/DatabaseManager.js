@@ -3,14 +3,6 @@ import { images as SymptomIcons } from '../components/SymptomTracker/SymptomIcon
 
 export default class DatabaseManager {
 
-    constructor() {
-        //this.createSymptom = this.createSymptom.bind(this);
-        //this.updateSymptom = this.updateSymptom.bind(this);
-        this.createEvent = this.createEvent.bind(this);
-        //this.updateEvent = this.updateEvent.bind(this);
-        //this.fetchEvents = this.fetchEvents.bind(this);
-    }
-
     /**
      * @returns {DatabaseManager}
      */
@@ -36,6 +28,9 @@ export default class DatabaseManager {
               tx.executeSql(
                 'CREATE TABLE IF NOT EXISTS events (id INTEGER PRIMARY KEY AUTOINCREMENT, eventType INT, created INT, modified INT, objData TEXT);', 
                 (param) => alert("create table events: " + JSON.stringify(param)));
+              tx.executeSql(
+                'CREATE TABLE IF NOT EXISTS settings (id INTEGER PRIMARY KEY AUTOINCREMENT, name TEX UNIQUE, objData TEXT);', 
+                (param) => alert("create table settings: " + JSON.stringify(param)));
             }, (error) => alert("DB init: " + JSON.stringify(error)));
         }
 
@@ -194,4 +189,26 @@ export default class DatabaseManager {
         });
       }
     }   
+
+    /******************************************************************* 
+     *                       Settings Database
+     ********************************************************************/   
+
+    loadSettings(name, onError, onSuccess) {
+      if (name == null) {
+        this.db.transaction(tx => {
+          tx.executeSql('SELECT * FROM settings', null, onSuccess, onError);
+        });
+      } else {
+        this.db.transaction(tx => {
+          tx.executeSql('SELECT * FROM settings WHERE name = ?', [name], onSuccess, onError);
+        });
+      }
+    }
+
+    saveSettings(name, objData, onError, onSuccess) {
+      this.db.transaction(tx => {
+        tx.executeSql('REPLACE INTO settings (name, objData) VALUES (?, ?)', [name, JSON.stringify(objData)]);
+      }, onError, onSuccess);
+    }
 }

@@ -1,4 +1,5 @@
 import { Easing } from 'react-native';
+import LanguageManager from '../../manager/LanguageManager';
 
 // // Layout constants
 // export const center = {
@@ -40,39 +41,39 @@ export const delay = 0;
 
 export const images = {
 	diarrhea: {
-		imgName: 'Diarrhea', 
+		imgName: LanguageManager.getInstance().getText("DIARRHEA"), 
 		uri: require('../../assets/images/SymptomTracker/diarrhea.png')
 	},
 	headache: {
-		imgName: 'Headache', 
+		imgName: LanguageManager.getInstance().getText("HEADACHE"), 
 		uri: require('../../assets/images/SymptomTracker/headache.png')	
 	},
 	irritability: {
-		imgName: 'Irritability', 
+		imgName: LanguageManager.getInstance().getText("IRRITABILITY"), 
 		uri: require('../../assets/images/SymptomTracker/irritability.png')	
 	},
 	stomachAche: {
-		imgName: 'Stomachache', 
+		imgName: LanguageManager.getInstance().getText("STOMACHACHE"), 
 		uri: require('../../assets/images/SymptomTracker/stomachAche.png')	
 	},
 	userDefinedSymptom: {
-		imgName: 'UDS', 
+		imgName: LanguageManager.getInstance().getText("USER_DEFINED_SYMPTOM"), 
 		uri: require('../../assets/images/SymptomTracker/userDefinedSymptom.png')	
 	},
 	vomiting: {
-		imgName: 'Vomiting', 
+		imgName: LanguageManager.getInstance().getText("VOMITING"), 
 		uri: require('../../assets/images/SymptomTracker/vomiting.png')	
 	},
 	weightLoss: {
-		imgName: 'Weight Loss', 
+		imgName: LanguageManager.getInstance().getText("WEIGHT_LOSS"), 
 		uri: require('../../assets/images/SymptomTracker/weightLoss.png')	
 	},
 	cloating: {
-		imgName: 'Cloating', 
+		imgName: LanguageManager.getInstance().getText("CLOATING"), 
 		uri: require('../../assets/images/SymptomTracker/cloating.png')	
 	},
 	moreSymptoms: {
-		imgName: "More Symptoms",
+		imgName: LanguageManager.getInstance().getText("MORE_SYMPTOMS"),
 		uri: require('../../assets/images/SymptomTracker/moreSymptoms.png')
 	}
 	}

@@ -1,5 +1,7 @@
 import React from 'react';
-import {View, Image, Button} from 'react-native';
+import {View, Text, Button} from 'react-native';
+import LanguageManager from '../../manager/LanguageManager';
+
 
 
 export default class FoodDiaryImageEdit extends React.Component {

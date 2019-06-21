@@ -1,6 +1,7 @@
 const languages = {
   developer: require('../assets/languages/developer.json'),
   deutsch: require('../assets/languages/deutsch.json'),
+  english: require('../assets/languages/english.json')
 }
 
 export default class LanguageManager {
@@ -11,23 +12,41 @@ export default class LanguageManager {
   static getInstance() {
       if (LanguageManager.instance == null) {
         LanguageManager.instance = new LanguageManager();
-        LanguageManager.instance.lang = languages.developer;
+        this.instance.lang = languages.developer;
       }
 
       return this.instance;
   }
 
+  getAllLanguages() {
+    return languages;
+  }
+
   setLanguage(language) {
     if (languages[language] != null) {
       this.lang = languages[language];
+    } else {
+      for (i in languages) {
+        if (language === languages[i].name) {
+          this.lang = languages[i];
+        }
+      }
     }
   }
 
   getLanguage() {
-    return this.lang.language;
+    return this.lang.name;
   }
 
-  getText(key) {      
-    return this.lang.keys[key] == null ? key : this.lang.keys[key];
+  getText(key, params) {    
+    text = this.lang.keys[key] == null ? key : this.lang.keys[key];
+
+    if (params != null) {
+      for (i in params) {
+        text = text.split("{" + i + "}").join(params[i]);
+      }
+    }
+
+    return text;
   }
 }

@@ -7,16 +7,20 @@ import {
     TouchableOpacity,
     Animated,
 } from 'react-native';
+import { NavigationEvents } from 'react-navigation';
+import LanguageManager from '../manager/LanguageManager';
+import GlutonManager from '../manager/GlutonManager';
 
 import Gluton_HAPPY from "../assets/images/vielfrass_org.png";
 import Gluton_SAD from "../assets/images/vielfrass_sad.png";
 import Gluton_LOVE from "../assets/images/heart.png";
 
+
 export default class Gluton extends React.Component {
     state = {
         trust: .5,
         happy: true,
-        message: "Hello World!\nMy Name is Gluton.\n\nNice to meet you, Buddy!",
+        message: null,
         love: new Animated.Value(0),
     }
 
@@ -41,22 +45,34 @@ export default class Gluton extends React.Component {
                 )
             ]).start();                        // Starts the animation
 
-            let currMsg = this.state.message;
-            this.setState({message: "Hahahahaha!\nStop tickling me like that!\nHahahahaha!"});
-
+            
+            this.setState({message: "GLUTON_TICKLE"});
             setTimeout(() => { 
-                this.setState({message: currMsg});
+                this.setState({message: GlutonManager.getInstance().getMessage()});
                 this.speadingLove = false;
             }, 5000);
         }
+    }
+
+    refreshState() {
+        this.setState({
+            message: GlutonManager.getInstance().getMessage()
+        })
     }
     
     render() {
         return (
             <View style={this.props.style}>
-                <Text style={styles.message}>{this.state.message}</Text>   
-                <View style={styles.bubbleSeparator} />
-                <View style={{alignItems: 'center'}}>
+                <NavigationEvents onDidFocus={() => this.refreshState()} />
+                {this.state.message == null ? 
+                    null : 
+                    <View>
+                        <Text style={styles.message}>{LanguageManager.getInstance().getText(this.state.message, [GlutonManager.getInstance().getBuddy()])}</Text>
+                        <View style={styles.bubbleSeparator} />
+                    </View>
+                }
+                
+                <View>
                     <TouchableOpacity activeOpacity={0} onPress={() => this.onSpreadTheLove()}>
                         <Image style={
                             {
@@ -103,6 +119,6 @@ const styles = StyleSheet.create({
         textAlignVertical: 'center',
         padding: 10,
         paddingLeft: 20,
-        //width: '50%',
+        width: '80%',
     },
 });

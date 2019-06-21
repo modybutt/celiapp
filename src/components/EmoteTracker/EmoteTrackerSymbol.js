@@ -87,13 +87,14 @@ export default class EmoteTrackerSymbol extends React.Component{
 
     //TODO: If selected, then color the border in some color defined in EmoteTrackerConstants(not yet added)
     render(){
-        
+
         if(!this.state.selected){
             return(
                 <View style={styles.container}>
-                    <TouchableHighlight style={{height: 80, borderRadius: 40, justifyContent: 'center', alignItems: 'center'}} onPress={this.selectEmotion}>
+                    <TouchableHighlight style={{height: 80, borderRadius: 40, backgroundColor: 'rgb(255,255,255)', justifyContent: 'center', alignItems: 'center'}} onPress={this.selectEmotion}>
                         <Image source={this.state.imgSource} style={{width: 75, height: 75, borderRadius:40}} />
                     </TouchableHighlight> 
+                    <Text style={{textAlign: 'center'}}>{this.state.imgName}</Text>
                 </View>                
             )
         }else{
@@ -102,6 +103,7 @@ export default class EmoteTrackerSymbol extends React.Component{
                     <TouchableHighlight style={{height: 80, borderRadius: 40, backgroundColor: 'rgb(33,150,243)', justifyContent: 'center', alignItems: 'center'}} onPress={this.selectEmotion}>
                         <Image source={this.state.imgSource} style={{width: 75, height: 75, borderRadius:40}} />
                     </TouchableHighlight> 
+                    <Text style={{textAlign: 'center'}}>{this.state.imgName}</Text>
                 </View>                
             )
         }
@@ -114,7 +116,7 @@ export default class EmoteTrackerSymbol extends React.Component{
 var styles = StyleSheet.create({
     container: {
       flex: 1,
-      marginTop:60
+      marginTop:60,
     },
     outerCircle: {
       borderRadius: 40,
