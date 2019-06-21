@@ -44,11 +44,11 @@ export default class EmoteTrackerSymbolGroup extends React.Component{
         //Alert.alert("re-rendered")
         return(
             <View style={{
-                height:100,
+                height:60,
                 flexDirection: 'row',
                 justifyContent: 'space-around',
-                alignItems: 'center',
-                marginTop: 25,
+                //alignItems: 'center',
+                marginBottom: 140
             }}>           
                 <EmoteTrackerSymbol ref={component => this._emote1 = component} emoteID = {1} onEmoteSelected = {this.emoteSelectedHandler} selected = {this.state.selectedSymbolID}/>
                 <EmoteTrackerSymbol ref={component => this._emote2 = component} emoteID = {2} onEmoteSelected = {this.emoteSelectedHandler} selected = {this.state.selectedSymbolID}/>

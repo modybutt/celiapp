@@ -48,6 +48,7 @@
 		"SLIGHTLY_HAPPY": "Slightly\nhappy",
 		"HAPPY": "Happy",
 		"CAMERA": "Camera",
-		"DEBUG": "Debug"
+		"DEBUG": "Debug",
+		"SYMPTOM_LIST": "Symptomlist"
 	}
 }

@@ -141,6 +141,7 @@ export default class SymptomIconButton extends Component {
 						zIndexNumber: -1,
 						selectedSeverity: 0
 					};	
+				break;
 			default:
 					this.state = {
 						selected: false,
@@ -157,8 +158,7 @@ export default class SymptomIconButton extends Component {
 
 	handleAddButtonPress = () => {
 		if(this.props.type == 4){
-			//TODO: Show List
-			//Alert.alert("MOAR SYMPTOMSSSSSSSSSSS");
+			this.props.navigation.navigate("MoreSymptoms")
 		}else{
 			if(this.state.bigBubbleColor.localeCompare('rgb(180, 180, 180)')){
 				this.setState({bigBubbleColor: 'rgb(180, 180, 180)'})
