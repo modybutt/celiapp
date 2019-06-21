@@ -35,6 +35,7 @@ export default class FoodDiaryScreen extends React.Component{
             selectedDateAndTime: new Date(), 
             foodRating: 0,
             keyboardOpen: false,
+            photo: null,
         } 
     }
 
@@ -182,7 +183,7 @@ export default class FoodDiaryScreen extends React.Component{
                 <HorizontalLineWithText text = "Tag"/>
                 <FoodDiaryTagEdit/>
                 <HorizontalLineWithText text = "Image"/>
-                <FoodDiaryImageEdit/>
+                <FoodDiaryImageEdit navigation = {this.props.navigation}/>
                 <HorizontalLineWithText text = "Rating"/>
                 <View style={styles.ratingBarView}>
                     <FoodDiaryRatingBar ref={component => this._rating = component}  onRatingChanged={this.ratingEditedHandler}/>
