@@ -9,12 +9,13 @@ import DatabaseManager from '../manager/DatabaseManager';
 import LanguageManager from '../manager/LanguageManager';
 import GlutonManager from '../manager/GlutonManager';
 import DayChooser from '../components/DayChooser';
+import HeaderSaveButton from '../components/HeaderSaveButton';
 
 export default class EmoteTrackerScreen extends React.Component{
     static navigationOptions = ({navigation}) => ({
         title: LanguageManager.getInstance().getText("ADD_EMOTION"),
         headerLeft: <HeaderBackButton onPress={() => navigation.state.params.onCancelPressed()}/>,
-        headerRight: <View style={{paddingRight: 10}}><Button title={LanguageManager.getInstance().getText("SAVE")} onPress={() => navigation.state.params.onOkPressed(true)}/></View>
+        headerRight: <HeaderSaveButton onPress={() => navigation.state.params.onOkPressed(true)}/>
     })
 
     constructor(props){ 
