@@ -1,5 +1,5 @@
 import React from 'react';
-import {View, Text, Button} from 'react-native';
+import {View, Text, Image, Button} from 'react-native';
 import LanguageManager from '../../manager/LanguageManager';
 
 
