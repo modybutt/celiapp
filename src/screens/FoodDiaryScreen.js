@@ -7,7 +7,7 @@ import DatabaseManager from '../manager/DatabaseManager';
 import TextInputSingleLine from '../components/TextInputSingleLine';
 import NoteEdit from '../components/NoteEdit';
 import DayChooser from '../components/DayChooser';
-import FoodDiaryTimePicker from '../components/FoodDiary/FoodDiaryTimePicker';
+import TimePicker from '../components/TimePicker';
 import HorizontalLineWithText from '../components/HorizontalLineWithText';
 import FoodDiaryRatingBar from '../components/FoodDiary/FoodDiaryRatingBar';
 import FoodDiaryTagEdit from '../components/FoodDiary/FoodDiaryTagEdit'
@@ -184,7 +184,7 @@ export default class FoodDiaryScreen extends React.Component{
                 <HorizontalLineWithText text = {LanguageManager.getInstance().getText("DATE")}/>
                 <DayChooser ref={component => this._dayChooser = component} date = {this.state.selectedDateAndTime} onDateChanged={this.dateEditedHandler}/>
                 <HorizontalLineWithText text = {LanguageManager.getInstance().getText("TIME")}/>
-                <FoodDiaryTimePicker ref={component => this._timePicker = component} onTimeChanged={this.timeEditedHandler}/>
+                <TimePicker ref={component => this._timePicker = component} textString = "EATEN_AT" onTimeChanged={this.timeEditedHandler}/>
                 <HorizontalLineWithText text = {LanguageManager.getInstance().getText("NAME")}/>
                 <TextInputSingleLine ref={component => this._name = component} onTextChanged={this.nameEditedHandler} style={{Top: 10}}/>
                 <HorizontalLineWithText text = {LanguageManager.getInstance().getText("TAGS")}/>

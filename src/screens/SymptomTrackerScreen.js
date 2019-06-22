@@ -5,7 +5,7 @@ import Dialog from "react-native-dialog";
 import SymptomGroup from '../components/SymptomTracker/SymptomGroup';
 import NoteEdit from '../components/NoteEdit';
 import DayChooser from '../components/DayChooser';
-import SymptomTimePicker from '../components/SymptomTracker/SymptomTimePicker';
+import TimePicker from '../components/TimePicker';
 import HorizontalLineWithText from '../components/HorizontalLineWithText';
 import DatabaseManager from '../manager/DatabaseManager';
 import LanguageManager from '../manager/LanguageManager';
@@ -256,7 +256,7 @@ export default class SymptomTrackerScreen extends React.Component{
                     <HorizontalLineWithText text = {LanguageManager.getInstance().getText("DATE")}/>
                     <DayChooser ref={component => this._dayChooser = component} date = {this.state.selectedDateAndTime} onDateChanged={this.dateEditedHandler}/>
                     <HorizontalLineWithText text = {LanguageManager.getInstance().getText("TIME")}/>
-                    <SymptomTimePicker ref={component => this._timePicker = component} onTimeChanged={this.timeEditedHandler}/>
+                    <TimePicker ref={component => this._timePicker = component} textString = "SYMPTOM_OCCURED" onTimeChanged={this.timeEditedHandler}/>
                     <HorizontalLineWithText text = {LanguageManager.getInstance().getText("SYMPTOMS")}/>
                     <SymptomGroup ref={component => this._symptomGroup = component} onSelectedSymptomIDsChanged={this.symptomSelectedIDsChangedHandler} navigation = {this.props.navigation}/>
                     <HorizontalLineWithText text = {LanguageManager.getInstance().getText("NOTES")}/>
