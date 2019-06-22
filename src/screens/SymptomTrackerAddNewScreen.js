@@ -5,6 +5,7 @@ import LanguageManager from '../manager/LanguageManager';
 import TextInputSingleLine from '../components/TextInputSingleLine';
 import HeaderSaveButton from '../components/HeaderSaveButton';
 import DatabaseManager from '../manager/DatabaseManager';
+import USER_SYMPTOM_ICON from '../assets/images/SymptomTracker/userDefinedSymptom.png';
 
 export default class SymptomTrackerAddNewScreen extends React.Component{
     static navigationOptions = ({navigation}) => ({
@@ -36,7 +37,7 @@ export default class SymptomTrackerAddNewScreen extends React.Component{
     }
 
     saveCurrentData = (goHome) =>{
-        DatabaseManager.getInstance().createSymptom(this.state.nameString, require('../assets/images/SymptomTracker/userDefinedSymptom.png'), (error) => {alert(error)}, null);
+        DatabaseManager.getInstance().createSymptom(this.state.nameString, USER_SYMPTOM_ICON, (error) => {alert(error)}, null);
 
         if (goHome) {
             setTimeout(() => this.navigateHome(), 100);

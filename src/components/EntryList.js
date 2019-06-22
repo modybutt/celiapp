@@ -16,6 +16,7 @@ import { Icon } from 'expo';
 import DatabaseManager from '../manager/DatabaseManager';
 import { images } from '../components/EmoteTracker/EmoteTrackerConstants';
 import Colors from '../constants/Colors';
+import LanguageManager from '../manager/LanguageManager';
 
 
 
@@ -77,7 +78,7 @@ export default class EntryList extends React.Component {
         return (
           <TouchableOpacity onPress={() => this.props.navigation.navigate('ViewSymptom', {event: item})}>
             <ListItem
-              title={objData.name}
+              title={LanguageManager.getInstance().getText(objData.name)}
               subtitle={new Date(item.created).toUTCString()}
               leftAvatar={{
                 source: Image.resolveAssetSource(objData.icon),
