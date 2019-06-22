@@ -6,7 +6,7 @@ export default class SymptomCalendarPicker extends React.Component {
   render() {
     return (
       <View style={styles.container}>
-        <CalendarPicker
+        <CalendarPicker nextTitle="FOO"
           onDateChange={(date, type) => this.props.onDateChange(date)}
           selectedStartDate={this.props.selectedDate}
         />

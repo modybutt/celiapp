@@ -14,6 +14,10 @@ export default class FoodDiaryImageEdit extends React.Component {
 
     onPictureTaken(picture) {
         this.setState({snapshot: picture});
+
+        if (this.props.onPictureTaken != null) {
+            this.props.onPictureTaken(picture);
+        }
     }
 
     render() {

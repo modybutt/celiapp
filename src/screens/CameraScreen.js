@@ -5,7 +5,7 @@ import LanguageManager from '../manager/LanguageManager';
 import Colors from '../constants/Colors';
 
 
-export default class SettingsScreen extends React.Component {
+export default class CameraScreen extends React.Component {
   static navigationOptions = ({navigation}) => ({
     title: LanguageManager.getInstance().getText("CAMERA"),
   });
