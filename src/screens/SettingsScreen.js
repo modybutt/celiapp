@@ -14,10 +14,10 @@ export default class SettingsScreen extends React.Component {
     title: LanguageManager.getInstance().getText("SETTINGS"),
     headerLeft: <HeaderBackButton onPress={() => navigation.state.params.onCancelPressed()}/>,
     headerRight: <HeaderSaveButton onPress={() => navigation.state.params.onOkPressed(true)}/>
-    });
+  });
   
   state = {
-    modified: true, // true for DEBUG now
+    modified: false,
     cancelSaveDialogVisible: false,
     language: LanguageManager.getInstance().getLanguage(),
     nickname: GlutonManager.getInstance().getBuddy(),
@@ -72,14 +72,14 @@ export default class SettingsScreen extends React.Component {
           selectedValue={this.state.language}
           style={{height: 50, width: '50%'}}
           onValueChange={(itemValue, itemIndex) =>
-            this.setState({language: itemValue})
+            this.setState({language: itemValue, modified: true})
           }>
           {Object.values(LanguageManager.getInstance().getAllLanguages()).map((lang) => (
             <Picker.Item key={lang.name} label={lang.name} value={lang.name} />
           ))}
         </Picker>
         <HorizontalLineWithText text={LanguageManager.getInstance().getText("NICKNAME")}/>
-        <TextInputSingleLine defaultValue={this.state.nickname} onTextChanged={(text) => this.setState({nickname: text})}/>
+        <TextInputSingleLine defaultValue={this.state.nickname} onTextChanged={(text) => this.setState({nickname: text, modified: true})}/>
         {/* <TextInput onChangeText={(text) => this.setState({nickname: text})} value={this.state.nickname} /> */}
 
         <View>
