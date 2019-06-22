@@ -139,7 +139,7 @@ export default class FoodDiaryScreen extends React.Component{
     saveCurrentData(goHome) {
         let tmpDateTime = this.state.selectedDateAndTime
         tmpDateTime.setFullYear(tmpDateTime.getFullYear());
-        DatabaseManager.getInstance().createMealEvent(this.foodEntryName, 0, 0, this.foodRating, this.foodEntryNote, null, tmpDateTime.getTime(), 
+        DatabaseManager.getInstance().createMealEvent(this.state.foodEntryName, 0, 0, this.state.foodRating, this.state.foodEntryNote, this.state.photo, tmpDateTime.getTime(), 
             (error) => {alert(error)}, 
             () => {GlutonManager.getInstance().setMessage(2)}
         );
@@ -190,7 +190,7 @@ export default class FoodDiaryScreen extends React.Component{
                 <HorizontalLineWithText text = {LanguageManager.getInstance().getText("TAGS")}/>
                 <FoodDiaryTagEdit/>
                 <HorizontalLineWithText text = {LanguageManager.getInstance().getText("IMAGE")}/>
-                <FoodDiaryImageEdit navigation = {this.props.navigation}/>
+                <FoodDiaryImageEdit navigation = {this.props.navigation} onPictureTaken={(image) => this.setState({photo: image})}/>
                 <HorizontalLineWithText text = {LanguageManager.getInstance().getText("RATING")}/>
                 <View style={styles.ratingBarView}>
                     <FoodDiaryRatingBar ref={component => this._rating = component}  onRatingChanged={this.ratingEditedHandler}/>
