@@ -37,6 +37,7 @@ export default class FoodDiaryScreen extends React.Component{
             selectedDateAndTime: new Date(), 
             foodRating: 0,
             keyboardOpen: false,
+            photo: null,
         } 
     }
 

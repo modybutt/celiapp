@@ -9,14 +9,16 @@ export default class FoodDiaryImageEdit extends React.Component {
     constructor(props){
         super(props);
         this.state = {
+            snapShot: null,
         }
     }
+
 
     render(){
         return(
             <View>
-                <Text>Hallo</Text>
-                <Button title="kamera" onPress={() => this.props.navigation.navigate('Camera')}/>
+                <Image source={Image.resolveAssetSource(this.state.snapShot)} style={{width: 100, height: 100}} />
+                <Button title='Cheese' onPress={() => this.props.navigation.navigate('Camera')}/>
             </View>       
     )}
 }
