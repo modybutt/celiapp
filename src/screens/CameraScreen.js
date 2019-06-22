@@ -1,8 +1,8 @@
 import React from 'react';
-import { Text, View, TouchableOpacity, Button, Image } from 'react-native';
-import { Camera, Permissions } from 'expo';
-import DatabaseManager from '../manager/DatabaseManager';
+import { Text, View, TouchableOpacity, ActivityIndicator, StyleSheet } from 'react-native';
+import { Camera, Permissions, Icon } from 'expo';
 import LanguageManager from '../manager/LanguageManager';
+import Colors from '../constants/Colors';
 
 
 export default class SettingsScreen extends React.Component {
@@ -13,7 +13,7 @@ export default class SettingsScreen extends React.Component {
   state = {
     hasCameraPermission: null,
     type: Camera.Constants.Type.back,
-    snapShot: null,
+    computing: false,
   };
 
   async componentDidMount() {
@@ -23,11 +23,20 @@ export default class SettingsScreen extends React.Component {
 
   async snapShot() {
     let photo = await this.camera.takePictureAsync();
-    //alert(JSON.stringify(photo));
+    let callback = this.props.navigation.getParam("cb");
+
+    if (callback != null) {
+      callback(photo);
+      this.props.navigation.goBack();
+    }
     
-    this.setState({snapShot: photo});
-    DatabaseManager.getInstance().createMealEvent("Example MealEvent", 0, 0, 3, "Image", photo, Date.now(), (error) => { alert(error)}, null);
+    // DatabaseManager.getInstance().createMealEvent("Example MealEvent", 0, 0, 3, "Image", photo, Date.now(), (error) => { alert(error)}, null);
     // The local image URI is temporary. Use Expo.FileSystem.copyAsync to make a permanent copy of the image.
+  }
+
+  takeSnapshot() {
+    this.setState({computing: true});
+    this.snapShot();
   }
 
   render() {
@@ -38,38 +47,67 @@ export default class SettingsScreen extends React.Component {
       return <Text>No access to camera</Text>;
     } else {
       return (
-        <View style={{ flex: 1 }}>
-          <Camera ref={cam => this.camera = cam} style={{ flex: 1 }} type={this.state.type}>
-            <View
-              style={{
-                flex: 1,
-                backgroundColor: 'transparent',
-                flexDirection: 'row',
-              }}>
-              <TouchableOpacity
-                style={{
-                  flex: 0.1,
-                  alignSelf: 'flex-end',
-                  alignItems: 'center',
-                }}
+        <View style={styles.container}>
+          <Camera ref={cam => this.camera = cam} style={styles.camera} type={this.state.type}>
+            <View style={styles.overlay}>
+              <TouchableOpacity style={styles.flip}
                 onPress={() => {
-                  this.setState({
-                    type: this.state.type === Camera.Constants.Type.back
+                  this.setState({type: this.state.type === Camera.Constants.Type.back
                       ? Camera.Constants.Type.front
                       : Camera.Constants.Type.back,
                   });
-                }}>
-                <Text
-                  style={{ fontSize: 18, marginBottom: 10, color: 'white' }}>
-                  {' '}Flip{' '}
-                </Text>
+                }}
+              >
+                <Icon.Ionicons name='md-swap' color={this.props.focused ? Colors.tabIconSelected : Colors.tabIconDefault} size={40} />
               </TouchableOpacity>
+              <View style={styles.triggerContainer}>
+                {this.state.computing == false 
+                  ? <TouchableOpacity style={styles.trigger} onPress={() => this.takeSnapshot()}>
+                      <Icon.Ionicons name='md-camera' color={this.props.focused ? Colors.tabIconSelected : Colors.tabIconDefault} size={80} />
+                    </TouchableOpacity>
+                  : <ActivityIndicator size='large' color='lightblue' />
+                }
+              </View>
             </View>
-            <Button title='Cheese' onPress={() => this.snapShot()} />
           </Camera>
-          <Image source={Image.resolveAssetSource(this.state.snapShot)} style={{width: 200, height: 200}} />
         </View>
       );
     }
   }
 }
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+  },
+  overlay: {
+    flex: 1, 
+    backgroundColor: 'transparent'
+  },
+  camera: {
+    flex: 1,
+  },
+  flip: {
+    position: 'absolute',
+    top: 40,
+    right: 40,
+    width: 45,
+    alignItems: 'center',
+    backgroundColor: Colors.tabBar,
+    borderRadius: 15,
+    borderWidth: 1,
+  },
+  triggerContainer: {
+    position: 'absolute',
+    bottom: 40,
+    width: '100%',
+    alignItems: 'center',
+  },
+  trigger: {
+    backgroundColor: Colors.tabBar,
+    alignItems: 'center',    
+    width: 100,
+    borderRadius: 30,
+    borderWidth: 1,
+  }
+});

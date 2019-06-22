@@ -27,8 +27,8 @@ export default class HomeScreen extends React.Component {
   render() {
     let popupNames = [
       LanguageManager.getInstance().getText("SETTINGS"),
-      LanguageManager.getInstance().getText("CAMERA"),
-      LanguageManager.getInstance().getText("DEBUG"),
+      //LanguageManager.getInstance().getText("CAMERA"),
+      //LanguageManager.getInstance().getText("DEBUG"),
     ];
 
     return (

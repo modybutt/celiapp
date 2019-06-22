@@ -171,6 +171,12 @@ export default class DatabaseManager {
       }, onError, onSuccess);
     }
 
+    deleteEvent(eventID, onError, onSuccess) {
+      this.db.transaction(tx => {
+        tx.executeSql('DELETE FROM events WHERE id = ?', [eventID]);
+      }, onError, onSuccess);
+    }
+
     fetchEvents(timestamp, onError, onSuccess) {
       if (timestamp != null) {
         let start = new Date(timestamp);

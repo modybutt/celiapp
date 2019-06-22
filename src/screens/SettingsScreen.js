@@ -37,6 +37,7 @@ export default class SettingsScreen extends React.Component {
     DatabaseManager.getInstance().saveSettings('nickname', GlutonManager.getInstance().getBuddy(), (error) => {alert(error)}, null);
     
     if (goHome) {
+        GlutonManager.getInstance().setMessage(3);
         setTimeout(() => this.props.navigation.goBack(), 100);
     }
   }

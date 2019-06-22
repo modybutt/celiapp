@@ -1,6 +1,6 @@
 
 import React from 'react';
-import { View, Button, ScrollView, Keyboard,Alert,StyleSheet} from 'react-native';
+import { View, Button, ScrollView, Keyboard, TouchableOpacity, StyleSheet} from 'react-native';
 import Dialog from "react-native-dialog";
 import { HeaderBackButton } from 'react-navigation'
 import DatabaseManager from '../manager/DatabaseManager';
@@ -14,13 +14,14 @@ import FoodDiaryTagEdit from '../components/FoodDiary/FoodDiaryTagEdit'
 import FoodDiaryImageEdit from '../components/FoodDiary/FoodDiaryImageEdit'
 import LanguageManager from '../manager/LanguageManager';
 import GlutonManager from '../manager/GlutonManager';
+import HeaderSaveButton from '../components/HeaderSaveButton';
 
 
 export default class FoodDiaryScreen extends React.Component{
     static navigationOptions = ({navigation}) => ({
         title: LanguageManager.getInstance().getText("ADD_MEAL"),
         headerLeft: <HeaderBackButton onPress={() => navigation.state.params.onCancelPressed()}/>,
-        headerRight: <View style={{paddingRight: 10}}><Button title={LanguageManager.getInstance().getText("SAVE")} onPress={() => navigation.state.params.onOkPressed(true)}/></View>
+        headerRight: <HeaderSaveButton onPress={() => navigation.state.params.onOkPressed(true)}/>
     })
 
     constructor(props) {

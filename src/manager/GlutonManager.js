@@ -6,6 +6,8 @@ export default class GlutonManager {
     "GLUTON_WELCOME",
     "GLUTON_TICKLE",
     "GLUTON_THANKS",
+    "GLUTON_RESTART",
+    "GLUTON_REFRESH"
   ]
 
   /**
