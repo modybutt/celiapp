@@ -14,7 +14,8 @@ import FoodViewScreen from '../screens/FoodViewScreen';
 import EmoteViewScreen from '../screens/EmoteViewScreen';
 import SettingsScreen from '../screens/SettingsScreen';
 import CameraScreen from '../screens/CameraScreen';
-import SymptomTrackerMoreSymptomsScreen from '../screens/SymptomTrackerMoreSymptomsScreen'
+import SymptomTrackerMoreSymptomsScreen from '../screens/SymptomTrackerMoreSymptomsScreen';
+import SymptomTrackerAddNewScreen from '../screens/SymptomTrackerAddNewScreen';
 
 const EvaluationStack = createStackNavigator({
   Evaluation: EvaluationScreen,
@@ -89,6 +90,9 @@ export default createStackNavigator({
   },
   MoreSymptoms:{
     screen: SymptomTrackerMoreSymptomsScreen,
+  },
+  AddNewSymptom: {
+    screen: SymptomTrackerAddNewScreen
   },
   ViewSymptom: {
     screen: SymptomViewScreen,
