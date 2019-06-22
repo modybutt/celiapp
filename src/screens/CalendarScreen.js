@@ -8,7 +8,7 @@ import {
   TouchableOpacity
 } from 'react-native';
 
-import SymptomCalendarPicker from "../components/SymptomCalendarPicker";  
+import OurCalendarPicker from "../components/OurCalendarPicker";  
 import EntryList from "../components/EntryList"
 import MenuButton from '../components/MenuButton';
 import LanguageManager from '../manager/LanguageManager';
@@ -30,7 +30,7 @@ export default class CalendarScreen extends React.Component {
   render() {
     return (
       <View style={styles.container}>
-        <SymptomCalendarPicker selectedDate={this.state.selectedDate} onDateChange={(date) => this.onDateChange(date)}/>
+        <OurCalendarPicker selectedDate={this.state.selectedDate} onDateChange={(date) => this.onDateChange(date)}/>
         <EntryList navigation={this.props.navigation} selectedDate={this.state.selectedDate} ref={list => this.list = list} />
         <MenuButton navigation={this.props.navigation}/>
       </View>

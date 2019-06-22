@@ -2,7 +2,7 @@ import React from 'react';
 import { View, StyleSheet } from 'react-native';
 import CalendarPicker from 'react-native-calendar-picker';
 
-export default class SymptomCalendarPicker extends React.Component {
+export default class OurCalendarPicker extends React.Component {
   render() {
     return (
       <View style={styles.container}>

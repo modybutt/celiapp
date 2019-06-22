@@ -18,7 +18,7 @@ import CustomButton from '../components/CustomButton'
 import SearchSymptom from '../components/SymptomTracker/SearchSymptom';
 import EntryList from '../components/EntryList';
 import DayChooser from '../components/DayChooser';
-import SymptomTimePicker from  '../components/SymptomTracker/SymptomTimePicker';
+import TimePicker from  '../components/TimePicker';
 import FoodDiaryRatingBar from '../components/FoodDiary/FoodDiaryRatingBar';
 import LanguageManager from '../manager/LanguageManager';
 
@@ -79,7 +79,7 @@ export default class DebugScreen extends React.Component {
             },
 			      {key: 'SearchSymptom', value: <SearchSymptom />},
             {key: 'DayChooser', value: <DayChooser date = {getTodayDate()}/>},
-            {key: 'TimePicker', value: <SymptomTimePicker/>},
+            {key: 'TimePicker', value: <TimePicker textString = "EATEN_AT"/>},
              
           ]}
 
