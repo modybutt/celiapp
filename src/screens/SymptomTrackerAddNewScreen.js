@@ -3,12 +3,14 @@ import { Text, View, Dimensions, Alert, StyleSheet, Button} from 'react-native';
 import { HeaderBackButton } from 'react-navigation'
 import LanguageManager from '../manager/LanguageManager';
 import TextInputSingleLine from '../components/TextInputSingleLine';
+import HeaderSaveButton from '../components/HeaderSaveButton';
+import DatabaseManager from '../manager/DatabaseManager';
 
 export default class SymptomTrackerAddNewScreen extends React.Component{
     static navigationOptions = ({navigation}) => ({
         title: LanguageManager.getInstance().getText("ADD_NEW_SYMPTOM"),
         headerLeft: <HeaderBackButton onPress={() => navigation.state.params.onCancelPressed()}/>,
-        headerRight: <View style={{paddingRight: 10}}><Button title={LanguageManager.getInstance().getText("SAVE")} onPress={() => navigation.state.params.onOkPressed(true)}/></View>
+        headerRight: <HeaderSaveButton onPress={() => navigation.state.params.onOkPressed(true)}/>
     })
 
     constructor(props){
@@ -34,10 +36,7 @@ export default class SymptomTrackerAddNewScreen extends React.Component{
     }
 
     saveCurrentData = (goHome) =>{
-        //TODO: Save new Symptom
-        //TODO: DB Table
-
-        Alert.alert(this.state.nameString)
+        DatabaseManager.getInstance().createSymptom(this.state.nameString, require('../assets/images/SymptomTracker/userDefinedSymptom.png'), (error) => {alert(error)}, null);
 
         if (goHome) {
             setTimeout(() => this.navigateHome(), 100);

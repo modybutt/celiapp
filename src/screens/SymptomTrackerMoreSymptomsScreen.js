@@ -1,16 +1,18 @@
 import React from 'react';
-import { ScrollView, View, Button} from 'react-native';
+import { ScrollView, Button} from 'react-native';
 import { HeaderBackButton } from 'react-navigation'
+import SymptomGroup from '../components/SymptomTracker/SymptomGroup';
 import SymptomListRow from '../components/SymptomTracker/MoreSymptomsList/SymptomListRow'
 import LanguageManager from '../manager/LanguageManager';
 import SearchSymptomList from '../components/SymptomTracker/MoreSymptomsList/SearchSymptomList';
 import ActionButton from 'react-native-action-button';
+import HeaderSaveButton from '../components/HeaderSaveButton';
 
 export default class SymptomTrackerMoreSymptomsScreen extends React.Component{
     static navigationOptions = ({navigation}) => ({
         title: LanguageManager.getInstance().getText("SYMPTOM_LIST"),
         headerLeft: <HeaderBackButton onPress={() => navigation.state.params.onCancelPressed()}/>,
-        headerRight: <View style={{paddingRight: 10}}><Button title={LanguageManager.getInstance().getText("SAVE")} onPress={() => navigation.state.params.onOkPressed(true)}/></View>
+        headerRight: <HeaderSaveButton onPress={() => navigation.state.params.onOkPressed(true)}/>
     })
 
 
@@ -63,21 +65,12 @@ export default class SymptomTrackerMoreSymptomsScreen extends React.Component{
         })
     }
 
-    render(){
-        return(
-            <View>
-            <ActionButton buttonColor="rgba(231,76,60,1)" onPress={() => this.props.navigation.navigate('AddNewSymptom')} style={{position: "absolute", bottom: 100, right: 0, zIndex: 2}}/>
-            <SearchSymptomList/>
+    render() {
+        return (
             <ScrollView>
-                <SymptomListRow ref={component => this._symptomList = component} onSelectedSymptomIDsChanged={this.symptomSelectedIDsChangedHandler}/>
+                <SymptomGroup showMore={true} navigation={this.props.navigation} />
             </ScrollView>
-            </View>
-
         )
     }
-
-
-
-
 }
 

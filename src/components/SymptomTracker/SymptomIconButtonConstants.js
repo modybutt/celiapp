@@ -38,43 +38,4 @@ export const animateTime = 0;
 // export const easingType = Easing.out(Easing.exp);
 export const easingType = Easing.linear
 export const delay = 0;
-
-export const images = {
-	diarrhea: {
-		imgName: LanguageManager.getInstance().getText("DIARRHEA"), 
-		uri: require('../../assets/images/SymptomTracker/diarrhea.png')
-	},
-	headache: {
-		imgName: LanguageManager.getInstance().getText("HEADACHE"), 
-		uri: require('../../assets/images/SymptomTracker/headache.png')	
-	},
-	irritability: {
-		imgName: LanguageManager.getInstance().getText("IRRITABILITY"), 
-		uri: require('../../assets/images/SymptomTracker/irritability.png')	
-	},
-	stomachAche: {
-		imgName: LanguageManager.getInstance().getText("STOMACHACHE"), 
-		uri: require('../../assets/images/SymptomTracker/stomachAche.png')	
-	},
-	userDefinedSymptom: {
-		imgName: LanguageManager.getInstance().getText("USER_DEFINED_SYMPTOM"), 
-		uri: require('../../assets/images/SymptomTracker/userDefinedSymptom.png')	
-	},
-	vomiting: {
-		imgName: LanguageManager.getInstance().getText("VOMITING"), 
-		uri: require('../../assets/images/SymptomTracker/vomiting.png')	
-	},
-	weightLoss: {
-		imgName: LanguageManager.getInstance().getText("WEIGHT_LOSS"), 
-		uri: require('../../assets/images/SymptomTracker/weightLoss.png')	
-	},
-	cloating: {
-		imgName: LanguageManager.getInstance().getText("CLOATING"), 
-		uri: require('../../assets/images/SymptomTracker/cloating.png')	
-	},
-	moreSymptoms: {
-		imgName: LanguageManager.getInstance().getText("MORE_SYMPTOMS"),
-		uri: require('../../assets/images/SymptomTracker/moreSymptoms.png')
-	}
-	}
   

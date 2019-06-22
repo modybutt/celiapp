@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { TouchableOpacity, Text, Alert, Animated, Image, Easing, View, StyleSheet } from 'react-native';
+import Dialog from "react-native-dialog";
 import FAwesomeIcon from 'react-native-vector-icons/FontAwesome';
 
 // constants
@@ -20,6 +21,8 @@ import {
 	delay,
 	images,
 } from './SymptomIconButtonConstants';
+import LanguageManager from '../../manager/LanguageManager';
+import DatabaseManager from '../../manager/DatabaseManager';
 
 
 
@@ -30,135 +33,52 @@ const AnimatedTouchable = Animated.createAnimatedComponent(TouchableOpacity);
 export default class SymptomIconButton extends Component {
 
 	//Prop: type -->  1 == left icon, 2 == normal 3 == right icon. -- Changes the placement of the severity chooser icons around the symptom icon
-	//Prop: type -->  4 == MoreSymptomsButton
-	//Prop: symptomID --> 1 - 7 --> systemIcons. 8 --> more symptoms button. All IDs higher than that show the userDefinedIcon.
+	//Prop: type -->  4 == MoreSymptomsButton, 5 CreateSymptomButton
+	//Prop: symptomID --> 1 - 7 --> systemIcons. 0 --> more symptoms button. All IDs higher than that show the userDefinedIcon.
 	
+	constructor(props) {
+		super(props);			
+	
+		this.animatedValue = new Animated.Value(0);
+		this.topLeftValue = new Animated.Value(0);
+		this.topCenterValue = new Animated.Value(0);
+		this.topRightValue = new Animated.Value(0);	
+	}
+
+	state = {
+		selected: false,
+		bigBubbleColor: 'rgb(180, 180, 180)',
+		zIndexNumber: -1,
+		selectedSeverity: 0,
+		showDeleteConfirmDialog: false
+	}
 
 	resetSymptom(){
 		this.setState({
 			selected: false,
 			bigBubbleColor: 'rgb(180, 180, 180)',
+			zIndexNumber: -1,
 			selectedSeverity: 0
 		})
 	}
 
+	handleBack() {
+		this.setState({ showDeleteConfirmDialog: false });
+	};
 
-	constructor(props) {
-		super(props);
-		this.animatedValue = new Animated.Value(0);
-		this.topLeftValue = new Animated.Value(0);
-		this.topCenterValue = new Animated.Value(0);
-		this.topRightValue = new Animated.Value(0);		
-
-
-		switch(this.props.symptomID){
-			case 0:
-					this.state = {
-						selected: false,
-						bigBubbleColor: "rgb(180, 180, 180)",
-						imgSource: images.userDefinedSymptom.uri,
-						symptomName: images.userDefinedSymptom.imgName,
-						zIndexNumber: -1,
-						selectedSeverity: 0
-					};
-				break;
-			case 1:
-					this.state = {
-						selected: false,
-						bigBubbleColor: "rgb(180, 180, 180)",
-						imgSource: images.cloating.uri,
-						symptomName: images.cloating.imgName,
-						zIndexNumber: -1,
-						selectedSeverity: 0
-					};
-				break;
-			case 2:
-					this.state = {
-						selected: false,
-						bigBubbleColor: "rgb(180, 180, 180)",
-						imgSource: images.diarrhea.uri,
-						symptomName: images.diarrhea.imgName,
-						zIndexNumber: -1,
-						selectedSeverity: 0
-					};
-				break;
-			case 3:
-					this.state = {
-						selected: false,
-						bigBubbleColor: "rgb(180, 180, 180)",
-						imgSource: images.headache.uri,
-						symptomName: images.headache.imgName,
-						zIndexNumber: -1,
-						selectedSeverity: 0
-					};
-				break;
-			case 4:
-					this.state = {
-						selected: false,
-						bigBubbleColor: "rgb(180, 180, 180)",
-						imgSource: images.irritability.uri,
-						symptomName: images.irritability.imgName,
-						zIndexNumber: -1,
-						selectedSeverity: 0
-					};
-				break;
-			case 5:
-					this.state = {
-						selected: false,
-						bigBubbleColor: "rgb(180, 180, 180)",
-						imgSource: images.stomachAche.uri,
-						symptomName: images.stomachAche.imgName,
-						zIndexNumber: -1,
-						selectedSeverity: 0
-					};
-				break;
-			case 6:
-					this.state = {
-						selected: false,
-						bigBubbleColor: "rgb(180, 180, 180)",
-						imgSource: images.vomiting.uri,
-						symptomName: images.vomiting.imgName,
-						zIndexNumber: -1,
-						selectedSeverity: 0
-					};
-				break;
-			case 7:
-					this.state = {
-						selected: false,
-						bigBubbleColor: "rgb(180, 180, 180)",
-						imgSource: images.weightLoss.uri,
-						symptomName: images.weightLoss.imgName,
-						zIndexNumber: -1,
-						selectedSeverity: 0
-					};
-				break;
-			case 8:
-					this.state = {
-						selected: false,
-						bigBubbleColor: "rgb(180, 180, 180)",
-						imgSource: images.moreSymptoms.uri,
-						symptomName: images.moreSymptoms.imgName,
-						zIndexNumber: -1,
-						selectedSeverity: 0
-					};	
-				break;
-			default:
-					this.state = {
-						selected: false,
-						bigBubbleColor: "rgb(180, 180, 180)",
-						imgSource: images.userDefinedSymptom.uri,
-						symptomName: images.userDefinedSymptom.imgName,
-						zIndexNumber: -1,
-						selectedSeverity: 0
-					};
-				break;
-		}
-	}
-
-
+	handleDelete() {
+		// this.setState({ showDeleteConfirmDialog: false });
+		DatabaseManager.getInstance().deleteSymptom(this.props.symptomID, 
+			(error) => {alert(error)}, 
+			() => {this.props.onSymptomDeleted()}
+		);
+	};
+	
 	handleAddButtonPress = () => {
 		if(this.props.type == 4){
 			this.props.navigation.navigate("MoreSymptoms")
+		}else if (this.props.type == 5) {
+			this.props.navigation.navigate("AddNewSymptom")
 		}else{
 			if(this.state.bigBubbleColor.localeCompare('rgb(180, 180, 180)')){
 				this.setState({bigBubbleColor: 'rgb(180, 180, 180)'})
@@ -384,7 +304,7 @@ export default class SymptomIconButton extends Component {
 		}
 
 		return (
-			<View>
+			<View style={{alignItems: 'center', opacity: this.props.opacity}}>
 				<Animated.View
 					style={[
 						style.bigBubble,
@@ -409,6 +329,7 @@ export default class SymptomIconButton extends Component {
 							bottom: 20,
 						}}
 						onPress={this.handleAddButtonPress}
+						onLongPress={() => this.props.symptomID > 7 ? this.setState({ showDeleteConfirmDialog: true }) : null}
 					>
 						<Animated.View
 							style={{
@@ -428,13 +349,13 @@ export default class SymptomIconButton extends Component {
 								color="#FFF"
 							/> */}
 							<Image
-									source = {this.state.imgSource}
+									source = {Image.resolveAssetSource(this.props.symptomIcon)}
 									style={style.iconImage}
 							 />
 						</Animated.View>
 					</TouchableOpacity>
 				</Animated.View>
-				<Text style={style.symptomNameText}>{this.state.symptomName}</Text>
+				<Text style={style.symptomNameText}>{LanguageManager.getInstance().getText(this.props.symptomName)}</Text>
 				<AnimatedTouchable onPress={this.onPressYellow}
 					style={[
 						style.smallBubbleYellow,
@@ -544,6 +465,17 @@ export default class SymptomIconButton extends Component {
 					/> */}
 				</AnimatedTouchable>
 				
+
+				<View>
+					<Dialog.Container visible={this.state.showDeleteConfirmDialog}>
+						<Dialog.Title>{LanguageManager.getInstance().getText("DELETE")}</Dialog.Title>
+						<Dialog.Description>
+						{LanguageManager.getInstance().getText("DO_YOU_WANT_TO_DELETE")}
+						</Dialog.Description>
+						<Dialog.Button label={LanguageManager.getInstance().getText("BACK")} onPress={() => this.handleBack()} />
+						<Dialog.Button label={LanguageManager.getInstance().getText("DISCARD")} onPress={() => this.handleDelete()} />
+					</Dialog.Container>
+				</View>
 			</View>
 		);
 	}
@@ -590,6 +522,8 @@ const style = StyleSheet.create({
 	symptomNameText:{
 	  fontSize: 15,
 	  textAlign: 'center',
-	  margin: -25
+	  width: bigBubbleSize,
+	  flexWrap: 'wrap',
+	  margin: -25,
 	},
 });
