@@ -31,7 +31,7 @@
 {
   "expo": {
    "name": "CeliApp",
-   "icon": "./src/assets/images/heart.png",
+   "icon": "./src/assets/images/celiapp_icon_trans.png",
    "version": "0.1.0",
    "slug": "CeliApp",
    "sdkVersion": "32.0.0",
