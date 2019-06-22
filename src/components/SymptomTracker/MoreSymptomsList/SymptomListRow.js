@@ -13,6 +13,7 @@ export default class SymptomListRow extends React.Component {
         this.symptomDeselected = this.symptomDeselected.bind(this)
         this.state = {
             canOpenSeverityChooser: true,
+            symptomAndSeverityList: []
         }
     }
 
@@ -204,6 +205,9 @@ export default class SymptomListRow extends React.Component {
                     <View>
                         <SymptomIconButton ref={component => this._sympIc4 = component} type = {3} symptomID={9} onSeverityChooserHandled = {this.severityChooserHandler} canOpenSeverity = {this.state.canOpenSeverityChooser} onSymptomSelected = {this.symptomSelected} onSymptomDeselected = {this.symptomDeselected}/>
                     </View>              
+                </View>
+                <View style={{height: 200}}>
+
                 </View>
             </View>
      

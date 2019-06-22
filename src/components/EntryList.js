@@ -13,6 +13,9 @@ import {
 import { ListItem } from 'react-native-elements';
 import { NavigationEvents } from 'react-navigation';
 
+import {  images } from '../components/EmoteTracker/EmoteTrackerConstants';
+
+
 import DatabaseManager from '../manager/DatabaseManager';
 
 export default class EntryList extends React.Component {
@@ -86,17 +89,38 @@ export default class EntryList extends React.Component {
         )
       }
       case 1: {
-        return (
+                return (
           <TouchableOpacity onPress={() => this.props.navigation.navigate('ViewMeal', {event: item})}>
+             <ListItem
+              title={objData.name + ' ' + objData.rating +'/5'}
+              subtitle={new Date(item.created).toUTCString()}
+              leftAvatar={{
+                source: Image.resolveAssetSource(objData.icon)
+              }}
+            />
             <Text>{JSON.stringify(item)}</Text>
-            <Image source={Image.resolveAssetSource(objData.icon)} style={{width: 200, height: 200}} />
           </TouchableOpacity>
         )
       }
       case 2: {
+        let picture =  images.neither.uri;
+        let name = '';
+        switch (objData.type) {
+          case 1: picture = images.unhappy.uri; name = 'unhappy'; break;
+          case 2: picture = images.slightlyUnhappy.uri;  name = 'slightly Unhappy'; break;
+          case 3: picture = images.neither.uri;  name = 'normal'; break;
+          case 4: picture = images.slightlyHappy.uri; name = 'slightly Happy';  break;
+          case 5: picture = images.happy.uri; name = 'happy';  break;
+        }
         return (
           <TouchableOpacity onPress={() => this.props.navigation.navigate('ViewEmote', {event: item})}>
-            <Text>{JSON.stringify(item)}</Text>
+             <ListItem
+              title={name}
+              subtitle={new Date(item.created).toUTCString()}
+              leftAvatar={{
+                source: Image.resolveAssetSource(picture)
+              }}
+            />
           </TouchableOpacity>
         )
       }
