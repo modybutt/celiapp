@@ -1,11 +1,9 @@
 import React from 'react';
-import { ScrollView, Button} from 'react-native';
+import { View, ScrollView } from 'react-native';
 import { HeaderBackButton } from 'react-navigation'
 import SymptomGroup from '../components/SymptomTracker/SymptomGroup';
-import SymptomListRow from '../components/SymptomTracker/MoreSymptomsList/SymptomListRow'
+import MenuButton from '../components/MenuButton';
 import LanguageManager from '../manager/LanguageManager';
-import SearchSymptomList from '../components/SymptomTracker/MoreSymptomsList/SearchSymptomList';
-import ActionButton from 'react-native-action-button';
 import HeaderSaveButton from '../components/HeaderSaveButton';
 
 export default class SymptomTrackerMoreSymptomsScreen extends React.Component{
@@ -67,9 +65,12 @@ export default class SymptomTrackerMoreSymptomsScreen extends React.Component{
 
     render() {
         return (
-            <ScrollView>
-                <SymptomGroup showMore={true} navigation={this.props.navigation} />
-            </ScrollView>
+            <View style={{flex: 1}}>
+                <ScrollView>
+                    <SymptomGroup showMore={true} navigation={this.props.navigation} />
+                </ScrollView>
+                <MenuButton type={1} navigation={this.props.navigation}/>  
+            </View>
         )
     }
 }

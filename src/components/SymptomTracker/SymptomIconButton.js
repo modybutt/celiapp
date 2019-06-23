@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import { TouchableOpacity, Text, Alert, Animated, Image, Easing, View, StyleSheet } from 'react-native';
 import Dialog from "react-native-dialog";
-import FAwesomeIcon from 'react-native-vector-icons/FontAwesome';
 
 // constants
 import {
@@ -222,89 +221,89 @@ export default class SymptomIconButton extends Component {
 
 		if(this.props.type == 1){
 			center = {
-				top: -15,
+				top: 15,
 				left: 15,
 			};
 			
 			topCenter = {
-				top: -60,
+				top: -30,
 				left: 85,
 			};
 			
 			topLeft = {
-				top: -90,
+				top: -60,
 				left: 15,
 			};
 			
 			topRight = {
-				top: 15,
+				top: 45,
 				left: 90,
 			};
 		}else if(this.props.type == 2){
 			center = {
-				top: -15,
+				top: 15,
 				left: 15,
 			};
 			
 			topCenter = {
-				top: -90,
+				top: -60,
 				left: 15,
 			};
 			
 			topLeft = {
-				top: -60,
+				top: -30,
 				left: -55,
 			};
 			
 			topRight = {
-				top: -60,
+				top: -30,
 				left: 85,
 			};
 	
 		}else if(this.props.type == 3){
 			center = {
-				top: -15,
+				top: 15,
 				left: 15,
 			};
 			
 			topCenter = {
-				top: -60,
+				top: -30,
 				left: -55,
 			};
 			
 			topLeft = {
-				top: 15,
+				top: 45,
 				left: -60,
 			};
 			
 			topRight = {
-				top: -90,
+				top: -60,
 				left: 15,
 			};
 		}else{
 			center = {
-				top: -15,
+				top: 15,
 				left: 15,
 			};
 			
 			topCenter = {
-				top: -90,
+				top: -60,
 				left: 15,
 			};
 			
 			topLeft = {
-				top: -60,
+				top: -30,
 				left: -55,
 			};
 			
 			topRight = {
-				top: -60,
+				top: -30,
 				left: 85,
 			};
 		}
 
 		return (
-			<View style={{alignItems: 'center', opacity: this.props.opacity}}>
+			<View style={{marginTop: 60, opacity: this.props.opacity}}>
 				<Animated.View
 					style={[
 						style.bigBubble,
@@ -331,27 +330,8 @@ export default class SymptomIconButton extends Component {
 						onPress={this.handleAddButtonPress}
 						onLongPress={() => this.props.symptomID > 7 ? this.setState({ showDeleteConfirmDialog: true }) : null}
 					>
-						<Animated.View
-							style={{
-								// transform: [
-								// 	{
-								// 		rotateZ: springValue.interpolate({
-								// 			inputRange: [0, 1, 2, 3],
-								// 			outputRange: ['45deg', '45deg', '45deg', '0deg'],
-								// 		}),
-								// 	},
-								// ],
-							}}
-						>
-							{/* <FAwesomeIcon
-								name="plus"
-								size={35}
-								color="#FFF"
-							/> */}
-							<Image
-									source = {Image.resolveAssetSource(this.props.symptomIcon)}
-									style={style.iconImage}
-							 />
+						<Animated.View>
+							<Image source = {Image.resolveAssetSource(this.props.symptomIcon)} style={style.iconImage}/>
 						</Animated.View>
 					</TouchableOpacity>
 				</Animated.View>
@@ -386,11 +366,6 @@ export default class SymptomIconButton extends Component {
 						},
 					]}
 				>
-					{/* <FAwesomeIcon
-						name="camera"
-						size={20}
-						color="#FFF"
-					/> */}
 				</AnimatedTouchable>
 				<AnimatedTouchable onPress={this.onPressOrange}
 					style={[
@@ -422,11 +397,6 @@ export default class SymptomIconButton extends Component {
 						},
 					]}
 				>
-					{/* <FAwesomeIcon
-						name="video-camera"
-						size={20}
-						color="#fff"
-					/> */}
 				</AnimatedTouchable>
 				<AnimatedTouchable onPress={this.onPressRed}
 					style={[
@@ -458,11 +428,6 @@ export default class SymptomIconButton extends Component {
 						},
 					]}
 				>
-					{/* <FAwesomeIcon
-						name="pencil"
-						size={20}
-						color="#FFF"
-					/> */}
 				</AnimatedTouchable>
 				
 
@@ -485,11 +450,9 @@ const style = StyleSheet.create({
 	bigBubble: {
 		justifyContent: 'center',
 		alignItems: 'center',
-		//backgroundColor: bubbleColor,
 		height: bigBubbleSize,
 		width: bigBubbleSize,
 		borderRadius: bigBubbleSize / 2,
-		top: -30,
   },
   smallBubbleYellow: {
 		justifyContent: 'center',
@@ -497,6 +460,8 @@ const style = StyleSheet.create({
 		backgroundColor: bubbleColorYellow,
 		height: smallBubbleSize,
 		width: smallBubbleSize,
+		borderWidth: 1,
+		borderColor: 'grey',
 		borderRadius: smallBubbleSize / 2,
   },
   smallBubbleOrange: {
@@ -504,7 +469,9 @@ const style = StyleSheet.create({
 		alignItems: 'center',
 		backgroundColor: bubbleColorOrange,
 		height: smallBubbleSize,
-		width: smallBubbleSize,
+		width: smallBubbleSize,		
+		borderWidth: 1,
+		borderColor: 'grey',
 		borderRadius: smallBubbleSize / 2,
 	},
 	smallBubbleRed: {
@@ -513,6 +480,8 @@ const style = StyleSheet.create({
 		backgroundColor: bubbleColorRed,
 		height: smallBubbleSize,
 		width: smallBubbleSize,
+		borderWidth: 1,
+		borderColor: 'grey',
 		borderRadius: smallBubbleSize / 2,
 	},
 	iconImage: {
@@ -524,6 +493,5 @@ const style = StyleSheet.create({
 	  textAlign: 'center',
 	  width: bigBubbleSize,
 	  flexWrap: 'wrap',
-	  margin: -25,
 	},
 });

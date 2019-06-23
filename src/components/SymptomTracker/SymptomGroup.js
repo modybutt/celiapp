@@ -116,12 +116,11 @@ export default class SymptomGroup extends React.Component{
             }
         }
 
-        if (k < (from + size) &&  k >= this.state.symptoms.length) {
-            while (++k < (from + size)) {
+        if (k < (from + size)) {
+            // fill up with spacer
+            while (k++ < (from + size)) {
                 cluster.push(<SymptomIconButton key={k} opacity={0}/>);
             }
-
-            cluster.push(<SymptomIconButton type={5} key={0} symptomID={0} symptomName="ADD_NEW_SYMPTOM" symptomIcon={require('../../assets/images/SymptomTracker/addSymptom.png')} onSeverityChooserHandled = {this.severityChooserHandler} canOpenSeverity={this.state.canOpenSeverityChooser} onSymptomSelected={this.symptomSelected} onSymptomDeselected={this.symptomDeselected} navigation={this.props.navigation}/>);
         }
 
         return cluster;
@@ -154,7 +153,7 @@ export default class SymptomGroup extends React.Component{
             return (
                 <View>
                     <NavigationEvents onDidFocus={() => this.refreshSymptoms()}/>
-                    <View style={{zIndex: 0, top: 40}}>
+                    <View style={{zIndex: 0, marginBottom: 30}}>
                         <View style={styles.groupContainer}>
                             <SymptomIconButton ref={component => this._sympIc1 = component} type = {1} symptomID={this.state.symptoms[0].id} symptomName={this.state.symptoms[0].name} symptomIcon={this.state.symptoms[0].icon} onSymptomDeleted={() => this.refreshSymptoms()} onSeverityChooserHandled = {this.severityChooserHandler} canOpenSeverity = {this.state.canOpenSeverityChooser} onSymptomSelected = {this.symptomSelected} onSymptomDeselected = {this.symptomDeselected}/>
                             <SymptomIconButton ref={component => this._sympIc2 = component} type = {2} symptomID={this.state.symptoms[1].id} symptomName={this.state.symptoms[1].name} symptomIcon={this.state.symptoms[1].icon} onSymptomDeleted={() => this.refreshSymptoms()} onSeverityChooserHandled = {this.severityChooserHandler} canOpenSeverity = {this.state.canOpenSeverityChooser} onSymptomSelected = {this.symptomSelected} onSymptomDeselected = {this.symptomDeselected}/>
@@ -174,7 +173,7 @@ export default class SymptomGroup extends React.Component{
             return (
                 <View>
                     <NavigationEvents onDidFocus={() => this.refreshSymptoms()}/>
-                    <View style={{zIndex: 0, top: 40}}>
+                    <View style={{zIndex: 0, marginBottom: 30}}>
                         {this.renderMoreSymptoms()}
                     </View>
                 </View>
@@ -188,6 +187,5 @@ const styles = StyleSheet.create({
         height: 130,
         flexDirection: 'row',
         justifyContent: 'space-around',
-        alignItems: 'flex-start'
     },
 });
