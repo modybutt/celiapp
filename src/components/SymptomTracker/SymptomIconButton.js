@@ -56,20 +56,15 @@ export default class SymptomIconButton extends Component {
 		showDeleteConfirmDialog: false
 	}
 
-	resetSymptom(){
-		this.setState({
-			selected: false,
-			zIndexNumber: -1,
-			selectedSeverity: 0
-		})
-	}
-
 	handleBack() {
 		this.setState({ showDeleteConfirmDialog: false });
 	};
 
 	handleDelete() {
-		// this.setState({ showDeleteConfirmDialog: false });
+		if (this.state.selectedSeverity != 0) {
+			this.props.onSymptomDeselected(this.props.symptomID, this.state.selectedSeverity);
+		}
+
 		DatabaseManager.getInstance().deleteSymptom(this.props.symptomID, 
 			(error) => {alert(error)}, 
 			() => {this.props.onSymptomDeleted()}
