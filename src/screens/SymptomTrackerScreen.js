@@ -29,7 +29,7 @@ export default class SymptomTrackerScreen extends React.Component{
         this.noteEditedHandler = this.noteEditedHandler.bind(this);
         this.dateEditedHandler = this.dateEditedHandler.bind(this);
         this.timeEditedHandler = this.timeEditedHandler.bind(this);
-        this.symptomSelectedIDsChangedHandler = this.symptomSelectedIDsChangedHandler.bind(this);
+        this.symptomSelectionChangeHandler = this.symptomSelectionChangeHandler.bind(this);
         this.state = {
             symptomEntryNote: "", //works correctly \o/
             tempDate: new Date(), //used to temporarliy save date and then set it to selectedDateAndTime after corresponding checks
@@ -234,8 +234,8 @@ export default class SymptomTrackerScreen extends React.Component{
         })
     }
 
-    symptomSelectedIDsChangedHandler = (sympIDsAndSeverity) =>{
-        //Alert.alert("symptomSelectedIDsChangedHandler called");
+    symptomSelectionChangeHandler = (sympIDsAndSeverity) =>{
+        // alert(JSON.stringify(sympIDsAndSeverity));
         this.setState({
             selectedSymptoms: sympIDsAndSeverity,
         })
@@ -258,7 +258,7 @@ export default class SymptomTrackerScreen extends React.Component{
                     <HorizontalLineWithText text = {LanguageManager.getInstance().getText("TIME")}/>
                     <SymptomTimePicker ref={component => this._timePicker = component} onTimeChanged={this.timeEditedHandler}/>
                     <HorizontalLineWithText text = {LanguageManager.getInstance().getText("SYMPTOMS")}/>
-                    <SymptomGroup ref={component => this._symptomGroup = component} onSelectedSymptomIDsChanged={this.symptomSelectedIDsChangedHandler} navigation = {this.props.navigation}/>
+                    <SymptomGroup ref={component => this._symptomGroup = component} selection={this.state.selectedSymptoms} onSelectionChanged={this.symptomSelectionChangeHandler} navigation={this.props.navigation}/>
                     <HorizontalLineWithText text = {LanguageManager.getInstance().getText("NOTES")}/>
                     <NoteEdit ref={component => this._noteEdit = component} note={this.state.symptomEntryNote} onTextChanged={this.noteEditedHandler}/>
                     <View style={{paddingBottom: 10}} />
@@ -296,18 +296,15 @@ export default class SymptomTrackerScreen extends React.Component{
 
     saveCurrentData = (goHome) =>{
         let added = 1;
-        for (let symptom of this.state.selectedSymptoms) {
-            let tmpDateTime = this.state.selectedDateAndTime
-            // if(!(tmpDateTime.getFullYear() >= 1900)){
-            //     tmpDateTime.setFullYear(tmpDateTime.getFullYear() + 1900);
-            // }
-            
-            Alert.alert(tmpDateTime.toUTCString())
-            DatabaseManager.getInstance().createSymptomEvent(symptom[0], symptom[1], this.state.symptomEntryNote, tmpDateTime.getTime(), 
+        let tmpDateTime = this.state.selectedDateAndTime
+
+        this.state.selectedSymptoms.forEach((symptom) => {
+            console.log(symptom.symptomID)
+            DatabaseManager.getInstance().createSymptomEvent(symptom.symptomID, symptom.severity, this.state.symptomEntryNote, tmpDateTime.getTime(), 
                 (error) => {alert(error)}, 
                 () => {GlutonManager.getInstance().setMessage(2)}
             );
-        }
+        });
 
         if (goHome) {
             setTimeout(() => this.navigateHome(), 100);

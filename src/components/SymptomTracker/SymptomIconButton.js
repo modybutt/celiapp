@@ -27,6 +27,11 @@ import DatabaseManager from '../../manager/DatabaseManager';
 
 const AnimatedTouchable = Animated.createAnimatedComponent(TouchableOpacity);
 
+const DEFAULT_COLOR = 'rgb(180, 180, 180)';
+const LOW_COLOR = 'rgb(255, 215, 0)';
+const MEDIUM_COLOR = 'rgb(255, 165, 0)';
+const HIGH_COLOR = 'rgb(255, 0, 0)';
+
 // This is the add button that appears in the middle along with
 // other buttons and their animations
 export default class SymptomIconButton extends Component {
@@ -46,16 +51,14 @@ export default class SymptomIconButton extends Component {
 
 	state = {
 		selected: false,
-		bigBubbleColor: 'rgb(180, 180, 180)',
 		zIndexNumber: -1,
-		selectedSeverity: 0,
+		selectedSeverity: this.props.defaultSeverity == null ? 0 : this.props.defaultSeverity,
 		showDeleteConfirmDialog: false
 	}
 
 	resetSymptom(){
 		this.setState({
 			selected: false,
-			bigBubbleColor: 'rgb(180, 180, 180)',
 			zIndexNumber: -1,
 			selectedSeverity: 0
 		})
@@ -75,15 +78,15 @@ export default class SymptomIconButton extends Component {
 	
 	handleAddButtonPress = () => {
 		if(this.props.type == 4){
-			this.props.navigation.navigate("MoreSymptoms")
+			this.props.navigation.navigate("MoreSymptoms", this.props.moreSymptomsParams)
 		}else if (this.props.type == 5) {
 			this.props.navigation.navigate("AddNewSymptom")
 		}else{
-			if(this.state.bigBubbleColor.localeCompare('rgb(180, 180, 180)')){
-				this.setState({bigBubbleColor: 'rgb(180, 180, 180)'})
-				this.props.onSymptomDeselected(this.props.symptomID, this.state.selectedSeverity);
-			}else{
+			if (this.state.selectedSeverity == 0) {
 				this.callAnimation(false);
+			} else {
+				this.setState({selectedSeverity: 0});
+				this.props.onSymptomDeselected(this.props.symptomID, this.state.selectedSeverity);
 			}
 		}
 	}
@@ -113,7 +116,6 @@ export default class SymptomIconButton extends Component {
 
 
 	onPressYellow = () => {
-		this.setState({bigBubbleColor: 'rgb(255, 215, 0)'})
 		this.setState({selectedSeverity: 1})
 		this.callAnimation(true);
 		this.props.onSeverityChooserHandled(true);
@@ -121,7 +123,6 @@ export default class SymptomIconButton extends Component {
 	}
 
 	onPressOrange = () => {
-		this.setState({bigBubbleColor: 'rgb(255, 165, 0)'})
 		this.setState({selectedSeverity: 2})
 		this.callAnimation(true);
 		this.props.onSeverityChooserHandled(true);
@@ -129,9 +130,8 @@ export default class SymptomIconButton extends Component {
 	}
 
 	onPressRed = () => {
-		this.setState({bigBubbleColor: 'rgb(255, 0, 0)'})
 		this.setState({selectedSeverity: 3})
-		this.handleAddButtonPress(true);
+		this.callAnimation(true);
 		this.props.onSeverityChooserHandled(true);
 		this.props.onSymptomSelected(this.props.symptomID, 3) //3 --> red severity
 	}
@@ -302,6 +302,13 @@ export default class SymptomIconButton extends Component {
 			};
 		}
 
+		let bigBubbleColor = DEFAULT_COLOR;
+		switch (this.state.selectedSeverity) {
+			case 1: bigBubbleColor= LOW_COLOR; break;
+			case 2: bigBubbleColor= MEDIUM_COLOR; break;
+			case 3: bigBubbleColor= HIGH_COLOR; break;
+		}
+
 		return (
 			<View style={{marginTop: 60, opacity: this.props.opacity}}>
 				<Animated.View
@@ -316,7 +323,7 @@ export default class SymptomIconButton extends Component {
 									}),
 								},
 							],
-							backgroundColor: this.state.bigBubbleColor,
+							backgroundColor: bigBubbleColor,
 						},
 					]}
 				>

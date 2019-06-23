@@ -8,7 +8,7 @@ export default class HeaderSaveButton extends React.Component{
     render() {
         return (
             <TouchableOpacity style={styles.container} onPress={this.props.onPress}>
-                <Icon.Ionicons name='md-save' size={40} />
+                <Icon.Ionicons name={this.props.type == 1 ? 'md-checkbox-outline' : 'md-save'} size={40} />
             </TouchableOpacity>
         )
     }

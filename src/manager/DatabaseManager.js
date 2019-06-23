@@ -73,7 +73,7 @@ export default class DatabaseManager {
     }
 
     createSymptomEvent(symptomID, severity, note, timestamp, onError, onSuccess) {
-      objData = {
+      let objData = {
         symptomID,
         //name: "",
         //icon: "",
@@ -96,7 +96,7 @@ export default class DatabaseManager {
     }
 
     updateSymptomEvent(eventID, symptomID, severity, note, onError, onSuccess) {
-      objData = {
+      let objData = {
         symptomID,
         //name: "",
         //icon: "",
@@ -121,7 +121,7 @@ export default class DatabaseManager {
      *******************************************************************/   
 
     createMealEvent(name, type, tag, rating, note, icon, timestamp, onError, onSuccess) {
-      objData = {
+      let objData = {
         name,
         type,
         tag,
@@ -134,7 +134,7 @@ export default class DatabaseManager {
     }
 
     updateMealEvent(eventID, name, type, tag, rating, note, onError, onSuccess) {
-      objData = {
+      let objData = {
         name,
         type,
         tag,
@@ -151,7 +151,7 @@ export default class DatabaseManager {
      ********************************************************************/
 
     createEmotionEvent(type, note, timestamp, onError, onSuccess) {
-      objData = {
+      let objData = {
         type,
         note
       }
@@ -160,7 +160,7 @@ export default class DatabaseManager {
     }
 
     updateEmotionEvent(eventID, type, note, onError, onSuccess) {
-      objData = {
+      let objData = {
         type,
         note
       }
