@@ -208,7 +208,7 @@ export default class FoodDiaryScreen extends React.Component{
                 <TextInputSingleLine ref={component => this._name = component} onTextChanged={this.nameEditedHandler} style={{Top: 10}}/>
                 <HorizontalLineWithText text = {LanguageManager.getInstance().getText("TAGS")}/>
                 <FoodDiaryTagEdit ref={component => this._class = component} all={tags} selected={this.state.selectedClass} isExclusive={true} onTagChanged={this.classChangedHandler}/>
-                <HorizontalLine/>
+                <HorizontalLineWithText text = {LanguageManager.getInstance().getText("TYPES")}/>
                 <FoodDiaryTagEdit ref={component => this._meal = component} all={meals} selected={this.state.selectedMeal} isExclusive={true} onTagChanged={this.mealChangedHandler}/>
                 <HorizontalLineWithText text = {LanguageManager.getInstance().getText("IMAGE")}/>
                 <FoodDiaryImageEdit navigation = {this.props.navigation} onPictureTaken={(image) => this.setState({photo: image})}/>

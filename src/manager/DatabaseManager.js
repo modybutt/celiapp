@@ -17,13 +17,13 @@ export default class DatabaseManager {
                 (param) => alert("create table symptoms: " + JSON.stringify(param)));            
               tx.executeSql(
                 'INSERT OR IGNORE INTO symptoms (id, name, icon, created, usage) VALUES '
-                + '(1, "Cloating", "' + require('../assets/images/SymptomTracker/cloating.png') + '", ' + Date.now() + ',0),'
-                + '(2, "Diarrhea", "' + require('../assets/images/SymptomTracker/diarrhea.png') + '", ' + Date.now() + ',0),'
-                + '(3, "Headache", "' + require('../assets/images/SymptomTracker/headache.png') + '", ' + Date.now() + ',0),'
-                + '(4, "Irritability", "' + require('../assets/images/SymptomTracker/irritability.png') + '", ' + Date.now() + ',0),'
-                + '(5, "Stomachache", "' + require('../assets/images/SymptomTracker/stomachAche.png') +'", ' + Date.now() + ',0),'
-                + '(6, "Vomiting", "' + require('../assets/images/SymptomTracker/vomiting.png') + '", ' + Date.now() + ',0),'
-                + '(7, "WeightLoss", "' + require('../assets/images/SymptomTracker/weightLoss.png') + '", ' + Date.now() + ',0);',
+                + '(1, "CLOATING", "' + require('../assets/images/SymptomTracker/cloating.png') + '", ' + Date.now() + ',0),'
+                + '(2, "DIARRHEA", "' + require('../assets/images/SymptomTracker/diarrhea.png') + '", ' + Date.now() + ',0),'
+                + '(3, "HEADACHE", "' + require('../assets/images/SymptomTracker/headache.png') + '", ' + Date.now() + ',0),'
+                + '(4, "IRRITABILITY", "' + require('../assets/images/SymptomTracker/irritability.png') + '", ' + Date.now() + ',0),'
+                + '(5, "STOMACHACHE", "' + require('../assets/images/SymptomTracker/stomachAche.png') +'", ' + Date.now() + ',0),'
+                + '(6, "VOMITING", "' + require('../assets/images/SymptomTracker/vomiting.png') + '", ' + Date.now() + ',0),'
+                + '(7, "WEIGHT_LOSS", "' + require('../assets/images/SymptomTracker/weightLoss.png') + '", ' + Date.now() + ',0);',
                 (param) => alert("insert into symptoms: " + JSON.stringify(param)));
               tx.executeSql(
                 'CREATE TABLE IF NOT EXISTS events (id INTEGER PRIMARY KEY AUTOINCREMENT, eventType INT, created INT, modified INT, objData TEXT);', 
@@ -53,14 +53,27 @@ export default class DatabaseManager {
       }, onError, onSuccess);
     }
 
+    deleteSymptom(symptomID, onError, onSuccess) {
+      this.db.transaction(tx => {
+        // tx.executeSql('DELETE FROM events WHERE id = ?', [symptomID]);
+        tx.executeSql('DELETE FROM symptoms WHERE id = ?', [symptomID]);
+      }, onError, onSuccess);      
+    }
+
     updateSymptomUsage(symptomID, onError, onSuccess) {
       this.db.transaction(tx => {
         tx.executeSql('UPDATE symptoms SET usage = usage + 1 WHERE id = ?', [symptomID]);
       }, onError, onSuccess);
     }
 
+    fetchSymptoms(onError, onSuccess) {
+      this.db.transaction(tx => {
+        tx.executeSql('SELECT * FROM symptoms ORDER BY usage DESC', null, onSuccess, onError);
+      });      
+    }
+
     createSymptomEvent(symptomID, severity, note, timestamp, onError, onSuccess) {
-      objData = {
+      let objData = {
         symptomID,
         //name: "",
         //icon: "",
@@ -83,7 +96,7 @@ export default class DatabaseManager {
     }
 
     updateSymptomEvent(eventID, symptomID, severity, note, onError, onSuccess) {
-      objData = {
+      let objData = {
         symptomID,
         //name: "",
         //icon: "",
@@ -108,7 +121,7 @@ export default class DatabaseManager {
      *******************************************************************/   
 
     createMealEvent(name, type, tag, rating, note, icon, timestamp, onError, onSuccess) {
-      objData = {
+      let objData = {
         name,
         type,
         tag,
@@ -121,7 +134,7 @@ export default class DatabaseManager {
     }
 
     updateMealEvent(eventID, name, type, tag, rating, note, onError, onSuccess) {
-      objData = {
+      let objData = {
         name,
         type,
         tag,
@@ -138,7 +151,7 @@ export default class DatabaseManager {
      ********************************************************************/
 
     createEmotionEvent(type, note, timestamp, onError, onSuccess) {
-      objData = {
+      let objData = {
         type,
         note
       }
@@ -147,7 +160,7 @@ export default class DatabaseManager {
     }
 
     updateEmotionEvent(eventID, type, note, onError, onSuccess) {
-      objData = {
+      let objData = {
         type,
         note
       }
