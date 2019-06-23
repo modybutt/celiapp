@@ -9,7 +9,7 @@ export default class FoodDiaryTagEdit extends React.Component {
     constructor(props) {
         super(props)
         this.state = {
-          selected: props.selected
+          selected: props.selected,
         }
       }
 
@@ -21,34 +21,21 @@ export default class FoodDiaryTagEdit extends React.Component {
         )
       }
 
-    changeTag = (tag) => {
+    changeTag = (key) => {
         let selected
-        if (this.props.isExclusive) {
-          selected = [tag]
-        } else {
-            array = this.state.selected
-            const exists = array.includes(tag)
-            if (exists) {
-                selected =  array.filter((c) => { selected = c !== tag })
-            } else {
-                const result = array
-                result.push(tag)
-                selected =  result
-            }
-        }
-
+          selected = key        
         this.setState({
-          selected
+          selected,
         });
 
         if (this.props.onTagChanged != null) {
-            this.props.onTagChanged(tag);
+            this.props.onTagChanged(key);
         }
       }
 
     makeButtons() {
         return this.props.all.map((tag, i) => {
-          const on = this.state.selected.includes(tag)
+          const on = (this.state.selected == i)
           const backgroundColor = on ? '#1e90ff' : '#a9a9a9'
           const textColor = on ? '#f8f8ff' : '#000000'
           const borderColor = on ? '#696969' : '#1e90ff'
@@ -58,8 +45,8 @@ export default class FoodDiaryTagEdit extends React.Component {
               textColor={textColor}
               borderColor={borderColor}
               onPress={() => {
-                this.changeTag(tag)
-              }}
+                this.changeTag(i)
+              }}              
               key={i}
               showImage={on}
               title={tag} />
