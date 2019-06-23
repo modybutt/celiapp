@@ -1,11 +1,7 @@
 
 import React from 'react';
-import {Alert, StyleSheet, View, Text, Dimensions} from 'react-native';
-import SymptomIcon from './SymptomIcon';
+import {View} from 'react-native';
 import SymptomIconButton from './SymptomIconButton';
-import MoreSymptomsButton from './MoreSymptomsButton'
-import HorizontalLineWithText from '../HorizontalLineWithText';
-import HorizontalLine from '../HorizontalLine';
 
 
 export default class SymptomGroup extends React.Component{

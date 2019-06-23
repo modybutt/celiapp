@@ -15,6 +15,7 @@ import FoodDiaryImageEdit from '../components/FoodDiary/FoodDiaryImageEdit'
 import LanguageManager from '../manager/LanguageManager';
 import GlutonManager from '../manager/GlutonManager';
 import HeaderSaveButton from '../components/HeaderSaveButton';
+import HorizontalLine from '../components/HorizontalLine';
 
 
 export default class FoodDiaryScreen extends React.Component{
@@ -195,8 +196,8 @@ export default class FoodDiaryScreen extends React.Component{
     render() {
 
         const marginToUse = ((this.state.keyboardOpen) ? 300 : 0);
-        const tags = ['Gluten', 'no Gluton', 'unshure'];
-        const meals = ['breakfast', 'lunch', 'dinner', 'snack'];
+        const tags = [LanguageManager.getInstance().getText("GLUTEN"), LanguageManager.getInstance().getText("NO_GLUTEN"), LanguageManager.getInstance().getText("UNSURE")];
+        const meals = [LanguageManager.getInstance().getText("BREAKFAST"), LanguageManager.getInstance().getText("LUNCH"), LanguageManager.getInstance().getText("DINNER"), LanguageManager.getInstance().getText("SNACK")];
         return (
             <ScrollView style={{marginBottom: marginToUse}}>
                 <HorizontalLineWithText text = {LanguageManager.getInstance().getText("DATE")}/>
@@ -206,7 +207,8 @@ export default class FoodDiaryScreen extends React.Component{
                 <HorizontalLineWithText text = {LanguageManager.getInstance().getText("NAME")}/>
                 <TextInputSingleLine ref={component => this._name = component} onTextChanged={this.nameEditedHandler} style={{Top: 10}}/>
                 <HorizontalLineWithText text = {LanguageManager.getInstance().getText("TAGS")}/>
-                <FoodDiaryTagEdit ref={component => this._class = component} all={tags} selected={this.state.selectedClass}  isExclusive={true} onTagChanged={this.classChangedHandler}/>
+                <FoodDiaryTagEdit ref={component => this._class = component} all={tags} selected={this.state.selectedClass} isExclusive={true} onTagChanged={this.classChangedHandler}/>
+                <HorizontalLine/>
                 <FoodDiaryTagEdit ref={component => this._meal = component} all={meals} selected={this.state.selectedMeal} isExclusive={true} onTagChanged={this.mealChangedHandler}/>
                 <HorizontalLineWithText text = {LanguageManager.getInstance().getText("IMAGE")}/>
                 <FoodDiaryImageEdit navigation = {this.props.navigation} onPictureTaken={(image) => this.setState({photo: image})}/>
