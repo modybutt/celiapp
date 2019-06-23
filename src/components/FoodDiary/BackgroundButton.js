@@ -40,7 +40,9 @@ makeStyles() {
         marginBottom: 8
       },
       image: {
-        marginRight: 8
+        marginRight: 8,
+        width: 15, 
+        height: 15
       },
       text: {
         fontSize: 18,

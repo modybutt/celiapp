@@ -7,7 +7,7 @@ import DatabaseManager from '../manager/DatabaseManager';
 import TextInputSingleLine from '../components/TextInputSingleLine';
 import NoteEdit from '../components/NoteEdit';
 import DayChooser from '../components/DayChooser';
-import FoodDiaryTimePicker from '../components/FoodDiary/FoodDiaryTimePicker';
+import TimePicker from '../components/TimePicker';
 import HorizontalLineWithText from '../components/HorizontalLineWithText';
 import FoodDiaryRatingBar from '../components/FoodDiary/FoodDiaryRatingBar';
 import FoodDiaryTagEdit from '../components/FoodDiary/FoodDiaryTagEdit'
@@ -15,6 +15,7 @@ import FoodDiaryImageEdit from '../components/FoodDiary/FoodDiaryImageEdit'
 import LanguageManager from '../manager/LanguageManager';
 import GlutonManager from '../manager/GlutonManager';
 import HeaderSaveButton from '../components/HeaderSaveButton';
+import HorizontalLine from '../components/HorizontalLine';
 
 
 export default class FoodDiaryScreen extends React.Component{
@@ -31,6 +32,8 @@ export default class FoodDiaryScreen extends React.Component{
         this.dateEditedHandler = this.dateEditedHandler.bind(this);
         this.timeEditedHandler = this.timeEditedHandler.bind(this);
         this.ratingEditedHandler = this.ratingEditedHandler.bind(this);
+        this.mealChangedHandler = this.mealChangedHandler.bind(this);
+        this.classChangedHandler = this.classChangedHandler.bind(this);
         this.state = {
             foodEntryNote: "",
             tempDate: new Date(), 
@@ -39,6 +42,8 @@ export default class FoodDiaryScreen extends React.Component{
             foodRating: 0,
             keyboardOpen: false,
             photo: null,
+            selectedMeal : '',            
+            selectedClass : ['unshure']
         } 
     }
 
@@ -125,6 +130,19 @@ export default class FoodDiaryScreen extends React.Component{
         });
     }
 
+    
+    mealChangedHandler = (meal) =>{
+        this.setState({
+            selectedMeal: meal,
+        });
+    }
+  
+    classChangedHandler = (tag) =>{
+        this.setState({
+            selectedClass: tag,
+        });
+    }
+  
     noteEditedHandler = (note) =>{
         this.setState({
             foodEntryNote: note,
@@ -139,7 +157,7 @@ export default class FoodDiaryScreen extends React.Component{
     saveCurrentData(goHome) {
         let tmpDateTime = this.state.selectedDateAndTime
         tmpDateTime.setFullYear(tmpDateTime.getFullYear());
-        DatabaseManager.getInstance().createMealEvent(this.state.foodEntryName, 0, 0, this.state.foodRating, this.state.foodEntryNote, this.state.photo, tmpDateTime.getTime(), 
+        DatabaseManager.getInstance().createMealEvent(this.state.foodEntryName, this.state.selectedClass, this.state.selectedMeal, this.state.foodRating, this.state.foodEntryNote, this.state.photo, tmpDateTime.getTime(), 
             (error) => {alert(error)}, 
             () => {GlutonManager.getInstance().setMessage(2)}
         );
@@ -178,17 +196,20 @@ export default class FoodDiaryScreen extends React.Component{
     render() {
 
         const marginToUse = ((this.state.keyboardOpen) ? 300 : 0);
-
+        const tags = [LanguageManager.getInstance().getText("GLUTEN"), LanguageManager.getInstance().getText("NO_GLUTEN"), LanguageManager.getInstance().getText("UNSURE")];
+        const meals = [LanguageManager.getInstance().getText("BREAKFAST"), LanguageManager.getInstance().getText("LUNCH"), LanguageManager.getInstance().getText("DINNER"), LanguageManager.getInstance().getText("SNACK")];
         return (
             <ScrollView style={{marginBottom: marginToUse}}>
                 <HorizontalLineWithText text = {LanguageManager.getInstance().getText("DATE")}/>
                 <DayChooser ref={component => this._dayChooser = component} date = {this.state.selectedDateAndTime} onDateChanged={this.dateEditedHandler}/>
                 <HorizontalLineWithText text = {LanguageManager.getInstance().getText("TIME")}/>
-                <FoodDiaryTimePicker ref={component => this._timePicker = component} onTimeChanged={this.timeEditedHandler}/>
+                <TimePicker ref={component => this._timePicker = component} textString = "EATEN_AT" onTimeChanged={this.timeEditedHandler}/>
                 <HorizontalLineWithText text = {LanguageManager.getInstance().getText("NAME")}/>
                 <TextInputSingleLine ref={component => this._name = component} onTextChanged={this.nameEditedHandler} style={{Top: 10}}/>
                 <HorizontalLineWithText text = {LanguageManager.getInstance().getText("TAGS")}/>
-                <FoodDiaryTagEdit/>
+                <FoodDiaryTagEdit ref={component => this._class = component} all={tags} selected={this.state.selectedClass} isExclusive={true} onTagChanged={this.classChangedHandler}/>
+                <HorizontalLine/>
+                <FoodDiaryTagEdit ref={component => this._meal = component} all={meals} selected={this.state.selectedMeal} isExclusive={true} onTagChanged={this.mealChangedHandler}/>
                 <HorizontalLineWithText text = {LanguageManager.getInstance().getText("IMAGE")}/>
                 <FoodDiaryImageEdit navigation = {this.props.navigation} onPictureTaken={(image) => this.setState({photo: image})}/>
                 <HorizontalLineWithText text = {LanguageManager.getInstance().getText("RATING")}/>
@@ -214,7 +235,6 @@ export default class FoodDiaryScreen extends React.Component{
 
 }
 
-      
     
     var styles = StyleSheet.create({
      headText:{

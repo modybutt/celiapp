@@ -1,5 +1,5 @@
 import React from 'react';
-import {Icon, TouchableOpacity, Text, View, Image, TouchableHighlight, StyleSheet, Alert } from 'react-native';
+import {View, Image, TouchableHighlight, StyleSheet } from 'react-native';
 
 export default class RoundPictureButton extends React.Component {
     // props: 
