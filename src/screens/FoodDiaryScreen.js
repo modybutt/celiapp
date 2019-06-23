@@ -42,8 +42,8 @@ export default class FoodDiaryScreen extends React.Component{
             foodRating: 0,
             keyboardOpen: false,
             photo: null,
-            selectedMeal : '',            
-            selectedClass : ['unshure']
+            selectedMeal : null,            
+            selectedClass : 2,
         } 
     }
 
@@ -133,13 +133,13 @@ export default class FoodDiaryScreen extends React.Component{
     
     mealChangedHandler = (meal) =>{
         this.setState({
-            selectedMeal: meal,
+            selectedMealKey: meal,
         });
     }
   
     classChangedHandler = (tag) =>{
         this.setState({
-            selectedClass: tag,
+            selectedClassKey: tag,            
         });
     }
   
@@ -157,7 +157,7 @@ export default class FoodDiaryScreen extends React.Component{
     saveCurrentData(goHome) {
         let tmpDateTime = this.state.selectedDateAndTime
         tmpDateTime.setFullYear(tmpDateTime.getFullYear());
-        DatabaseManager.getInstance().createMealEvent(this.state.foodEntryName, this.state.selectedClass, this.state.selectedMeal, this.state.foodRating, this.state.foodEntryNote, this.state.photo, tmpDateTime.getTime(), 
+        DatabaseManager.getInstance().createMealEvent(this.state.foodEntryName, this.state.selectedClassKey, this.state.selectedMealKey, this.state.foodRating, this.state.foodEntryNote, this.state.photo, tmpDateTime.getTime(), 
             (error) => {alert(error)}, 
             () => {GlutonManager.getInstance().setMessage(2)}
         );
