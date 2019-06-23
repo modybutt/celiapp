@@ -299,7 +299,6 @@ export default class SymptomTrackerScreen extends React.Component{
         let tmpDateTime = this.state.selectedDateAndTime
 
         this.state.selectedSymptoms.forEach((symptom) => {
-            console.log(symptom.symptomID)
             DatabaseManager.getInstance().createSymptomEvent(symptom.symptomID, symptom.severity, this.state.symptomEntryNote, tmpDateTime.getTime(), 
                 (error) => {alert(error)}, 
                 () => {GlutonManager.getInstance().setMessage(2)}

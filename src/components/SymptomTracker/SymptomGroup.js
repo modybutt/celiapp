@@ -45,21 +45,6 @@ export default class SymptomGroup extends React.Component{
             })
         );
     }
-
-    // deleteSymptoms(){
-    //     this.setState({
-    //         canOpenSeverityChooser: true, 
-    //         symptomAndSeverityList: []
-    //     })
-    //     //reset every symptom 
-    //     this._sympIc1.resetSymptom();
-    //     this._sympIc2.resetSymptom();
-    //     this._sympIc3.resetSymptom();
-    //     this._sympIc4.resetSymptom();
-    //     this._sympIc5.resetSymptom();
-    //     this._sympIc6.resetSymptom();
-    //     this._sympIc7.resetSymptom();
-    // }
     
 
     severityChooserHandler(setActive, symptomID){
@@ -78,7 +63,6 @@ export default class SymptomGroup extends React.Component{
 
     symptomSelected(symptomID, severity){ //severity: 1==yellow, 2==orange, 3==red
         let newList = this.props.selection.concat([{symptomID, severity}]);
-        alert(JSON.stringify(newList))
         this.props.onSelectionChanged(newList)
     }
 
