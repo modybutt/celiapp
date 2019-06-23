@@ -31,6 +31,8 @@ export default class FoodDiaryScreen extends React.Component{
         this.dateEditedHandler = this.dateEditedHandler.bind(this);
         this.timeEditedHandler = this.timeEditedHandler.bind(this);
         this.ratingEditedHandler = this.ratingEditedHandler.bind(this);
+        this.mealChangedHandler = this.mealChangedHandler.bind(this);
+        this.classChangedHandler = this.classChangedHandler.bind(this);
         this.state = {
             foodEntryNote: "",
             tempDate: new Date(), 
@@ -39,6 +41,8 @@ export default class FoodDiaryScreen extends React.Component{
             foodRating: 0,
             keyboardOpen: false,
             photo: null,
+            selectedMeal : '',            
+            selectedClass : ['unshure']
         } 
     }
 
@@ -125,6 +129,19 @@ export default class FoodDiaryScreen extends React.Component{
         });
     }
 
+    
+    mealChangedHandler = (meal) =>{
+        this.setState({
+            selectedMeal: meal,
+        });
+    }
+  
+    classChangedHandler = (tag) =>{
+        this.setState({
+            selectedClass: tag,
+        });
+    }
+  
     noteEditedHandler = (note) =>{
         this.setState({
             foodEntryNote: note,
@@ -139,7 +156,7 @@ export default class FoodDiaryScreen extends React.Component{
     saveCurrentData(goHome) {
         let tmpDateTime = this.state.selectedDateAndTime
         tmpDateTime.setFullYear(tmpDateTime.getFullYear());
-        DatabaseManager.getInstance().createMealEvent(this.state.foodEntryName, 0, 0, this.state.foodRating, this.state.foodEntryNote, this.state.photo, tmpDateTime.getTime(), 
+        DatabaseManager.getInstance().createMealEvent(this.state.foodEntryName, this.state.selectedClass, this.state.selectedMeal, this.state.foodRating, this.state.foodEntryNote, this.state.photo, tmpDateTime.getTime(), 
             (error) => {alert(error)}, 
             () => {GlutonManager.getInstance().setMessage(2)}
         );
@@ -178,7 +195,8 @@ export default class FoodDiaryScreen extends React.Component{
     render() {
 
         const marginToUse = ((this.state.keyboardOpen) ? 300 : 0);
-
+        const tags = ['Gluten', 'no Gluton', 'unshure'];
+        const meals = ['breakfast', 'lunch', 'dinner', 'snack'];
         return (
             <ScrollView style={{marginBottom: marginToUse}}>
                 <HorizontalLineWithText text = {LanguageManager.getInstance().getText("DATE")}/>
@@ -188,7 +206,8 @@ export default class FoodDiaryScreen extends React.Component{
                 <HorizontalLineWithText text = {LanguageManager.getInstance().getText("NAME")}/>
                 <TextInputSingleLine ref={component => this._name = component} onTextChanged={this.nameEditedHandler} style={{Top: 10}}/>
                 <HorizontalLineWithText text = {LanguageManager.getInstance().getText("TAGS")}/>
-                <FoodDiaryTagEdit/>
+                <FoodDiaryTagEdit ref={component => this._class = component} all={tags} selected={this.state.selectedClass} isExclusive={true} onTagChanged={this.classChangedHandler}/>
+                <FoodDiaryTagEdit ref={component => this._meal = component} all={meals} selected={this.state.selectedMeal} isExclusive={true} onTagChanged={this.mealChangedHandler}/>
                 <HorizontalLineWithText text = {LanguageManager.getInstance().getText("IMAGE")}/>
                 <FoodDiaryImageEdit navigation = {this.props.navigation} onPictureTaken={(image) => this.setState({photo: image})}/>
                 <HorizontalLineWithText text = {LanguageManager.getInstance().getText("RATING")}/>
@@ -214,7 +233,6 @@ export default class FoodDiaryScreen extends React.Component{
 
 }
 
-      
     
     var styles = StyleSheet.create({
      headText:{
