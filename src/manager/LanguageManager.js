@@ -1,4 +1,4 @@
-import Moment from 'moment/min/moment-with-locales';
+// import Moment from 'moment/min/moment-with-locales';
 
 const languages = {
   developer: require('../assets/languages/developer.json'),
@@ -14,7 +14,7 @@ export default class LanguageManager {
   static getInstance() {
       if (LanguageManager.instance == null) {
         LanguageManager.instance = new LanguageManager();
-        this.instance.lang = languages.developer;
+        this.instance.lang = languages.english;
       }
 
       return this.instance;
@@ -53,6 +53,7 @@ export default class LanguageManager {
   }
 
   getDateAsText(timestamp) {    
-    return Moment(timestamp).locale(this.lang.locale).format(this.lang.dateTimeFormat)
+    // return Moment(timestamp).locale(this.lang.locale).format(this.lang.dateTimeFormat)
+    return new Date(timestamp).toUTCString()
   }
 }
