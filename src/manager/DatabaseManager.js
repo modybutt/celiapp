@@ -199,8 +199,8 @@ export default class DatabaseManager {
 
         this.db.transaction(tx => {
           tx.executeSql('SELECT * FROM events '
-                      + 'WHERE events.created BETWEEN ? AND ? '
-                      + 'ORDER BY created DESC',  [start.getTime(), end.getTime()], onSuccess, onError);
+                      + 'WHERE created BETWEEN ? AND ? '
+                      + 'ORDER BY created DESC', [start.getTime(), end.getTime()], onSuccess, onError);
         });
       } else {
         this.db.transaction(tx => {

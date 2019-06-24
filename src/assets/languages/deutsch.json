@@ -1,5 +1,7 @@
 {
 	"name": "Deutsch",
+	"locale": "de-DE",
+	"dateTimeFormat": "dddd, DD. MMMM YYYY HH:mm",
 	"keys": {
 		"WELCOME": "Hallo!",
 		"ADD_SYMPTOM": "Symptom hinzufügen",

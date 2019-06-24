@@ -1,5 +1,7 @@
 {
 	"name": "Developer",
+	"locale": "de-AT",
+	"dateTimeFormat": "dddd, DD. MMMM YYYY HH:mm",
 	"keys": {
 		"WELCOME": "Zewas!",
 		"ADD_SYMPTOM": "Neua Zuastand",
@@ -79,8 +81,8 @@
 		"OCT": "Oktober",
 		"NOV": "Novemeber",
 		"DEC": "Dezember",
-		"PREVIOUS": "Vorheriger",
-		"NEXT": "Nächster",
+		"PREVIOUS": "Vorheriga",
+		"NEXT": "Nöchsch",
 		"MON": "Mo",
 		"TUE": "Di",
 		"WED": "Mi",

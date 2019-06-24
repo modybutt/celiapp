@@ -79,7 +79,7 @@ export default class EntryList extends React.Component {
           <TouchableOpacity onPress={() => this.props.navigation.navigate('ViewSymptom', {event: item})}>
             <ListItem
               title={LanguageManager.getInstance().getText(objData.name)}
-              subtitle={new Date(item.created).toUTCString()}
+              subtitle={LanguageManager.getInstance().getDateAsText(item.created)}
               leftAvatar={{
                 source: Image.resolveAssetSource(objData.icon),
                 overlayContainerStyle: {
@@ -96,7 +96,7 @@ export default class EntryList extends React.Component {
             <TouchableOpacity onPress={() => this.props.navigation.navigate('ViewMeal', {event: item})}>
               <ListItem
                 title={objData.name + ' ' + objData.rating +'/5'}
-                subtitle={new Date(item.created).toUTCString()}
+                subtitle={LanguageManager.getInstance().getDateAsText(item.created)}
                 leftAvatar={{ source: Image.resolveAssetSource(objData.icon) }}
               />
             </TouchableOpacity>
@@ -106,7 +106,7 @@ export default class EntryList extends React.Component {
             <TouchableOpacity onPress={() => this.props.navigation.navigate('ViewMeal', {event: item})}>
               <ListItem
                 title={objData.name + ' ' + objData.rating +'/5'}
-                subtitle={new Date(item.created).toUTCString()}
+                subtitle={LanguageManager.getInstance().getDateAsText(item.created)}
                 leftAvatar={{ icon: {name: 'camera'} }}
               />
             </TouchableOpacity>
@@ -127,8 +127,8 @@ export default class EntryList extends React.Component {
         return (
           <TouchableOpacity onPress={() => this.props.navigation.navigate('ViewEmote', {event: item})}>
              <ListItem
-              title={picture.imgName}
-              subtitle={new Date(item.created).toUTCString()}
+              title={LanguageManager.getInstance().getText(picture.imgName)}
+              subtitle={LanguageManager.getInstance().getDateAsText(item.created)}
               leftAvatar={{
                 source: Image.resolveAssetSource(picture.uri)
               }}
