@@ -13,11 +13,7 @@ export default class MenuButton extends React.Component {
       if (this.props.type == 1) {
         return (
           <View style={styles.container}>
-              <ActionButton buttonColor="rgba(231,76,60,1)">
-                <ActionButton.Item buttonColor='#1abc9c' title={LanguageManager.getInstance().getText("ADD_NEW_SYMPTOM")} onPress={() => this.props.navigation.navigate('AddNewSymptom')}>
-                  <Icon.Ionicons name="md-add-circle-outline" style={styles.actionButtonIcon} />
-                </ActionButton.Item>
-              </ActionButton>                
+              <ActionButton buttonColor="rgba(231,76,60,1)" onPress={() => this.props.navigation.navigate('AddNewSymptom')} />               
           </View>
         );
       }

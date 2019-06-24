@@ -65,48 +65,47 @@ export default class EmoteTrackerSymbol extends React.Component{
     //only select emotion, because deselection happens when another emote gets selected. --> needs to be handled in emotionGroup
     selectEmotion = () =>{
         if(!this.state.selected){
-            // this.setState({
-            //     selected: true,
-            //     selectedColor: 'rgb(255, 165, 0)',
-            // });
             this.props.onEmoteSelected(this.props.emoteID)
         }
     }
 
-    // render(){
-    //     return(
-    //         <View>
-    //             <View style={styles.container}>
-    //                 <TouchableHighlight style={{height: this.props.radius*2, height: this.props.radius*2, borderRadius: this.props.radius}} onPress={this.props.onPress}>
-    //                     <Image source={this.state.imgSource} style={{width: this.props.radius*2, height: this.props.radius*2, borderRadius:this.props.radius, backgroundColor: this.props.color}} />
-    //                 </TouchableHighlight> 
-    //             </View>                
-    //         </View>
-    //     )
-    // }
-
-
-    //TODO: If selected, then color the border in some color defined in EmoteTrackerConstants(not yet added)
     render(){
-
-        if(!this.state.selected){
-            return(
-                <View style={styles.container}>
-                    <TouchableHighlight style={{height: 80, borderRadius: 40, backgroundColor: 'rgb(255,255,255)', justifyContent: 'center', alignItems: 'center'}} onPress={this.selectEmotion}>
-                        <Image source={this.state.imgSource} style={{width: 75, height: 75, borderRadius:40}} />
-                    </TouchableHighlight> 
-                    <Text style={{textAlign: 'center', flexWrap: 'wrap'}}>{LanguageManager.getInstance().getText(this.state.imgName)}</Text>
-                </View>                
-            )
-        }else{
-            return(
-                <View style={styles.container}>
-                    <TouchableHighlight style={{height: 80, borderRadius: 40, backgroundColor: 'rgb(33,150,243)', justifyContent: 'center', alignItems: 'center'}} onPress={this.selectEmotion}>
-                        <Image source={this.state.imgSource} style={{width: 75, height: 75, borderRadius:40}} />
-                    </TouchableHighlight> 
-                    <Text style={{textAlign: 'center', flexWrap: 'wrap'}}>{LanguageManager.getInstance().getText(this.state.imgName)}</Text>
-                </View>                
-            )
+        if (this.props.active == null || this.props.active == true) {
+            if(!this.state.selected){
+                return(
+                    <View style={styles.container}>
+                        <TouchableHighlight style={{height: 80, borderRadius: 40, backgroundColor: 'rgb(255,255,255)', justifyContent: 'center', alignItems: 'center'}} onPress={this.selectEmotion}>
+                            <Image source={this.state.imgSource} style={styles.small} />
+                        </TouchableHighlight> 
+                        <Text style={{textAlign: 'center', flexWrap: 'wrap'}}>{LanguageManager.getInstance().getText(this.state.imgName)}</Text>
+                    </View>                
+                )
+            }else{
+                return(
+                    <View style={styles.container}>
+                        <TouchableHighlight style={{height: 80, borderRadius: 40, backgroundColor: 'rgb(33,150,243)', justifyContent: 'center', alignItems: 'center'}} onPress={this.selectEmotion}>
+                            <Image source={this.state.imgSource} style={styles.small} />
+                        </TouchableHighlight> 
+                        <Text style={{textAlign: 'center', flexWrap: 'wrap'}}>{LanguageManager.getInstance().getText(this.state.imgName)}</Text>
+                    </View>                
+                )
+            }
+        } else {
+            if(!this.state.selected){
+                return(
+                    <View style={styles.containerInactive}>
+                        <Image source={this.state.imgSource} style={styles[this.props.size] == null ? styles.small : styles[this.props.size]} />
+                        <Text style={{textAlign: 'center', flexWrap: 'wrap'}}>{LanguageManager.getInstance().getText(this.state.imgName)}</Text>
+                    </View>                
+                )
+            }else{
+                return(
+                    <View style={styles.containerInactive}>
+                        <Image source={this.state.imgSource} style={styles[this.props.size] == null ? styles.small : styles[this.props.size]} />
+                        <Text style={{textAlign: 'center', flexWrap: 'wrap'}}>{LanguageManager.getInstance().getText(this.state.imgName)}</Text>
+                    </View>                
+                )
+            }
         }
     }
 
@@ -119,10 +118,19 @@ var styles = StyleSheet.create({
       flex: 1,
       marginTop:60,
     },
-    outerCircle: {
-      borderRadius: 40,
-      width: 80,
-      height: 80,
-      backgroundColor: 'red',
+    containerInactive: {
+        flex: 1,
+        marginTop:60,
+        alignItems: 'center'
     },
+    small: {
+        width: 75, 
+        height: 75, 
+        borderRadius:40
+    },
+    big: {
+        width: 150, 
+        height: 150, 
+        borderRadius:40
+    }
   });

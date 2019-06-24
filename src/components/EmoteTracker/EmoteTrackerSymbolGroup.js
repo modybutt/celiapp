@@ -41,22 +41,29 @@ export default class EmoteTrackerSymbolGroup extends React.Component{
 
 
     render(){
-        //Alert.alert("re-rendered")
-        return(
-            <View style={{
-                height:60,
-                flexDirection: 'row',
-                justifyContent: 'space-around',
-                //alignItems: 'center',
-                marginBottom: 140
-            }}>           
-                <EmoteTrackerSymbol ref={component => this._emote1 = component} emoteID = {1} onEmoteSelected = {this.emoteSelectedHandler} selected = {this.state.selectedSymbolID}/>
-                <EmoteTrackerSymbol ref={component => this._emote2 = component} emoteID = {2} onEmoteSelected = {this.emoteSelectedHandler} selected = {this.state.selectedSymbolID}/>
-                <EmoteTrackerSymbol ref={component => this._emote3 = component} emoteID = {3} onEmoteSelected = {this.emoteSelectedHandler} selected = {3}/>
-                <EmoteTrackerSymbol ref={component => this._emote4 = component} emoteID = {4} onEmoteSelected = {this.emoteSelectedHandler} selected = {this.state.selectedSymbolID}/> 
-                <EmoteTrackerSymbol ref={component => this._emote5 = component} emoteID = {5} onEmoteSelected = {this.emoteSelectedHandler} selected = {this.state.selectedSymbolID}/>
-            </View>
-        )
+        if (this.props.active == null || this.props.active == true) {
+            return(
+                <View style={{
+                    height:60,
+                    flexDirection: 'row',
+                    justifyContent: 'space-around',
+                    //alignItems: 'center',
+                    marginBottom: 140
+                }}>           
+                    <EmoteTrackerSymbol ref={component => this._emote1 = component} emoteID = {1} onEmoteSelected = {this.emoteSelectedHandler} selected = {this.state.selectedSymbolID}/>
+                    <EmoteTrackerSymbol ref={component => this._emote2 = component} emoteID = {2} onEmoteSelected = {this.emoteSelectedHandler} selected = {this.state.selectedSymbolID}/>
+                    <EmoteTrackerSymbol ref={component => this._emote3 = component} emoteID = {3} onEmoteSelected = {this.emoteSelectedHandler} selected = {3}/>
+                    <EmoteTrackerSymbol ref={component => this._emote4 = component} emoteID = {4} onEmoteSelected = {this.emoteSelectedHandler} selected = {this.state.selectedSymbolID}/> 
+                    <EmoteTrackerSymbol ref={component => this._emote5 = component} emoteID = {5} onEmoteSelected = {this.emoteSelectedHandler} selected = {this.state.selectedSymbolID}/>
+                </View>
+            )
+        } else {
+            return(
+                <View>           
+                    <EmoteTrackerSymbol active={false} emoteID={this.props.emoteID} size={this.props.size} />
+                </View>
+            )
+        }
     }
 
 

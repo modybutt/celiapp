@@ -304,147 +304,169 @@ export default class SymptomIconButton extends Component {
 			case 3: bigBubbleColor= HIGH_COLOR; break;
 		}
 
-		return (
-			<View style={{marginTop: 60, opacity: this.props.opacity}}>
-				<Animated.View
-					style={[
-						style.bigBubble,
-						{
-							transform: [
-								{
-									scaleY: springValue.interpolate({
-										inputRange: [0, 0.65, 1, 1.65, 2, 2.65, 3],
-										outputRange: [1, 1.1, 1, 1.1, 1, 1.1, 1],
-									}),
-								},
-							],
-							backgroundColor: bigBubbleColor,
-						},
-					]}
-				>
-					<TouchableOpacity
-						hitSlop={{
-							left: 20,
-							right: 20,
-							top: 20,
-							bottom: 20,
-						}}
-						onPress={this.handleAddButtonPress}
-						onLongPress={() => this.props.symptomID > 7 ? this.setState({ showDeleteConfirmDialog: true }) : null}
+		if (this.props.active == null || this.props.active == true) {
+			return (
+				<View style={{marginTop: 60, opacity: this.props.opacity}}>
+					<Animated.View
+						style={[
+							style.bigBubble,
+							{
+								transform: [
+									{
+										scaleY: springValue.interpolate({
+											inputRange: [0, 0.65, 1, 1.65, 2, 2.65, 3],
+											outputRange: [1, 1.1, 1, 1.1, 1, 1.1, 1],
+										}),
+									},
+								],
+								backgroundColor: bigBubbleColor,
+							},
+						]}
 					>
-						<Animated.View>
-							<Image source = {Image.resolveAssetSource(this.props.symptomIcon)} style={style.iconImage}/>
-						</Animated.View>
-					</TouchableOpacity>
-				</Animated.View>
-				<Text style={style.symptomNameText}>{LanguageManager.getInstance().getText(this.props.symptomName)}</Text>
-				<AnimatedTouchable onPress={this.onPressYellow}
-					style={[
-						style.smallBubbleYellow,
-						{
-							position: 'absolute',
-							transform: [
-								{
-									translateX: this.topLeftValue.interpolate({
-										inputRange: [0, 1],
-										outputRange: [center.left, topLeft.left],
-									}),
-								},
-								{
-									translateY: this.topLeftValue.interpolate({
-										inputRange: [0, 1],
-										outputRange: [center.top, topLeft.top],
-									}),
-								},
-								{
-									scaleY: this.topLeftValue.interpolate({
-										inputRange: [0, 0.8, 0.9, 1],
-										outputRange: [1, 1.5, 1.5, 1],
-									}),
-								},
-							],
-							opacity: this.topLeftValue,
-							zIndex: this.state.zIndexNumber,
-						},
-					]}
-				>
-				</AnimatedTouchable>
-				<AnimatedTouchable onPress={this.onPressOrange}
-					style={[
-						style.smallBubbleOrange,
-						{
-							position: 'absolute',
-							transform: [
-								{
-									translateX: this.topCenterValue.interpolate({
-										inputRange: [0, 1],
-										outputRange: [center.left, topCenter.left],
-									}),
-								},
-								{
-									translateY: this.topCenterValue.interpolate({
-										inputRange: [0, 1],
-										outputRange: [center.top, topCenter.top],
-									}),
-								},
-								{
-									scaleY: this.topCenterValue.interpolate({
-										inputRange: [0, 0.8, 0.9, 1],
-										outputRange: [1, 1.5, 1.5, 1],
-									}),
-								},
-							],
-							opacity: this.topCenterValue,
-							zIndex: this.state.zIndexNumber,
-						},
-					]}
-				>
-				</AnimatedTouchable>
-				<AnimatedTouchable onPress={this.onPressRed}
-					style={[
-						style.smallBubbleRed,
-						{
-							position: 'absolute',
-							transform: [
-								{
-									translateX: this.topRightValue.interpolate({
-										inputRange: [0, 1],
-										outputRange: [center.left, topRight.left],
-									}),
-								},
-								{
-									translateY: this.topRightValue.interpolate({
-										inputRange: [0, 1],
-										outputRange: [center.top, topRight.top],
-									}),
-								},
-								{
-									scaleY: this.topRightValue.interpolate({
-										inputRange: [0, 0.8, 0.9, 1],
-										outputRange: [1, 1.5, 1.5, 1],
-									}),
-								},
-							],
-							opacity: this.topRightValue,
-							zIndex: this.state.zIndexNumber,
-						},
-					]}
-				>
-				</AnimatedTouchable>
-				
+						<TouchableOpacity
+							hitSlop={{
+								left: 20,
+								right: 20,
+								top: 20,
+								bottom: 20,
+							}}
+							onPress={this.handleAddButtonPress}
+							onLongPress={() => this.props.symptomID > 7 ? this.setState({ showDeleteConfirmDialog: true }) : null}
+						>
+							<Animated.View>
+								<Image source = {Image.resolveAssetSource(this.props.symptomIcon)} style={style.iconImage}/>
+							</Animated.View>
+						</TouchableOpacity>
+					</Animated.View>
+					<Text style={style.symptomNameText}>{LanguageManager.getInstance().getText(this.props.symptomName)}</Text>
+					<AnimatedTouchable onPress={this.onPressYellow}
+						style={[
+							style.smallBubbleYellow,
+							{
+								position: 'absolute',
+								transform: [
+									{
+										translateX: this.topLeftValue.interpolate({
+											inputRange: [0, 1],
+											outputRange: [center.left, topLeft.left],
+										}),
+									},
+									{
+										translateY: this.topLeftValue.interpolate({
+											inputRange: [0, 1],
+											outputRange: [center.top, topLeft.top],
+										}),
+									},
+									{
+										scaleY: this.topLeftValue.interpolate({
+											inputRange: [0, 0.8, 0.9, 1],
+											outputRange: [1, 1.5, 1.5, 1],
+										}),
+									},
+								],
+								opacity: this.topLeftValue,
+								zIndex: this.state.zIndexNumber,
+							},
+						]}
+					>
+					</AnimatedTouchable>
+					<AnimatedTouchable onPress={this.onPressOrange}
+						style={[
+							style.smallBubbleOrange,
+							{
+								position: 'absolute',
+								transform: [
+									{
+										translateX: this.topCenterValue.interpolate({
+											inputRange: [0, 1],
+											outputRange: [center.left, topCenter.left],
+										}),
+									},
+									{
+										translateY: this.topCenterValue.interpolate({
+											inputRange: [0, 1],
+											outputRange: [center.top, topCenter.top],
+										}),
+									},
+									{
+										scaleY: this.topCenterValue.interpolate({
+											inputRange: [0, 0.8, 0.9, 1],
+											outputRange: [1, 1.5, 1.5, 1],
+										}),
+									},
+								],
+								opacity: this.topCenterValue,
+								zIndex: this.state.zIndexNumber,
+							},
+						]}
+					>
+					</AnimatedTouchable>
+					<AnimatedTouchable onPress={this.onPressRed}
+						style={[
+							style.smallBubbleRed,
+							{
+								position: 'absolute',
+								transform: [
+									{
+										translateX: this.topRightValue.interpolate({
+											inputRange: [0, 1],
+											outputRange: [center.left, topRight.left],
+										}),
+									},
+									{
+										translateY: this.topRightValue.interpolate({
+											inputRange: [0, 1],
+											outputRange: [center.top, topRight.top],
+										}),
+									},
+									{
+										scaleY: this.topRightValue.interpolate({
+											inputRange: [0, 0.8, 0.9, 1],
+											outputRange: [1, 1.5, 1.5, 1],
+										}),
+									},
+								],
+								opacity: this.topRightValue,
+								zIndex: this.state.zIndexNumber,
+							},
+						]}
+					>
+					</AnimatedTouchable>
+					
 
-				<View>
-					<Dialog.Container visible={this.state.showDeleteConfirmDialog}>
-						<Dialog.Title>{LanguageManager.getInstance().getText("DELETE")}</Dialog.Title>
-						<Dialog.Description>
-						{LanguageManager.getInstance().getText("DO_YOU_WANT_TO_DELETE")}
-						</Dialog.Description>
-						<Dialog.Button label={LanguageManager.getInstance().getText("BACK")} onPress={() => this.handleBack()} />
-						<Dialog.Button label={LanguageManager.getInstance().getText("DISCARD")} onPress={() => this.handleDelete()} />
-					</Dialog.Container>
+					<View>
+						<Dialog.Container visible={this.state.showDeleteConfirmDialog}>
+							<Dialog.Title>{LanguageManager.getInstance().getText("DELETE")}</Dialog.Title>
+							<Dialog.Description>
+							{LanguageManager.getInstance().getText("DO_YOU_WANT_TO_DELETE")}
+							</Dialog.Description>
+							<Dialog.Button label={LanguageManager.getInstance().getText("BACK")} onPress={() => this.handleBack()} />
+							<Dialog.Button label={LanguageManager.getInstance().getText("DISCARD")} onPress={() => this.handleDelete()} />
+						</Dialog.Container>
+					</View>
 				</View>
-			</View>
-		);
+			);
+		} else {
+			if (this.props.size === 'big') {
+				return (
+					<View style={{marginTop: 60, opacity: this.props.opacity, alignItems: 'center'}}>
+						<View style={[style.bigBubbleBig, { backgroundColor: bigBubbleColor } ]}>
+							<Image source={Image.resolveAssetSource(this.props.symptomIcon)} style={style.iconImageBig}/>
+						</View>
+						<Text style={style.symptomNameTextBig}>{LanguageManager.getInstance().getText(this.props.symptomName)}</Text>
+					</View>
+				);
+			} else {
+				return (
+					<View style={{marginTop: 60, opacity: this.props.opacity}}>
+						<View style={[style.bigBubble, { backgroundColor: bigBubbleColor } ]}>
+							<Image source={Image.resolveAssetSource(this.props.symptomIcon)} style={style.iconImage}/>
+						</View>
+						<Text style={style.symptomNameText}>{LanguageManager.getInstance().getText(this.props.symptomName)}</Text>
+					</View>
+				);
+			}
+		}
 	}
 }
 
@@ -455,8 +477,8 @@ const style = StyleSheet.create({
 		height: bigBubbleSize,
 		width: bigBubbleSize,
 		borderRadius: bigBubbleSize / 2,
-  },
-  smallBubbleYellow: {
+  	},
+	smallBubbleYellow: {
 		justifyContent: 'center',
 		alignItems: 'center',
 		backgroundColor: bubbleColorYellow,
@@ -465,8 +487,8 @@ const style = StyleSheet.create({
 		borderWidth: 1,
 		borderColor: 'grey',
 		borderRadius: smallBubbleSize / 2,
-  },
-  smallBubbleOrange: {
+	},
+	smallBubbleOrange: {
 		justifyContent: 'center',
 		alignItems: 'center',
 		backgroundColor: bubbleColorOrange,
@@ -496,4 +518,21 @@ const style = StyleSheet.create({
 	  width: bigBubbleSize,
 	  flexWrap: 'wrap',
 	},
+	bigBubbleBig: {
+		justifyContent: 'center',
+		alignItems: 'center',
+		height: imageHeight * 2,
+		width: imageHeight * 2,
+		borderRadius: bigBubbleSize,
+  	},
+	iconImageBig: {
+		height: imageHeight * 1.5,
+		width: imageWidth  * 1.5,
+	},
+	symptomNameTextBig:{
+		fontSize: 15,
+		textAlign: 'center',
+		width: bigBubbleSize * 2,
+		flexWrap: 'wrap',
+	  },
 });
