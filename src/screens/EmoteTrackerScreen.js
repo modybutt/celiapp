@@ -29,7 +29,8 @@ export default class EmoteTrackerScreen extends React.Component{
             selectedDateAndTime: new Date(), //works correctly \o/
             tempDate: new Date(), //used to temporarliy save date and then set it to selectedDateAndTime after corresponding checks
             emoteNote: "",
-            keyboardOpen: false
+            keyboardOpen: false,
+            modified: false
         }
     }
 
@@ -85,6 +86,7 @@ export default class EmoteTrackerScreen extends React.Component{
     emotionChangedHandler = (emotionID) =>{
         this.setState({
             selectedSymbolID: emotionID,
+            modified: true,
         });
     }
 
@@ -158,7 +160,7 @@ export default class EmoteTrackerScreen extends React.Component{
     }
 
     handleCancelButton = () =>{
-        if(!this.state.selectedSymbolID == 0){
+        if(this.state.modified == true){
             this.showBackDiscardDialog()
         }else{
             this.navigateHome()

@@ -1,10 +1,12 @@
 import React from 'react';
-import { View, Text } from 'react-native';
+import { ScrollView, View, Text } from 'react-native';
 import LanguageManager from '../manager/LanguageManager';
 import HeaderMenuButton from '../components/HeaderMenuButton';
 import DatabaseManager from '../manager/DatabaseManager';
 import GlutonManager from '../manager/GlutonManager';
 import Dialog from "react-native-dialog";
+import EmoteTrackerSymbolGroup from '../components/EmoteTracker/EmoteTrackerSymbolGroup';
+import HorizontalLineWithText from '../components/HorizontalLineWithText';
 
 
 export default class EmoteViewScreen extends React.Component {
@@ -28,7 +30,7 @@ export default class EmoteViewScreen extends React.Component {
 
     onHeaderMenuSelected(index) {
         switch (index) {
-          case 0: alert("EDIT"); break; // this.setState({edit: true})
+          case 0: break; // this.setState({edit: true})
           case 1: this.setState({showDeleteConfirmDialog: true}); break;
         }
     }
@@ -44,9 +46,16 @@ export default class EmoteViewScreen extends React.Component {
     }
 
     render() {
+        let objData = JSON.parse(this.state.event.objData);
+
         return (
-            <View>
-                <Text>{JSON.stringify(this.state.event)}</Text>
+            <ScrollView>
+                <EmoteTrackerSymbolGroup active={false} emoteID={objData.type} size="big" />
+                <HorizontalLineWithText text = {LanguageManager.getInstance().getText("DATE")}/>
+                <Text>{LanguageManager.getInstance().getDateAsText(this.state.event.created)}</Text>
+                <HorizontalLineWithText text = {LanguageManager.getInstance().getText("NOTES")}/>
+                <Text>{objData.note}</Text>
+                <View style={{paddingBottom: 10}} />
 
                 <View>
 					<Dialog.Container visible={this.state.showDeleteConfirmDialog}>
@@ -58,7 +67,7 @@ export default class EmoteViewScreen extends React.Component {
 						<Dialog.Button label={LanguageManager.getInstance().getText("DISCARD")} onPress={() => this.deleteEntry()} />
 					</Dialog.Container>
 				</View>
-            </View>
+            </ScrollView>
         )
     }
 }

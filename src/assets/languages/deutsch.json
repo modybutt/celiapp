@@ -1,7 +1,7 @@
 {
 	"name": "Deutsch",
 	"locale": "de-DE",
-	"dateTimeFormat": "dddd, DD. MMMM YYYY HH:mm",
+	"dateTimeFormat": "DD. MMMM YYYY HH:mm",
 	"keys": {
 		"WELCOME": "Hallo!",
 		"ADD_SYMPTOM": "Symptom hinzufügen",
@@ -75,7 +75,7 @@
 		"APR": "April",
 		"MAY": "Mai",
 		"JUN": "Juni",
-		"JUL": "July",
+		"JUL": "Juli",
 		"AUG": "August",
 		"SEP": "September",
 		"OCT": "Oktober",

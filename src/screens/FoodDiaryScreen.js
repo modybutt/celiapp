@@ -43,7 +43,7 @@ export default class FoodDiaryScreen extends React.Component{
             foodRating: 0,
             keyboardOpen: false,
             photo: null,
-            selectedMeal : null,            
+            selectedMealKey : 0,            
             selectedClass : 2,
         } 
     }
@@ -221,11 +221,13 @@ export default class FoodDiaryScreen extends React.Component{
                 <HorizontalLineWithText text = {LanguageManager.getInstance().getText("TAGS")}/>
                 <FoodDiaryTagEdit ref={component => this._class = component} all={tags} selected={this.state.selectedClass} isExclusive={true} onTagChanged={this.classChangedHandler}/>
                 <HorizontalLineWithText text = {LanguageManager.getInstance().getText("TYPES")}/>
-                <FoodDiaryTagEdit ref={component => this._meal = component} all={meals} selected={this.state.selectedMeal} isExclusive={true} onTagChanged={this.mealChangedHandler}/>
+                <FoodDiaryTagEdit ref={component => this._meal = component} all={meals} selected={this.state.selectedMealKey} isExclusive={true} onTagChanged={this.mealChangedHandler}/>
                 <HorizontalLineWithText text = {LanguageManager.getInstance().getText("IMAGE")}/>
-                <FoodDiaryImageEdit navigation = {this.props.navigation} onPictureTaken={(image) => this.setState({photo: image})}/>
+                <View style={{alignItems: 'center'}}>
+                    <FoodDiaryImageEdit navigation = {this.props.navigation} onPictureTaken={(image) => this.setState({photo: image})}/>
+                </View>
                 <HorizontalLineWithText text = {LanguageManager.getInstance().getText("RATING")}/>
-                <View style={styles.ratingBarView}>
+                <View style={{alignItems: 'center'}}>
                     <FoodDiaryRatingBar ref={component => this._rating = component}  onRatingChanged={this.ratingEditedHandler}/>
                 </View> 
                 <HorizontalLineWithText text = {LanguageManager.getInstance().getText("NOTES")} style={{Top: 10}}/>
@@ -254,7 +256,4 @@ export default class FoodDiaryScreen extends React.Component{
         textAlign: 'center',
         margin: 10
      },
-     ratingBarView:{
-         alignItems: 'center',
-     }
     });
