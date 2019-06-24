@@ -121,7 +121,6 @@ const styles = StyleSheet.create({
         borderRadius: 33, 
         textAlignVertical: 'center',
         padding: 10,
-        paddingLeft: 20,
         textAlign: 'center',
         flexWrap: 'wrap',
     },

@@ -1,6 +1,7 @@
 
 import React from 'react';
 import {View, StyleSheet, Text, TouchableHighlight, Alert, Image} from 'react-native';
+import LanguageManager from '../../manager/LanguageManager';
 
 // constants
 import {
@@ -94,7 +95,7 @@ export default class EmoteTrackerSymbol extends React.Component{
                     <TouchableHighlight style={{height: 80, borderRadius: 40, backgroundColor: 'rgb(255,255,255)', justifyContent: 'center', alignItems: 'center'}} onPress={this.selectEmotion}>
                         <Image source={this.state.imgSource} style={{width: 75, height: 75, borderRadius:40}} />
                     </TouchableHighlight> 
-                    <Text style={{textAlign: 'center', flexWrap: 'wrap'}}>{this.state.imgName}</Text>
+                    <Text style={{textAlign: 'center', flexWrap: 'wrap'}}>{LanguageManager.getInstance().getText(this.state.imgName)}</Text>
                 </View>                
             )
         }else{
@@ -103,7 +104,7 @@ export default class EmoteTrackerSymbol extends React.Component{
                     <TouchableHighlight style={{height: 80, borderRadius: 40, backgroundColor: 'rgb(33,150,243)', justifyContent: 'center', alignItems: 'center'}} onPress={this.selectEmotion}>
                         <Image source={this.state.imgSource} style={{width: 75, height: 75, borderRadius:40}} />
                     </TouchableHighlight> 
-                    <Text style={{textAlign: 'center', flexWrap: 'wrap'}}>{this.state.imgName}</Text>
+                    <Text style={{textAlign: 'center', flexWrap: 'wrap'}}>{LanguageManager.getInstance().getText(this.state.imgName)}</Text>
                 </View>                
             )
         }

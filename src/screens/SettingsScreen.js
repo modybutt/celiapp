@@ -8,6 +8,7 @@ import LanguageManager from '../manager/LanguageManager';
 import DatabaseManager from '../manager/DatabaseManager';
 import GlutonManager from '../manager/GlutonManager';
 import HeaderSaveButton from '../components/HeaderSaveButton';
+import { Updates } from 'expo';
 
 export default class SettingsScreen extends React.Component {
   static navigationOptions = ({navigation}) => ({
@@ -37,6 +38,8 @@ export default class SettingsScreen extends React.Component {
     DatabaseManager.getInstance().saveSettings('language', LanguageManager.getInstance().getLanguage(), (error) => {alert(error)}, null);
     DatabaseManager.getInstance().saveSettings('nickname', GlutonManager.getInstance().getBuddy(), (error) => {alert(error)}, null);
     
+    // Updates.reload();
+
     if (goHome) {
         GlutonManager.getInstance().setMessage(3);
         setTimeout(() => this.props.navigation.goBack(), 100);
