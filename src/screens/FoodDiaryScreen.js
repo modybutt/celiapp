@@ -1,6 +1,6 @@
 
 import React from 'react';
-import { View, Button, ScrollView, Keyboard, TouchableOpacity, StyleSheet} from 'react-native';
+import { View, Button, Alert, ScrollView, Keyboard, TouchableOpacity, StyleSheet} from 'react-native';
 import Dialog from "react-native-dialog";
 import { HeaderBackButton } from 'react-navigation'
 import DatabaseManager from '../manager/DatabaseManager';
@@ -16,6 +16,7 @@ import LanguageManager from '../manager/LanguageManager';
 import GlutonManager from '../manager/GlutonManager';
 import HeaderSaveButton from '../components/HeaderSaveButton';
 import HorizontalLine from '../components/HorizontalLine';
+import { ThemeConsumer } from 'react-native-elements';
 
 
 export default class FoodDiaryScreen extends React.Component{
@@ -155,16 +156,27 @@ export default class FoodDiaryScreen extends React.Component{
     }
 
     saveCurrentData(goHome) {
-        let tmpDateTime = this.state.selectedDateAndTime
-        tmpDateTime.setFullYear(tmpDateTime.getFullYear());
-        DatabaseManager.getInstance().createMealEvent(this.state.foodEntryName, this.state.selectedClassKey, this.state.selectedMealKey, this.state.foodRating, this.state.foodEntryNote, this.state.photo, tmpDateTime.getTime(), 
-            (error) => {alert(error)}, 
-            () => {GlutonManager.getInstance().setMessage(2)}
-        );
+        if (this.state.photo != null || this.state.foodEntryName != "" ){
+            let tmpDateTime = this.state.selectedDateAndTime
+        	tmpDateTime.setFullYear(tmpDateTime.getFullYear());
+            DatabaseManager.getInstance().createMealEvent(this.state.foodEntryName, this.state.selectedClassKey, this.state.selectedMealKey, this.state.foodRating, this.state.foodEntryNote, this.state.photo, tmpDateTime.getTime(), 
+                (error) => {alert(error)}, 
+                () => {GlutonManager.getInstance().setMessage(2)}
+            );
 
-        if (goHome) {
-            setTimeout(() => this.navigateHome(), 100);
-        }
+            if (goHome) {
+                setTimeout(() => this.navigateHome(), 100);
+                }
+            }else{
+                Alert.alert(
+                    LanguageManager.getInstance().getText("NOT_SAVED"),
+                    LanguageManager.getInstance().getText("PICTURE_OR_NAME"),
+                    [
+                      {text: 'OK'},
+                    ],
+                    {cancelable: false},
+                  );
+            }        
     }
 
     handleCancelButton() {
