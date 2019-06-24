@@ -154,7 +154,7 @@ export default class EntryList extends React.Component {
       return (
         <ActivityIndicator size='large' color='lightblue' />
       );
-    } else if (this.state.events.length == 0) {
+    } else if (this.state.events == null || this.state.events.length == 0) {
       return (
         <Image source={require('../assets/images/nothing.gif')} />
       );
