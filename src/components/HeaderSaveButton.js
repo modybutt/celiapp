@@ -6,9 +6,17 @@ import Colors from '../constants/Colors';
 
 export default class HeaderSaveButton extends React.Component{
     render() {
+        let iconName = 'md-save';
+
+        if (this.props.type == 1) {
+            iconName = 'md-checkbox-outline'
+        } else if (this.props.type == 2) {
+            iconName = 'md-today'
+        }
+
         return (
             <TouchableOpacity style={styles.container} onPress={this.props.onPress}>
-                <Icon.Ionicons name={this.props.type == 1 ? 'md-checkbox-outline' : 'md-save'} size={40} />
+                <Icon.Ionicons name={iconName} size={40} />
             </TouchableOpacity>
         )
     }

@@ -1,7 +1,7 @@
 {
 	"name": "Developer",
 	"locale": "de-AT",
-	"dateTimeFormat": "dddd, DD. MMMM YYYY HH:mm",
+	"dateTimeFormat": "DD. MMMM YYYY HH:mm",
 	"keys": {
 		"WELCOME": "Zewas!",
 		"ADD_SYMPTOM": "Neua Zuastand",
@@ -75,7 +75,7 @@
 		"APR": "April",
 		"MAY": "Mai",
 		"JUN": "Juni",
-		"JUL": "July",
+		"JUL": "Juli",
 		"AUG": "August",
 		"SEP": "September",
 		"OCT": "Oktober",

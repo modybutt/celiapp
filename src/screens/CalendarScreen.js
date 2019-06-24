@@ -12,19 +12,34 @@ import CeliCalendarPicker from "../components/CeliCalendarPicker";
 import EntryList from "../components/EntryList"
 import MenuButton from '../components/MenuButton';
 import LanguageManager from '../manager/LanguageManager';
+import HeaderSaveButton from '../components/HeaderSaveButton';
 
 export default class CalendarScreen extends React.Component {
   static navigationOptions = ({navigation}) => ({
     title: LanguageManager.getInstance().getText("CALENDAR"),
+    headerRight: <HeaderSaveButton type={2} onPress={() => navigation.state.params.onOkPressed(Date.now())}/>
   });
 
   state = {
+    initDate: Date.now(),
     selectedDate: Date.now()
   }
 
+  componentDidMount() {        
+    this.props.navigation.setParams({ 
+        onOkPressed: this.resetDate.bind(this),
+    })
+  }
+
+  resetDate() {
+    this.onDateChange(this.state.initDate)
+  }
+
   onDateChange(date) {
-    this.list.updateList(date)
-    this.setState({selectedDate: date})
+    if (this.state.selectedDate != date) {
+      this.list.updateList(date)
+      this.setState({selectedDate: date})
+    }
   }
 
   render() {

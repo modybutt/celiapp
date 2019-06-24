@@ -15,7 +15,6 @@ import FoodDiaryImageEdit from '../components/FoodDiary/FoodDiaryImageEdit'
 import LanguageManager from '../manager/LanguageManager';
 import GlutonManager from '../manager/GlutonManager';
 import HeaderSaveButton from '../components/HeaderSaveButton';
-import HorizontalLine from '../components/HorizontalLine';
 
 
 export default class FoodDiaryScreen extends React.Component{
