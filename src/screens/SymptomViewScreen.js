@@ -1,10 +1,12 @@
 import React from 'react';
-import { View, Text } from 'react-native';
+import { ScrollView, View, Text } from 'react-native';
 import LanguageManager from '../manager/LanguageManager';
 import HeaderMenuButton from '../components/HeaderMenuButton';
 import DatabaseManager from '../manager/DatabaseManager';
 import GlutonManager from '../manager/GlutonManager';
 import Dialog from "react-native-dialog";
+import HorizontalLineWithText from '../components/HorizontalLineWithText';
+import SymptomIconButton from '../components/SymptomTracker/SymptomIconButton';
 
 
 export default class SymptomViewScreen extends React.Component {
@@ -28,7 +30,7 @@ export default class SymptomViewScreen extends React.Component {
 
     onHeaderMenuSelected(index) {
         switch (index) {
-          case 0: alert("EDIT"); break; // this.setState({edit: true})
+          case 0: break; // this.setState({edit: true})
           case 1: this.setState({showDeleteConfirmDialog: true}); break;
         }
     }
@@ -44,10 +46,20 @@ export default class SymptomViewScreen extends React.Component {
     }
 
     render() {
-        return (
-            <View>
-                <Text>{JSON.stringify(this.state.event)}</Text>
+        let objData = JSON.parse(this.state.event.objData);
 
+        return (
+            <ScrollView>
+                <View style={{alignItems: 'center'}}>
+                    <SymptomIconButton active={false} size="big" type={1} key={objData.symptomID} defaultSeverity={objData.severity} symptomID={objData.symptomID} symptomName={objData.name} symptomIcon={objData.icon} />
+                </View>
+                <HorizontalLineWithText text = {LanguageManager.getInstance().getText("DATE")}/>
+                <Text>{LanguageManager.getInstance().getDateAsText(this.state.event.created)}</Text>
+                <HorizontalLineWithText text = {LanguageManager.getInstance().getText("NOTES")}/>
+                <Text>{objData.note}</Text>
+                <View style={{paddingBottom: 10}} />                
+
+            
                 <View>
 					<Dialog.Container visible={this.state.showDeleteConfirmDialog}>
 						<Dialog.Title>{LanguageManager.getInstance().getText("DELETE")}</Dialog.Title>
@@ -58,7 +70,7 @@ export default class SymptomViewScreen extends React.Component {
 						<Dialog.Button label={LanguageManager.getInstance().getText("DISCARD")} onPress={() => this.deleteEntry()} />
 					</Dialog.Container>
 				</View>
-            </View>
+            </ScrollView>
         )
     }
 }

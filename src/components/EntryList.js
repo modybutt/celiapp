@@ -165,8 +165,6 @@ export default class EntryList extends React.Component {
           keyExtractor={(item, index) => item.id.toString()}
           renderItem={({item}) => this.renderItem(item)}
           ItemSeparatorComponent={this.renderSeparator}
-          // onScroll={(event) => {alert(JSON.stringify(event))}}
-          // ref={list => this.flatList = list}
         />
       );
     }

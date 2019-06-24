@@ -1,7 +1,7 @@
 {
 	"name": "English",
 	"locale": "en-EN",
-	"dateTimeFormat": "dddd, Do MMMM YYYY hh:mm A",
+	"dateTimeFormat": "Do MMMM YYYY hh:mm A",
 	"keys": {
 		"WELCOME": "Hello!",
 		"ADD_SYMPTOM": "Add Symptom",
