@@ -16,7 +16,7 @@ export default class LoadingScreen extends React.Component {
     this.RotateValueHolder.setValue(0);
     Animated.timing(this.RotateValueHolder, {
       toValue: 1,
-      duration: 3000,
+      duration: 2000,
       easing: Easing.linear,
     }).start(() => this.StartImageRotateFunction());
   }
@@ -42,7 +42,7 @@ export default class LoadingScreen extends React.Component {
           }}
           source={require('../assets/images/celiapp_icon_trans.png')}
         />
-        <Text style={{color: 'green'}}>- Glutenfree is what you want to be -</Text>
+        <Text style={{color: 'green'}}> - Glutenfree is what you want to be - </Text>
       </View>
     );
   }
