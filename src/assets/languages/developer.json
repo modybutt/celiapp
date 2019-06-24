@@ -89,6 +89,8 @@
 		"THU": "Do",
 		"FRI": "Fr",
 		"SAT": "Sa",
-		"SUN": "So"
+		"SUN": "So",
+		"NOT_SAVED": "Speichern nicht möglich",
+		"PICTURE_OR_NAME": "Namen oder ein Bild einfügen vorm speichern."
 	}
 }

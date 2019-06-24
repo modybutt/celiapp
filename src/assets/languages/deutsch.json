@@ -89,6 +89,8 @@
 		"THU": "Do",
 		"FRI": "Fr",
 		"SAT": "Sa",
-		"SUN": "So"
+		"SUN": "So",
+		"NOT_SAVED": "Speichern nicht möglich",
+		"PICTURE_OR_NAME": "Füge einen Namen oder ein Bild hinzu bevor du speicherst."
 	}
 }

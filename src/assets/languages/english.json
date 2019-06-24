@@ -32,7 +32,7 @@
 		"DO_YOU_WANT_TO_SAVE": "Do you want to save the entries?",
 		"BACK": "Back",
 		"DISCARD": "Discard",
-		"DO_YOU_WANT_TO_DISCARD": "Yo you really want to discard the entries?",
+		"DO_YOU_WANT_TO_DISCARD": "Do you really want to discard the entries?",
 		"SYMPTOM_OCCURED": "Occured at: ",
 		"SELECT_TIME": "Choose time",
 		"DIARRHEA": "Diarrhea",
@@ -89,6 +89,8 @@
 		"THU": "Thu",
 		"FRI": "Fri",
 		"SAT": "Sat",
-		"SUN": "Sun"
+		"SUN": "Sun",
+		"NOT_SAVED": "save not possible",
+		"PICTURE_OR_NAME": "Enter a Name or a picture bevore saving."
 	}
 }
