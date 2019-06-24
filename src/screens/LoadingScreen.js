@@ -1,18 +1,50 @@
 import React from 'react';
-import { Text, View, Image } from 'react-native';
+import { Text, View, Image, Animated, StyleSheet, Easing , Dimensions } from 'react-native';
 
 export default class LoadingScreen extends React.Component {
+
+  constructor() {
+    super();
+    this.RotateValueHolder = new Animated.Value(0);
+  }
+
+  componentDidMount() {
+    this.StartImageRotateFunction();
+  }
+
+  StartImageRotateFunction() {
+    this.RotateValueHolder.setValue(0);
+    Animated.timing(this.RotateValueHolder, {
+      toValue: 1,
+      duration: 2000,
+      easing: Easing.linear,
+    }).start(() => this.StartImageRotateFunction());
+  }
+
   render() {
     if (this.props.hide == true) {
       return null;
     }
 
+      const RotateData = this.RotateValueHolder.interpolate({
+      inputRange: [0, 1],
+      outputRange: ['0deg', '360deg'],
+    });
+
     return (
-      <View style={this.props.style}>
-        <Image source={require('../assets/images/splash.png')} style={{width: '100%', height: '50%'}}/>
-        <Text>CeliApp</Text>
-        <Text>- All You Could Eat -</Text>
+      <View style={{width: Dimensions.get('window').width, height: Dimensions.get('window').height, justifyContent: 'space-around', alignItems: 'center'}}>
+        <Text style={{fontSize: 40, fontWeight: 'bold'}}>CeliApp</Text>
+        <Animated.Image
+          style={{
+            width: 150,
+            height: 150,
+            transform: [{ rotate: RotateData }],
+          }}
+          source={require('../assets/images/celiapp_icon_trans.png')}
+        />
+        <Text style={{color: 'green'}}> - Glutenfree is what you want to be - </Text>
       </View>
     );
   }
 }
+
