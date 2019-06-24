@@ -22,7 +22,7 @@ export default class FoodDiaryImageEdit extends React.Component {
     }
 
     render() {
-        if (this.active == true) {
+        if (this.active == null || this.active == true) {
             if (this.state.snapshot == null) {
                 return (
                     <TouchableOpacity style={styles.container} onPress={() => this.props.navigation.navigate('Camera', {cb: (pic) => this.onPictureTaken(pic)})}>
@@ -33,7 +33,7 @@ export default class FoodDiaryImageEdit extends React.Component {
 
             return ( 
                 <TouchableOpacity style={styles.container} onPress={() => this.props.navigation.navigate('Camera', {cb: (pic) => this.onPictureTaken(pic)})}>
-                    <Image source={Image.resolveAssetSource(this.state.snapshot)} style={styles.snapshot} />
+                    <Image source={Image.resolveAssetSource(this.state.snapshot)} style={styles[this.props.size] == null ? styles.small : styles[this.props.size]} />
                 </TouchableOpacity>   
             );
         } else {
