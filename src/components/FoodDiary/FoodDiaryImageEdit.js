@@ -22,7 +22,7 @@ export default class FoodDiaryImageEdit extends React.Component {
     }
 
     render() {
-        if (this.active == null || this.active == true) {
+        if (this.props.active == null || this.props.active == true) {
             if (this.state.snapshot == null) {
                 return (
                     <TouchableOpacity style={styles.container} onPress={() => this.props.navigation.navigate('Camera', {cb: (pic) => this.onPictureTaken(pic)})}>
