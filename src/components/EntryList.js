@@ -10,12 +10,11 @@ import {
   TouchableOpacity,
   Button
 } from "react-native";
-import { ListItem } from 'react-native-elements';
+import { ListItem, Avatar, Badge } from 'react-native-elements';
 import { NavigationEvents } from 'react-navigation';
-import { Icon } from 'expo';
 import DatabaseManager from '../manager/DatabaseManager';
 import { images } from '../components/EmoteTracker/EmoteTrackerConstants';
-import Colors from '../constants/Colors';
+import FoodDiaryRatingBar from '../components/FoodDiary/FoodDiaryRatingBar';
 import LanguageManager from '../manager/LanguageManager';
 
 
@@ -86,6 +85,7 @@ export default class EntryList extends React.Component {
                   backgroundColor: color
                 }
               }}
+              chevron={true}
             />
           </TouchableOpacity>
         )
@@ -95,9 +95,11 @@ export default class EntryList extends React.Component {
           return (
             <TouchableOpacity onPress={() => this.props.navigation.navigate('ViewMeal', {event: item})}>
               <ListItem
-                title={objData.name + ' ' + objData.rating +'/5'}
+                title={objData.name}
+                rightTitle={<FoodDiaryRatingBar active={false} rating={objData.rating} iconSize={5} />}
                 subtitle={LanguageManager.getInstance().getDateAsText(item.created)}
                 leftAvatar={{ source: Image.resolveAssetSource(objData.icon) }}
+                chevron={true}
               />
             </TouchableOpacity>
           )
@@ -105,9 +107,11 @@ export default class EntryList extends React.Component {
           return (
             <TouchableOpacity onPress={() => this.props.navigation.navigate('ViewMeal', {event: item})}>
               <ListItem
-                title={objData.name + ' ' + objData.rating +'/5'}
+                title={objData.name}
+                rightTitle={<FoodDiaryRatingBar active={false} rating={objData.rating} iconSize={5} />}
                 subtitle={LanguageManager.getInstance().getDateAsText(item.created)}
                 leftAvatar={{ icon: {name: 'camera'} }}
+                chevron={true}
               />
             </TouchableOpacity>
           )
@@ -132,6 +136,7 @@ export default class EntryList extends React.Component {
               leftAvatar={{
                 source: Image.resolveAssetSource(picture.uri)
               }}
+              chevron={true}
             />
           </TouchableOpacity>
         )
@@ -160,6 +165,8 @@ export default class EntryList extends React.Component {
           keyExtractor={(item, index) => item.id.toString()}
           renderItem={({item}) => this.renderItem(item)}
           ItemSeparatorComponent={this.renderSeparator}
+          // onScroll={(event) => {alert(JSON.stringify(event))}}
+          // ref={list => this.flatList = list}
         />
       );
     }

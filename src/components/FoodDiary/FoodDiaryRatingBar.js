@@ -33,34 +33,36 @@ export default class FoodDiaryRatingBar extends React.Component {
     }
 
     render() {
+        let iconSize = this.props.iconSize == null ? 50 : this.props.iconsSize;
+
         if (this.state.active == true) {
             return (
                 <View style={styles.container}>
                     <TouchableOpacity onPress={() => this.changeRating(1)}>
-                        <Icon.Ionicons name={this.iconName(1)} size={50} />
+                        <Icon.Ionicons name={this.iconName(1)} size={iconSize} />
                     </TouchableOpacity>
                     <TouchableOpacity onPress={() => this.changeRating(2)}>
-                        <Icon.Ionicons name={this.iconName(2)} size={50} />
+                        <Icon.Ionicons name={this.iconName(2)} size={iconSize} />
                     </TouchableOpacity>
                     <TouchableOpacity onPress={() => this.changeRating(3)}>
-                        <Icon.Ionicons name={this.iconName(3)} size={50} />
+                        <Icon.Ionicons name={this.iconName(3)} size={iconSize} />
                     </TouchableOpacity>
                     <TouchableOpacity onPress={() => this.changeRating(4)}>
-                        <Icon.Ionicons name={this.iconName(4)} size={50} />
+                        <Icon.Ionicons name={this.iconName(4)} size={iconSize} />
                     </TouchableOpacity>
                     <TouchableOpacity onPress={() => this.changeRating(5)}>
-                        <Icon.Ionicons name={this.iconName(5)} size={50} />
+                        <Icon.Ionicons name={this.iconName(5)} size={iconSize} />
                     </TouchableOpacity>
                 </View>
             );
         } else {
             return (
                 <View style={styles.container}>
-                    <Icon.Ionicons name={this.iconName(1)} size={50} />
-                    <Icon.Ionicons name={this.iconName(2)} size={50} />
-                    <Icon.Ionicons name={this.iconName(3)} size={50} />
-                    <Icon.Ionicons name={this.iconName(4)} size={50} />
-                    <Icon.Ionicons name={this.iconName(5)} size={50} />
+                    <Icon.Ionicons name={this.iconName(1)} size={iconSize} />
+                    <Icon.Ionicons name={this.iconName(2)} size={iconSize} />
+                    <Icon.Ionicons name={this.iconName(3)} size={iconSize} />
+                    <Icon.Ionicons name={this.iconName(4)} size={iconSize} />
+                    <Icon.Ionicons name={this.iconName(5)} size={iconSize} />
                 </View>
             );
         }
