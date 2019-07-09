@@ -63,7 +63,7 @@ export default class FoodViewScreen extends React.Component {
                 <HorizontalLineWithText text={LanguageManager.getInstance().getText("NAME")}/>
                 <Text>{objData.name}</Text>
                 <HorizontalLineWithText text={LanguageManager.getInstance().getText("TAGS")}/>
-                <FoodDiaryTagEdit all={[tags[objData.tag]]} selected={0} isExclusive={true}/>
+                <FoodDiaryTagEdit all={[tags[objData.type]]} selected={0} isExclusive={true}/>
                 <HorizontalLineWithText text={LanguageManager.getInstance().getText("TYPES")}/>
                 <FoodDiaryTagEdit all={[meals[objData.tag]]} selected={0} isExclusive={true}/>
                 <HorizontalLineWithText text = {LanguageManager.getInstance().getText("NOTES")}/>
@@ -77,7 +77,7 @@ export default class FoodViewScreen extends React.Component {
 						{LanguageManager.getInstance().getText("DO_YOU_WANT_TO_DELETE")}
 						</Dialog.Description>
 						<Dialog.Button label={LanguageManager.getInstance().getText("BACK")} onPress={() => this.setState({showDeleteConfirmDialog: false})} />
-						<Dialog.Button label={LanguageManager.getInstance().getText("DISCARD")} onPress={() => this.deleteEntry()} />
+						<Dialog.Button label={LanguageManager.getInstance().getText("DELETE")} onPress={() => this.deleteEntry()} />
 					</Dialog.Container>
 				</View>
             </ScrollView>
