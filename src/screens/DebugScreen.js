@@ -11,7 +11,7 @@ import {
 
 import TextInputSingleLine from '../components/TextInputSingleLine';
 import TextInputMultiLine from '../components/TextInputMultiLine';
-import { Icon } from 'expo';
+import * as Icon from '@expo/vector-icons';
 import RoundPictureButton from '../components/RoundPictureButton';
 import ActionButton from 'react-native-action-button';
 import CustomButton from '../components/CustomButton'

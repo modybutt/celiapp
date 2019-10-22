@@ -4,7 +4,7 @@ import {
     StyleSheet,
     TouchableOpacity,
 } from 'react-native';
-import { Icon } from 'expo';
+import * as Icon from '@expo/vector-icons';
 
 
 export default class FoodDiaryRatingBar extends React.Component {

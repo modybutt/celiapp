@@ -1,7 +1,7 @@
 import React from 'react';
 import { View, StyleSheet, Alert } from 'react-native';
 import ActionButton from 'react-native-action-button';
-import { Icon } from 'expo';
+import * as Icon from '@expo/vector-icons';
 import LanguageManager from '../manager/LanguageManager';
 
 export default class MenuButton extends React.Component {
