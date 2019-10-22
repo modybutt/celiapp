@@ -14,6 +14,7 @@ import FoodViewScreen from '../screens/FoodViewScreen';
 import EmoteViewScreen from '../screens/EmoteViewScreen';
 import SettingsScreen from '../screens/SettingsScreen';
 import CameraScreen from '../screens/CameraScreen';
+import GearScreen from '../screens/GearScreen';
 import SymptomTrackerMoreSymptomsScreen from '../screens/SymptomTrackerMoreSymptomsScreen';
 import SymptomTrackerAddNewScreen from '../screens/SymptomTrackerAddNewScreen';
 
@@ -117,5 +118,8 @@ export default createStackNavigator({
   },
   Camera: {
     screen: CameraScreen,
+  },
+  Gear: {
+    screen: GearScreen,
   } 
 });
