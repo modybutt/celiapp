@@ -13,16 +13,18 @@
   "dependencies": {
     "@expo/samples": "2.1.1",
     "@expo/vector-icons": "^10.0.0",
-    "expo": "^33.0.0",
-    "expo-sqlite": "~5.0.1",
+    "expo": "^35.0.0",
+    "expo-camera": "~7.0.0",
+    "expo-sqlite": "^7.0.0",
     "moment": "^2.24.0",
-    "react": "16.5.0",
-    "react-native": "https://github.com/expo/react-native/archive/sdk-33.0.0.tar.gz",
+    "react": "16.8.3",
+    "react-native": "https://github.com/expo/react-native/archive/sdk-35.0.0.tar.gz",
     "react-native-action-button": "^2.8.5",
     "react-native-calendar-picker": "^6.0.0",
     "react-native-dialog": "^5.6.0",
     "react-native-dynamic-search-bar": "^0.1.11",
     "react-native-elements": "^1.1.0",
+    "react-native-gesture-handler": "^1.3.0",
     "react-native-modal-datetime-picker": "^7.4.0",
     "react-native-paper": "^2.15.2",
     "react-native-search-bar": "^3.4.2",
@@ -31,8 +33,8 @@
     "react-navigation": "^3.0.9"
   },
   "devDependencies": {
-    "babel-preset-expo": "^5.0.0",
-    "jest-expo": "^32.0.0"
+    "babel-preset-expo": "^7.0.0",
+    "jest-expo": "^35.0.0"
   },
   "private": true
 }
