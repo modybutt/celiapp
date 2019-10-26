@@ -44,7 +44,7 @@ export default class FoodDiaryScreen extends React.Component{
             keyboardOpen: false,
             photo: null,
             selectedMealKey : 0,            
-            selectedClass : 2,
+            selectedClassKey : 2,
         } 
     }
 
@@ -219,7 +219,7 @@ export default class FoodDiaryScreen extends React.Component{
                 <HorizontalLineWithText text = {LanguageManager.getInstance().getText("NAME")}/>
                 <TextInputSingleLine ref={component => this._name = component} onTextChanged={this.nameEditedHandler} style={{Top: 10}}/>
                 <HorizontalLineWithText text = {LanguageManager.getInstance().getText("TAGS")}/>
-                <FoodDiaryTagEdit ref={component => this._class = component} all={tags} selected={this.state.selectedClass} isExclusive={true} onTagChanged={this.classChangedHandler}/>
+                <FoodDiaryTagEdit ref={component => this._class = component} all={tags} selected={this.state.selectedClassKey} isExclusive={true} onTagChanged={this.classChangedHandler}/>
                 <HorizontalLineWithText text = {LanguageManager.getInstance().getText("TYPES")}/>
                 <FoodDiaryTagEdit ref={component => this._meal = component} all={meals} selected={this.state.selectedMealKey} isExclusive={true} onTagChanged={this.mealChangedHandler}/>
                 <HorizontalLineWithText text = {LanguageManager.getInstance().getText("IMAGE")}/>
