@@ -1,7 +1,7 @@
 
 import React from 'react';
 import { TouchableOpacity, StyleSheet } from 'react-native';
-import { Icon } from 'expo';
+import * as Icon from '@expo/vector-icons';
 import PopUpMenu from '../components/PopUpMenu';
 import LanguageManager from '../manager/LanguageManager';
 

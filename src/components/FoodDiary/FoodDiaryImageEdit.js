@@ -1,6 +1,6 @@
 import React from 'react';
 import {TouchableOpacity, Image, StyleSheet} from 'react-native';
-import {Icon} from 'expo';
+import * as Icon from '@expo/vector-icons';
 import Colors from '../../constants/Colors';
 import LanguageManager from '../../manager/LanguageManager';
 
@@ -9,7 +9,6 @@ import LanguageManager from '../../manager/LanguageManager';
 export default class FoodDiaryImageEdit extends React.Component {
 
     state = {
-        active: this.props.active == null ? true : this.props.active,
         snapshot: this.props.snapshot == null ? null : this.props.snapshot,
     }
 
@@ -22,7 +21,7 @@ export default class FoodDiaryImageEdit extends React.Component {
     }
 
     render() {
-        if (this.state.active == null || this.state.active == true) {
+        if (this.props.active == null || this.props.active == true) {
             if (this.state.snapshot == null) {
                 return (
                     <TouchableOpacity style={styles.container} onPress={() => this.props.navigation.navigate('Camera', {cb: (pic) => this.onPictureTaken(pic)})}>

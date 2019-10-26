@@ -42,7 +42,7 @@ export default class SymptomListRow extends React.Component {
         var arrayLength = tmpArray.length;
         var toFind = [symptomID,severity];
         for(var i = 0; i < arrayLength; i++){
-            let toSearch = tmpArray[i, 0];
+            let toSearch = tmpArray[(i, 0)];
             if(toSearch.toString().localeCompare(toFind.toString())){
                 tmpArray.splice(i,1);
             }

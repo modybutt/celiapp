@@ -19,7 +19,8 @@ export default class HomeScreen extends React.Component {
 
     switch (index) {
       case 0: this.props.navigation.navigate('Settings'); break;
-      case 1: this.props.navigation.navigate('Camera'); break;
+      // case 1: this.props.navigation.navigate('Camera'); break;
+      case 1: this.props.navigation.navigate('Gear'); break;
       default: this.props.navigation.navigate('Debug'); break;
     }
   }
@@ -29,6 +30,7 @@ export default class HomeScreen extends React.Component {
       LanguageManager.getInstance().getText("SETTINGS"),
       //LanguageManager.getInstance().getText("CAMERA"),
       //LanguageManager.getInstance().getText("DEBUG"),
+      LanguageManager.getInstance().getText("GEAR"),
     ];
 
     return (

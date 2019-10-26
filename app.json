@@ -1,45 +1,19 @@
-// {
-//   "expo": {
-//     "name": "CeliApp",
-//     "slug": "celiapp",
-//     "privacy": "public",
-//     "sdkVersion": "32.0.0",
-//     "platforms": [
-//       "ios",
-//       "android"
-//     ],
-//     "version": "1.0.0",
-//     "orientation": "portrait",
-//     "icon": "./src/assets/images/icon.png",
-//     "splash": {
-//       "image": "./src/assets/images/splash.png",
-//       "resizeMode": "contain",
-//       "backgroundColor": "#ffffff"
-//     },
-//     "updates": {
-//       "fallbackToCacheTimeout": 0
-//     },
-//     "assetBundlePatterns": [
-//       "**/*"
-//     ],
-//     "ios": {
-//       "supportsTablet": true
-//     }
-//   }
-// }
-
 {
   "expo": {
-   "name": "CeliApp",
-   "icon": "./src/assets/images/celiapp_icon_trans.png",
-   "version": "0.1.0",
-   "slug": "CeliApp",
-   "sdkVersion": "32.0.0",
-   "ios": {
-     "bundleIdentifier": "com.fhv.celiapp"
-   },
-   "android": {
-     "package": "com.fhv.celiapp"
-   }
+    "name": "CeliApp",
+    "icon": "./src/assets/images/celiapp_icon_trans.png",
+    "version": "0.1.0",
+    "slug": "CeliApp",
+    "sdkVersion": "35.0.0",
+    "ios": {
+      "bundleIdentifier": "com.fhv.celiapp"
+    },
+    "android": {
+      "package": "com.fhv.celiapp"
+    },
+    "platforms": [
+      "android",
+      "ios"
+    ]
   }
 }

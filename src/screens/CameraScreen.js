@@ -1,6 +1,8 @@
 import React from 'react';
 import { Text, View, TouchableOpacity, ActivityIndicator, StyleSheet } from 'react-native';
-import { Camera, Permissions, Icon } from 'expo';
+import * as Icon from '@expo/vector-icons';
+import * as Permissions from 'expo-permissions';
+import { Camera } from 'expo-camera';
 import LanguageManager from '../manager/LanguageManager';
 import Colors from '../constants/Colors';
 

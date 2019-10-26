@@ -1,7 +1,7 @@
 
 import React from 'react';
 import { TouchableOpacity, StyleSheet } from 'react-native';
-import { Icon } from 'expo';
+import * as Icon from '@expo/vector-icons';
 import Colors from '../constants/Colors';
 
 export default class HeaderSaveButton extends React.Component{
