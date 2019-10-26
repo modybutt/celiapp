@@ -26,7 +26,7 @@ export default class FoodDiaryImageEdit extends React.Component {
                 return (
                     <TouchableOpacity style={styles.container} onPress={() => this.props.navigation.navigate('Camera', {cb: (pic) => this.onPictureTaken(pic)})}>
                         <Icon.Ionicons name='md-camera' color={this.props.focused ? Colors.tabIconSelected : Colors.tabIconDefault} size={80} />
-                    </TouchableOpacity>  
+                    </TouchableOpacity> 
                 );
             }
 
