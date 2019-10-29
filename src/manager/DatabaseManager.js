@@ -43,7 +43,7 @@ export default class DatabaseManager {
 
     createSymptom(name, icon, onError, onSuccess) {
       this.db.transaction(tx => {
-        tx.executeSql('INSERT INTO symptoms (name, icon, created) VALUES (?, ?, ?)', [name, icon, Date.now()])
+        tx.executeSql('INSERT INTO symptoms (name, icon, created, usage) VALUES (?, ?, ?, 0)', [name, icon, Date.now()])
       }, onError, onSuccess);
     }
 
