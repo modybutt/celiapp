@@ -8,19 +8,21 @@ import GlutonManager from './src/manager/GlutonManager';
 import GearManager from './src/manager/GearManager';
 
 export default class App extends React.Component {
-  state = {
-    isSplashReady: false,
-    isAppReady: false,
+  constructor(props) {
+	  state = {
+		isSplashReady: false,
+		isAppReady: false,
+	  }
   }
-
+  
   componentDidMount() {
     DatabaseManager.getInstance().loadSettings(null, 
-      (_, error) => { alert(JSON.stringify(error))}, 
+      (_, error) => { alert(JSON.stringify(error)); }, 
       (_, {rows: { _array }}) => {
         let settings = {};
 
-        for (i in _array) {
-          settings[_array[i].name] = JSON.parse(_array[i].objData)
+        for (var i in _array) {
+          settings[_array[i].name] = JSON.parse(_array[i].objData);
         }
         
         this.initApplication(settings);
@@ -42,8 +44,8 @@ export default class App extends React.Component {
   render() {
     return (
       <View style={styles.container}>
-        {this.state.isSplashReady == false ? null : <AppNavigator/>}
-        <LoadingScreen hide={this.state.isAppReady} style={styles.loading}/>
+        {this.state.isSplashReady == false ? null : <AppNavigator />}
+        <LoadingScreen hide={this.state.isAppReady} style={styles.loading} />
       </View>
     );
   }
