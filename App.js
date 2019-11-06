@@ -8,13 +8,11 @@ import GlutonManager from './src/manager/GlutonManager';
 import GearManager from './src/manager/GearManager';
 
 export default class App extends React.Component {
-  constructor(props) {
-	  state = {
-		isSplashReady: false,
-		isAppReady: false,
-	  }
+  state = {
+    isSplashReady: false,
+    isAppReady: false,
   }
-  
+
   componentDidMount() {
     DatabaseManager.getInstance().loadSettings(null, 
       (_, error) => { alert(JSON.stringify(error)); }, 
@@ -44,8 +42,8 @@ export default class App extends React.Component {
   render() {
     return (
       <View style={styles.container}>
-        {this.state.isSplashReady == false ? null : <AppNavigator />}
-        <LoadingScreen hide={this.state.isAppReady} style={styles.loading} />
+        {this.state.isSplashReady == false ? null : <AppNavigator/>}
+        <LoadingScreen hide={this.state.isAppReady} style={styles.loading}/>
       </View>
     );
   }
