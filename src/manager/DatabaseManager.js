@@ -88,7 +88,7 @@ export default class DatabaseManager {
             objData.icon = _array[0].icon;
             //objData.usage = _array[0].usage;
 
-            this.createEvent(0, timestamp, objData, onError, onSuccess);
+            this.createEvent(0, timestamp, objData, onError, null);
             this.updateSymptomUsage(symptomID, onError, onSuccess);
           }, 
           (_, param) => alert("-create events: " + JSON.stringify(param)));

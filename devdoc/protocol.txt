@@ -1,0 +1,25 @@
+MESSAGE			DIRECTION		DESCRIPTION
+
+link <addr>		Device->Server		Connect to Gear
+linked			Server->Device		UDP socket opened
+unlink			Device->Server		Disconnect from Gear
+unlinked		Server->Device		UDP socket closed
+
+msg <data>		Device->Server		Send command to Gear
+<data>			Server->Gear		
+
+
+
+msg 1_			Device->Server		Colormode (Red2Green / Geen2Red)
+0			Server->Gear		Red-to-Green
+1			Server->Gear		Green-to-Red
+
+msg 2_			Device->server		Daytime	(Morning / Noon / Evening)
+0			Server->Gear		Morning
+1			Server->Gear		Noon
+2			Server->Gear		Evening
+
+msg 3_			Device->Server		Entry (Emotion / Meal / Symptom)
+0			Server->Gear		Emotion
+1			Server->Gear		Meal
+2			Server->Gear		Symptom

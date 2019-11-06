@@ -10,6 +10,8 @@ import LanguageManager from '../manager/LanguageManager';
 import GlutonManager from '../manager/GlutonManager';
 import DayChooser from '../components/DayChooser';
 import HeaderSaveButton from '../components/HeaderSaveButton';
+import GearManager from '../manager/GearManager';
+
 
 export default class EmoteTrackerScreen extends React.Component{
     static navigationOptions = ({navigation}) => ({
@@ -147,7 +149,7 @@ export default class EmoteTrackerScreen extends React.Component{
         let tmpDateTime = this.state.selectedDateAndTime
         DatabaseManager.getInstance().createEmotionEvent(this.state.selectedSymbolID, this.state.emoteNote, tmpDateTime.getTime(), 
             (error) => {alert(error)}, 
-            () => {GlutonManager.getInstance().setMessage(2)}
+            () => {GlutonManager.getInstance().setMessage(2); GearManager.getInstance().sendMessage("msg 30")}
         );
 
         if (goHome) {
