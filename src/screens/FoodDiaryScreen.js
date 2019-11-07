@@ -15,8 +15,7 @@ import FoodDiaryImageEdit from '../components/FoodDiary/FoodDiaryImageEdit'
 import LanguageManager from '../manager/LanguageManager';
 import GlutonManager from '../manager/GlutonManager';
 import HeaderSaveButton from '../components/HeaderSaveButton';
-import HorizontalLine from '../components/HorizontalLine';
-import { ThemeConsumer } from 'react-native-elements';
+import GearManager from '../manager/GearManager';
 
 
 export default class FoodDiaryScreen extends React.Component{
@@ -161,7 +160,7 @@ export default class FoodDiaryScreen extends React.Component{
         	tmpDateTime.setFullYear(tmpDateTime.getFullYear());
             DatabaseManager.getInstance().createMealEvent(this.state.foodEntryName, this.state.selectedClassKey, this.state.selectedMealKey, this.state.foodRating, this.state.foodEntryNote, this.state.photo, tmpDateTime.getTime(), 
                 (error) => {alert(error)}, 
-                () => {GlutonManager.getInstance().setMessage(2)}
+                () => {GlutonManager.getInstance().setMessage(2); GearManager.getInstance().sendMessage("msg 31")}
             );
 
             if (goHome) {

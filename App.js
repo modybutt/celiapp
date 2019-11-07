@@ -5,6 +5,7 @@ import LoadingScreen from './src/screens/LoadingScreen';
 import DatabaseManager from './src/manager/DatabaseManager';
 import LanguageManager from './src/manager/LanguageManager';
 import GlutonManager from './src/manager/GlutonManager';
+import GearManager from './src/manager/GearManager';
 
 export default class App extends React.Component {
   state = {
@@ -14,12 +15,12 @@ export default class App extends React.Component {
 
   componentDidMount() {
     DatabaseManager.getInstance().loadSettings(null, 
-      (_, error) => { alert(JSON.stringify(error))}, 
+      (_, error) => { alert(JSON.stringify(error)); }, 
       (_, {rows: { _array }}) => {
         let settings = {};
 
-        for (i in _array) {
-          settings[_array[i].name] = JSON.parse(_array[i].objData)
+        for (var i in _array) {
+          settings[_array[i].name] = JSON.parse(_array[i].objData);
         }
         
         this.initApplication(settings);
@@ -30,7 +31,10 @@ export default class App extends React.Component {
   initApplication(settings) {
     LanguageManager.getInstance().setLanguage(settings.language);
     GlutonManager.getInstance().setBuddy(settings.nickname);
-
+    GearManager.getInstance().setWsHost(settings.wsHost);
+    GearManager.getInstance().setGearHost(settings.gearHost);
+    GearManager.getInstance().connect();
+    
     this.setState({isSplashReady: true});
     setTimeout(() =>  this.setState({isAppReady: true}), 3000);
   }

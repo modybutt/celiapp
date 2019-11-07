@@ -43,6 +43,10 @@ public class Gear {
         this.host = null;
     }
     
+    public void send(char character) {
+        send(String.valueOf(character));
+    }
+    
     public void send(String message) {
         if (host == null) {
             return;
