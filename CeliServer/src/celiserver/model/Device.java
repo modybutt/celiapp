@@ -6,6 +6,7 @@
 package celiserver.model;
 
 import celiserver.CeliServer;
+import celiserver.ui.MainFrame;
 import java.io.IOException;
 import java.net.Socket;
 import java.security.MessageDigest;
@@ -27,11 +28,15 @@ public class Device extends CeliServer.MessageListener {
     public static final char DAYTIME_SET = '2';
     public static final char ENTRY_DONE = '3';
     
+    private final Socket socket;
     private final Gear gear = new Gear();
     private final SimulationState state = new SimulationState(gear);
+    private final MainFrame frame = new MainFrame(this);
     
     public Device(Socket socket) throws IOException {
         super(socket.getInputStream(), socket.getOutputStream(), socket.getInetAddress());
+        this.socket = socket;
+        this.frame.setTitle(socket.getInetAddress().getHostAddress());
     }
     
     public boolean handshake() {
@@ -62,6 +67,7 @@ public class Device extends CeliServer.MessageListener {
             }
         }
         
+        frame.setVisible(handshakeDone);
         return handshakeDone;
     }
 
@@ -76,15 +82,24 @@ public class Device extends CeliServer.MessageListener {
         else if (message.startsWith("unlink")) {
             gear.unlink();
             return "unlinked";
-        }
-        else {
+        } else if (message.equals("disconnect")) {
+            try {
+                socket.close();
+            } catch (IOException ex) {
+                Logger.getLogger(Device.class.getName()).log(Level.SEVERE, null, ex);
+            } finally {
+                frame.setVisible(false);
+            }
+        } else {
             System.err.println("unknown: " + message);
         }
         
         return null;
     }
     
-    private void performAction(String action) {
+    public void performAction(String action) {
+        System.out.println("Device[" + this.addr.getHostAddress() + "]: " + action);
+        
         char code = action.charAt(0);
         char value = action.charAt(1);
         
@@ -130,21 +145,33 @@ public class Device extends CeliServer.MessageListener {
         private void setEntry(char value) {
             switch (value) {
                 case Entry.EMOTION: {
-                    if (emotionDone == false) {
-                        emotionDone = true;
+                    if (emotionDone) {
+                        return;
                     }
+                    
+                    emotionDone = true;
                     break;
                 }
                 case Entry.MEAL: {
-                    if (mealCount < 3) {
-                        mealCount++;
+                    if (mealCount >= 3) {
+                        return;
                     }
+                    
+                    mealCount++;
                     break;
                 }
                 case Entry.SYMPTOM: {
-                    if (symptomDone == false) {
-                        symptomDone = true;
+                    if (symptomDone) {
+                        return;
                     }
+                    
+                    symptomDone = true;
+                    break;
+                }
+                case Entry.RESET: {
+                    mealCount = 0;
+                    emotionDone = false;
+                    symptomDone = false;
                     break;
                 }
                 default: {
@@ -158,13 +185,12 @@ public class Device extends CeliServer.MessageListener {
         private char getColor() {
             int entries = mealCount;
             //entries += emotionDone ? 1 : 0;
-            entries += symptomDone ? 1 : 0;
+            //entries += symptomDone ? 1 : 0;
+            entries += (emotionDone || symptomDone) ? 1 : 0;
             
             if (colorMode == ColorMode.RED_TO_GREEN) {
-                if (dayTime == DayTime.NOON) {
-                    entries -= 1;   // second meal required
-                } else if (dayTime == DayTime.EVENING) {
-                    entries -= 2;   // second & third meal required
+                if (dayTime == DayTime.NIGHT) {
+                    return Color.BLACK;
                 }
                 
                 // fallback
@@ -172,23 +198,34 @@ public class Device extends CeliServer.MessageListener {
                     entries = 0;
                 } else if (entries > 4) {
                     entries = 4;
-                }
-                
-                switch (entries) {
-                    case 0: return Color.RED;
-                    case 1: return Color.LIGHT_RED;
-                    case 2: return Color.ORANGE;
-                    case 3: return Color.LIGHT_GREEN;
-                    case 4: return Color.GREEN;
                 }
             } else if (colorMode == ColorMode.GREEN_TO_RED) {
                 entries += 4;       // "Bonus"
                 
-                if (dayTime == DayTime.NOON) {
-                    entries -= 1;   // second meal required
-                } else if (dayTime == DayTime.EVENING) {
-                    entries -= 2;   // second & third meal required
-                }                
+                switch (dayTime) {
+                    case DayTime.MORNING: {
+                        break;
+                    }
+                    case DayTime.FORENOON: {
+                        entries -= 1;
+                        break;
+                    }
+                    case DayTime.NOON: {
+                        entries -= 2;
+                        break;
+                    }
+                    case DayTime.AFTERNOON: {
+                        entries -= 3;
+                        break;
+                    }
+                    case DayTime.EVENING: {
+                        entries -= 4;
+                        break;
+                    }
+                    case DayTime.NIGHT: {
+                        return Color.BLACK;
+                    }
+                }
                 
                 // fallback
                 if (entries < 0) {
@@ -196,17 +233,16 @@ public class Device extends CeliServer.MessageListener {
                 } else if (entries > 4) {
                     entries = 4;
                 }
-                
-                switch (entries) {
-                    case 0: return Color.RED;
-                    case 1: return Color.LIGHT_RED;
-                    case 2: return Color.ORANGE;
-                    case 3: return Color.LIGHT_GREEN;
-                    case 4: return Color.GREEN;
-                }
-            } 
+            } // -- end if (colorMode)
             
-            return Color.BLACK;
+            switch (entries) {
+                case 0: return Color.RED;
+                case 1: return Color.LIGHT_RED;
+                case 2: return Color.ORANGE;
+                case 3: return Color.LIGHT_GREEN;
+                case 4: return Color.GREEN;
+                default: return Color.BLACK;
+            }
         }
     }
     
@@ -217,24 +253,27 @@ public class Device extends CeliServer.MessageListener {
     }
     
     private static class Color {
-        public static final char BLACK = '0';
-        public static final char RED = '1';
-        public static final char LIGHT_RED = '2';
-        public static final char ORANGE = '3';
-        public static final char LIGHT_GREEN = '4';
-        public static final char GREEN = '5';
+        public static final char BLACK = '0';        
+        public static final char GREEN = '1';
+        public static final char LIGHT_GREEN = '2';
+        //public static final char YELLOW = '3';
+        public static final char ORANGE = '4';
+        public static final char LIGHT_RED = '5';
+        public static final char RED = '6';
     }
     
     private static class DayTime {
         public static final char MORNING = '0';
-        //public static final char FORENOON = '1';
+        public static final char FORENOON = '1';
         public static final char NOON = '2';
-        //public static final char AFTERNOON = '3';
+        public static final char AFTERNOON = '3';
         public static final char EVENING = '4';
-        //public static final char NIGHT = '5';
+        public static final char NIGHT = '5';
     }
     
     private static class Entry {
+        /** @deprecated debug only */
+        public static final char RESET = '~';
         public static final char EMOTION = '0';
         public static final char MEAL = '1';
         public static final char SYMPTOM = '2';

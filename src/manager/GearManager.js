@@ -55,7 +55,7 @@ export default class GearManager {
         this.isLinked = true;
       } else if (e.data == "unlinked") {
         this.isLinked = false;
-      } else if (this.listener != null && this.listener.handleMessage != null) {
+      } else if (this.listener != null && this.listener.gearHandleMessage != null) {
         return this.listener.gearHandleMessage(e.data);
       } else {
         alert("unknown message: " + e.data);
@@ -81,7 +81,7 @@ export default class GearManager {
         this.unlink();
       }
 
-      this.ws.close(1000, "disconnect");
+      this.sendMessage("disconnect");
       this.ws = null;
     }
   }
