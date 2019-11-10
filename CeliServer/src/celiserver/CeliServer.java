@@ -62,7 +62,7 @@ public class CeliServer {
 
         protected final InputStream in;
         protected final OutputStream out;
-        private final InetAddress addr;
+        protected final InetAddress addr;
         
         protected boolean handshakeDone = false;
     
@@ -71,7 +71,7 @@ public class CeliServer {
             this.out = outputStream;
             this.addr = address;
         }
-
+        
         @Override
         public void run() {
             System.out.println("MessageListener[" + this.addr.getHostAddress() + "] started.");

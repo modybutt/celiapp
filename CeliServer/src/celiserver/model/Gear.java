@@ -49,6 +49,7 @@ public class Gear {
     
     public void send(String message) {
         if (host == null) {
+            System.out.println("Gear[" + host + "]: " + message);
             return;
         }
         

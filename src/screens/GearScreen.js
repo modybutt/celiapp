@@ -116,13 +116,11 @@ export default class GearScreen extends React.Component {
         <TextInputSingleLine ref={component => this._name = component} defaultValue={this.state.wsHost} onTextChanged={(host) => this.setState({wsHost: host})} />
         <HorizontalLineWithText />
         <Button title={this.state.wsConnected ? "Disconnect" : "Connect"} onPress={() => this.toggleWsConnect()} />
-        <Button title="TestSocket" onPress={() => GearManager.getInstance().sendMessage("Hallo Welt!")} />
         <HorizontalLineWithText text={LanguageManager.getInstance().getText("CELI_GEAR")}/>
         <Text>{this.state.gearLinked ? "Linked" : "Unlinked"}</Text>
         <TextInputSingleLine ref={component => this._name = component} defaultValue={this.state.gearHost} onTextChanged={(host) => this.setState({gearHost: host})} />
         <HorizontalLineWithText />
         <Button title={this.state.gearLinked ? "Unlink" : "Link"} onPress={() => this.toggleGearLink()} />
-        <Button title="TestUdp" onPress={() => GearManager.getInstance().sendMessage("msg 2")} />
       </ScrollView>
     );
   }

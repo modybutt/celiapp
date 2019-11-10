@@ -10,16 +10,19 @@ msg <data>		Device->Server		Send command to Gear
 
 
 
-msg 1_			Device->Server		Colormode (Red2Green / Geen2Red)
+msg 1_			Device->Server		Colormode
 0			Server->Gear		Red-to-Green
 1			Server->Gear		Green-to-Red
 
-msg 2_			Device->server		Daytime	(Morning / Noon / Evening)
+msg 2_			Device->server		Daytime
 0			Server->Gear		Morning
-1			Server->Gear		Noon
-2			Server->Gear		Evening
+1			Server->Gear		Forenoon
+2			Server->Gear		Noon
+3			Server->Gear		Afternoon
+4			Server->Gear		Evening
+5			Server->Gear		Night
 
-msg 3_			Device->Server		Entry (Emotion / Meal / Symptom)
+msg 3_			Device->Server		Entry
 0			Server->Gear		Emotion
 1			Server->Gear		Meal
 2			Server->Gear		Symptom
