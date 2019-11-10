@@ -91,6 +91,9 @@
 		"SAT": "Sa",
 		"SUN": "So",
 		"NOT_SAVED": "Speichern nicht möglich",
-		"PICTURE_OR_NAME": "Namen oder ein Bild einfügen vorm speichern."
+		"PICTURE_OR_NAME": "Namen oder ein Bild einfügen vorm speichern.",
+		"YES": "Ja",
+		"SAVE_EMPTY_FOOD": "Keine Mahlzeit gegessen",
+		"WANT_TO_SAVE_EMPTY_FOOD": "Willst du die Mahlzeit ohne Eintrag speichern?"
 	}
 }
