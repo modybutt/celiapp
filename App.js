@@ -33,7 +33,7 @@ export default class App extends React.Component {
     GlutonManager.getInstance().setBuddy(settings.nickname);
     GearManager.getInstance().setWsHost(settings.wsHost);
     GearManager.getInstance().setGearHost(settings.gearHost);
-    GearManager.getInstance().connect();
+    //GearManager.getInstance().connect();
     
     this.setState({isSplashReady: true});
     setTimeout(() =>  this.setState({isAppReady: true}), 3000);
