@@ -31,7 +31,7 @@ public class CeliServer {
         
         try {
             server = new ServerSocket(PORT);
-            System.out.println("WebServer[:" + server.getLocalPort() + "] has started.\r\nWaiting for a connection...");
+            System.out.println("WebServer[" + server.getLocalPort() + "] has started.\r\nWaiting for a connection...");
             
             while (true) {
                 Socket client = server.accept();
@@ -74,7 +74,7 @@ public class CeliServer {
         
         @Override
         public void run() {
-            System.out.println("MessageListener[" + this.addr.getHostAddress() + "] started.");
+            System.out.println("MessageListener[" + this.addr + "] started.");
             
             byte[] encoded = new byte[64];
             
@@ -110,7 +110,7 @@ public class CeliServer {
                 Logger.getLogger(MessageListener.class.getName()).log(Level.SEVERE, null, ex);
             }
             
-            System.out.println("MessageListener[" + this.addr.getHostAddress()+ "] stopped.");
+            System.out.println("MessageListener[" + this.addr.toString() + "] stopped.");
         }
         
         protected abstract String handleMessage(String message);

@@ -25,7 +25,7 @@ public class Gear {
             String[] split = host.split(":");
             this.host = new DatagramSocket();
             this.host.connect(new InetSocketAddress(split[0], Integer.parseInt(split[1])));
-            System.out.println("Gear[" + host + "] linked.");
+            System.out.println("Gear[" + this.host.getRemoteSocketAddress() + "] linked.");
             return true;
         } catch (NumberFormatException | SocketException ex) {
             Logger.getLogger(Gear.class.getName()).log(Level.SEVERE, null, ex);
@@ -38,7 +38,7 @@ public class Gear {
             return;
         }
         
-        System.out.println("Gear[" + host + "] unlinked.");
+        System.out.println("Gear[" + this.host.getRemoteSocketAddress() + "] unlinked.");
         this.host.disconnect();
         this.host = null;
     }
@@ -49,9 +49,12 @@ public class Gear {
     
     public void send(String message) {
         if (host == null) {
-            System.out.println("Gear[" + host + "]: " + message);
+            System.out.println("Gear[UNLINKED]: " + message);
+
             return;
         }
+        
+        System.out.println("Gear[" + this.host.getRemoteSocketAddress() + "]: " + message);
         
         byte[] msg = message.getBytes();
         DatagramPacket packet = new DatagramPacket(msg, 0, msg.length);

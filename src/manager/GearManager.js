@@ -44,10 +44,9 @@ export default class GearManager {
 
     this.ws.onopen = e => {
       this.isConnected = true;
-
-      // if (this.listener != null && this.listener.gearStateChanged != null) {
-      //   this.listener.gearStateChanged();
-      // }
+      if (this.listener != null && this.listener.gearStateChanged != null) {
+        this.listener.gearStateChanged();
+      }
     };
 
     this.ws.onmessage = e => {
@@ -82,7 +81,7 @@ export default class GearManager {
       }
 
       this.sendMessage("disconnect");
-      this.ws = null;
+      //this.ws = null;
     }
   }
 
