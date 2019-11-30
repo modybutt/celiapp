@@ -12,10 +12,6 @@ export default class GearManager {
   }
 
   getWsHost() {
-    if (this.wsHost == null) {
-      return "ws://192.168.1.125:8080";
-    }
-
     return this.wsHost;
   }
 
@@ -24,10 +20,6 @@ export default class GearManager {
   }
 
   getGearHost() {
-    if (this.gearHost == null) {
-      return "192.168.1.199:20000";
-    }
-
     return this.gearHost;
   }
 
@@ -40,10 +32,20 @@ export default class GearManager {
   }
 
   connect() {
+    if (this.wsHost == null) {
+      return;
+    }
+    
     this.ws = new WebSocket(this.wsHost);
 
     this.ws.onopen = e => {
       this.isConnected = true;
+      this.isLinked = false;
+
+      if (this.gearHost != null) {
+        this.link();
+      }
+
       if (this.listener != null && this.listener.gearStateChanged != null) {
         this.listener.gearStateChanged();
       }
@@ -52,8 +54,14 @@ export default class GearManager {
     this.ws.onmessage = e => {
       if (e.data == "linked") {
         this.isLinked = true;
+        if (this.listener != null && this.listener.gearStateChanged != null) {
+          this.listener.gearStateChanged();
+        }
       } else if (e.data == "unlinked") {
         this.isLinked = false;
+        if (this.listener != null && this.listener.gearStateChanged != null) {
+          this.listener.gearStateChanged();
+        }
       } else if (this.listener != null && this.listener.gearHandleMessage != null) {
         return this.listener.gearHandleMessage(e.data);
       } else {
@@ -86,6 +94,7 @@ export default class GearManager {
   }
 
   link() {
+    alert(this.isLinked)
     if (this.isLinked == false) {
       this.ws.send("link " + this.gearHost);
     }
