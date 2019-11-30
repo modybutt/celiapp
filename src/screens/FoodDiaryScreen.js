@@ -50,6 +50,7 @@ export default class FoodDiaryScreen extends React.Component{
     state = {
         modified: true, // true for DEBUG now
         cancelSaveDialogVisible: false,
+        saveAsEmptyFoodDialogVisible: false,
     }
 
     componentDidMount() {        
@@ -155,27 +156,32 @@ export default class FoodDiaryScreen extends React.Component{
     }
 
     saveCurrentData(goHome) {
-        if (this.state.photo != null || this.state.foodEntryName != "" ){
-            let tmpDateTime = this.state.selectedDateAndTime
-        	tmpDateTime.setFullYear(tmpDateTime.getFullYear());
-            DatabaseManager.getInstance().createMealEvent(this.state.foodEntryName, this.state.selectedClassKey, this.state.selectedMealKey, this.state.foodRating, this.state.foodEntryNote, this.state.photo, tmpDateTime.getTime(), 
-                (error) => {alert(error)}, 
-                () => {GlutonManager.getInstance().setMessage(2); GearManager.getInstance().sendMessage("msg 31")}
-            );
-
-            if (goHome) {
-                setTimeout(() => this.navigateHome(), 100);
-                }
+        if (this.state.photo != null || this.state.foodEntryName != "" ){     
+            this.saveData(goHome)
             }else{
-                Alert.alert(
-                    LanguageManager.getInstance().getText("NOT_SAVED"),
-                    LanguageManager.getInstance().getText("PICTURE_OR_NAME"),
-                    [
-                      {text: 'OK'},
-                    ],
-                    {cancelable: false},
-                  );
+                this.showSaveEmptyDialog()
+                // Alert.alert(
+                //     LanguageManager.getInstance().getText("NOT_SAVED"),
+                //     LanguageManager.getInstance().getText("PICTURE_OR_NAME"),
+                //     [
+                //       {text: 'OK'},
+                //     ],
+                //     {cancelable: false},
+                //   );
             }        
+    }
+
+    saveData(goHome){
+        let tmpDateTime = this.state.selectedDateAndTime
+        tmpDateTime.setFullYear(tmpDateTime.getFullYear());
+        DatabaseManager.getInstance().createMealEvent(this.state.foodEntryName, this.state.selectedClassKey, this.state.selectedMealKey, this.state.foodRating, this.state.foodEntryNote, this.state.photo, tmpDateTime.getTime(), 
+            (error) => {alert(error)}, 
+            () => {GlutonManager.getInstance().setMessage(2); GearManager.getInstance().sendMessage("msg 31")}
+        );
+
+        if (goHome) {
+            setTimeout(() => this.navigateHome(), 100);
+            }
     }
 
     handleCancelButton() {
@@ -194,12 +200,18 @@ export default class FoodDiaryScreen extends React.Component{
         this.setState({ cancelSaveDialogVisible: true });
     };
 
+    showSaveEmptyDialog(){
+        this.setState({ saveAsEmptyFoodDialogVisible: true });
+    }
+
     handleBack() {
         this.setState({ cancelSaveDialogVisible: false });
+        this.setState({ saveAsEmptyFoodDialogVisible: false });
     };
 
     handleDiscard() {
         this.setState({ cancelSaveDialogVisible: false });
+        this.setState({ saveAsEmptyFoodDialogVisible: false });
         this.navigateHome()
     };
 
@@ -231,7 +243,16 @@ export default class FoodDiaryScreen extends React.Component{
                 </View> 
                 <HorizontalLineWithText text = {LanguageManager.getInstance().getText("NOTES")} style={{Top: 10}}/>
                 <NoteEdit ref={component => this._noteEdit = component} note={this.state.symptomEntryNote} onTextChanged={this.noteEditedHandler} style={{Top: 10}}/>
-               
+                <View>
+                    <Dialog.Container visible={this.state.saveAsEmptyFoodDialogVisible}>
+                        <Dialog.Title>{LanguageManager.getInstance().getText("SAVE_EMPTY_FOOD")} </Dialog.Title>
+                        <Dialog.Description>
+                        {LanguageManager.getInstance().getText("WANT_TO_SAVE_EMPTY_FOOD")}
+                        </Dialog.Description>
+                        <Dialog.Button label={LanguageManager.getInstance().getText("BACK")} onPress={() => this.handleBack()} />
+                        <Dialog.Button label={LanguageManager.getInstance().getText("YES")} onPress={() => this.saveData(true)} />
+                    </Dialog.Container>
+                </View>
                 <View>
                     <Dialog.Container visible={this.state.cancelSaveDialogVisible}>
                         <Dialog.Title>{LanguageManager.getInstance().getText("DISCARD")}</Dialog.Title>

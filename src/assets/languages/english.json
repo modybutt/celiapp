@@ -91,6 +91,9 @@
 		"SAT": "Sat",
 		"SUN": "Sun",
 		"NOT_SAVED": "save not possible",
-		"PICTURE_OR_NAME": "Enter a Name or a picture bevore saving."
+		"PICTURE_OR_NAME": "Enter a Name or a picture bevore saving.",
+		"YES": "Yes",
+		"SAVE_EMPTY_FOOD": "No food eaten",
+		"WANT_TO_SAVE_EMPTY_FOOD": "Do you want to save the food diary entry empty?"
 	}
 }
