@@ -73,7 +73,7 @@ public class Device extends CeliServer.MessageListener {
     }
 
     @Override
-    protected String handleMessage(String message) {
+    public String handleMessage(String message) {
         if (message.startsWith("link")) {
             return gear.link(message.split(" ")[1]) ? "linked" : "unlinked";
         }
