@@ -12,6 +12,10 @@ export default class GearManager {
   }
 
   getWsHost() {
+    if (this.wsHost == null) {
+      return "ws://192.168.1.125:8080";
+    }
+
     return this.wsHost;
   }
 
@@ -20,6 +24,10 @@ export default class GearManager {
   }
 
   getGearHost() {
+    if (this.gearHost == null) {
+      return "192.168.1.199:20000";
+    }
+
     return this.gearHost;
   }
 
@@ -94,7 +102,6 @@ export default class GearManager {
   }
 
   link() {
-    alert(this.isLinked)
     if (this.isLinked == false) {
       this.ws.send("link " + this.gearHost);
     }
