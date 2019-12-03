@@ -60,6 +60,7 @@ public class Device extends CeliServer.MessageListener {
                         + Base64.getEncoder().encodeToString(MessageDigest.getInstance("SHA-1").digest((match.group(1) + "258EAFA5-E914-47DA-95CA-C5AB0DC85B11").getBytes("UTF-8")))
                         + "\r\n\r\n").getBytes("UTF-8");
                 out.write(response, 0, response.length);
+                out.flush();
                 
                 handshakeDone = true;
             } catch (NoSuchAlgorithmException | IOException ex) {
@@ -72,7 +73,7 @@ public class Device extends CeliServer.MessageListener {
     }
 
     @Override
-    protected String handleMessage(String message) {
+    public String handleMessage(String message) {
         if (message.startsWith("link")) {
             return gear.link(message.split(" ")[1]) ? "linked" : "unlinked";
         }

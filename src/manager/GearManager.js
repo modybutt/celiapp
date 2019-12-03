@@ -40,21 +40,36 @@ export default class GearManager {
   }
 
   connect() {
+    if (this.wsHost == null) {
+      return;
+    }
+    
     this.ws = new WebSocket(this.wsHost);
 
     this.ws.onopen = e => {
       this.isConnected = true;
+      this.isLinked = false;
 
-      // if (this.listener != null && this.listener.gearStateChanged != null) {
-      //   this.listener.gearStateChanged();
-      // }
+      if (this.gearHost != null) {
+        this.link();
+      }
+
+      if (this.listener != null && this.listener.gearStateChanged != null) {
+        this.listener.gearStateChanged();
+      }
     };
 
     this.ws.onmessage = e => {
       if (e.data == "linked") {
         this.isLinked = true;
+        if (this.listener != null && this.listener.gearStateChanged != null) {
+          this.listener.gearStateChanged();
+        }
       } else if (e.data == "unlinked") {
         this.isLinked = false;
+        if (this.listener != null && this.listener.gearStateChanged != null) {
+          this.listener.gearStateChanged();
+        }
       } else if (this.listener != null && this.listener.gearHandleMessage != null) {
         return this.listener.gearHandleMessage(e.data);
       } else {
@@ -82,7 +97,7 @@ export default class GearManager {
       }
 
       this.sendMessage("disconnect");
-      this.ws = null;
+      //this.ws = null;
     }
   }
 

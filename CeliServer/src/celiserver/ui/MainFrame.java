@@ -6,7 +6,6 @@
 package celiserver.ui;
 
 import celiserver.model.Device;
-import celiserver.model.Gear;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import javax.swing.AbstractButton;
@@ -17,15 +16,19 @@ import javax.swing.AbstractButton;
  */
 public class MainFrame extends javax.swing.JFrame {
 
+    /** The device behind this control. */
+    private final Device device;
+    
     /**
      * Creates new form MainFrame
      */
     public MainFrame() {
-        initComponents();
+        this(null);
     }
     
     public MainFrame(Device device) {
         initComponents();
+        this.device = device;
         
         ActionListener colorModeListener = (ActionEvent ae) -> {
             AbstractButton radio = (AbstractButton) ae.getSource();
@@ -78,6 +81,11 @@ public class MainFrame extends javax.swing.JFrame {
         setDefaultCloseOperation(javax.swing.WindowConstants.DO_NOTHING_ON_CLOSE);
         setAlwaysOnTop(true);
         setResizable(false);
+        addWindowListener(new java.awt.event.WindowAdapter() {
+            public void windowClosing(java.awt.event.WindowEvent evt) {
+                formWindowClosing(evt);
+            }
+        });
 
         jLabel1.setText("ColorMode:");
 
@@ -179,6 +187,12 @@ public class MainFrame extends javax.swing.JFrame {
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+
+    private void formWindowClosing(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosing
+        if (this.device != null) {
+            this.device.handleMessage("disconnect");
+        }
+    }//GEN-LAST:event_formWindowClosing
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JRadioButton btnColorMode_greenToRed;
