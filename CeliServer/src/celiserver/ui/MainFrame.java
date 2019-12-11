@@ -80,49 +80,59 @@ public class MainFrame extends javax.swing.JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DO_NOTHING_ON_CLOSE);
         setAlwaysOnTop(true);
-        setResizable(false);
         addWindowListener(new java.awt.event.WindowAdapter() {
             public void windowClosing(java.awt.event.WindowEvent evt) {
                 formWindowClosing(evt);
             }
         });
 
+        jLabel1.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
         jLabel1.setText("ColorMode:");
 
+        jLabel2.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
         jLabel2.setText("DayTime:");
 
         btnGroupColorMode.add(btnColorMode_redToGreen);
+        btnColorMode_redToGreen.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
         btnColorMode_redToGreen.setText("Red to Green");
         btnColorMode_redToGreen.setActionCommand("0");
 
         btnGroupColorMode.add(btnColorMode_greenToRed);
+        btnColorMode_greenToRed.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
         btnColorMode_greenToRed.setText("Green to Red");
         btnColorMode_greenToRed.setActionCommand("1");
 
         btnGroupDayTime.add(btnDayTime_morning);
+        btnDayTime_morning.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
         btnDayTime_morning.setText("Morning");
         btnDayTime_morning.setActionCommand("0");
 
         btnGroupDayTime.add(btnDayTime_forenoon);
+        btnDayTime_forenoon.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
         btnDayTime_forenoon.setText("Forenoon");
         btnDayTime_forenoon.setActionCommand("1");
 
         btnGroupDayTime.add(btnDayTime_noon);
+        btnDayTime_noon.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
         btnDayTime_noon.setText("Noon");
         btnDayTime_noon.setActionCommand("2");
 
         btnGroupDayTime.add(btnDayTime_afternoon);
+        btnDayTime_afternoon.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
         btnDayTime_afternoon.setText("Afternoon");
         btnDayTime_afternoon.setActionCommand("3");
 
         btnGroupDayTime.add(btnDayTime_evening);
+        btnDayTime_evening.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
         btnDayTime_evening.setText("Evening");
         btnDayTime_evening.setActionCommand("4");
 
         btnGroupDayTime.add(btnDayTime_night);
+        btnDayTime_night.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
         btnDayTime_night.setText("Night");
         btnDayTime_night.setActionCommand("5");
 
+        btnNewDay.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
         btnNewDay.setText("Reset Entries");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());

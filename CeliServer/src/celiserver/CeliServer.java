@@ -81,7 +81,10 @@ public class CeliServer {
             try {
                 while (isAlive() && handshakeDone) {
                     int len = in.read(encoded);
-                    if (len <= 0) continue;
+                    if (len <= 0) {
+                        handshakeDone = false;
+                        continue;
+                    }
                     
                     byte[] decoded = new byte[encoded[1] - (byte) 128];
                     byte[] key = new byte[] { encoded[2], encoded[3], encoded[4], encoded[5] };
@@ -109,10 +112,15 @@ public class CeliServer {
             } catch (IOException ex) {
                 Logger.getLogger(MessageListener.class.getName()).log(Level.SEVERE, null, ex);
             }
+            finally
+            {
+                cleanup();
+            }
             
             System.out.println("MessageListener[" + this.addr.toString() + "] stopped.");
         }
         
         protected abstract String handleMessage(String message);
+        protected abstract void cleanup();
     }
 }
