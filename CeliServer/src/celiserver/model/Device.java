@@ -38,6 +38,11 @@ public class Device extends CeliServer.MessageListener {
         this.socket = socket;
         this.frame.setTitle(socket.getInetAddress().getHostAddress());
     }
+
+    @Override
+    protected void cleanup() {
+        frame.setVisible(false);
+    }
     
     public boolean handshake() {
         if (handshakeDone == true) {
@@ -88,8 +93,6 @@ public class Device extends CeliServer.MessageListener {
                 socket.close();
             } catch (IOException ex) {
                 Logger.getLogger(Device.class.getName()).log(Level.SEVERE, null, ex);
-            } finally {
-                frame.setVisible(false);
             }
         } else {
             System.err.println("unknown: " + message);

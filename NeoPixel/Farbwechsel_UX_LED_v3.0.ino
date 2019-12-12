@@ -39,13 +39,14 @@ int ind[] = {0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,39,38
 uint8_t red = 255;
 uint8_t green = 255;
 uint8_t blue = 255;
-uint8_t animationState = 1;
+uint8_t colour = 0;
 int pos = 0, dir = 1; // Position, direction of "eye" for larson scanner animation
 
 int bri = 100;
 
+#define DELAYVAL 2200 // Time (in milliseconds) to pause between pixels
+#define DELAYVAL2 25// Create a MDNS responder to listen and respond to MDNS name requests.
 
-// Create a MDNS responder to listen and respond to MDNS name requests.
 WiFiMDNSResponder mdnsResponder;
 
 void setup() {
@@ -62,8 +63,8 @@ void setup() {
   for(uint8_t i=0; i<numPixels; i++) {
     pixel.setPixelColor(ind[i], pixel.Color(0,0,0)); // off
   }
-  colorWipe(pixel.Color(bri, bri, bri), 15); 
-  colorWipe(pixel.Color(0, 0, 0), 15); 
+  //colorWipe(pixel.Color(bri, bri, bri), 15); 
+  //colorWipe(pixel.Color(0, 0, 0), 15); 
   pixel.show();
 
   // check for the presence of the shield:
@@ -168,49 +169,58 @@ void printWiFiStatus() {
   Serial.println(" dBm");
 }
 
-void performCommand() {
-  animationState = packetBuffer[0] - '0';
 
-  if (animationState == 0) {
-    for(uint16_t i=0; i<numPixels; i++) {
-      pixel.setPixelColor(ind[i], pixel.Color(0,0,0));
-    }
-    pixel.setBrightness(0);
-  } else if (animationState == 1) {
-    rainbow(20);
-    pixel.show(); // This sends the updated pixel color to the hardware.
-  } else if (animationState == 2){
-    colorWipe(pixel.Color(114, 0, 255), 20);
-    colorWipe(pixel.Color(0, 0, 0), 20);
-    colorWipe(pixel.Color(0, 50, 255), 20);
-    colorWipe(pixel.Color(0, 0, 0), 20);
-    colorWipe(pixel.Color(0, 220, 255), 20);
-    colorWipe(pixel.Color(0, 0, 0), 20);
-    colorWipe(pixel.Color(255, 225, 255), 20);
-    colorWipe(pixel.Color(0, 0, 0), 20);
-    pixel.show(); // This sends the updated pixel color to the hardware.
-  } else if (animationState == 3){
-    for(uint16_t i=0; i<numPixels; i++) {
-      pixel.setPixelColor(ind[i], pixel.Color(0,0,0));
-    }
-    pixel.setBrightness(bri);
-    
-    colorWipe(pixel.Color(0, 0, 255), 20);
-    colorWipe(pixel.Color(0, 0, 0), 20);
-    pixel.show(); // This sends the updated pixel color to the hardware.
-  } else if (animationState == 4){
-    for(uint16_t i=0; i<numPixels; i++) {
-      pixel.setPixelColor(ind[i], pixel.Color(0,0,0));
-    }
-    pixel.setBrightness(bri);
-    rainbowCycle(10);
-    pixel.show(); // This sends the updated pixel color to the hardware.
-  } else if (animationState == 5){
-    colorWipe(pixel.Color(255, 0, 0), 20);
-    colorWipe(pixel.Color(0, 255, 0), 20);
-    colorWipe(pixel.Color(0, 0, 0), 20);
-    pixel.show(); // This sends the updated pixel color to the hardware.
+
+void performCommand() {
+  colour = packetBuffer[0] - '0'; // character to int Operation
+for(int i=0; i<numPixels; i++) {
+  switch (colour) {
+    case 0:    
+      pixel.setPixelColor(i, pixel.Color(0, 0, 0)); // schwarz oder aus...
+      pixel.show();     
+      break;
+    case 1:    
+      pixel.setPixelColor(i, pixel.Color(0, 51, 0)); // Grün
+      pixel.show();
+      delay(DELAYVAL2);      
+      break;
+    case 2:   
+      pixel.setPixelColor(i, pixel.Color(30, 51, 0)); // light Grün, Zwischenschritt 1
+      pixel.show();
+      delay(DELAYVAL2);
+      break;
+    case 3:    
+      pixel.setPixelColor(i, pixel.Color(51,30, 0)); // Gelb, Zwischenschritt 3
+      pixel.show();
+      delay(DELAYVAL2);
+      break;
+    case 4:    
+      pixel.setPixelColor(i, pixel.Color(51,30, 0)); // Gelb, Zwischenschritt 3
+      pixel.show();
+      delay(DELAYVAL2);
+      break;
+    case 5:    
+      pixel.setPixelColor(i, pixel.Color(51, 10, 0));// orange, Zwischenschritt 4
+      pixel.show();
+      delay(DELAYVAL2);      
+      break;
+    case 6:    // your hand is nowhere near the sensor // Rot
+      pixel.setPixelColor(i, pixel.Color(51, 0, 0));
+      pixel.show();
+      delay(DELAYVAL2);      
+      break;
   }
+        
+    
+    
+  }
+   
+   delay(DELAYVAL2);
+   pixel.show();   // Send the updated pixel colors to the hardware.
+   //delay(DELAYVAL); // Pause before next pass through loop
+ 
+   //Serial.println(colour);
+
 }
 
 
