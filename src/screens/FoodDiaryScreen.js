@@ -245,7 +245,7 @@ export default class FoodDiaryScreen extends React.Component{
                 <NoteEdit ref={component => this._noteEdit = component} note={this.state.symptomEntryNote} onTextChanged={this.noteEditedHandler} style={{Top: 10}}/>
                 <View>
                     <Dialog.Container visible={this.state.saveAsEmptyFoodDialogVisible}>
-                        <Dialog.Title>{LanguageManager.getInstance().getText("SAVE_EMPTY_FOOD")} </Dialog.Title>
+                        <Dialog.Title>{LanguageManager.getInstance().getText("SAVE_EMPTY_FOOD")}</Dialog.Title>
                         <Dialog.Description>
                         {LanguageManager.getInstance().getText("WANT_TO_SAVE_EMPTY_FOOD")}
                         </Dialog.Description>
