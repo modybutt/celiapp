@@ -47,12 +47,14 @@ export default class DatabaseManager {
       }, onError, onSuccess);
     }
 
+    //Unused
     updateSymptom(symptomID, name, icon, onError, onSuccess) {
       this.db.transaction(tx => {
         tx.executeSql('UPDATE symptoms SET (name, icon, modified) VALUES (?, ?, ?) WHERE id = ?', [name, icon, Date.now(), symptomID]);
       }, onError, onSuccess);
     }
 
+    //Public
     deleteSymptom(symptomID, onError, onSuccess) {
       this.db.transaction(tx => {
         // tx.executeSql('DELETE FROM events WHERE id = ?', [symptomID]);
@@ -66,12 +68,14 @@ export default class DatabaseManager {
       }, onError, onSuccess);
     }
 
+    //Public
     fetchSymptoms(onError, onSuccess) {
       this.db.transaction(tx => {
         tx.executeSql('SELECT * FROM symptoms ORDER BY usage DESC', null, onSuccess, onError);
       });      
     }
 
+    //Public
     createSymptomEvent(symptomID, severity, note, timestamp, onError, onSuccess) {
       let objData = {
         symptomID,
@@ -95,6 +99,7 @@ export default class DatabaseManager {
       });
     }
 
+    //unused
     updateSymptomEvent(eventID, symptomID, severity, note, onError, onSuccess) {
       let objData = {
         symptomID,
@@ -120,6 +125,7 @@ export default class DatabaseManager {
      *                          FOOD TRACKER 
      *******************************************************************/   
 
+      //public
     createMealEvent(name, type, tag, rating, note, icon, timestamp, onError, onSuccess) {
       let objData = {
         name,
@@ -133,6 +139,7 @@ export default class DatabaseManager {
       this.createEvent(1, timestamp, objData, onError, onSuccess);
     }
 
+    //unused
     updateMealEvent(eventID, name, type, tag, rating, note, onError, onSuccess) {
       let objData = {
         name,
@@ -150,6 +157,7 @@ export default class DatabaseManager {
      *                          EMOTION TRACKER 
      ********************************************************************/
 
+     //Public
     createEmotionEvent(type, note, timestamp, onError, onSuccess) {
       let objData = {
         type,
@@ -159,6 +167,7 @@ export default class DatabaseManager {
       this.createEvent(2, timestamp, objData, onError, onSuccess);
     }
 
+    //unused
     updateEmotionEvent(eventID, type, note, onError, onSuccess) {
       let objData = {
         type,
