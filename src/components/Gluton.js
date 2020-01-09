@@ -77,8 +77,7 @@ export default class Gluton extends React.Component {
                         <Image style={
                             {
                                 width: 284 * this.state.trust, 
-                                height: 360 * this.state.trust,
-                                borderWidth: 1,
+                                height: 360 * this.state.trust
                             }} source={this.state.happy ? Gluton_HAPPY : Gluton_SAD} />
                     </TouchableOpacity>   
                     <Animated.Image source={Gluton_LOVE} style={
