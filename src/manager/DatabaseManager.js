@@ -11,13 +11,18 @@ export default class DatabaseManager {
             DatabaseManager.instance = new DatabaseManager();
 
             this.instance.db = SQLite.openDatabase('app.db');
+            // this.instance.db.transaction(tx => {
+            //   tx.executeSql(
+            //     'DROP TABLE symptoms;'
+            //   )
+            // }, (error) => alert("DB init: " + JSON.stringify(error)));
             this.instance.db.transaction(tx => {
               tx.executeSql(
                 'CREATE TABLE IF NOT EXISTS symptoms (id INTEGER PRIMARY KEY AUTOINCREMENT, name TEXT, icon TEXT, created INT, modified INT, usage INT);', 
                 (param) => alert("create table symptoms: " + JSON.stringify(param)));            
               tx.executeSql(
                 'INSERT OR IGNORE INTO symptoms (id, name, icon, created, usage) VALUES '
-                + '(1, "CLOATING", "' + require('../assets/images/SymptomTracker/cloating.png') + '", ' + Date.now() + ',0),'
+                + '(1, "BLOATING", "' + require('../assets/images/SymptomTracker/bloating.png') + '", ' + Date.now() + ',0),'
                 + '(2, "DIARRHEA", "' + require('../assets/images/SymptomTracker/diarrhea.png') + '", ' + Date.now() + ',0),'
                 + '(3, "HEADACHE", "' + require('../assets/images/SymptomTracker/headache.png') + '", ' + Date.now() + ',0),'
                 + '(4, "IRRITABILITY", "' + require('../assets/images/SymptomTracker/irritability.png') + '", ' + Date.now() + ',0),'
