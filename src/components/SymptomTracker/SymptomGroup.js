@@ -48,16 +48,9 @@ export default class SymptomGroup extends React.Component{
     
 
     severityChooserHandler(setActive, symptomID){
-        if(setActive){
-            this.setState({
-                canOpenSeverityChooser: true,
-            });
-        }else{
-            this.setState({
-                canOpenSeverityChooser: false,
-            });
-        }
-
+      this.setState({
+          canOpenSeverityChooser: setActive
+      });
     }
 
 
@@ -79,14 +72,29 @@ export default class SymptomGroup extends React.Component{
 
         for (k = from; k < (from + size) && k < this.state.symptoms.length; k++) {
             symptomPos = (k % CLUSTER_SIZE);
-
+            
+            let type;
             if (symptomPos == 0) {
-                cluster.push(<SymptomIconButton type={1} key={this.state.symptoms[k].id} defaultSeverity={this.getDefaultSeverity(this.state.symptoms[k].id)} symptomID={this.state.symptoms[k].id} symptomName={this.state.symptoms[k].name} symptomIcon={this.state.symptoms[k].icon} onSymptomDeleted={() => this.refreshSymptoms()} onSeverityChooserHandled={this.severityChooserHandler} canOpenSeverity={this.state.canOpenSeverityChooser} onSymptomSelected={this.symptomSelected} onSymptomDeselected={this.symptomDeselected}/>);
+              type = 1;
             } else if (symptomPos == 1 || symptomPos == 2) {
-                cluster.push(<SymptomIconButton type={2} key={this.state.symptoms[k].id} defaultSeverity={this.getDefaultSeverity(this.state.symptoms[k].id)} symptomID={this.state.symptoms[k].id} symptomName={this.state.symptoms[k].name} symptomIcon={this.state.symptoms[k].icon} onSymptomDeleted={() => this.refreshSymptoms()} onSeverityChooserHandled={this.severityChooserHandler} canOpenSeverity={this.state.canOpenSeverityChooser} onSymptomSelected={this.symptomSelected} onSymptomDeselected={this.symptomDeselected}/>);
+              type = 2;
             } else {
-                cluster.push(<SymptomIconButton type={3} key={this.state.symptoms[k].id} defaultSeverity={this.getDefaultSeverity(this.state.symptoms[k].id)} symptomID={this.state.symptoms[k].id} symptomName={this.state.symptoms[k].name} symptomIcon={this.state.symptoms[k].icon} onSymptomDeleted={() => this.refreshSymptoms()} onSeverityChooserHandled={this.severityChooserHandler} canOpenSeverity={this.state.canOpenSeverityChooser} onSymptomSelected={this.symptomSelected} onSymptomDeselected={this.symptomDeselected}/>);
+              type = 3;
             }
+            
+            cluster.push(
+              <SymptomIconButton type={type}
+                key={this.state.symptoms[k].id}
+                defaultSeverity={this.getDefaultSeverity(this.state.symptoms[k].id)}
+                symptomID={this.state.symptoms[k].id}
+                symptomName={this.state.symptoms[k].name}
+                symptomIcon={this.state.symptoms[k].icon}
+                onSymptomDeleted={() => this.refreshSymptoms()}
+                onSeverityChooserHandled={this.severityChooserHandler}
+                canOpenSeverity={this.state.canOpenSeverityChooser}
+                onSymptomSelected={this.symptomSelected}
+                onSymptomDeselected={this.symptomDeselected}/>
+            );
         }
 
         if (k < (from + size)) {
@@ -107,7 +115,11 @@ export default class SymptomGroup extends React.Component{
         }
 
         if (this.state.symptoms.length % CLUSTER_SIZE == 0) {
-            moreList.push(<View key={this.state.symptoms.length} style={styles.groupContainer}>{this.groupSymptoms(this.state.symptoms.length, CLUSTER_SIZE)}</View>)
+            moreList.push(
+              <View key={this.state.symptoms.length}
+                style={styles.groupContainer}>
+                {this.groupSymptoms(this.state.symptoms.length, CLUSTER_SIZE)}
+              </View>);
         }
 
         return moreList
@@ -138,16 +150,118 @@ export default class SymptomGroup extends React.Component{
                     <NavigationEvents onDidFocus={() => this.refreshSymptoms()}/>
                     <View style={{zIndex: 0, marginBottom: 30}}>
                         <View style={styles.groupContainer}>
-                            <SymptomIconButton type={1} defaultSeverity={this.getDefaultSeverity(this.state.symptoms[0].id)} symptomID={this.state.symptoms[0].id} symptomName={this.state.symptoms[0].name} symptomIcon={this.state.symptoms[0].icon} onSymptomDeleted={() => this.refreshSymptoms()} onSeverityChooserHandled = {this.severityChooserHandler} canOpenSeverity = {this.state.canOpenSeverityChooser} onSymptomSelected = {this.symptomSelected} onSymptomDeselected = {this.symptomDeselected}/>
-                            <SymptomIconButton type={2} defaultSeverity={this.getDefaultSeverity(this.state.symptoms[1].id)} symptomID={this.state.symptoms[1].id} symptomName={this.state.symptoms[1].name} symptomIcon={this.state.symptoms[1].icon} onSymptomDeleted={() => this.refreshSymptoms()} onSeverityChooserHandled = {this.severityChooserHandler} canOpenSeverity = {this.state.canOpenSeverityChooser} onSymptomSelected = {this.symptomSelected} onSymptomDeselected = {this.symptomDeselected}/>
-                            <SymptomIconButton type={2} defaultSeverity={this.getDefaultSeverity(this.state.symptoms[2].id)} symptomID={this.state.symptoms[2].id} symptomName={this.state.symptoms[2].name} symptomIcon={this.state.symptoms[2].icon} onSymptomDeleted={() => this.refreshSymptoms()} onSeverityChooserHandled = {this.severityChooserHandler} canOpenSeverity = {this.state.canOpenSeverityChooser} onSymptomSelected = {this.symptomSelected} onSymptomDeselected = {this.symptomDeselected}/>
-                            <SymptomIconButton type={3} defaultSeverity={this.getDefaultSeverity(this.state.symptoms[3].id)} symptomID={this.state.symptoms[3].id} symptomName={this.state.symptoms[3].name} symptomIcon={this.state.symptoms[3].icon} onSymptomDeleted={() => this.refreshSymptoms()} onSeverityChooserHandled = {this.severityChooserHandler} canOpenSeverity = {this.state.canOpenSeverityChooser} onSymptomSelected = {this.symptomSelected} onSymptomDeselected = {this.symptomDeselected}/>             
+                            <SymptomIconButton
+                              type={1}
+                              defaultSeverity={
+                                this.getDefaultSeverity(this.state.symptoms[0].id)
+                              }
+                              symptomID={this.state.symptoms[0].id}
+                              symptomName={this.state.symptoms[0].name}
+                              symptomIcon={this.state.symptoms[0].icon}
+                              onSymptomDeleted={() => this.refreshSymptoms()}
+                              onSeverityChooserHandled = {this.severityChooserHandler}
+                              canOpenSeverity = {this.state.canOpenSeverityChooser}
+                              onSymptomSelected = {this.symptomSelected}
+                              onSymptomDeselected = {this.symptomDeselected}
+                            />
+                            <SymptomIconButton
+                              type={2}
+                              defaultSeverity={
+                                this.getDefaultSeverity(this.state.symptoms[1].id)
+                              }
+                              symptomID={this.state.symptoms[1].id}
+                              symptomName={this.state.symptoms[1].name}
+                              symptomIcon={this.state.symptoms[1].icon}
+                              onSymptomDeleted={() => this.refreshSymptoms()}
+                              onSeverityChooserHandled = {this.severityChooserHandler}
+                              canOpenSeverity = {this.state.canOpenSeverityChooser}
+                              onSymptomSelected = {this.symptomSelected}
+                              onSymptomDeselected = {this.symptomDeselected}
+                            />
+                            <SymptomIconButton
+                              type={2}
+                              defaultSeverity={
+                                this.getDefaultSeverity(this.state.symptoms[2].id)
+                              } symptomID={this.state.symptoms[2].id}
+                              symptomName={this.state.symptoms[2].name}
+                              symptomIcon={this.state.symptoms[2].icon}
+                              onSymptomDeleted={() => this.refreshSymptoms()}
+                              onSeverityChooserHandled = {this.severityChooserHandler}
+                              canOpenSeverity = {this.state.canOpenSeverityChooser}
+                              onSymptomSelected = {this.symptomSelected}
+                              onSymptomDeselected = {this.symptomDeselected}
+                            />
+                            <SymptomIconButton
+                              type={3}
+                              defaultSeverity={
+                                this.getDefaultSeverity(this.state.symptoms[3].id)
+                              } symptomID={this.state.symptoms[3].id}
+                              symptomName={this.state.symptoms[3].name}
+                              symptomIcon={this.state.symptoms[3].icon}
+                              onSymptomDeleted={() => this.refreshSymptoms()}
+                              onSeverityChooserHandled = {this.severityChooserHandler}
+                              canOpenSeverity = {this.state.canOpenSeverityChooser}
+                              onSymptomSelected = {this.symptomSelected}
+                              onSymptomDeselected = {this.symptomDeselected}
+                            />
                         </View>
                         <View style={styles.groupContainer}>
-                            <SymptomIconButton type={1} defaultSeverity={this.getDefaultSeverity(this.state.symptoms[4].id)} symptomID={this.state.symptoms[4].id} symptomName={this.state.symptoms[4].name} symptomIcon={this.state.symptoms[4].icon} onSymptomDeleted={() => this.refreshSymptoms()} onSeverityChooserHandled = {this.severityChooserHandler} canOpenSeverity = {this.state.canOpenSeverityChooser} onSymptomSelected = {this.symptomSelected} onSymptomDeselected = {this.symptomDeselected}/>
-                            <SymptomIconButton type={2} defaultSeverity={this.getDefaultSeverity(this.state.symptoms[5].id)} symptomID={this.state.symptoms[5].id} symptomName={this.state.symptoms[5].name} symptomIcon={this.state.symptoms[5].icon} onSymptomDeleted={() => this.refreshSymptoms()} onSeverityChooserHandled = {this.severityChooserHandler} canOpenSeverity = {this.state.canOpenSeverityChooser} onSymptomSelected = {this.symptomSelected} onSymptomDeselected = {this.symptomDeselected}/>
-                            <SymptomIconButton type={2} defaultSeverity={this.getDefaultSeverity(this.state.symptoms[6].id)} symptomID={this.state.symptoms[6].id} symptomName={this.state.symptoms[6].name} symptomIcon={this.state.symptoms[6].icon} onSymptomDeleted={() => this.refreshSymptoms()} onSeverityChooserHandled = {this.severityChooserHandler} canOpenSeverity = {this.state.canOpenSeverityChooser} onSymptomSelected = {this.symptomSelected} onSymptomDeselected = {this.symptomDeselected}/>
-                            <SymptomIconButton type={4} symptomID={0} symptomName="MORE_SYMPTOMS" symptomIcon={require('../../assets/images/SymptomTracker/moreSymptoms.png')} moreSymptomsParams={{symptoms: this.props.selection, cb: this.props.onSelectionChanged}} onSeverityChooserHandled = {this.severityChooserHandler} canOpenSeverity = {this.state.canOpenSeverityChooser} onSymptomSelected = {this.symptomSelected} onSymptomDeselected = {this.symptomDeselected} navigation={this.props.navigation}/>
+                            <SymptomIconButton
+                              type={1}
+                              defaultSeverity={
+                                this.getDefaultSeverity(this.state.symptoms[4].id)
+                              }
+                              symptomID={this.state.symptoms[4].id}
+                              symptomName={this.state.symptoms[4].name}
+                              symptomIcon={this.state.symptoms[4].icon}
+                              onSymptomDeleted={() => this.refreshSymptoms()}
+                              onSeverityChooserHandled = {this.severityChooserHandler}
+                              canOpenSeverity = {this.state.canOpenSeverityChooser}
+                              onSymptomSelected = {this.symptomSelected}
+                              onSymptomDeselected = {this.symptomDeselected}
+                            />
+                            <SymptomIconButton
+                              type={2}
+                              defaultSeverity={
+                                this.getDefaultSeverity(this.state.symptoms[5].id)
+                              }
+                              symptomID={this.state.symptoms[5].id}
+                              symptomName={this.state.symptoms[5].name}
+                              symptomIcon={this.state.symptoms[5].icon}
+                              onSymptomDeleted={() => this.refreshSymptoms()}
+                              onSeverityChooserHandled = {this.severityChooserHandler}
+                              canOpenSeverity = {this.state.canOpenSeverityChooser}
+                              onSymptomSelected = {this.symptomSelected}
+                              onSymptomDeselected = {this.symptomDeselected}
+                            />
+                            <SymptomIconButton
+                              type={2}
+                              defaultSeverity={
+                                this.getDefaultSeverity(this.state.symptoms[6].id)
+                              }
+                              symptomID={this.state.symptoms[6].id}
+                              symptomName={this.state.symptoms[6].name}
+                              symptomIcon={this.state.symptoms[6].icon}
+                              onSymptomDeleted={() => this.refreshSymptoms()}
+                              onSeverityChooserHandled = {this.severityChooserHandler}
+                              canOpenSeverity = {this.state.canOpenSeverityChooser}
+                              onSymptomSelected = {this.symptomSelected}
+                              onSymptomDeselected = {this.symptomDeselected}
+                            />
+                            <SymptomIconButton
+                              type={4}
+                              symptomID={0}
+                              symptomName="MORE_SYMPTOMS"
+                              symptomIcon={require('../../assets/images/SymptomTracker/moreSymptoms.png')}
+                              moreSymptomsParams={{
+                                symptoms: this.props.selection,
+                                cb: this.props.onSelectionChanged}
+                              }
+                              onSeverityChooserHandled = {this.severityChooserHandler}
+                              canOpenSeverity = {this.state.canOpenSeverityChooser}
+                              onSymptomSelected = {this.symptomSelected}
+                              onSymptomDeselected = {this.symptomDeselected}
+                              navigation={this.props.navigation}/>
                         </View>
                     </View>
                 </View>
