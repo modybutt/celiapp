@@ -38,9 +38,11 @@ export default class MenuButton extends React.Component {
 
 const styles = StyleSheet.create({
     container: {
-        width: '100%',
-        height: '100%',
-        position: 'absolute',
+      position: 'absolute',
+      bottom: 75,
+      right: 10,
+      height: 50,
+      width: 200
     },
     actionButtonIcon: {
       fontSize: 35,
