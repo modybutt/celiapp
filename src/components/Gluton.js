@@ -66,9 +66,17 @@ export default class Gluton extends React.Component {
                 <NavigationEvents onDidFocus={() => this.refreshState()} />
                 {this.state.message == null ? 
                     null : 
-                    <View style={styles.messageContainer}>
-                        <Text style={styles.message}>{LanguageManager.getInstance().getText(this.state.message, [GlutonManager.getInstance().getBuddy()])}</Text>
-                        <View style={styles.bubbleSeparator} />
+                    <View>
+                      <View style={styles.messageContainer}>
+                          <Text style={styles.message}>
+                            {
+                              LanguageManager.getInstance().getText(
+                              this.state.message,
+                              [GlutonManager.getInstance().getBuddy()])
+                            }
+                          </Text>
+                      </View>
+                      <View style={styles.bubbleSeparator} />
                     </View>
                 }
                 
@@ -112,12 +120,12 @@ const styles = StyleSheet.create({
         transform: [{ rotate: '45deg'}]
     },
     messageContainer: {
-        width: '80%'
+        width: '80%',
+        backgroundColor: '#fff',
+        borderWidth: 5,
+        borderRadius: 33,
     },
     message: {
-        backgroundColor: '#fff',
-        borderWidth: 5, 
-        borderRadius: 33, 
         textAlignVertical: 'center',
         padding: 10,
         textAlign: 'center',

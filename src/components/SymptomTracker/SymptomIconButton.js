@@ -339,7 +339,7 @@ export default class SymptomIconButton extends Component {
 							</Animated.View>
 						</TouchableOpacity>
 					</Animated.View>
-					<Text style={style.symptomNameText}>{LanguageManager.getInstance().getText(this.props.symptomName)}, {zIndex}</Text>
+					<Text style={style.symptomNameText}>{LanguageManager.getInstance().getText(this.props.symptomName)}</Text>
 					<AnimatedTouchable onPress={this.onPressYellow}
 						style={[
 							style.smallBubbleYellow,
