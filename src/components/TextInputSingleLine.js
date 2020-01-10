@@ -47,6 +47,7 @@ const styles = StyleSheet.create({
             borderRadius: 20,
             marginLeft: 10,
             marginRight: 10,
-            alignContent: 'space-around'
+            alignContent: 'space-around',
+            padding: 10
         }
 });

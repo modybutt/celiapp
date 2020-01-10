@@ -1,7 +1,8 @@
 import React from 'react';
-import { ScrollView, Keyboard, View, Button, Alert, TextInput, StyleSheet, BackHandler } from 'react-native';
+import { Keyboard, View, Button, Alert, TextInput, StyleSheet, BackHandler } from 'react-native';
 import { HeaderBackButton } from 'react-navigation'
 import Dialog from "react-native-dialog";
+import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view'
 import SymptomGroup from '../components/SymptomTracker/SymptomGroup';
 import NoteEdit from '../components/NoteEdit';
 import DayChooser from '../components/DayChooser';
@@ -252,7 +253,7 @@ export default class SymptomTrackerScreen extends React.Component{
 
             return(
                 <View style={styles.container}>
-                  <ScrollView style={{marginBottom: marginToUse}}>
+                  <KeyboardAwareScrollView>
                       {/* <TextInput onSubmitEditing={Keyboard.dismiss} /> */}
                       <HorizontalLineWithText text = {LanguageManager.getInstance().getText("DATE")}/>
                       <DayChooser ref={component => this._dayChooser = component} date = {this.state.selectedDateAndTime} onDateChanged={this.dateEditedHandler}/>
@@ -291,7 +292,7 @@ export default class SymptomTrackerScreen extends React.Component{
                           onWillShow={() => { this.setState({ keyboardOpen: true }); }}
                           onWillHide={() => { this.setState({ keyboardOpen: false }); }}
                       /> */}
-                  </ScrollView>
+                  </KeyboardAwareScrollView>
                 </View>
             )
     }
