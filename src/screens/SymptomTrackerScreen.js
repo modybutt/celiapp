@@ -248,50 +248,51 @@ export default class SymptomTrackerScreen extends React.Component{
 
 
     render(){
-
         const marginToUse = ((this.state.keyboardOpen) ? 300 : 0);
 
             return(
-                <ScrollView style={{marginBottom: marginToUse}}>
-                    {/* <TextInput onSubmitEditing={Keyboard.dismiss} /> */}
-                    <HorizontalLineWithText text = {LanguageManager.getInstance().getText("DATE")}/>
-                    <DayChooser ref={component => this._dayChooser = component} date = {this.state.selectedDateAndTime} onDateChanged={this.dateEditedHandler}/>
-                    <HorizontalLineWithText text = {LanguageManager.getInstance().getText("TIME")}/>
-                    <TimePicker ref={component => this._timePicker = component} textString = "SYMPTOM_OCCURED" onTimeChanged={this.timeEditedHandler}/>
-                    <HorizontalLineWithText text = {LanguageManager.getInstance().getText("SYMPTOMS")}/>
-                    <SymptomGroup ref={component => this._symptomGroup = component} selection={this.state.selectedSymptoms} onSelectionChanged={this.symptomSelectionChangeHandler} navigation={this.props.navigation}/>
-                    <HorizontalLineWithText text = {LanguageManager.getInstance().getText("NOTES")}/>
-                    <NoteEdit ref={component => this._noteEdit = component} note={this.state.symptomEntryNote} onTextChanged={this.noteEditedHandler}/>
-                    <View style={{paddingBottom: 10}} />
+                <View style={styles.container}>
+                  <ScrollView style={{marginBottom: marginToUse}}>
+                      {/* <TextInput onSubmitEditing={Keyboard.dismiss} /> */}
+                      <HorizontalLineWithText text = {LanguageManager.getInstance().getText("DATE")}/>
+                      <DayChooser ref={component => this._dayChooser = component} date = {this.state.selectedDateAndTime} onDateChanged={this.dateEditedHandler}/>
+                      <HorizontalLineWithText text = {LanguageManager.getInstance().getText("TIME")}/>
+                      <TimePicker ref={component => this._timePicker = component} textString = "SYMPTOM_OCCURED" onTimeChanged={this.timeEditedHandler}/>
+                      <HorizontalLineWithText text = {LanguageManager.getInstance().getText("SYMPTOMS")}/>
+                      <SymptomGroup ref={component => this._symptomGroup = component} selection={this.state.selectedSymptoms} onSelectionChanged={this.symptomSelectionChangeHandler} navigation={this.props.navigation}/>
+                      <HorizontalLineWithText text = {LanguageManager.getInstance().getText("NOTES")}/>
+                      <NoteEdit ref={component => this._noteEdit = component} note={this.state.symptomEntryNote} onTextChanged={this.noteEditedHandler}/>
+                      <View style={{paddingBottom: 10}} />
     
-                    {/*Dialog for Day Change Save Dialog*/}
-                    <View>
-                        <Dialog.Container visible={this.state.dayChangeDialogVisible}>
-                        <Dialog.Title>{LanguageManager.getInstance().getText("SAVE")}</Dialog.Title>
-                        <Dialog.Description>
-                            {LanguageManager.getInstance().getText("DO_YOU_WANT_TO_SAVE")}
-                        </Dialog.Description>
-                        <Dialog.Button label={LanguageManager.getInstance().getText("CANCEL")} onPress={this.handleDayChangeCancel} />
-                        <Dialog.Button label={LanguageManager.getInstance().getText("SAVE")} onPress={this.handleDayChangeSave} />
-                        </Dialog.Container>
-                    </View>
+                      {/*Dialog for Day Change Save Dialog*/}
+                      <View>
+                          <Dialog.Container visible={this.state.dayChangeDialogVisible}>
+                          <Dialog.Title>{LanguageManager.getInstance().getText("SAVE")}</Dialog.Title>
+                          <Dialog.Description>
+                              {LanguageManager.getInstance().getText("DO_YOU_WANT_TO_SAVE")}
+                          </Dialog.Description>
+                          <Dialog.Button label={LanguageManager.getInstance().getText("CANCEL")} onPress={this.handleDayChangeCancel} />
+                          <Dialog.Button label={LanguageManager.getInstance().getText("SAVE")} onPress={this.handleDayChangeSave} />
+                          </Dialog.Container>
+                      </View>
     
-                    {/*Dialog for Day Change Save Dialog*/}
-                     <View>
-                        <Dialog.Container visible={this.state.cancelSaveDialogVisible}>
-                        <Dialog.Title>{LanguageManager.getInstance().getText("DISCARD")}</Dialog.Title>
-                        <Dialog.Description>
-                        {LanguageManager.getInstance().getText("DO_YOU_WANT_TO_DISCARD")}
-                        </Dialog.Description>
-                        <Dialog.Button label={LanguageManager.getInstance().getText("BACK")} onPress={this.handleBack} />
-                        <Dialog.Button label={LanguageManager.getInstance().getText("DISCARD")} onPress={this.handleDiscard} />
-                        </Dialog.Container>
-                    </View>
-                    {/* <KeyboardListener
-                        onWillShow={() => { this.setState({ keyboardOpen: true }); }}
-                        onWillHide={() => { this.setState({ keyboardOpen: false }); }}
-                    /> */}
-                </ScrollView>
+                      {/*Dialog for Day Change Save Dialog*/}
+                       <View>
+                          <Dialog.Container visible={this.state.cancelSaveDialogVisible}>
+                          <Dialog.Title>{LanguageManager.getInstance().getText("DISCARD")}</Dialog.Title>
+                          <Dialog.Description>
+                          {LanguageManager.getInstance().getText("DO_YOU_WANT_TO_DISCARD")}
+                          </Dialog.Description>
+                          <Dialog.Button label={LanguageManager.getInstance().getText("BACK")} onPress={this.handleBack} />
+                          <Dialog.Button label={LanguageManager.getInstance().getText("DISCARD")} onPress={this.handleDiscard} />
+                          </Dialog.Container>
+                      </View>
+                      {/* <KeyboardListener
+                          onWillShow={() => { this.setState({ keyboardOpen: true }); }}
+                          onWillHide={() => { this.setState({ keyboardOpen: false }); }}
+                      /> */}
+                  </ScrollView>
+                </View>
             )
     }
 
@@ -325,14 +326,10 @@ export default class SymptomTrackerScreen extends React.Component{
 
 }
 
-
-
-function getTodayDate(){
-    return new Date()
-}
-  
-
 var styles = StyleSheet.create({
+  container: {
+    padding: 25
+  },
  headText:{
     fontSize: 20,
     textAlign: 'center',
