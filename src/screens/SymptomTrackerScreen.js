@@ -329,7 +329,7 @@ export default class SymptomTrackerScreen extends React.Component{
 
 var styles = StyleSheet.create({
   container: {
-    padding: 25
+    margin: 25
   },
  headText:{
     fontSize: 20,
