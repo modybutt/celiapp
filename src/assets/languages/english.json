@@ -97,6 +97,9 @@
 		"PICTURE_OR_NAME": "Enter a name or a picture before saving.",
 		"YES": "Yes",
 		"SAVE_EMPTY_FOOD": "No food eaten",
-		"WANT_TO_SAVE_EMPTY_FOOD": "Do you want to save the food diary entry empty?"
+		"WANT_TO_SAVE_EMPTY_FOOD": "Do you want to save the food diary entry empty?",
+		"NO": "No",
+		"WANT_TO_SAVE_EMPTY_GIP": "Do you want to save the GIP result empty?",
+		"SAVE_EMPTY_GIP": "No GIP result entered"
 	}
 }

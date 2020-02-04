@@ -97,6 +97,9 @@
 		"PICTURE_OR_NAME": "Namen oder ein Bild einfügen vorm speichern.",
 		"YES": "Ja",
 		"SAVE_EMPTY_FOOD": "Keine Mahlzeit gegessen",
-		"WANT_TO_SAVE_EMPTY_FOOD": "Willst du die Mahlzeit ohne Eintrag speichern?"
+		"WANT_TO_SAVE_EMPTY_FOOD": "Willst du die Mahlzeit ohne Eintrag speichern?",
+		"NO": "No",
+		"WANT_TO_SAVE_EMPTY_GIP": "Do you want to save the GIP result empty?",
+		"SAVE_EMPTY_GIP": "No GIP result entered"
 	}
 }

@@ -43,15 +43,15 @@ export default class GIPScreen extends React.Component{
             keyboardOpen: false,
             photo: null,
             selectedMealKey : 0,            
-            selectedClassKey : 2,
+            selectedClassKey : 2
         } 
     }
 
-    state = {
-        modified: true, // true for DEBUG now
-        cancelSaveDialogVisible: false,
-        saveAsEmptyFoodDialogVisible: false,
-    }
+    // state = {
+    //     modified: true, // true for DEBUG now
+    //     cancelSaveDialogVisible: false,
+    //     saveAsEmptyFoodDialogVisible: false,
+    // }
 
     componentDidMount() {        
         this.props.navigation.setParams({ 
@@ -113,6 +113,7 @@ export default class GIPScreen extends React.Component{
         tmpDateTime.setFullYear(dateTime.getFullYear())
         this.setState({
             selectedDateAndTime: tmpDateTime,
+            modified: true
         })
         if(Array.isArray(this.state.selectedSymptoms) && this.state.selectedSymptoms.length){
             this.showDayChangeSaveDialog()
@@ -128,6 +129,7 @@ export default class GIPScreen extends React.Component{
     ratingEditedHandler = (rating) =>{
         this.setState({
             foodRating: rating,
+            modified: true
         });
     }
 
@@ -135,23 +137,27 @@ export default class GIPScreen extends React.Component{
     mealChangedHandler = (meal) =>{
         this.setState({
             selectedMealKey: meal,
+            modified: true
         });
     }
   
     classChangedHandler = (tag) =>{
         this.setState({
-            selectedClassKey: tag,            
+            selectedClassKey: tag, 
+            modified: true           
         });
     }
   
     noteEditedHandler = (note) =>{
         this.setState({
             foodEntryNote: note,
+            modified: true
         });
     }
     nameEditedHandler = (name) =>{
         this.setState({
             foodEntryName: name,
+            modified: true
         });
     }
 
@@ -229,7 +235,7 @@ export default class GIPScreen extends React.Component{
                 <TimePicker ref={component => this._timePicker = component} textString = "TAKEN_AT" onTimeChanged={this.timeEditedHandler}/>
                 <HorizontalLineWithText text = {LanguageManager.getInstance().getText("IMAGE")}/>
                 <View style={{alignItems: 'center'}}>
-                    <FoodDiaryImageEdit navigation = {this.props.navigation} onPictureTaken={(image) => this.setState({photo: image})}/>
+                    <FoodDiaryImageEdit navigation = {this.props.navigation} onPictureTaken={(image) => this.setState({photo: image, modified: true})}/>
                 </View>
                 <HorizontalLineWithText text = {LanguageManager.getInstance().getText("TAGS")}/>
                 <FoodDiaryTagEdit ref={component => this._class = component} all={tags} selected={this.state.selectedClassKey} isExclusive={true} onTagChanged={this.classChangedHandler}/>
@@ -237,11 +243,11 @@ export default class GIPScreen extends React.Component{
                 <NoteEdit ref={component => this._noteEdit = component} note={this.state.symptomEntryNote} onTextChanged={this.noteEditedHandler} style={{Top: 10}}/>
                 <View>
                     <Dialog.Container visible={this.state.saveAsEmptyFoodDialogVisible}>
-                        <Dialog.Title>{LanguageManager.getInstance().getText("SAVE_EMPTY_FOOD")}</Dialog.Title>
+                        <Dialog.Title>{LanguageManager.getInstance().getText("SAVE_EMPTY_GIP")}</Dialog.Title>
                         <Dialog.Description>
-                        {LanguageManager.getInstance().getText("WANT_TO_SAVE_EMPTY_FOOD")}
+                        {LanguageManager.getInstance().getText("WANT_TO_SAVE_EMPTY_GIP")}
                         </Dialog.Description>
-                        <Dialog.Button label={LanguageManager.getInstance().getText("BACK")} onPress={() => this.handleBack()} />
+                        <Dialog.Button label={LanguageManager.getInstance().getText("No")} onPress={() => this.handleBack()} />
                         <Dialog.Button label={LanguageManager.getInstance().getText("YES")} onPress={() => this.saveData(true)} />
                     </Dialog.Container>
                 </View>
@@ -251,8 +257,8 @@ export default class GIPScreen extends React.Component{
                         <Dialog.Description>
                         {LanguageManager.getInstance().getText("DO_YOU_WANT_TO_DISCARD")}
                         </Dialog.Description>
-                        <Dialog.Button label={LanguageManager.getInstance().getText("BACK")} onPress={() => this.handleBack()} />
-                        <Dialog.Button label={LanguageManager.getInstance().getText("DISCARD")} onPress={() => this.handleDiscard()} />
+                        <Dialog.Button label={LanguageManager.getInstance().getText("No")} onPress={() => this.handleBack()} />
+                        <Dialog.Button label={LanguageManager.getInstance().getText("YES")} onPress={() => this.handleDiscard()} />
                     </Dialog.Container>
                 </View>
             </ScrollView>
