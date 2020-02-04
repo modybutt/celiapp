@@ -35,7 +35,12 @@ export default class App extends React.Component {
     GearManager.getInstance().setGearHost(settings.gearHost);
     
     GearManager.getInstance().connect();
-
+    
+    DatabaseManager.getInstance().fetchUnrecordedData(
+      (_, error) => console.error(error),
+      (_, data) => console.log('Unrecorded data: ' + JSON.stringify(data))
+    );
+    
     this.setState({isSplashReady: true});
     setTimeout(() =>  this.setState({isAppReady: true}), 3000);
   }

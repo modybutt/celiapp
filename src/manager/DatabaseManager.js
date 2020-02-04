@@ -18,8 +18,15 @@ export default class DatabaseManager {
             // }, (error) => alert("DB init: " + JSON.stringify(error)));
             this.instance.db.transaction(tx => {
               tx.executeSql(
-                'CREATE TABLE IF NOT EXISTS symptoms (id INTEGER PRIMARY KEY AUTOINCREMENT, name TEXT, icon TEXT, created INT, modified INT, usage INT);', 
-                (param) => alert("create table symptoms: " + JSON.stringify(param)));            
+                'CREATE TABLE IF NOT EXISTS symptoms (\
+                  id INTEGER PRIMARY KEY AUTOINCREMENT,\
+                  name TEXT,\
+                  icon TEXT,\
+                  created INT,\
+                  modified INT,\
+                  usage INT);', 
+                (param) => alert("create table symptoms: " + JSON.stringify(param)));
+              
               tx.executeSql(
                 'INSERT OR IGNORE INTO symptoms (id, name, icon, created, usage) VALUES '
                 + '(1, "BLOATING", "' + require('../assets/images/SymptomTracker/bloating.png') + '", ' + Date.now() + ',0),'
@@ -30,12 +37,26 @@ export default class DatabaseManager {
                 + '(6, "VOMITING", "' + require('../assets/images/SymptomTracker/vomiting.png') + '", ' + Date.now() + ',0),'
                 + '(7, "WEIGHT_LOSS", "' + require('../assets/images/SymptomTracker/weightLoss.png') + '", ' + Date.now() + ',0);',
                 (param) => alert("insert into symptoms: " + JSON.stringify(param)));
+              
               tx.executeSql(
-                'CREATE TABLE IF NOT EXISTS events (id INTEGER PRIMARY KEY AUTOINCREMENT, eventType INT, created INT, modified INT, objData TEXT);', 
+                'CREATE TABLE IF NOT EXISTS events (\
+                  id INTEGER PRIMARY KEY AUTOINCREMENT,\
+                  eventType INT,\
+                  created INT,\
+                  modified INT,\
+                  objData TEXT);', 
                 (param) => alert("create table events: " + JSON.stringify(param)));
+              
               tx.executeSql(
-                'CREATE TABLE IF NOT EXISTS settings (id INTEGER PRIMARY KEY AUTOINCREMENT, name TEX UNIQUE, objData TEXT);', 
+                'CREATE TABLE IF NOT EXISTS settings (\
+                  id INTEGER PRIMARY KEY AUTOINCREMENT,\
+                  name TEX UNIQUE,\
+                  objData TEXT);', 
                 (param) => alert("create table settings: " + JSON.stringify(param)));
+              
+              tx.executeSql('INSERT OR IGNORE INTO settings (name, objData) VALUES ("lastRecorded", ' + Date.now() + ')',
+                (param) => alert("insert into settings: " + JSON.stringify(param)));
+                
             }, (error) => alert("DB init: " + JSON.stringify(error)));
         }
 
@@ -78,6 +99,10 @@ export default class DatabaseManager {
       this.db.transaction(tx => {
         tx.executeSql('SELECT * FROM symptoms ORDER BY usage DESC', null, onSuccess, onError);
       });      
+    }
+    
+    fetchUnrecordedSymptoms(tx, lastRecorded, onError, onSuccess) {
+      tx.executeSql('SELECT * FROM symptoms WHERE created > ?', [lastRecorded], onSuccess, onError);
     }
 
     //Public
@@ -184,7 +209,7 @@ export default class DatabaseManager {
 
     /******************************************************************* 
      *                          EVENT TRACKER
-     ********************************************************************/   
+     ********************************************************************/
 
     createEvent(eventType, timestamp, objData, onError, onSuccess) {
       this.db.transaction(tx => {
@@ -221,7 +246,11 @@ export default class DatabaseManager {
           tx.executeSql('SELECT * FROM events ORDER BY created DESC', null, onSuccess, onError);
         });
       }
-    }   
+    }
+    
+    fetchUnrecordedEvents(tx, lastRecorded, onError, onSuccess) {
+      tx.executeSql('SELECT * FROM events WHERE created > ?', [lastRecorded], onSuccess, onError);
+    }
 
     /******************************************************************* 
      *                       Settings Database
@@ -243,5 +272,36 @@ export default class DatabaseManager {
       this.db.transaction(tx => {
         tx.executeSql('REPLACE INTO settings (name, objData) VALUES (?, ?)', [name, JSON.stringify(objData)]);
       }, onError, onSuccess);
+    }
+    
+    fetchUnrecordedData(onError, onSuccess) {
+      let unrecordedData = {};
+      
+      this.db.transaction(tx => {
+        let lastRecorded = tx.executeSql('SELECT * FROM settings WHERE name = "lastRecorded"');
+        
+        this.fetchUnrecordedSymptoms(
+          tx,
+          lastRecorded,
+          (_, error) => onError,
+          (_, { rows: { _array } }) => { unrecordedData.symptoms = _array; }
+        );
+
+        this.fetchUnrecordedEvents(
+          tx,
+          lastRecorded,
+          (_, error) => onError,
+          (_, { rows: { _array } }) => { unrecordedData.symptoms = _array; }
+        );
+
+        tx.executeSql(
+          'UPDATE settings SET (name, objData) VALUES ("lastRecorded", ?)',
+          [Date.now()],
+          (_, error) => console.error(JSON.stringify(error)),
+          (_, success) => console.log('updated lastRecorded'),
+        );
+      },
+      (_, error) => console.error(JSON.stringify(error)),
+      (_, success) => onSuccess(null, unrecordedData));
     }
 }
