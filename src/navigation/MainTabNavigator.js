@@ -8,6 +8,7 @@ import CalendarScreen from '../screens/CalendarScreen';
 import DebugScreen from '../screens/DebugScreen';
 import SymptomTrackerScreen from '../screens/SymptomTrackerScreen';
 import FoodDiaryScreen from '../screens/FoodDiaryScreen';
+import GIPScreen from '../screens/GIPScreen';
 import EmoteTrackerScreen from '../screens/EmoteTrackerScreen';
 import SymptomViewScreen from '../screens/SymptomViewScreen';
 import FoodViewScreen from '../screens/FoodViewScreen';
@@ -106,6 +107,9 @@ export default createStackNavigator({
   },    
   AddEmote: {
     screen: EmoteTrackerScreen,
+  },
+  AddGIP: {
+    screen: GIPScreen,
   },
   ViewEmote: {
     screen: EmoteViewScreen,
