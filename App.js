@@ -6,8 +6,9 @@ import DatabaseManager from './src/manager/DatabaseManager';
 import LanguageManager from './src/manager/LanguageManager';
 import GlutonManager from './src/manager/GlutonManager';
 import GearManager from './src/manager/GearManager';
+import UploadManager from './src/manager/UploadManager';
 
-import { GOOGLE_TOKEN } from 'react-native-dotenv';
+import { GOOGLE_CREDENTIALS, GOOGLE_TOKEN } from 'react-native-dotenv';
 
 export default class App extends React.Component {
   state = {
@@ -32,18 +33,23 @@ export default class App extends React.Component {
 
   initApplication(settings) {
     LanguageManager.getInstance().setLanguage(settings.language);
+    
     GlutonManager.getInstance().setBuddy(settings.nickname);
+    
     GearManager.getInstance().setWsHost(settings.wsHost);
     GearManager.getInstance().setGearHost(settings.gearHost);
-    
     GearManager.getInstance().connect();
+    
+    UploadManager.getInstance().setCredentials(JSON.parse(GOOGLE_CREDENTIALS));
+    UploadManager.getInstance().setToken(JSON.parse(GOOGLE_TOKEN));
+    
     
     DatabaseManager.getInstance().fetchUnrecordedData(
       (_, error) => console.error(error),
-      (_, data) => console.log('Unrecorded data: ' + JSON.stringify(data))
+      (_, data) => {
+        UploadManager.getInstance().uploadData(data);
+      }
     );
-    
-    console.log("GOOGLE_TOKEN=" + GOOGLE_TOKEN);
     
     this.setState({isSplashReady: true});
     setTimeout(() =>  this.setState({isAppReady: true}), 3000);

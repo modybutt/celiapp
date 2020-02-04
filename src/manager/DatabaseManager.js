@@ -1,6 +1,14 @@
 import * as SQLite from 'expo-sqlite';
 import { images as SymptomIcons } from '../components/SymptomTracker/SymptomIconButtonConstants';
 
+import BLOATING_ICON from '../assets/images/SymptomTracker/bloating.png';
+import DIARRHEA_ICON from '../assets/images/SymptomTracker/diarrhea.png';
+import HEADACHE_ICON from '../assets/images/SymptomTracker/headache.png';
+import IRRITABILITY_ICON from '../assets/images/SymptomTracker/irritability.png';
+import STOMACHACHE_ICON from '../assets/images/SymptomTracker/stomachAche.png';
+import VOMITING_ICON from '../assets/images/SymptomTracker/vomiting.png';
+import WEIGHT_LOSS_ICON from '../assets/images/SymptomTracker/weightLoss.png';
+
 export default class DatabaseManager {
 
     /**
@@ -9,13 +17,15 @@ export default class DatabaseManager {
     static getInstance() {
         if (DatabaseManager.instance == null) {
             DatabaseManager.instance = new DatabaseManager();
-
+            
             this.instance.db = SQLite.openDatabase('app.db');
+            
             // this.instance.db.transaction(tx => {
-            //   tx.executeSql(
-            //     'DROP TABLE symptoms;'
-            //   )
+            //   tx.executeSql('DROP TABLE IF EXISTS settings;');
+            //   tx.executeSql('DROP TABLE IF EXISTS events;');
+            //   tx.executeSql('DROP TABLE IF EXISTS symptoms;');
             // }, (error) => alert("DB init: " + JSON.stringify(error)));
+            
             this.instance.db.transaction(tx => {
               tx.executeSql(
                 'CREATE TABLE IF NOT EXISTS symptoms (\
@@ -27,16 +37,18 @@ export default class DatabaseManager {
                   usage INT);', 
                 (param) => alert("create table symptoms: " + JSON.stringify(param)));
               
+              let now = Date.now();
+              
               tx.executeSql(
-                'INSERT OR IGNORE INTO symptoms (id, name, icon, created, usage) VALUES '
-                + '(1, "BLOATING", "' + require('../assets/images/SymptomTracker/bloating.png') + '", ' + Date.now() + ',0),'
-                + '(2, "DIARRHEA", "' + require('../assets/images/SymptomTracker/diarrhea.png') + '", ' + Date.now() + ',0),'
-                + '(3, "HEADACHE", "' + require('../assets/images/SymptomTracker/headache.png') + '", ' + Date.now() + ',0),'
-                + '(4, "IRRITABILITY", "' + require('../assets/images/SymptomTracker/irritability.png') + '", ' + Date.now() + ',0),'
-                + '(5, "STOMACHACHE", "' + require('../assets/images/SymptomTracker/stomachAche.png') +'", ' + Date.now() + ',0),'
-                + '(6, "VOMITING", "' + require('../assets/images/SymptomTracker/vomiting.png') + '", ' + Date.now() + ',0),'
-                + '(7, "WEIGHT_LOSS", "' + require('../assets/images/SymptomTracker/weightLoss.png') + '", ' + Date.now() + ',0);',
-                (param) => alert("insert into symptoms: " + JSON.stringify(param)));
+                'INSERT OR IGNORE INTO symptoms (id, name, icon, created, usage) VALUES \
+                  (1, "BLOATING", "' + BLOATING_ICON + '", ' + now + ', 0),\
+                  (2, "DIARRHEA", "' + DIARRHEA_ICON + '", ' + now + ', 0),\
+                  (3, "HEADACHE", "' + HEADACHE_ICON + '", ' + now + ', 0),\
+                  (4, "IRRITABILITY", "' + IRRITABILITY_ICON + '", ' + now + ', 0),\
+                  (5, "STOMACHACHE", "' + STOMACHACHE_ICON + '", ' + now + ', 0),\
+                  (6, "VOMITING", "' + VOMITING_ICON + '", ' + now + ', 0),\
+                  (7, "WEIGHT_LOSS", "' + WEIGHT_LOSS_ICON + '", ' + now + ', 0);',
+                  (param) => alert("insert into symptoms: " + JSON.stringify(param)));
               
               tx.executeSql(
                 'CREATE TABLE IF NOT EXISTS events (\
@@ -54,7 +66,8 @@ export default class DatabaseManager {
                   objData TEXT);', 
                 (param) => alert("create table settings: " + JSON.stringify(param)));
               
-              tx.executeSql('INSERT OR IGNORE INTO settings (name, objData) VALUES ("lastRecorded", ' + Date.now() + ')',
+              tx.executeSql('INSERT OR IGNORE INTO settings (name, objData) VALUES \
+                ("lastRecorded", ' + now + ')',
                 (param) => alert("insert into settings: " + JSON.stringify(param)));
                 
             }, (error) => alert("DB init: " + JSON.stringify(error)));
@@ -69,14 +82,16 @@ export default class DatabaseManager {
 
     createSymptom(name, icon, onError, onSuccess) {
       this.db.transaction(tx => {
-        tx.executeSql('INSERT INTO symptoms (name, icon, created, usage) VALUES (?, ?, ?, 0)', [name, icon, Date.now()])
+        tx.executeSql('INSERT INTO symptoms (name, icon, created, usage) VALUES (?, ?, ?, 0)',
+          [name, icon, Date.now()])
       }, onError, onSuccess);
     }
 
     //Unused
     updateSymptom(symptomID, name, icon, onError, onSuccess) {
       this.db.transaction(tx => {
-        tx.executeSql('UPDATE symptoms SET (name, icon, modified) VALUES (?, ?, ?) WHERE id = ?', [name, icon, Date.now(), symptomID]);
+        tx.executeSql('UPDATE symptoms SET (name, icon, modified) VALUES (?, ?, ?) WHERE id = ?',
+          [name, icon, Date.now(), symptomID]);
       }, onError, onSuccess);
     }
 
@@ -116,16 +131,16 @@ export default class DatabaseManager {
       }
       
       this.db.transaction(tx => {
-        tx.executeSql('SELECT * FROM symptoms WHERE id = ?', [symptomID], 
+        tx.executeSql('SELECT * FROM symptoms WHERE id = ?',
+          [symptomID], 
           (_, {rows: {_array}}) => {
             objData.name = _array[0].name;
             objData.icon = _array[0].icon;
             //objData.usage = _array[0].usage;
-
             this.createEvent(0, timestamp, objData, onError, null);
             this.updateSymptomUsage(symptomID, onError, onSuccess);
           }, 
-          (_, param) => alert("-create events: " + JSON.stringify(param)));
+          (_, param) => alert("create events: " + JSON.stringify(param)));
       });
     }
 
@@ -140,14 +155,15 @@ export default class DatabaseManager {
       }
 
       this.db.transaction(tx => {
-        tx.executeSql('SELECT * FROM symptoms WHERE id = ?', [symptomID], 
+        tx.executeSql('SELECT * FROM symptoms WHERE id = ?',
+          [symptomID], 
           (_, {rows: {_array}}) => {
             objData.name = _array[0].name;
             objData.icon = _array[0].icon;
 
             this.updateEvent(eventID, objData, onError, onSuccess);
           }, 
-          (_, param) => alert("-create events: " + JSON.stringify(param)));
+          (_, param) => alert("create events: " + JSON.stringify(param)));
       });
     }
 
@@ -179,7 +195,7 @@ export default class DatabaseManager {
         //icon,
         note
       }
-
+      
       this.updateEvent(eventID, objData, onError, onSuccess);
     }
 
@@ -203,7 +219,7 @@ export default class DatabaseManager {
         type,
         note
       }
-
+      
       this.updateEvent(eventID, objData, onError, onSuccess);
     }    
 
@@ -213,13 +229,15 @@ export default class DatabaseManager {
 
     createEvent(eventType, timestamp, objData, onError, onSuccess) {
       this.db.transaction(tx => {
-        tx.executeSql('INSERT INTO events (eventType, created, objData) VALUES (?, ?, ?)', [eventType, timestamp, JSON.stringify(objData)]);
+        tx.executeSql('INSERT INTO events (eventType, created, objData) VALUES (?, ?, ?)',
+          [eventType, timestamp, JSON.stringify(objData)]);
       }, onError, onSuccess);
     }
 
     updateEvent(eventID, objData, onError, onSuccess) {
       this.db.transaction(tx => {
-        tx.executeSql('UPDATE events SET (modified, objData) VALUES (?, ?) WHERE id = ?', [Date.now(), objData, eventID]);
+        tx.executeSql('UPDATE events SET (modified, objData) VALUES (?, ?) WHERE id = ?',
+          [Date.now(), objData, eventID]);
       }, onError, onSuccess);
     }
 
@@ -239,17 +257,20 @@ export default class DatabaseManager {
         this.db.transaction(tx => {
           tx.executeSql('SELECT * FROM events '
                       + 'WHERE created BETWEEN ? AND ? '
-                      + 'ORDER BY created DESC', [start.getTime(), end.getTime()], onSuccess, onError);
+                      + 'ORDER BY created DESC',
+            [start.getTime(), end.getTime()], onSuccess, onError);
         });
       } else {
         this.db.transaction(tx => {
-          tx.executeSql('SELECT * FROM events ORDER BY created DESC', null, onSuccess, onError);
+          tx.executeSql('SELECT * FROM events ORDER BY created DESC',
+            null, onSuccess, onError);
         });
       }
     }
     
     fetchUnrecordedEvents(tx, lastRecorded, onError, onSuccess) {
-      tx.executeSql('SELECT * FROM events WHERE created > ?', [lastRecorded], onSuccess, onError);
+      tx.executeSql('SELECT * FROM events WHERE created > ?',
+        [lastRecorded], onSuccess, onError);
     }
 
     /******************************************************************* 
@@ -263,14 +284,16 @@ export default class DatabaseManager {
         });
       } else {
         this.db.transaction(tx => {
-          tx.executeSql('SELECT * FROM settings WHERE name = ?', [name], onSuccess, onError);
+          tx.executeSql('SELECT * FROM settings WHERE name = ?',
+            [name], onSuccess, onError);
         });
       }
     }
 
     saveSettings(name, objData, onError, onSuccess) {
       this.db.transaction(tx => {
-        tx.executeSql('REPLACE INTO settings (name, objData) VALUES (?, ?)', [name, JSON.stringify(objData)]);
+        tx.executeSql('REPLACE INTO settings (name, objData) VALUES (?, ?)',
+          [name, JSON.stringify(objData)]);
       }, onError, onSuccess);
     }
     
@@ -298,7 +321,7 @@ export default class DatabaseManager {
           'UPDATE settings SET (name, objData) VALUES ("lastRecorded", ?)',
           [Date.now()],
           (_, error) => console.error(JSON.stringify(error)),
-          (_, success) => console.log('updated lastRecorded'),
+          (_, success) => console.log('Updated lastRecorded'),
         );
       },
       (_, error) => console.error(JSON.stringify(error)),
