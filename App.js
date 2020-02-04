@@ -7,6 +7,8 @@ import LanguageManager from './src/manager/LanguageManager';
 import GlutonManager from './src/manager/GlutonManager';
 import GearManager from './src/manager/GearManager';
 
+import { GOOGLE_TOKEN } from 'react-native-dotenv';
+
 export default class App extends React.Component {
   state = {
     isSplashReady: false,
@@ -40,6 +42,8 @@ export default class App extends React.Component {
       (_, error) => console.error(error),
       (_, data) => console.log('Unrecorded data: ' + JSON.stringify(data))
     );
+    
+    console.log("GOOGLE_TOKEN=" + GOOGLE_TOKEN);
     
     this.setState({isSplashReady: true});
     setTimeout(() =>  this.setState({isAppReady: true}), 3000);
