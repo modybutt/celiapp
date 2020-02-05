@@ -12,7 +12,7 @@ import FoodDiaryTagEdit from '../components/FoodDiary/FoodDiaryTagEdit'
 
 export default class FoodViewScreen extends React.Component {
     static navigationOptions = ({navigation}) => ({
-        title: LanguageManager.getInstance().getText("VIEW_MEAL"),
+        title: LanguageManager.getInstance().getText("VIEW_GIP_RESULT"),
         headerRight: <HeaderMenuButton onHeaderMenuSelected={(index) => navigation.state.params.onHeaderMenuSelected(index)}/>
     })
 
@@ -22,7 +22,7 @@ export default class FoodViewScreen extends React.Component {
         showDeleteConfirmDialog: false,
     }
 
-    componentDidMount() {        
+    componentDidMount() {
         this.props.navigation.setParams({ 
             onHeaderMenuSelected: this.onHeaderMenuSelected.bind(this) ,
             // onCancelPressed: this.handleCancelButton.bind(this),
@@ -48,7 +48,11 @@ export default class FoodViewScreen extends React.Component {
 
     render() {
         let objData = JSON.parse(this.state.event.objData);
-        const tags = [LanguageManager.getInstance().getText("GLUTEN"), LanguageManager.getInstance().getText("NO_GLUTEN"), LanguageManager.getInstance().getText("UNSURE")];        
+        const tags = [
+          LanguageManager.getInstance().getText("GLUTEN"),
+          LanguageManager.getInstance().getText("NO_GLUTEN"),
+          LanguageManager.getInstance().getText("UNSURE")
+        ];
         
         return (
             <ScrollView>
@@ -62,17 +66,18 @@ export default class FoodViewScreen extends React.Component {
                 <HorizontalLineWithText text = {LanguageManager.getInstance().getText("NOTES")}/>
                 <Text>{objData.note}</Text>
                 <View style={{paddingBottom: 10}} />
-               
                 <View>
-					<Dialog.Container visible={this.state.showDeleteConfirmDialog}>
-						<Dialog.Title>{LanguageManager.getInstance().getText("DELETE")}</Dialog.Title>
-						<Dialog.Description>
-						{LanguageManager.getInstance().getText("DO_YOU_WANT_TO_DELETE")}
-						</Dialog.Description>
-						<Dialog.Button label={LanguageManager.getInstance().getText("BACK")} onPress={() => this.setState({showDeleteConfirmDialog: false})} />
-						<Dialog.Button label={LanguageManager.getInstance().getText("DELETE")} onPress={() => this.deleteEntry()} />
-					</Dialog.Container>
-				</View>
+                  <Dialog.Container visible={this.state.showDeleteConfirmDialog}>
+                    <Dialog.Title>{LanguageManager.getInstance().getText("DELETE")}</Dialog.Title>
+                    <Dialog.Description>
+                      {LanguageManager.getInstance().getText("DO_YOU_WANT_TO_DELETE")}
+                    </Dialog.Description>
+                    <Dialog.Button
+                      label={LanguageManager.getInstance().getText("BACK")}
+                      onPress={() => this.setState({showDeleteConfirmDialog: false})} />
+                    <Dialog.Button label={LanguageManager.getInstance().getText("DELETE")} onPress={() => this.deleteEntry()} />
+                  </Dialog.Container>
+                </View>
             </ScrollView>
         )
     }

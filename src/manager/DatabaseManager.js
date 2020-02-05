@@ -41,14 +41,14 @@ export default class DatabaseManager {
               let now = Date.now();
               
               tx.executeSql(
-                'INSERT OR IGNORE INTO symptoms (id, name, icon, created, usage) VALUES \
-                  (1, "BLOATING", "' + BLOATING_ICON + '", ' + now + ', 0),\
-                  (2, "DIARRHEA", "' + DIARRHEA_ICON + '", ' + now + ', 0),\
-                  (3, "HEADACHE", "' + HEADACHE_ICON + '", ' + now + ', 0),\
-                  (4, "IRRITABILITY", "' + IRRITABILITY_ICON + '", ' + now + ', 0),\
-                  (5, "STOMACHACHE", "' + STOMACHACHE_ICON + '", ' + now + ', 0),\
-                  (6, "VOMITING", "' + VOMITING_ICON + '", ' + now + ', 0),\
-                  (7, "WEIGHT_LOSS", "' + WEIGHT_LOSS_ICON + '", ' + now + ', 0);',
+                'INSERT OR IGNORE INTO symptoms (id, name, icon, created, modified, usage) VALUES \
+                  (1, "BLOATING", "' + BLOATING_ICON + '", ' + now + ', ' + now + ', 0),\
+                  (2, "DIARRHEA", "' + DIARRHEA_ICON + '", ' + now + ', ' + now + ', 0),\
+                  (3, "HEADACHE", "' + HEADACHE_ICON + '", ' + now + ', ' + now + ', 0),\
+                  (4, "IRRITABILITY", "' + IRRITABILITY_ICON + '", ' + now + ', ' + now + ', 0),\
+                  (5, "STOMACHACHE", "' + STOMACHACHE_ICON + '", ' + now + ', ' + now + ', 0),\
+                  (6, "VOMITING", "' + VOMITING_ICON + '", ' + now + ', ' + now + ', 0),\
+                  (7, "WEIGHT_LOSS", "' + WEIGHT_LOSS_ICON + '", ' + now + ', ' + now + ', 0);',
                   (param) => alert("insert into symptoms: " + JSON.stringify(param)));
               
               tx.executeSql(
@@ -83,8 +83,9 @@ export default class DatabaseManager {
 
     createSymptom(name, icon, onError, onSuccess) {
       this.db.transaction(tx => {
-        tx.executeSql('INSERT INTO symptoms (name, icon, created, usage) VALUES (?, ?, ?, 0)',
-          [name, icon, Date.now()])
+        let date = Date.now();
+        tx.executeSql('INSERT INTO symptoms (name, icon, created, modified, usage) VALUES (?, ?, ?, ?, 0)',
+          [name, icon, date, date])
       }, onError, onSuccess);
     }
 
@@ -118,7 +119,7 @@ export default class DatabaseManager {
     }
     
     fetchUnrecordedSymptoms(tx, lastRecorded, onError, onSuccess) {
-      tx.executeSql('SELECT * FROM symptoms WHERE created > ?', [lastRecorded], onSuccess, onError);
+      tx.executeSql('SELECT * FROM symptoms WHERE modified > ?', [lastRecorded], onSuccess, onError);
     }
 
     //Public
@@ -246,8 +247,8 @@ export default class DatabaseManager {
 
     createEvent(eventType, timestamp, objData, onError, onSuccess) {
       this.db.transaction(tx => {
-        tx.executeSql('INSERT INTO events (eventType, created, objData) VALUES (?, ?, ?)',
-          [eventType, timestamp, JSON.stringify(objData)]);
+        tx.executeSql('INSERT INTO events (eventType, created, modified, objData) VALUES (?, ?, ?, ?)',
+          [eventType, timestamp, timestamp, JSON.stringify(objData)]);
       }, onError, onSuccess);
     }
 
@@ -286,7 +287,7 @@ export default class DatabaseManager {
     }
     
     fetchUnrecordedEvents(tx, lastRecorded, onError, onSuccess) {
-      tx.executeSql('SELECT * FROM events WHERE created > ?',
+      tx.executeSql('SELECT * FROM events WHERE modified > ?',
         [lastRecorded], onSuccess, onError);
     }
 
@@ -329,7 +330,7 @@ export default class DatabaseManager {
               onError,
               (_, { rows: { _array } }) => { unrecordedData.symptoms = _array; }
             );
-        
+            
             this.fetchUnrecordedEvents(
               tx,
               lastRecorded,
@@ -345,10 +346,10 @@ export default class DatabaseManager {
     
     updateLastRecorded() {
       this.db.transaction(tx => {
-        tx.executeSql('UPDATE settings SET objData = ? WHERE name = "lastRecorded"', [Date.now()]);
-      },
-      (_, error) => console.error(JSON.stringify(error)),
-      (_, success) => console.log('Updated lastRecorded')
+          tx.executeSql('UPDATE settings SET objData = ? WHERE name = "lastRecorded"', [Date.now()]);
+        },
+        (_, error) => console.error(JSON.stringify(error)),
+        (_, success) => console.log('Updated lastRecorded')
       );
     }
 }
