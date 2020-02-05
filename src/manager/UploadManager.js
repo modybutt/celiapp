@@ -32,5 +32,6 @@ export default class UploadManager {
   
   uploadData(data) {
     console.log('Uploading data...');
+    console.log(JSON.stringify(data));
   }
 }

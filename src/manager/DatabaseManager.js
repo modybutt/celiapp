@@ -112,8 +112,8 @@ export default class DatabaseManager {
     //Public
     fetchSymptoms(onError, onSuccess) {
       this.db.transaction(tx => {
-        tx.executeSql('SELECT * FROM symptoms ORDER BY usage DESC', null, onSuccess, onError);
-      });      
+        tx.executeSql('SELECT * FROM symptoms ORDER BY usage DESC');
+      }, onError, onSuccess);
     }
     
     fetchUnrecordedSymptoms(tx, lastRecorded, onError, onSuccess) {
@@ -301,27 +301,33 @@ export default class DatabaseManager {
       let unrecordedData = {};
       
       this.db.transaction(tx => {
-        let lastRecorded = tx.executeSql('SELECT * FROM settings WHERE name = "lastRecorded"');
+        tx.executeSql('SELECT * FROM settings WHERE name = "lastRecorded"',
+          null,
+          (_, { rows: { _array } }) => {
+            let lastRecorded = _array[0].objData;
+            console.log('lastRecorded is ' + lastRecorded);
+            this.fetchUnrecordedSymptoms(
+              tx,
+              lastRecorded,
+              onError,
+              (_, { rows: { _array } }) => { unrecordedData.symptoms = _array; }
+            );
         
-        this.fetchUnrecordedSymptoms(
-          tx,
-          lastRecorded,
-          (_, error) => onError,
-          (_, { rows: { _array } }) => { unrecordedData.symptoms = _array; }
-        );
-
-        this.fetchUnrecordedEvents(
-          tx,
-          lastRecorded,
-          (_, error) => onError,
-          (_, { rows: { _array } }) => { unrecordedData.symptoms = _array; }
-        );
-
+            this.fetchUnrecordedEvents(
+              tx,
+              lastRecorded,
+              onError,
+              (_, { rows: { _array } }) => { unrecordedData.events = _array; }
+            );
+          },
+          onError);
+        
         tx.executeSql(
-          'UPDATE settings SET (name, objData) VALUES ("lastRecorded", ?)',
+          'UPDATE settings SET objData = ? WHERE name = "lastRecorded"',
           [Date.now()],
-          (_, error) => console.error(JSON.stringify(error)),
+          null,
           (_, success) => console.log('Updated lastRecorded'),
+          onError,
         );
       },
       (_, error) => console.error(JSON.stringify(error)),
