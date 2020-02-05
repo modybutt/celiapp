@@ -167,17 +167,17 @@ export default class GIPScreen extends React.Component{
     };
 
     showSaveEmptyDialog(){
-        this.setState({ saveAsEmptyFoodDialogVisible: true });
+        this.setState({ saveAsEmptyGIPDialogVisible: true });
     }
 
     handleBack() {
         this.setState({ cancelSaveDialogVisible: false });
-        this.setState({ saveAsEmptyFoodDialogVisible: false });
+        this.setState({ saveAsEmptyGIPDialogVisible: false });
     };
 
     handleDiscard() {
         this.setState({ cancelSaveDialogVisible: false });
-        this.setState({ saveAsEmptyFoodDialogVisible: false });
+        this.setState({ saveAsEmptyGIPDialogVisible: false });
         this.navigateHome()
     };
 
