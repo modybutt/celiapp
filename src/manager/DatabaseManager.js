@@ -76,6 +76,13 @@ export default class DatabaseManager {
         return this.instance;
     }
 
+    Events = Object.freeze({
+      "Symptom": 0, 
+      "Food": 1,
+      "Emotion": 2,
+      "GIP": 3
+    })
+
     /******************************************************************* 
      *                          SYMPTOM TRACKER 
      *******************************************************************/
@@ -137,7 +144,7 @@ export default class DatabaseManager {
             objData.name = _array[0].name;
             objData.icon = _array[0].icon;
             //objData.usage = _array[0].usage;
-            this.createEvent(0, timestamp, objData, onError, null);
+            this.createEvent(this.Events.Symptom, timestamp, objData, onError, null);
             this.updateSymptomUsage(symptomID, onError, onSuccess);
           }, 
           (_, param) => alert("create events: " + JSON.stringify(param)));
@@ -182,7 +189,7 @@ export default class DatabaseManager {
         note
       }
       
-      this.createEvent(1, timestamp, objData, onError, onSuccess);
+      this.createEvent(this.Events.Food, timestamp, objData, onError, onSuccess);
     }
 
     //unused
@@ -210,7 +217,7 @@ export default class DatabaseManager {
         note
       }
       
-      this.createEvent(2, timestamp, objData, onError, onSuccess);
+      this.createEvent(this.Events.Emotion, timestamp, objData, onError, onSuccess);
     }
 
     //unused
@@ -221,7 +228,23 @@ export default class DatabaseManager {
       }
       
       this.updateEvent(eventID, objData, onError, onSuccess);
-    }    
+    }  
+    
+     /******************************************************************* 
+     *                          GIP TRACKER 
+     ********************************************************************/
+
+     //Public
+     createGIPEvent(result, note, photo, timestamp, onError, onSuccess) {
+      let objData = {
+        result,
+        note,
+        photo,
+        timestamp
+      }
+      
+      this.createEvent(this.Events.GIP, timestamp, objData, onError, onSuccess);
+    }
 
     /******************************************************************* 
      *                          EVENT TRACKER
