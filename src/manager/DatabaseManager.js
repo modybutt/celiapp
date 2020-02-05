@@ -8,6 +8,7 @@ import IRRITABILITY_ICON from '../assets/images/SymptomTracker/irritability.png'
 import STOMACHACHE_ICON from '../assets/images/SymptomTracker/stomachAche.png';
 import VOMITING_ICON from '../assets/images/SymptomTracker/vomiting.png';
 import WEIGHT_LOSS_ICON from '../assets/images/SymptomTracker/weightLoss.png';
+import Events from '../constants/Events';
 
 export default class DatabaseManager {
 
@@ -76,13 +77,6 @@ export default class DatabaseManager {
         return this.instance;
     }
 
-    Events = Object.freeze({
-      "Symptom": 0, 
-      "Food": 1,
-      "Emotion": 2,
-      "GIP": 3
-    })
-
     /******************************************************************* 
      *                          SYMPTOM TRACKER 
      *******************************************************************/
@@ -144,7 +138,7 @@ export default class DatabaseManager {
             objData.name = _array[0].name;
             objData.icon = _array[0].icon;
             //objData.usage = _array[0].usage;
-            this.createEvent(this.Events.Symptom, timestamp, objData, onError, null);
+            this.createEvent(Events.Symptom, timestamp, objData, onError, null);
             this.updateSymptomUsage(symptomID, onError, onSuccess);
           }, 
           (_, param) => alert("create events: " + JSON.stringify(param)));
@@ -189,7 +183,7 @@ export default class DatabaseManager {
         note
       }
       
-      this.createEvent(this.Events.Food, timestamp, objData, onError, onSuccess);
+      this.createEvent(Events.Food, timestamp, objData, onError, onSuccess);
     }
 
     //unused
@@ -217,7 +211,7 @@ export default class DatabaseManager {
         note
       }
       
-      this.createEvent(this.Events.Emotion, timestamp, objData, onError, onSuccess);
+      this.createEvent(Events.Emotion, timestamp, objData, onError, onSuccess);
     }
 
     //unused
@@ -243,7 +237,7 @@ export default class DatabaseManager {
         timestamp
       }
       
-      this.createEvent(this.Events.GIP, timestamp, objData, onError, onSuccess);
+      this.createEvent(Events.GIP, timestamp, objData, onError, onSuccess);
     }
 
     /******************************************************************* 
