@@ -16,7 +16,7 @@ export default class LoadingScreen extends React.Component {
     this.RotateValueHolder.setValue(0);
     Animated.timing(this.RotateValueHolder, {
       toValue: 1,
-      duration: 2000,
+      duration: 1000,
       easing: Easing.linear,
     }).start(() => this.StartImageRotateFunction());
   }
