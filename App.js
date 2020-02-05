@@ -8,7 +8,7 @@ import GlutonManager from './src/manager/GlutonManager';
 import GearManager from './src/manager/GearManager';
 import UploadManager from './src/manager/UploadManager';
 import Notifiationmanager from './src/manager/NotificationManager';
-import UsernameDialog from './src/components/UsernameDialog';
+// import UsernameDialog from './src/components/UsernameDialog';
 
 import { } from 'react-native-dotenv';
 
@@ -68,19 +68,28 @@ export default class App extends React.Component {
     this.setState({hasToken: true})
   };
 
+  // render() {
+  //   return (
+  //     <View style={styles.container}>
+  //       {this.state.isSplashReady == false
+  //         ? null
+  //         : this.state.hasToken
+  //           ? <AppNavigator/>
+  //           : <UsernameDialog onUsername ={this.handleNewUsername}/>
+  //       }
+  //       <LoadingScreen hide={this.state.isAppReady} style={styles.loading}/>
+  //     </View>
+  //   );
+  // }
+  
   render() {
-    return (
-      <View style={styles.container}>
-        {this.state.isSplashReady == false 
-          ? null 
-          : this.state.hasToken 
-            ? <AppNavigator/>
-            : <UsernameDialog onUsername ={this.handleNewUsername}/>
-        }
-        <LoadingScreen hide={this.state.isAppReady} style={styles.loading}/>
-      </View>
-    );
-  }
+      return (
+        <View style={styles.container}>
+          {this.state.isSplashReady == false ? null : <AppNavigator/>}
+          <LoadingScreen hide={this.state.isAppReady} style={styles.loading}/>
+        </View>
+      );
+    }
 }
 
 const styles = StyleSheet.create({
