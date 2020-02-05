@@ -14,6 +14,9 @@
     "platforms": [
       "android",
       "ios"
-    ]
+    ],
+    "notification": {
+        "icon": "./src/assets/images/celiapp_icon_trans_ios96x96.png"
+      }
   }
 }

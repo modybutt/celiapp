@@ -7,6 +7,7 @@ import LanguageManager from './src/manager/LanguageManager';
 import GlutonManager from './src/manager/GlutonManager';
 import GearManager from './src/manager/GearManager';
 import UploadManager from './src/manager/UploadManager';
+import Notifiationmanager from './src/manager/NotificationManager';
 
 import { } from 'react-native-dotenv';
 
@@ -33,7 +34,7 @@ export default class App extends React.Component {
 
   initApplication(settings) {
     LanguageManager.getInstance().setLanguage(settings.language);
-    
+    Notifiationmanager.getInstance(); //just to show the user the notification permission screen.
     GlutonManager.getInstance().setBuddy(settings.nickname);
     
     GearManager.getInstance().setWsHost(settings.wsHost);
