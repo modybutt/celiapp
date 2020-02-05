@@ -18,7 +18,7 @@ export default class UploadManager {
     return this.token;
   }
   
-  uploadData(data) {
+  uploadData(data, onSuccess) {
     console.log('Uploading data for ' + this.token);
     fetch('http://localhost:5004/desqol/upload_data', {
       method: 'POST',
@@ -28,6 +28,12 @@ export default class UploadManager {
         'X-Token': this.token,
       },
       body: JSON.stringify(data),
+    }).then((response) => {
+      if (response.ok) {
+        onSuccess();
+      } else {
+        console.log("Upload failed!")
+      }
     });
   }
 }

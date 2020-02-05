@@ -45,7 +45,10 @@ export default class App extends React.Component {
     DatabaseManager.getInstance().fetchUnrecordedData(
       (_, error) => console.error(error),
       (_, data) => {
-        UploadManager.getInstance().uploadData(data);
+        UploadManager.getInstance().uploadData(
+          data,
+          () => { DatabaseManager.getInstance().updateLastRecorded(); }
+        );
       }
     );
     

@@ -113,8 +113,8 @@ export default class DatabaseManager {
     //Public
     fetchSymptoms(onError, onSuccess) {
       this.db.transaction(tx => {
-        tx.executeSql('SELECT * FROM symptoms ORDER BY usage DESC');
-      }, onError, onSuccess);
+        tx.executeSql('SELECT * FROM symptoms ORDER BY usage DESC', null, onSuccess, onError);
+      });
     }
     
     fetchUnrecordedSymptoms(tx, lastRecorded, onError, onSuccess) {
@@ -338,16 +338,17 @@ export default class DatabaseManager {
             );
           },
           onError);
-        
-        tx.executeSql(
-          'UPDATE settings SET objData = ? WHERE name = "lastRecorded"',
-          [Date.now()],
-          null,
-          (_, success) => console.log('Updated lastRecorded'),
-          onError,
-        );
       },
       (_, error) => console.error(JSON.stringify(error)),
       (_, success) => onSuccess(null, unrecordedData));
+    }
+    
+    updateLastRecorded() {
+      this.db.transaction(tx => {
+        tx.executeSql('UPDATE settings SET objData = ? WHERE name = "lastRecorded"', [Date.now()]);
+      },
+      (_, error) => console.error(JSON.stringify(error)),
+      (_, success) => console.log('Updated lastRecorded')
+      );
     }
 }
