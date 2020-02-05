@@ -41,18 +41,7 @@ const TabNavStack = createMaterialTopTabNavigator({
           ),
         }
     },
-    Home: {
-        screen: HomeScreen,
-        navigationOptions: {
-          //tabBarLabel: 'Home',
-          tabBarIcon: ({focused}) => (
-            <TabBarIcon
-              focused={focused}
-              name={'md-paw'}
-            />
-          )
-      }
-    },
+
     Calendar: {
         screen: CalendarStack,
         navigationOptions: {
@@ -66,7 +55,7 @@ const TabNavStack = createMaterialTopTabNavigator({
         }
     }
 }, {
-    initialRouteName: 'Home',
+    initialRouteName: 'Calendar',
     tabBarPosition: 'bottom',
     swipeEnabled: false,
     tabBarOptions: {
