@@ -2,7 +2,7 @@
   "expo": {
     "name": "CeliApp",
     "icon": "./src/assets/images/celiapp_icon_trans.png",
-    "version": "0.1.0",
+    "version": "0.2.0",
     "slug": "CeliApp",
     "sdkVersion": "35.0.0",
     "ios": {
