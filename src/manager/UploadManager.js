@@ -20,7 +20,7 @@ export default class UploadManager {
   
   uploadData(data, onSuccess) {
     console.log('Uploading data for ' + this.token);
-    fetch('http://localhost:5004/desqol/upload_data', {
+    fetch('http://jira.itcarlow.ie:443/desqol/upload_data', {
       method: 'POST',
       headers: {
         Accept: 'application/json',
@@ -30,9 +30,10 @@ export default class UploadManager {
       body: JSON.stringify(data),
     }).then((response) => {
       if (response.ok) {
+        console.log("Upload succeeded!");
         onSuccess();
       } else {
-        console.log("Upload failed!")
+        console.log("Upload failed!");
       }
     });
   }
