@@ -12,6 +12,7 @@ import GIPScreen from '../screens/GIPScreen';
 import EmoteTrackerScreen from '../screens/EmoteTrackerScreen';
 import SymptomViewScreen from '../screens/SymptomViewScreen';
 import FoodViewScreen from '../screens/FoodViewScreen';
+import GIPViewScreen from '../screens/GIPViewScreen';
 import EmoteViewScreen from '../screens/EmoteViewScreen';
 import SettingsScreen from '../screens/SettingsScreen';
 import CameraScreen from '../screens/CameraScreen';
@@ -110,6 +111,9 @@ export default createStackNavigator({
   },
   AddGIP: {
     screen: GIPScreen,
+  },
+  ViewGIP: {
+    screen: GIPViewScreen,
   },
   ViewEmote: {
     screen: EmoteViewScreen,

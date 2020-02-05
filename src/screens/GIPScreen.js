@@ -28,30 +28,19 @@ export default class GIPScreen extends React.Component{
     constructor(props) {
         super(props);
         this.noteEditedHandler = this.noteEditedHandler.bind(this);
-        this.nameEditedHandler = this.nameEditedHandler.bind(this);
         this.dateEditedHandler = this.dateEditedHandler.bind(this);
         this.timeEditedHandler = this.timeEditedHandler.bind(this);
-        this.ratingEditedHandler = this.ratingEditedHandler.bind(this);
-        this.mealChangedHandler = this.mealChangedHandler.bind(this);
-        this.classChangedHandler = this.classChangedHandler.bind(this);
+        this.gipManualResultHandler = this.gipManualResultHandler.bind(this);
         this.state = {
-            foodEntryNote: "",
+            modified: false,
+            gipEntryNote: "",
             tempDate: new Date(), 
-            foodEntryName: "", 
             selectedDateAndTime: new Date(), 
-            foodRating: 0,
             keyboardOpen: false,
-            photo: null,
-            selectedMealKey : 0,            
-            selectedClassKey : 2
+            photo: null,            
+            gipManualResult : 2
         } 
     }
-
-    // state = {
-    //     modified: true, // true for DEBUG now
-    //     cancelSaveDialogVisible: false,
-    //     saveAsEmptyFoodDialogVisible: false,
-    // }
 
     componentDidMount() {        
         this.props.navigation.setParams({ 
@@ -76,7 +65,7 @@ export default class GIPScreen extends React.Component{
 
     clearNoteText = () => {
         this.setState({
-            foodEntryNote: ""
+            gipEntryNote: ""
         })
        this._noteEdit.deleteNote();
      }
@@ -125,62 +114,33 @@ export default class GIPScreen extends React.Component{
             this.clearNoteText()
         }
     }
-
-    ratingEditedHandler = (rating) =>{
-        this.setState({
-            foodRating: rating,
-            modified: true
-        });
-    }
-
-    
-    mealChangedHandler = (meal) =>{
-        this.setState({
-            selectedMealKey: meal,
-            modified: true
-        });
-    }
   
-    classChangedHandler = (tag) =>{
+    gipManualResultHandler = (tag) =>{
         this.setState({
-            selectedClassKey: tag, 
+            gipManualResult: tag, 
             modified: true           
         });
     }
   
     noteEditedHandler = (note) =>{
         this.setState({
-            foodEntryNote: note,
-            modified: true
-        });
-    }
-    nameEditedHandler = (name) =>{
-        this.setState({
-            foodEntryName: name,
+            gipEntryNote: note,
             modified: true
         });
     }
 
     saveCurrentData(goHome) {
-        if (this.state.photo != null || this.state.foodEntryName != "" ){     
+        if (this.state.photo != null || this.state.modified == true){     
             this.saveData(goHome)
             }else{
                 this.showSaveEmptyDialog()
-                // Alert.alert(
-                //     LanguageManager.getInstance().getText("NOT_SAVED"),
-                //     LanguageManager.getInstance().getText("PICTURE_OR_NAME"),
-                //     [
-                //       {text: 'OK'},
-                //     ],
-                //     {cancelable: false},
-                //   );
             }        
     }
 
     saveData(goHome){
         let tmpDateTime = this.state.selectedDateAndTime
         tmpDateTime.setFullYear(tmpDateTime.getFullYear());
-        DatabaseManager.getInstance().createMealEvent(this.state.foodEntryName, this.state.selectedClassKey, this.state.selectedMealKey, this.state.foodRating, this.state.foodEntryNote, this.state.photo, tmpDateTime.getTime(), 
+        DatabaseManager.getInstance().createGIPEvent(this.state.gipManualResult, this.state.gipEntryNote, this.state.photo, tmpDateTime.getTime(), 
             (error) => {alert(error)}, 
             () => {GlutonManager.getInstance().setMessage(2); GearManager.getInstance().sendMessage("msg 31")}
         );
@@ -207,17 +167,17 @@ export default class GIPScreen extends React.Component{
     };
 
     showSaveEmptyDialog(){
-        this.setState({ saveAsEmptyFoodDialogVisible: true });
+        this.setState({ saveAsEmptyGIPDialogVisible: true });
     }
 
     handleBack() {
         this.setState({ cancelSaveDialogVisible: false });
-        this.setState({ saveAsEmptyFoodDialogVisible: false });
+        this.setState({ saveAsEmptyGIPDialogVisible: false });
     };
 
     handleDiscard() {
         this.setState({ cancelSaveDialogVisible: false });
-        this.setState({ saveAsEmptyFoodDialogVisible: false });
+        this.setState({ saveAsEmptyGIPDialogVisible: false });
         this.navigateHome()
     };
 
@@ -238,11 +198,11 @@ export default class GIPScreen extends React.Component{
                     <FoodDiaryImageEdit navigation = {this.props.navigation} onPictureTaken={(image) => this.setState({photo: image, modified: true})}/>
                 </View>
                 <HorizontalLineWithText text = {LanguageManager.getInstance().getText("TAGS")}/>
-                <FoodDiaryTagEdit ref={component => this._class = component} all={tags} selected={this.state.selectedClassKey} isExclusive={true} onTagChanged={this.classChangedHandler}/>
+                <FoodDiaryTagEdit ref={component => this._class = component} all={tags} selected={this.state.gipManualResult} isExclusive={true} onTagChanged={this.gipManualResultHandler}/>
                 <HorizontalLineWithText text = {LanguageManager.getInstance().getText("NOTES")} style={{Top: 10}}/>
                 <NoteEdit ref={component => this._noteEdit = component} note={this.state.symptomEntryNote} onTextChanged={this.noteEditedHandler} style={{Top: 10}}/>
                 <View>
-                    <Dialog.Container visible={this.state.saveAsEmptyFoodDialogVisible}>
+                    <Dialog.Container visible={this.state.saveAsEmptyGIPDialogVisible}>
                         <Dialog.Title>{LanguageManager.getInstance().getText("SAVE_EMPTY_GIP")}</Dialog.Title>
                         <Dialog.Description>
                         {LanguageManager.getInstance().getText("WANT_TO_SAVE_EMPTY_GIP")}
