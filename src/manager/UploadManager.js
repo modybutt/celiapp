@@ -1,8 +1,4 @@
 export default class UploadManager {
-    
-  static DESTINATION_FOLDER_ID = '1ngwQBE20rxrFKrwyrod8dctKyPF6Bdm7';
-  static SCOPES = ['https://www.googleapis.com/auth/drive'];
-  
   /**
    * @returns {UploadManager}
    */
@@ -14,14 +10,6 @@ export default class UploadManager {
     return UploadManager.instance;
   }
   
-  setCredentials(credentials) {
-    this.credentials = credentials;
-  }
-
-  getCredentials() {
-    return this.credentials;
-  }
-  
   setToken(token) {
     this.token = token;
   }
@@ -31,7 +19,15 @@ export default class UploadManager {
   }
   
   uploadData(data) {
-    console.log('Uploading data...');
-    console.log(JSON.stringify(data));
+    console.log('Uploading data for ' + this.token);
+    fetch('http://localhost:5004/desqol/upload_data', {
+      method: 'POST',
+      headers: {
+        Accept: 'application/json',
+        'Content-Type': 'application/json',
+        'X-Token': this.token,
+      },
+      body: JSON.stringify(data),
+    });
   }
 }

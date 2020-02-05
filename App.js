@@ -8,7 +8,7 @@ import GlutonManager from './src/manager/GlutonManager';
 import GearManager from './src/manager/GearManager';
 import UploadManager from './src/manager/UploadManager';
 
-import { GOOGLE_CREDENTIALS, GOOGLE_TOKEN } from 'react-native-dotenv';
+import { } from 'react-native-dotenv';
 
 export default class App extends React.Component {
   state = {
@@ -40,9 +40,7 @@ export default class App extends React.Component {
     GearManager.getInstance().setGearHost(settings.gearHost);
     GearManager.getInstance().connect();
     
-    UploadManager.getInstance().setCredentials(JSON.parse(GOOGLE_CREDENTIALS));
-    UploadManager.getInstance().setToken(JSON.parse(GOOGLE_TOKEN));
-    
+    UploadManager.getInstance().setToken(settings.nickname || 'unknownUser');
     
     DatabaseManager.getInstance().fetchUnrecordedData(
       (_, error) => console.error(error),
