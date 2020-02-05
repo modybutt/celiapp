@@ -130,7 +130,7 @@ export default class GIPScreen extends React.Component{
     }
 
     saveCurrentData(goHome) {
-        if (this.state.photo != null){     
+        if (this.state.photo != null || this.state.modified == true){     
             this.saveData(goHome)
             }else{
                 this.showSaveEmptyDialog()
@@ -202,7 +202,7 @@ export default class GIPScreen extends React.Component{
                 <HorizontalLineWithText text = {LanguageManager.getInstance().getText("NOTES")} style={{Top: 10}}/>
                 <NoteEdit ref={component => this._noteEdit = component} note={this.state.symptomEntryNote} onTextChanged={this.noteEditedHandler} style={{Top: 10}}/>
                 <View>
-                    <Dialog.Container visible={this.state.saveAsEmptyFoodDialogVisible}>
+                    <Dialog.Container visible={this.state.saveAsEmptyGIPDialogVisible}>
                         <Dialog.Title>{LanguageManager.getInstance().getText("SAVE_EMPTY_GIP")}</Dialog.Title>
                         <Dialog.Description>
                         {LanguageManager.getInstance().getText("WANT_TO_SAVE_EMPTY_GIP")}
