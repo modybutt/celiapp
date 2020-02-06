@@ -187,7 +187,7 @@ export default class DatabaseManager {
     
       //every time a meal is added, it will trigger a notification to be scheduled 12 hours later.
       //All previously added notifications will be removed.
-      Notifiationmanager.getInstance().scheduleNotification();
+      NotificationManager.getInstance().scheduleNotification();
 
     this.createEvent(Events.Food, timestamp, objData, onError, onSuccess);
   }
