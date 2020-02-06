@@ -12,13 +12,13 @@ async function getiOSNotificationPermission()
     }
 }
 
-export default class Notifiationmanager 
+export default class NotificationManager 
 {
     static getInstance()
     {
-        if (Notifiationmanager.instance == null)
+        if (NotificationManager.instance == null)
         {
-            Notifiationmanager.instance = new Notifiationmanager();
+            NotificationManager.instance = new NotificationManager();
             this.instance.initialize();
         }
         return this.instance;

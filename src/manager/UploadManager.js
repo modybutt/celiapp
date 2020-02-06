@@ -1,4 +1,6 @@
 export default class UploadManager {
+  static UPLOAD_DATA_URL = 'https://jira.itcarlow.ie/desqol/upload_data';
+  
   /**
    * @returns {UploadManager}
    */
@@ -20,7 +22,7 @@ export default class UploadManager {
   
   uploadData(data, onSuccess) {
     console.log('Uploading data for ' + this.token);
-    fetch('http://jira.itcarlow.ie:443/desqol/upload_data', {
+    fetch(UploadManager.UPLOAD_DATA_URL, {
       method: 'POST',
       headers: {
         Accept: 'application/json',
@@ -30,10 +32,13 @@ export default class UploadManager {
       body: JSON.stringify(data),
     }).then((response) => {
       if (response.ok) {
-        console.log("Upload succeeded!");
+        console.log('Uploaded ' +
+          data.symptoms.length + ' symptoms and ' +
+          data.events.length + ' events'
+        );
         onSuccess();
       } else {
-        console.log("Upload failed!");
+        console.warn('Upload failed!');
       }
     });
   }
