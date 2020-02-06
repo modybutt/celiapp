@@ -42,17 +42,20 @@ export default class App extends React.Component {
     GearManager.getInstance().setGearHost(settings.gearHost);
     GearManager.getInstance().connect();
     
-    UploadManager.getInstance().setToken(settings.nickname || 'unknownUser');
-    
-    DatabaseManager.getInstance().fetchUnrecordedData(
-      (_, error) => console.error(error),
-      (_, data) => {
-        UploadManager.getInstance().uploadData(
-          data,
-          () => { DatabaseManager.getInstance().updateLastRecorded(); }
-        );
-      }
-    );
+    let userId = settings.userId;
+    if (userId) {
+      //TODO get new auth token
+      UploadManager.getInstance().setToken(settings.userId);
+      DatabaseManager.getInstance().fetchUnrecordedData(
+        (_, error) => console.error(error),
+        (_, data) => {
+          UploadManager.getInstance().uploadData(
+            data,
+            () => { DatabaseManager.getInstance().updateLastRecorded(); }
+          );
+        }
+      );
+    }
     
     this.setState({
       isSplashReady: true,
@@ -65,7 +68,7 @@ export default class App extends React.Component {
   handleNewUsername = (userName) => {
     console.log("Saving username:" + JSON.stringify(userName));
     DatabaseManager.getInstance().saveSettings('userId', userName, (error) => {alert(error)}, null);
-    //TODO get new auth token
+    
     this.setState({ hasUserId : true})
   };
 
