@@ -9,6 +9,7 @@ import STOMACHACHE_ICON from '../assets/images/SymptomTracker/stomachAche.png';
 import VOMITING_ICON from '../assets/images/SymptomTracker/vomiting.png';
 import WEIGHT_LOSS_ICON from '../assets/images/SymptomTracker/weightLoss.png';
 import Events from '../constants/Events';
+import NotificationManager from './NotificationManager';
 
 export default class DatabaseManager {
   

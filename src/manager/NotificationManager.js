@@ -1,6 +1,7 @@
 import { Alert, Platform } from 'react-native';
 import { Notifications } from 'expo';
 import * as Permissions from 'expo-permissions';
+import LanguageManager from './LanguageManager';
 
 //request permission to send notifications to user.
 async function getiOSNotificationPermission()
