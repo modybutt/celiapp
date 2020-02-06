@@ -19,7 +19,6 @@ export default class MenuButton extends React.Component {
       }
 
       return (
-          <View style={styles.container}>
               <ActionButton buttonColor="rgba(231,76,60,1)">
                 <ActionButton.Item buttonColor='#00000000' title={LanguageManager.getInstance().getText("ADD_GIP_RESULT")} onPress={() => this.props.navigation.navigate('AddGIP')}>
                   <Image source ={require('../assets/images/GIP_icon.png')}/>
@@ -34,7 +33,6 @@ export default class MenuButton extends React.Component {
                   <Icon.Ionicons name="md-medkit" style={styles.actionButtonIcon} />
                 </ActionButton.Item>
               </ActionButton>                
-          </View>
       );
     }  
 }
