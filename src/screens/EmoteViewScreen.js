@@ -11,8 +11,7 @@ import HorizontalLineWithText from '../components/HorizontalLineWithText';
 
 export default class EmoteViewScreen extends React.Component {
     static navigationOptions = ({navigation}) => ({
-        title: LanguageManager.getInstance().getText("VIEW_EMOTION"),
-        headerRight: <HeaderMenuButton onHeaderMenuSelected={(index) => navigation.state.params.onHeaderMenuSelected(index)}/>
+        title: LanguageManager.getInstance().getText("VIEW_EMOTION")
     })
 
     state = {
