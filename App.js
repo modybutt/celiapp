@@ -56,16 +56,17 @@ export default class App extends React.Component {
     
     this.setState({
       isSplashReady: true,
-      hasToken: !!settings.nickname
+      hasUserId: !!settings.userId
     });
     setTimeout(() =>  this.setState({isAppReady: true}), 3000);
   }
 
   
-  handleNewUsername = (e) => {
+  handleNewUsername = (userName) => {
+    console.log("Saving username:" + JSON.stringify(userName));
+    DatabaseManager.getInstance().saveSettings('userId', userName, (error) => {alert(error)}, null);
     //TODO get new auth token
-    //TODO persist user name to DB
-    this.setState({hasToken: true})
+    this.setState({ hasUserId : true})
   };
 
   render() {
@@ -73,7 +74,7 @@ export default class App extends React.Component {
       <View style={styles.container}>
         {this.state.isSplashReady == false 
           ? null 
-          : this.state.hasToken 
+          : this.state.hasUserId 
             ? <AppNavigator/>
             : <UsernameDialog onUsername ={this.handleNewUsername}/>
         }

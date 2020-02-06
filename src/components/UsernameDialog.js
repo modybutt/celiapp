@@ -17,8 +17,8 @@ export default class UsernameDialog extends React.Component {
               <Dialog.Description>
                 Please enter your username.
               </Dialog.Description>
-              <Dialog.Input></Dialog.Input>
-              <Dialog.Button label={"OK"} onPress = {this.props.onUsername}/>
+              <Dialog.Input onChangeText={(text) => this.username = text}></Dialog.Input>
+              <Dialog.Button label={"OK"} onPress = { () => this.props.onUsername(this.username)}/>
             </Dialog.Container>
       </View>
     );
