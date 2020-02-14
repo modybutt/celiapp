@@ -41,7 +41,18 @@ const TabNavStack = createMaterialTopTabNavigator({
           ),
         }
     },
-
+    Home: {	
+      screen: HomeScreen,	//Note for Oisin: replace this with your component
+      navigationOptions: {	
+        //tabBarLabel: 'Home',	
+        tabBarIcon: ({focused}) => (	
+          <TabBarIcon	
+            focused={focused}	
+            name={'md-paw'}	
+          />	
+        )	
+    }	
+  },
     Calendar: {
         screen: CalendarStack,
         navigationOptions: {
