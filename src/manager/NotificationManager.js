@@ -27,7 +27,7 @@ export default class NotificationManager
 
     scheduleNotification() 
     {
-        //every time the user logs anything, reset all current notifications and 
+        //every time the user logs anything, reset all current notifications
         Notifications.cancelAllScheduledNotificationsAsync();
 
         const title = LanguageManager.getInstance().getText('NOTIFICATION_TITLE');
@@ -37,27 +37,24 @@ export default class NotificationManager
         {
             title: title,
             body: body,
-            data: {
-                title: title,
-                body: body
-            },
             android: { sound: true },
             ios: { sound: true },
         };
         
-        let schedule = new Date();
-        //12 * 60 seconds * 60 minutes * 1000 miliseconds.
-        schedule.setTime(schedule.getTime() + 12 * 60 * 60 * 1000);
+        let now = new Date();
+        let tomorrow = new Date();
+        tomorrow.setDate(now.getDate() + 1);
 
-        //if the new time falls in the night or early in the morning, set it to the next morning at 9.
-        if (schedule >= 20 || schedule <= 7)
+        // if the new time falls early in the morning or late at night, set it to the next morning
+        if (tomorrow.getHours() <= 7 || tomorrow.getHours() >= 20)
         {
-            schedule.setHours(8, 0, 0);
+            tomorrow.setHours(8, 0, 0);
         }
 
-        const schedulingOptions = { time: schedule };
+        const schedulingOptions = { time: tomorrow };
         Notifications.scheduleLocalNotificationAsync(localnotification, schedulingOptions);
     }
+
     listenForNotifications = () =>
     {
         Notifications.addListener(notification => 
@@ -71,9 +68,10 @@ export default class NotificationManager
             }
         });
     };
+
     initialize() 
     {
         getiOSNotificationPermission();
         this.listenForNotifications();
-    }    
+    }
 }
