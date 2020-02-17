@@ -1,6 +1,8 @@
 import React from 'react';
 import { Text, View, Image, Animated, StyleSheet, Easing , Dimensions } from 'react-native';
 
+import Constants from 'expo-constants';
+
 export default class LoadingScreen extends React.Component {
 
   constructor() {
@@ -32,7 +34,12 @@ export default class LoadingScreen extends React.Component {
     });
 
     return (
-      <View style={{width: Dimensions.get('window').width, height: Dimensions.get('window').height, justifyContent: 'space-around', alignItems: 'center'}}>
+      <View style={{
+        width: Dimensions.get('window').width,
+        height: Dimensions.get('window').height,
+        justifyContent: 'space-around',
+        alignItems: 'center'
+      }}>
         <Text style={{fontSize: 40, fontWeight: 'bold'}}>CeliApp</Text>
         <Animated.Image
           style={{
@@ -42,7 +49,8 @@ export default class LoadingScreen extends React.Component {
           }}
           source={require('../assets/images/celiapp_icon_trans.png')}
         />
-        <Text style={{color: 'green'}}> - Glutenfree is what you want to be - </Text>
+        <Text style={{color: 'green'}}>Glutenfree is what you want to be</Text>
+        <Text style={{fontSize: 12, color: 'gray'}}>{Constants.nativeAppVersion} (Build {Constants.nativeBuildVersion})</Text>
       </View>
     );
   }

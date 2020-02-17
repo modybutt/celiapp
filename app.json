@@ -2,14 +2,15 @@
     "expo": {
       "name": "CeliApp",
       "icon": "./src/assets/images/celiapp_icon_trans.png",
-      "version": "0.1.1",
+      "version": "0.2.0",
       "slug": "CeliApp",
       "sdkVersion": "35.0.0",
       "ios": {
-          "buildNumber": "2",
+          "buildNumber": "100",
           "bundleIdentifier": "ie.itcarlow.CeliApp"
       },
       "android": {
+        "versionCode": 100,
         "package": "ie.itcarlow.CeliApp"
       },
       "platforms": [
