@@ -101,9 +101,9 @@
 		"WANT_TO_SAVE_EMPTY_FOOD": "Do you want to save the food diary entry empty?",
 		"NO": "No",
 		"WANT_TO_SAVE_EMPTY_GIP": "Do you want to save the GIP result empty?",
-        "SAVE_EMPTY_GIP": "No GIP result entered",
-        "NOTIFICATION_TITLE": "Reminder",
-        "NOTIFICATION_BODY": "don't forget to log what you have eaten today!"
+    "SAVE_EMPTY_GIP": "No GIP result entered",
+    "NOTIFICATION_TITLE": "Reminder",
+    "NOTIFICATION_BODY": "Don't forget to log what you have eaten today!"
 
 	}
 }

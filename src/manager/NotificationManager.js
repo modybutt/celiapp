@@ -21,12 +21,14 @@ export default class NotificationManager
         {
             NotificationManager.instance = new NotificationManager();
             this.instance.initialize();
+            this.instance.scheduleNotification();
         }
         return this.instance;
     }
 
     scheduleNotification() 
     {
+        console.log("Scheduling a notification...");
         //every time the user logs anything, reset all current notifications
         Notifications.cancelAllScheduledNotificationsAsync();
 
