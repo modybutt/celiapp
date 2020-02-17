@@ -62,6 +62,7 @@ export default class TextFieldMultiline extends React.Component {
                 editable = {true}
                 maxLength = {400}
                 multiline = {true}
+                placeholder={this.props.placeholderText || ""}
             />
         </View>
     );
