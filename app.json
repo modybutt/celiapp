@@ -5,6 +5,7 @@
       "version": "0.2.0",
       "slug": "CeliApp",
       "sdkVersion": "35.0.0",
+      "orientation": "portrait",
       "ios": {
           "buildNumber": "100",
           "bundleIdentifier": "ie.itcarlow.CeliApp"
