@@ -103,7 +103,7 @@
 		"WANT_TO_SAVE_EMPTY_GIP": "Do you want to save the GIP result empty?",
     "SAVE_EMPTY_GIP": "No GIP result entered",
     "NOTIFICATION_TITLE": "Reminder",
-    "NOTIFICATION_BODY": "Don't forget to log what you have eaten today!"
-
+    "NOTIFICATION_BODY": "Don't forget to log what you have eaten today!",
+    "MEAL_NAME_PLACEHOLDER": "Burgers and chips"
 	}
 }

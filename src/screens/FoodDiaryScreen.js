@@ -228,7 +228,12 @@ export default class FoodDiaryScreen extends React.Component{
                 <HorizontalLineWithText text = {LanguageManager.getInstance().getText("TIME")}/>
                 <TimePicker ref={component => this._timePicker = component} textString = "EATEN_AT" onTimeChanged={this.timeEditedHandler}/>
                 <HorizontalLineWithText text = {LanguageManager.getInstance().getText("NAME")}/>
-                <TextInputSingleLine ref={component => this._name = component} onTextChanged={this.nameEditedHandler} style={{Top: 10}}/>
+                <TextInputSingleLine
+                  ref={component => this._name = component}
+                  onTextChanged={this.nameEditedHandler}
+                  style={{Top: 10}}
+                  placeholderText= {LanguageManager.getInstance().getText("MEAL_NAME_PLACEHOLDER")}
+                />
                 <HorizontalLineWithText text = {LanguageManager.getInstance().getText("TAGS")}/>
                 <FoodDiaryTagEdit ref={component => this._class = component} all={tags} selected={this.state.selectedClassKey} isExclusive={true} onTagChanged={this.classChangedHandler}/>
                 <HorizontalLineWithText text = {LanguageManager.getInstance().getText("TYPES")}/>
