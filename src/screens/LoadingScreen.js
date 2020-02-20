@@ -50,7 +50,7 @@ export default class LoadingScreen extends React.Component {
           source={require('../assets/images/celiapp_icon_trans.png')}
         />
         <Text style={{color: 'green'}}>Glutenfree is what you want to be</Text>
-        <Text style={{fontSize: 12, color: 'gray'}}>{Constants.nativeAppVersion} (Build {Constants.nativeBuildVersion})</Text>
+        <Text style={{fontSize: 12, color: 'gray'}}>Version {Constants.manifest.version}</Text>
       </View>
     );
   }

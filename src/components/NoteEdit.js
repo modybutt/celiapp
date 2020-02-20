@@ -36,7 +36,9 @@ export default class NoteEdit extends React.Component{
                      <TextInputMultiLine
                         ref={component => this._textInputMultiLine = component}
                         text = {this.state.note}
-                        onTextChanged={this.noteEditedHandled}/>
+                        onTextChanged={this.noteEditedHandled}
+                        placeholderText={this.props.placeholderText || ""}
+                     />
                 </View>
                 <HorizontalLine/>
             </View>

@@ -3,7 +3,6 @@ import { StyleSheet, Text, View, Alert, TextInput } from 'react-native';
 
 export default class TextInputSingleLine extends React.Component {
 
-
     constructor(props) {
         super(props);
         this.state = {text: ''};
@@ -16,21 +15,21 @@ export default class TextInputSingleLine extends React.Component {
           this.props.onTextChanged(t)
       }
 
-
  render() {
       return (
         <View style={{top:10, bottom: 15}}>
             <View style={styles.Text}>
                 <TextInput
-                {...this.props}
-                maxLength = {30}
-                style={{marginRight: 20}}
-                onChangeText={(text) => {this.textChanged(text)}}
-                value={this.props.preText}
+                  {...this.props}
+                  maxLength = {60}
+                  style={{marginRight: 20}}
+                  onChangeText={(text) => {this.textChanged(text)}}
+                  value={this.props.preText}
+                  placeholder={this.props.placeholderText || ""}
                 />
             </View>
         </View>
-        );
+      );
     }
 }
 
