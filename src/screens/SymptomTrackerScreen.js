@@ -124,9 +124,6 @@ export default class SymptomTrackerScreen extends React.Component{
         this._dayChooser.changeDay(false);
       }
 
-
-
-
       showBackDiscardDialog = () => {
         this.setState({ cancelSaveDialogVisible: true });
       };
@@ -139,60 +136,6 @@ export default class SymptomTrackerScreen extends React.Component{
         this.navigateHome()
         this.setState({ cancelSaveDialogVisible: false });
       };
-
-
-
-
-
-
-
-
-
-      showDayChangeSaveDialog = () => {
-        this.setState({ dayChangeDialogVisible: true });
-      };
-
-     
-      handleDayChangeCancel = () => {
-          //do nothing, dont change date
-          this.setBackDayChooserOneDay()
-        this.setState({ dayChangeDialogVisible: false });
-      };
-     
-      handleDayChangeSave = () => {
-        //Save Data and go on to next date
-
-        //Alert.alert("onDateEditedHandler called");
-        // //Only update the date of the current selectedDateAndTime
-        let tmpDateTime = this.state.selectedDateAndTime
-        // //TODO: Change date of 
-        tmpDateTime.setDate(this.state.tempDate.getDate())
-        tmpDateTime.setMonth(this.state.tempDate.getMonth())
-        tmpDateTime.setYear(this.state.tempDate.getYear())
-
-        this.saveCurrentData(false)
-
-
-        //delete data
-
-        this.setState({ 
-            selectedDateAndTime: tmpDateTime,
-            dayChangeDialogVisible: false, 
-        });
-
-        this.clearNoteText()
-        this.clearSymptomGroup()
-      };
-
-     
-
-
-
-
-
-
-
-
 
     noteEditedHandler = (note) =>{
         this.setState({
@@ -211,17 +154,7 @@ export default class SymptomTrackerScreen extends React.Component{
         this.setState({
             selectedDateAndTime: tmpDateTime,
         })
-        if(Array.isArray(this.state.selectedSymptoms) && this.state.selectedSymptoms.length){
-            this.showDayChangeSaveDialog()
-        }else{
-            //symptoms were not edited, but maybe the note. Delete note and update noteEdit
-            this.setState({
-                symptomEntryNote: ""
-            })
-            this.clearNoteText()
-        }
     }
-
 
     timeEditedHandler = (dateTime) =>{
         // //Only update the time of the current selectedDateAndTime
@@ -243,11 +176,6 @@ export default class SymptomTrackerScreen extends React.Component{
         })
     }
 
-
-
-
-
-
     render(){
         const marginToUse = ((this.state.keyboardOpen) ? 300 : 0);
 
@@ -255,7 +183,7 @@ export default class SymptomTrackerScreen extends React.Component{
                 <View style={styles.container}>
                   <KeyboardAwareScrollView>
                       {/* <TextInput onSubmitEditing={Keyboard.dismiss} /> */}
-                      <HorizontalLineWithText text = {LanguageManager.getInstance().getText("DATE")}/>
+                      <HorizontalLineWithText text = {LanguageManager.getInstance().getText("DATE")+"test"}/>
                       <DayChooser ref={component => this._dayChooser = component} date = {this.state.selectedDateAndTime} onDateChanged={this.dateEditedHandler}/>
                       <HorizontalLineWithText text = {LanguageManager.getInstance().getText("TIME")}/>
                       <TimePicker ref={component => this._timePicker = component} textString = "SYMPTOM_OCCURED" onTimeChanged={this.timeEditedHandler}/>
@@ -264,19 +192,7 @@ export default class SymptomTrackerScreen extends React.Component{
                       <HorizontalLineWithText text = {LanguageManager.getInstance().getText("NOTES")}/>
                       <NoteEdit ref={component => this._noteEdit = component} note={this.state.symptomEntryNote} onTextChanged={this.noteEditedHandler}/>
                       <View style={{paddingBottom: 10}} />
-    
-                      {/*Dialog for Day Change Save Dialog*/}
-                      <View>
-                          <Dialog.Container visible={this.state.dayChangeDialogVisible}>
-                          <Dialog.Title>{LanguageManager.getInstance().getText("SAVE")}</Dialog.Title>
-                          <Dialog.Description>
-                              {LanguageManager.getInstance().getText("DO_YOU_WANT_TO_SAVE")}
-                          </Dialog.Description>
-                          <Dialog.Button label={LanguageManager.getInstance().getText("CANCEL")} onPress={this.handleDayChangeCancel} />
-                          <Dialog.Button label={LanguageManager.getInstance().getText("SAVE")} onPress={this.handleDayChangeSave} />
-                          </Dialog.Container>
-                      </View>
-    
+       
                       {/*Dialog for Day Change Save Dialog*/}
                        <View>
                           <Dialog.Container visible={this.state.cancelSaveDialogVisible}>
