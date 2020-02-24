@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
-import { TouchableOpacity, Text, Alert, Animated, Image, Easing, View, StyleSheet } from 'react-native';
+import { TouchableOpacity, Text, Alert, Animated, Image, Easing, View, StyleSheet, Platform } from 'react-native';
 import Dialog from "react-native-dialog";
+
+import Constants from 'expo-constants';
 
 // constants
 import {
@@ -307,7 +309,9 @@ export default class SymptomIconButton extends Component {
 
 		if (this.props.active == null || this.props.active == true) {
 			return (
-				<View style={{marginTop: 60, opacity: this.props.opacity, zIndex: zIndex}}>
+				<View style={(Platform.OS === 'ios') ?
+          {marginTop: 60, opacity: this.props.opacity, zIndex: zIndex} :
+          {marginTop: 60, opacity: this.props.opacity}}>
 					<Animated.View
 						style={[
 							style.bigBubble,
