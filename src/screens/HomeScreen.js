@@ -10,6 +10,8 @@ import Gluton from "../components/Gluton";
 import MenuButton from '../components/MenuButton';
 import PopUpMenu from '../components/PopUpMenu';
 import LanguageManager from '../manager/LanguageManager';
+import CircleDisplayFull from '../components/CircleDisplayFull';
+
 
 export default class HomeScreen extends React.Component {
   onPopupEvent(eventName, index) {
@@ -24,21 +26,10 @@ export default class HomeScreen extends React.Component {
       default: this.props.navigation.navigate('Debug'); break;
     }
   }
-
+  
   render() {
-    let popupNames = [
-      LanguageManager.getInstance().getText("SETTINGS"),
-      //LanguageManager.getInstance().getText("CAMERA"),
-      //LanguageManager.getInstance().getText("DEBUG"),
-      LanguageManager.getInstance().getText("GEAR"),
-    ];
-
     return (
-      <ImageBackground source={Background} style={styles.background}>
-        <Gluton style={styles.gluton}/>
-        <PopUpMenu style={styles.popup} actions={popupNames} onPress={(name, index) => this.onPopupEvent(name, index)} />
-        <MenuButton navigation={this.props.navigation}/>
-      </ImageBackground>
+      <CircleDisplayFull/>
 	  );
   }  
 }
