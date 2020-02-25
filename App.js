@@ -20,7 +20,7 @@ export default class App extends React.Component {
 
   componentDidMount() {
     DatabaseManager.getInstance().loadSettings(null, 
-      (_, error) => { alert(JSON.stringify(error)); }, 
+      (_, error) => { alert("error loading settings" + JSON.stringify(error)); }, 
       (_, {rows: { _array }}) => {
         let settings = {};
 
