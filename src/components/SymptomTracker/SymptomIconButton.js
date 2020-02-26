@@ -121,11 +121,11 @@ export default class SymptomIconButton extends Component {
         this.setState({selected: !selected, selectedSeverity: selected ? 0 : 1});
         if (selected)
         {
-            this.props.onSymptomSelected(this.props.symptomID, 1);
+            this.props.onSymptomDeselected(this.props.symptomID, 1);
         }
         else 
         {
-            this.props.onSymptomDeselected(this.props.symptomID, 1);
+            this.props.onSymptomSelected(this.props.symptomID, 1);
         }
         this.props.onSeverityChooserHandled(true);
     }
