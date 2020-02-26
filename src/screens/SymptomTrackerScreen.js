@@ -16,12 +16,19 @@ import GearManager from '../manager/GearManager';
 
 
 export default class SymptomTrackerScreen extends React.Component{
-    static navigationOptions = ({navigation}) => ({
-        title: LanguageManager.getInstance().getText("ADD_SYMPTOM"),
-        headerLeft: <HeaderBackButton onPress={() => navigation.state.params.onCancelPressed()}/>,
-        headerRight: <HeaderSaveButton onPress={() => navigation.state.params.onOkPressed(true)}/>
-    })
+    static navigationOptions = ({navigation}) => {
+        const {state} = navigation;
 
+        if(state.params != undefined) {
+            return {
+                title: LanguageManager.getInstance().getText("ADD_SYMPTOM"),
+                headerLeft: <HeaderBackButton onPress={() => navigation.state.params.onCancelPressed()}/>,
+                headerRight:<HeaderSaveButton onPress={() => navigation.state.params.onOkPressed(true)} shareConfig={{
+                    onSymptomsUpdated: state.params.onSymptomsUpdated
+                }} />
+            }
+        }
+    }
 
     //_didFocusSubscription;
     //_willBlurSubscription;
@@ -40,12 +47,18 @@ export default class SymptomTrackerScreen extends React.Component{
             dayChangeDialogVisible: false,
             resetSymptomGroup: false,
             cancelSaveDialogVisible: false,
+            selectSymptomDialogVisible: false,
             keyboardOpen: false
         } 
 
         // this._didFocusSubscription = props.navigation.addListener('didFocus', payload =>
         //     BackHandler.addEventListener('hardwareBackPress', this.onBackButtonPressAndroid)
         // );
+    }
+
+    componentWillMount() {
+        const {setParams} = this.props.navigation;
+        setParams({onSymptomsUpdated: this.onSymptomsUpdated.bind(this)});
     }
 
     componentDidMount() {
@@ -103,6 +116,9 @@ export default class SymptomTrackerScreen extends React.Component{
         this._noteEdit.deleteNote();
       }
 
+      onSymptomsUpdated = (callback) => {
+        this.symptomsUpdated = callback;
+      }
 
       clearSymptomGroup = () =>{
         this.setState({
@@ -170,10 +186,10 @@ export default class SymptomTrackerScreen extends React.Component{
     }
 
     symptomSelectionChangeHandler = (sympIDsAndSeverity) =>{
-        // alert(JSON.stringify(sympIDsAndSeverity));
+        this.symptomsUpdated(sympIDsAndSeverity.length > 0);
         this.setState({
             selectedSymptoms: sympIDsAndSeverity,
-        })
+        });
     }
 
     render(){
@@ -213,19 +229,29 @@ export default class SymptomTrackerScreen extends React.Component{
             )
     }
 
+    isSymptomSelected()
+    {
+        return Array.isArray(this.state.selectedSymptoms) && this.state.selectedSymptoms.length > 1;
+    }
+
     saveCurrentData = (goHome) =>{
         let added = 1;
-        let tmpDateTime = this.state.selectedDateAndTime
-
-        this.state.selectedSymptoms.forEach((symptom) => {
-            DatabaseManager.getInstance().createSymptomEvent(symptom.symptomID, symptom.severity, this.state.symptomEntryNote, tmpDateTime.getTime(), 
-                (error) => {alert(error)}, 
-                () => {GlutonManager.getInstance().setMessage(2); GearManager.getInstance().sendMessage("msg 32")}
-            );
-        });
-
-        if (goHome) {
-            setTimeout(() => this.navigateHome(), 100);
+        let tmpDateTime = this.state.selectedDateAndTime;
+        
+        if(this.isSymptomSelected())
+        {
+            this.state.selectedSymptoms.forEach((symptom) => {
+                DatabaseManager.getInstance().createSymptomEvent(symptom.symptomID, symptom.severity, this.state.symptomEntryNote, tmpDateTime.getTime(), 
+                    (error) => {alert(error)}, 
+                    () => {GlutonManager.getInstance().setMessage(2); GearManager.getInstance().sendMessage("msg 32")}
+                );
+            });
+    
+            if (goHome) {
+                setTimeout(() => this.navigateHome(), 100);
+            }
+        } else {
+            this.showBackDiscardDialog();
         }
     }
 

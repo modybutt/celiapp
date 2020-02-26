@@ -150,8 +150,21 @@ export default class SymptomGroup extends React.Component{
                     <NavigationEvents onDidFocus={() => this.refreshSymptoms()}/>
                     <View style={{zIndex: 0, marginBottom: 30}}>
                         <View style={styles.groupContainer}>
+                        <SymptomIconButton
+                              type={6}
+                              defaultSeverity={
+                                0
+                              }
+                              symptomID={-1}
+                              symptomName="NO_SYMPTOMS"
+                              onSymptomDeleted={() => this.refreshSymptoms()}
+                              onSeverityChooserHandled = {this.severityChooserHandler}
+                              canOpenSeverity = {this.state.canOpenSeverityChooser}
+                              onSymptomSelected = {this.symptomSelected}
+                              onSymptomDeselected = {this.symptomDeselected}
+                            />
                             <SymptomIconButton
-                              type={1}
+                              type={2}
                               defaultSeverity={
                                 this.getDefaultSeverity(this.state.symptoms[0].id)
                               }
@@ -179,7 +192,7 @@ export default class SymptomGroup extends React.Component{
                               onSymptomDeselected = {this.symptomDeselected}
                             />
                             <SymptomIconButton
-                              type={2}
+                              type={3}
                               defaultSeverity={
                                 this.getDefaultSeverity(this.state.symptoms[2].id)
                               } symptomID={this.state.symptoms[2].id}
@@ -191,8 +204,10 @@ export default class SymptomGroup extends React.Component{
                               onSymptomSelected = {this.symptomSelected}
                               onSymptomDeselected = {this.symptomDeselected}
                             />
+                        </View>
+                        <View style={styles.groupContainer}>
                             <SymptomIconButton
-                              type={3}
+                              type={1}
                               defaultSeverity={
                                 this.getDefaultSeverity(this.state.symptoms[3].id)
                               } symptomID={this.state.symptoms[3].id}
@@ -204,10 +219,8 @@ export default class SymptomGroup extends React.Component{
                               onSymptomSelected = {this.symptomSelected}
                               onSymptomDeselected = {this.symptomDeselected}
                             />
-                        </View>
-                        <View style={styles.groupContainer}>
                             <SymptomIconButton
-                              type={1}
+                              type={2}
                               defaultSeverity={
                                 this.getDefaultSeverity(this.state.symptoms[4].id)
                               }
@@ -228,20 +241,6 @@ export default class SymptomGroup extends React.Component{
                               symptomID={this.state.symptoms[5].id}
                               symptomName={this.state.symptoms[5].name}
                               symptomIcon={this.state.symptoms[5].icon}
-                              onSymptomDeleted={() => this.refreshSymptoms()}
-                              onSeverityChooserHandled = {this.severityChooserHandler}
-                              canOpenSeverity = {this.state.canOpenSeverityChooser}
-                              onSymptomSelected = {this.symptomSelected}
-                              onSymptomDeselected = {this.symptomDeselected}
-                            />
-                            <SymptomIconButton
-                              type={2}
-                              defaultSeverity={
-                                this.getDefaultSeverity(this.state.symptoms[6].id)
-                              }
-                              symptomID={this.state.symptoms[6].id}
-                              symptomName={this.state.symptoms[6].name}
-                              symptomIcon={this.state.symptoms[6].icon}
                               onSymptomDeleted={() => this.refreshSymptoms()}
                               onSeverityChooserHandled = {this.severityChooserHandler}
                               canOpenSeverity = {this.state.canOpenSeverityChooser}
