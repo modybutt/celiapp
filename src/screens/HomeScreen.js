@@ -29,7 +29,23 @@ export default class HomeScreen extends React.Component {
   
   render() {
     return (
-      <CircleDisplayFull/>
+      <View style={styles.background}>
+        <CircleDisplayFull 
+                progBarX={75}
+                progBarY={130}
+                progBarBorderWidth={35}
+                progBarBigRadius={130}
+                progBarSmallRadius={12}
+                NoInputColour={'grey'} 
+                GlutenColour={'red'} 
+                NoGlutenColour={'green'} 
+                SymptomOnlyColour={'blue'} 
+                FinishedBackGroundColour={'#3399FF'}
+                UnfinishedBackGroundColour={'#999'}
+                InsideCircleBGColour={'#fff'}
+        /> 
+         <MenuButton navigation={this.props.navigation}/>
+      </View>
 	  );
   }  
 }
