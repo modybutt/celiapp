@@ -8,13 +8,16 @@ import ProgressCircle from 'react-native-progress-circle';
 
 let m_numDaysCurrentMonth;
 
-if (moment( moment().format().substring(0,7) , "YYYY-MM").daysInMonth() > 21)
+
+if (moment( moment().format().substring(0,7) , "YYYY-MM").year() == 2020 
+&& moment( moment().format().substring(0,7) , "YYYY-MM").month() == 2
+&& moment( moment().format().substring(0,7) , "YYYY-MM-DD").day() < 22)
 {
-  m_numDaysCurrentMonth = moment( moment().format().substring(0,7) , "YYYY-MM").daysInMonth()
+  m_numDaysCurrentMonth = 21;
 }
 else
 {
-  m_numDaysCurrentMonth = 21;
+  m_numDaysCurrentMonth = moment( moment().format().substring(0,7) , "YYYY-MM").daysInMonth()
 }
 
 
