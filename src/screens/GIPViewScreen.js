@@ -49,29 +49,35 @@ export default class FoodViewScreen extends React.Component {
     render() {
         let objData = JSON.parse(this.state.event.objData);
 
+        var resultDate = objData.timestamp;
+
         var displayBlock = {
             resultValue: 'Negative',
             accuracyPercentText: 100,
-            dateValue: new Date().getDate() + '/' +  new Date().getMonth() + '/' +  new Date().getYear(),
-            timeValue: new Date().getHours() + ':' + new Date().getMinutes(),
+            dateValue: new Date(resultDate).getUTCDate() + '/' +  (new Date(resultDate).getUTCMonth()+1) + '/' +  new Date(resultDate).getUTCFullYear(),
+            timeValue: new Date(resultDate).getUTCHours() + ':' + new Date(resultDate).getUTCMinutes(),
             resultState: objData.result };
 
         switch(objData.result) {
-            case 0:
-                displayBlock.resultValue = 'Positive';
-                displayBlock.accuracyPercentText = 95;
-              break;
             case 1:
                 displayBlock.resultValue = 'Negative';
                 displayBlock.accuracyPercentText = 95;
+                displayBlock.resultState = 0;
+              break;
+            case 0:
+                displayBlock.resultValue = 'Positive';
+                displayBlock.accuracyPercentText = 95;
+                displayBlock.resultState = 1;
               break;
             case 2:
                 displayBlock.resultValue = 'Inconclusive';
                 displayBlock.accuracyPercentText = 55;
+                displayBlock.resultState = 2;
                break;
             default:
                 displayBlock.resultValue = 'Inconclusive';
                 displayBlock.accuracyPercentText = 55;
+                displayBlock.resultState = 2;
           }
         const tags = [
           LanguageManager.getInstance().getText("GLUTEN"),
@@ -85,8 +91,6 @@ export default class FoodViewScreen extends React.Component {
                     <FoodDiaryImageEdit snapshot={objData.photo} active={false} size="medium" />
                 </View>
                 <HorizontalLineWithText text={LanguageManager.getInstance().getText("DATE")}/>
-                <Text>{LanguageManager.getInstance().getDateAsText(objData.timestamp)}</Text>
-                <HorizontalLineWithText text={LanguageManager.getInstance().getText("TAGS")}/>
                 <View style={{paddingBottom: 10}} />
                 <ResultBlock dataBlock={displayBlock}></ResultBlock>
                 <HorizontalLineWithText text = {LanguageManager.getInstance().getText("NOTES")}/>
