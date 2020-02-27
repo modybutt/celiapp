@@ -16,8 +16,7 @@ import HeaderSaveButton from '../components/HeaderSaveButton';
 
 export default class CalendarScreen extends React.Component {
   static navigationOptions = ({navigation}) => ({
-    title: LanguageManager.getInstance().getText("CALENDAR"),
-    headerRight: <HeaderSaveButton type={2} onPress={() => navigation.state.params.onOkPressed()}/>
+    title: LanguageManager.getInstance().getText("CALENDAR")
   });
 
   state = {

@@ -1,5 +1,6 @@
 import React from 'react'
 import { TouchableOpacity, View, Text, StyleSheet, Image } from 'react-native'
+
 export default class BackgroundButton extends React.Component {
 
   render() {

@@ -1,1 +1,0 @@
-java -jar CeliServer.jar 8080

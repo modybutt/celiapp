@@ -16,6 +16,7 @@ import DatabaseManager from '../manager/DatabaseManager';
 import { images } from '../components/EmoteTracker/EmoteTrackerConstants';
 import FoodDiaryRatingBar from '../components/FoodDiary/FoodDiaryRatingBar';
 import LanguageManager from '../manager/LanguageManager';
+import Events from '../constants/Events';
 
 
 
@@ -66,7 +67,7 @@ export default class EntryList extends React.Component {
     let objData  = JSON.parse(item.objData);
     
     switch(item.eventType) {
-      case 0: {
+      case Events.Symptom: {
         let color = 'transparent';
         switch (objData.severity) {
           case 1: color = 'yellow'; break;
@@ -90,7 +91,7 @@ export default class EntryList extends React.Component {
           </TouchableOpacity>
         )
       }
-      case 1: {
+      case Events.Food: {
         if (objData.icon != null) {
           return (
             <TouchableOpacity onPress={() => this.props.navigation.navigate('ViewMeal', {event: item})}>
@@ -117,7 +118,33 @@ export default class EntryList extends React.Component {
           )
         }
       }
-      case 2: {
+      case Events.GIP: {
+        if (objData.photo != null) {
+          return (
+            <TouchableOpacity onPress={() => this.props.navigation.navigate('ViewGIP', {event: item})}>
+              <ListItem
+                title={"GIP test"}
+                subtitle={LanguageManager.getInstance().getDateAsText(item.created)}
+                leftAvatar={{ source: Image.resolveAssetSource(objData.photo) }}
+                chevron={true}
+              />
+            </TouchableOpacity>
+          )
+        } else {
+          return (
+            <TouchableOpacity onPress={() => this.props.navigation.navigate('ViewGIP', {event: item})}>
+              <ListItem
+                title={"GIP test"}
+                subtitle={LanguageManager.getInstance().getDateAsText(item.created)}
+                leftAvatar={{ icon: {name: 'camera'} }}
+                chevron={true}
+              />
+            </TouchableOpacity>
+          )
+        }
+      }
+      
+      case Events.Emotion: {
         let picture = null;
         let name = '';
         switch (objData.type) {

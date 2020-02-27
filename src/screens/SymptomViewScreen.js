@@ -11,8 +11,7 @@ import SymptomIconButton from '../components/SymptomTracker/SymptomIconButton';
 
 export default class SymptomViewScreen extends React.Component {
     static navigationOptions = ({navigation}) => ({
-        title: LanguageManager.getInstance().getText("VIEW_SYMPTOM"),
-        headerRight: <HeaderMenuButton onHeaderMenuSelected={(index) => navigation.state.params.onHeaderMenuSelected(index)}/>
+        title: LanguageManager.getInstance().getText("VIEW_SYMPTOM")
     })
 
     state = {
