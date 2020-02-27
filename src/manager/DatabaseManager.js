@@ -44,13 +44,22 @@ export default class DatabaseManager {
             
             tx.executeSql(
               'INSERT OR IGNORE INTO symptoms (id, name, icon, created, modified, usage) VALUES \
-                (1, "BLOATING", "' + BLOATING_ICON + '", ' + now + ', ' + now + ', 0),\
-                (2, "DIARRHEA", "' + DIARRHEA_ICON + '", ' + now + ', ' + now + ', 0),\
-                (3, "HEADACHE", "' + HEADACHE_ICON + '", ' + now + ', ' + now + ', 0),\
-                (4, "IRRITABILITY", "' + IRRITABILITY_ICON + '", ' + now + ', ' + now + ', 0),\
-                (5, "STOMACHACHE", "' + STOMACHACHE_ICON + '", ' + now + ', ' + now + ', 0),\
-                (6, "VOMITING", "' + VOMITING_ICON + '", ' + now + ', ' + now + ', 0),\
-                (7, "WEIGHT_LOSS", "' + WEIGHT_LOSS_ICON + '", ' + now + ', ' + now + ', 0);',
+                (1, "BLOATING",     "' + BLOATING_ICON      + '", ' + now + ', ' + now + ', 0),\
+                (2, "DIARRHEA",     "' + DIARRHEA_ICON      + '", ' + now + ', ' + now + ', 0),\
+                (3, "HEADACHE",     "' + HEADACHE_ICON      + '", ' + now + ', ' + now + ', 0),\
+                (4, "IRRITABILITY", "' + IRRITABILITY_ICON  + '", ' + now + ', ' + now + ', 0),\
+                (5, "STOMACHACHE",  "' + STOMACHACHE_ICON   + '", ' + now + ', ' + now + ', 0),\
+                (6, "VOMITING",     "' + VOMITING_ICON      + '", ' + now + ', ' + now + ', 0),\
+                (7, "WEIGHT_LOSS",  "' + WEIGHT_LOSS_ICON   + '", ' + now + ', ' + now + ', 0),\
+                (8, "SYMPTOM_8",    "' + BLOATING_ICON      + '", ' + now + ', ' + now + ', 0),\
+                (9, "SYMPTOM_9",    "' + DIARRHEA_ICON      + '", ' + now + ', ' + now + ', 0),\
+                (10, "SYMPTOM_10",  "' + HEADACHE_ICON      + '", ' + now + ', ' + now + ', 0),\
+                (11, "SYMPTOM_11",  "' + IRRITABILITY_ICON  + '", ' + now + ', ' + now + ', 0),\
+                (12, "SYMPTOM_12",  "' + STOMACHACHE_ICON   + '", ' + now + ', ' + now + ', 0),\
+                (13, "SYMPTOM_13",  "' + VOMITING_ICON      + '", ' + now + ', ' + now + ', 0),\
+                (14, "SYMPTOM_14",  "' + WEIGHT_LOSS_ICON   + '", ' + now + ', ' + now + ', 0),\
+                (15, "SYMPTOM_15",  "' + IRRITABILITY_ICON  + '", ' + now + ', ' + now + ', 0),\
+                (16, "SYMPTOM_16",  "' + STOMACHACHE_ICON   + '", ' + now + ', ' + now + ', 0);',
                 (param) => alert("insert into symptoms: " + JSON.stringify(param)));
             
             tx.executeSql(
@@ -73,7 +82,7 @@ export default class DatabaseManager {
               ("lastRecorded", ' + now + ')',
               (param) => alert("insert into settings: " + JSON.stringify(param)));
               
-          }, (error) => alert("DB init: " + JSON.stringify(error)));
+          }, (error) => alert("DB init error: " + JSON.stringify(error)));
       }
       
       return this.instance;
@@ -186,7 +195,7 @@ export default class DatabaseManager {
       note
     }
     
-      //every time a meal is added, it will trigger a notification to be scheduled 12 hours later.
+      //every time a meal is added, it will trigger a notification to be scheduled 24 hours later.
       //All previously added notifications will be removed.
       NotificationManager.getInstance().scheduleNotification();
 

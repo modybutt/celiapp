@@ -46,7 +46,8 @@
 		"VOMITING": "Vomiting",
 		"WEIGHT_LOSS": "Weight loss",
 		"BLOATING": "Bloating",
-		"MORE_SYMPTOMS": "More...",
+        "MORE_SYMPTOMS": "More...",
+        "NO_SYMPTOMS": "No symptoms",
 		"NAME": "Name",
 		"TAGS": "Tags",
 		"TYPES": "Type of meal",
@@ -101,9 +102,12 @@
 		"WANT_TO_SAVE_EMPTY_FOOD": "Do you want to save the food diary entry empty?",
 		"NO": "No",
 		"WANT_TO_SAVE_EMPTY_GIP": "Do you want to save the GIP result empty?",
-        "SAVE_EMPTY_GIP": "No GIP result entered",
-        "NOTIFICATION_TITLE": "Reminder",
-        "NOTIFICATION_BODY": "don't forget to log what you have eaten today!"
-
+    "SAVE_EMPTY_GIP": "No GIP result entered",
+    "NOTIFICATION_TITLE": "Reminder",
+    "NOTIFICATION_BODY": "Don't forget to log what you have eaten today!",
+    "MEAL_NAME": "Short Description",
+    "MEAL_NAME_PLACEHOLDER": "Burgers and chips",
+    "MEAL_NOTES": "Notes",
+    "MEAL_NOTES_PLACEHOLDER": "Key information about the meal, e.g. main ingredients, off-the-shelf product, etc."
 	}
 }

@@ -1,5 +1,9 @@
                          				CELI APP
    		   				  - All You Could Eat -
+						  
+[Report bugs here](https://forms.gle/cLYvsLpdG7K9TA6S6)
+
+[Google drive folder](https://drive.google.com/drive/folders/14PHvjDnpShU3ikbmvI3tGRPABUAJEEVm?usp=sharing)
 
 ##########################################################################################################################
                               Prerequisites

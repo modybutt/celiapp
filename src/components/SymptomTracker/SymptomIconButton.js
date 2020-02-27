@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
-import { TouchableOpacity, Text, Alert, Animated, Image, Easing, View, StyleSheet } from 'react-native';
+import { TouchableOpacity, Text, Alert, Animated, Image, Easing, View, StyleSheet, Platform } from 'react-native';
 import Dialog from "react-native-dialog";
+
+import Constants from 'expo-constants';
 
 // constants
 import {
@@ -37,7 +39,7 @@ const HIGH_COLOR = 'rgb(255, 0, 0)';
 export default class SymptomIconButton extends Component {
 
 	//Prop: type -->  1 == left icon, 2 == normal 3 == right icon. -- Changes the placement of the severity chooser icons around the symptom icon
-	//Prop: type -->  4 == MoreSymptomsButton, 5 CreateSymptomButton
+	//Prop: type -->  4 == MoreSymptomsButton, 5 CreateSymptomButton, 6 NoSymptomButton
 	//Prop: symptomID --> 1 - 7 --> systemIcons. 0 --> more symptoms button. All IDs higher than that show the userDefinedIcon.
 
 	constructor(props) {
@@ -76,7 +78,12 @@ export default class SymptomIconButton extends Component {
 			this.props.navigation.navigate("MoreSymptoms", this.props.moreSymptomsParams)
 		}else if (this.props.type == 5) {
 			this.props.navigation.navigate("AddNewSymptom")
-		}else{
+        }else if (this.props.type == 6)
+        {
+            this.onPressNoSymptoms();
+        }
+        else
+        {
 			if (this.state.selectedSeverity == 0) {
 				this.callAnimation(false);
 			} else {
@@ -108,6 +115,20 @@ export default class SymptomIconButton extends Component {
 			}
 	}
 
+    onPressNoSymptoms()
+    {
+        const { selected } = this.state;
+        this.setState({selected: !selected, selectedSeverity: selected ? 0 : 1});
+        if (selected)
+        {
+            this.props.onSymptomDeselected(this.props.symptomID, 1);
+        }
+        else 
+        {
+            this.props.onSymptomSelected(this.props.symptomID, 1);
+        }
+        this.props.onSeverityChooserHandled(true);
+    }
 
 	onPressYellow = () => {
 		this.setState({selectedSeverity: 1})
@@ -307,7 +328,9 @@ export default class SymptomIconButton extends Component {
 
 		if (this.props.active == null || this.props.active == true) {
 			return (
-				<View style={{marginTop: 60, opacity: this.props.opacity, zIndex: zIndex}}>
+				<View style={(Platform.OS === 'ios') ?
+          {marginTop: 60, opacity: this.props.opacity, zIndex: zIndex} :
+          {marginTop: 60, opacity: this.props.opacity}}>
 					<Animated.View
 						style={[
 							style.bigBubble,
