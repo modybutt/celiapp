@@ -1,8 +1,8 @@
-
 import React from 'react';
 import { View, Button, Alert, ScrollView, Keyboard, TouchableOpacity, StyleSheet} from 'react-native';
 import Dialog from "react-native-dialog";
 import { HeaderBackButton } from 'react-navigation'
+import * as FileSystem from 'expo-file-system';
 import DatabaseManager from '../manager/DatabaseManager';
 import TextInputSingleLine from '../components/TextInputSingleLine';
 import NoteEdit from '../components/NoteEdit';
@@ -140,14 +140,26 @@ export default class GIPScreen extends React.Component{
     saveData(goHome){
         let tmpDateTime = this.state.selectedDateAndTime
         tmpDateTime.setFullYear(tmpDateTime.getFullYear());
-        DatabaseManager.getInstance().createGIPEvent(this.state.gipManualResult, this.state.gipEntryNote, this.state.photo, tmpDateTime.getTime(), 
-            (error) => {alert(error)}, 
-            () => {GlutonManager.getInstance().setMessage(2); GearManager.getInstance().sendMessage("msg 31")}
-        );
-
+        FileSystem.readAsStringAsync(this.state.photo.uri,
+          {'encoding': FileSystem.EncodingType.Base64})
+          .then(result => {
+            this.state.photo.base46 = result;
+            DatabaseManager.getInstance().createGIPEvent(
+              this.state.gipManualResult,
+              this.state.gipEntryNote,
+              this.state.photo,
+              tmpDateTime.getTime(),
+              (error) => {alert(error)},
+              () => {
+                GlutonManager.getInstance().setMessage(2);
+                GearManager.getInstance().sendMessage("msg 31")
+              }
+            );
+          })
+           .catch((err) => alert(error))
         if (goHome) {
-            setTimeout(() => this.navigateHome(), 100);
-            }
+          setTimeout(() => this.navigateHome(), 100);
+        }
     }
 
     handleCancelButton() {
