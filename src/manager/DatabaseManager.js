@@ -8,6 +8,7 @@ import IRRITABILITY_ICON from '../assets/images/SymptomTracker/irritability.png'
 import STOMACHACHE_ICON from '../assets/images/SymptomTracker/stomachAche.png';
 import VOMITING_ICON from '../assets/images/SymptomTracker/vomiting.png';
 import WEIGHT_LOSS_ICON from '../assets/images/SymptomTracker/weightLoss.png';
+import USER_SYMPTOM_ICON from '../assets/images/SymptomTracker/userDefinedSymptom.png';
 import Events from '../constants/Events';
 import NotificationManager from './NotificationManager';
 
@@ -51,15 +52,15 @@ export default class DatabaseManager {
                 (5, "STOMACHACHE",  "' + STOMACHACHE_ICON   + '", ' + now + ', ' + now + ', 0),\
                 (6, "VOMITING",     "' + VOMITING_ICON      + '", ' + now + ', ' + now + ', 0),\
                 (7, "WEIGHT_LOSS",  "' + WEIGHT_LOSS_ICON   + '", ' + now + ', ' + now + ', 0),\
-                (8, "SYMPTOM_8",    "' + BLOATING_ICON      + '", ' + now + ', ' + now + ', 0),\
-                (9, "SYMPTOM_9",    "' + DIARRHEA_ICON      + '", ' + now + ', ' + now + ', 0),\
-                (10, "SYMPTOM_10",  "' + HEADACHE_ICON      + '", ' + now + ', ' + now + ', 0),\
-                (11, "SYMPTOM_11",  "' + IRRITABILITY_ICON  + '", ' + now + ', ' + now + ', 0),\
-                (12, "SYMPTOM_12",  "' + STOMACHACHE_ICON   + '", ' + now + ', ' + now + ', 0),\
-                (13, "SYMPTOM_13",  "' + VOMITING_ICON      + '", ' + now + ', ' + now + ', 0),\
-                (14, "SYMPTOM_14",  "' + WEIGHT_LOSS_ICON   + '", ' + now + ', ' + now + ', 0),\
-                (15, "SYMPTOM_15",  "' + IRRITABILITY_ICON  + '", ' + now + ', ' + now + ', 0),\
-                (16, "SYMPTOM_16",  "' + STOMACHACHE_ICON   + '", ' + now + ', ' + now + ', 0);',
+                (8, "SYMPTOM_8",    "' + USER_SYMPTOM_ICON  + '", ' + now + ', ' + now + ', 0),\
+                (9, "SYMPTOM_9",    "' + USER_SYMPTOM_ICON  + '", ' + now + ', ' + now + ', 0),\
+                (10, "SYMPTOM_10",  "' + USER_SYMPTOM_ICON  + '", ' + now + ', ' + now + ', 0),\
+                (11, "SYMPTOM_11",  "' + USER_SYMPTOM_ICON  + '", ' + now + ', ' + now + ', 0),\
+                (12, "SYMPTOM_12",  "' + USER_SYMPTOM_ICON  + '", ' + now + ', ' + now + ', 0),\
+                (13, "SYMPTOM_13",  "' + USER_SYMPTOM_ICON  + '", ' + now + ', ' + now + ', 0),\
+                (14, "SYMPTOM_14",  "' + USER_SYMPTOM_ICON  + '", ' + now + ', ' + now + ', 0),\
+                (15, "SYMPTOM_15",  "' + USER_SYMPTOM_ICON  + '", ' + now + ', ' + now + ', 0),\
+                (16, "SYMPTOM_16",  "' + USER_SYMPTOM_ICON  + '", ' + now + ', ' + now + ', 0);',
                 (param) => alert("insert into symptoms: " + JSON.stringify(param)));
             
             tx.executeSql(
