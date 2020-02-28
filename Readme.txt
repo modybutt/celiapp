@@ -1,8 +1,20 @@
                          				CELI APP
    		   				  - All You Could Eat -
+						  
+[Report bugs here](https://forms.gle/cLYvsLpdG7K9TA6S6)
+
+[Google drive folder](https://drive.google.com/drive/folders/14PHvjDnpShU3ikbmvI3tGRPABUAJEEVm?usp=sharing)
 
 ##########################################################################################################################
+                              Prerequisites
 
+Install node & npm : https://nodejs.org/en/
+
+Install expo-cli :  "npm install -g expo-cli"
+
+Install the Expo client app on your android/IOS device
+
+##########################################################################################################################
 						      Install & Run
 
 Setup:
@@ -11,7 +23,11 @@ Setup:
 Run:
 "npm start"
 
-Start Online: https://snack.expo.io/@git/github.com/modybutt/celiapp@hadouken
+Note: If you get "error Invalid Regular Expression..." error, fix the node 
+dependency as per this article: https://stackoverflow.com/a/58122821/488802
+
+IOS: point camera app at QR code
+Android: In Expo client app, open QR code
 
 ##########################################################################################################################
 

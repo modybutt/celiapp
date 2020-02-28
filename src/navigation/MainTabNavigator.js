@@ -8,9 +8,11 @@ import CalendarScreen from '../screens/CalendarScreen';
 import DebugScreen from '../screens/DebugScreen';
 import SymptomTrackerScreen from '../screens/SymptomTrackerScreen';
 import FoodDiaryScreen from '../screens/FoodDiaryScreen';
+import GIPScreen from '../screens/GIPScreen';
 import EmoteTrackerScreen from '../screens/EmoteTrackerScreen';
 import SymptomViewScreen from '../screens/SymptomViewScreen';
 import FoodViewScreen from '../screens/FoodViewScreen';
+import GIPViewScreen from '../screens/GIPViewScreen';
 import EmoteViewScreen from '../screens/EmoteViewScreen';
 import SettingsScreen from '../screens/SettingsScreen';
 import CameraScreen from '../screens/CameraScreen';
@@ -39,18 +41,18 @@ const TabNavStack = createMaterialTopTabNavigator({
           ),
         }
     },
-    Home: {
-        screen: HomeScreen,
-        navigationOptions: {
-          //tabBarLabel: 'Home',
-          tabBarIcon: ({focused}) => (
-            <TabBarIcon
-              focused={focused}
-              name={'md-paw'}
-            />
-          )
-      }
-    },
+    Home: {	
+      screen: HomeScreen,	//Note for Oisin: replace this with your component
+      navigationOptions: {	
+        //tabBarLabel: 'Home',	
+        tabBarIcon: ({focused}) => (	
+          <TabBarIcon	
+            focused={focused}	
+            name={'md-paw'}	
+          />	
+        )	
+    }	
+  },
     Calendar: {
         screen: CalendarStack,
         navigationOptions: {
@@ -64,7 +66,7 @@ const TabNavStack = createMaterialTopTabNavigator({
         }
     }
 }, {
-    initialRouteName: 'Home',
+    initialRouteName: 'Calendar',
     tabBarPosition: 'bottom',
     swipeEnabled: false,
     tabBarOptions: {
@@ -106,6 +108,12 @@ export default createStackNavigator({
   },    
   AddEmote: {
     screen: EmoteTrackerScreen,
+  },
+  AddGIP: {
+    screen: GIPScreen,
+  },
+  ViewGIP: {
+    screen: GIPViewScreen,
   },
   ViewEmote: {
     screen: EmoteViewScreen,

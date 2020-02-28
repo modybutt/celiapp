@@ -12,8 +12,7 @@ import FoodDiaryTagEdit from '../components/FoodDiary/FoodDiaryTagEdit'
 
 export default class FoodViewScreen extends React.Component {
     static navigationOptions = ({navigation}) => ({
-        title: LanguageManager.getInstance().getText("VIEW_MEAL"),
-        headerRight: <HeaderMenuButton onHeaderMenuSelected={(index) => navigation.state.params.onHeaderMenuSelected(index)}/>
+        title: LanguageManager.getInstance().getText("VIEW_MEAL")
     })
 
     state = {
