@@ -38,7 +38,6 @@ export default class SymptomGroup extends React.Component {
     DatabaseManager.getInstance().fetchSymptoms(
       (_, error) => { alert("Error fetching symptoms" + error) },
       (_, { rows: { _array } }) => {
-        console.log(JSON.stringify(_array))
         this.setState(
         {
           symptoms: _array,
