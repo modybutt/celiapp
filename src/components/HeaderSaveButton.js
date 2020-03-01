@@ -8,8 +8,16 @@ export default class HeaderSaveButton extends React.Component{
 
     constructor(props) {
         super(props);
-        this.color = '#ddd';
-        this.props.shareConfig.onSymptomsUpdated(this.updateColor.bind(this));
+        
+
+        if (this.props.shareConfig)
+        {
+            this.color = '#ddd';
+            this.props.shareConfig.onSymptomsUpdated(this.updateColor.bind(this));
+        } else
+        {
+            this.color = '#000';
+        }        
     }
 
     render() {
