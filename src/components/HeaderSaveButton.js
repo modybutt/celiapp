@@ -9,11 +9,11 @@ export default class HeaderSaveButton extends React.Component{
     constructor(props) {
         super(props);
         this.color = '#ddd';
+        this.props.shareConfig.onSymptomsUpdated(this.updateColor.bind(this));
     }
 
     render() {
         let iconName = 'md-save';
-        this.props.shareConfig.onSymptomsUpdated(this.updateColor.bind(this));
         if (this.props.type == 1) {
             iconName = 'md-checkbox-outline'
         } else if (this.props.type == 2) {

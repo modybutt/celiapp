@@ -18,8 +18,7 @@ import GearManager from '../manager/GearManager';
 export default class SymptomTrackerScreen extends React.Component{
     static navigationOptions = ({navigation}) => {
         const {state} = navigation;
-
-        if(state.params != undefined) {
+        if(state.params != undefined && state.params.onSymptomsUpdated != undefined) {
             return {
                 title: LanguageManager.getInstance().getText("ADD_SYMPTOM"),
                 headerLeft: <HeaderBackButton onPress={() => navigation.state.params.onCancelPressed()}/>,
@@ -41,8 +40,6 @@ export default class SymptomTrackerScreen extends React.Component{
         this.symptomSelectionChangeHandler = this.symptomSelectionChangeHandler.bind(this);
         this.state = {
             symptomEntryNote: "", //works correctly \o/
-            tempDate: new Date(), //used to temporarliy save date and then set it to selectedDateAndTime after corresponding checks
-            selectedDateAndTime: new Date(), //works correctly \o/
             selectedSymptoms: [], //bit buggy when deleting existing symptoms from list
             dayChangeDialogVisible: false,
             resetSymptomGroup: false,
@@ -57,8 +54,10 @@ export default class SymptomTrackerScreen extends React.Component{
     }
 
     componentWillMount() {
-        const {setParams} = this.props.navigation;
-        setParams({onSymptomsUpdated: this.onSymptomsUpdated.bind(this)});
+        this.setState({
+            tempDate: new Date(), //used to temporarliy save date and then set it to selectedDateAndTime after corresponding checks
+            selectedDateAndTime: this.props.navigation.state.params.selectedDateAndTime
+        });
     }
 
     componentDidMount() {
@@ -67,9 +66,10 @@ export default class SymptomTrackerScreen extends React.Component{
     //     );
         
         this.props.navigation.setParams({ 
-            onOkPressed: this.saveCurrentData.bind(this) ,
-            onCancelPressed: this.handleCancelButton.bind(this) ,
-        })
+            onOkPressed: this.saveCurrentData.bind(this),
+            onCancelPressed: this.handleCancelButton.bind(this),
+            onSymptomsUpdated: this.onSymptomsUpdated.bind(this)
+        });
 
         this.keyboardDidShowListener = Keyboard.addListener(
             'keyboardDidShow',
@@ -199,7 +199,7 @@ export default class SymptomTrackerScreen extends React.Component{
                 <View style={styles.container}>
                   <KeyboardAwareScrollView>
                       {/* <TextInput onSubmitEditing={Keyboard.dismiss} /> */}
-                      <HorizontalLineWithText text = {LanguageManager.getInstance().getText("DATE")+"test"}/>
+                      <HorizontalLineWithText text = {LanguageManager.getInstance().getText("DATE")}/>
                       <DayChooser ref={component => this._dayChooser = component} date = {this.state.selectedDateAndTime} onDateChanged={this.dateEditedHandler}/>
                       <HorizontalLineWithText text = {LanguageManager.getInstance().getText("TIME")}/>
                       <TimePicker ref={component => this._timePicker = component} textString = "SYMPTOM_OCCURED" onTimeChanged={this.timeEditedHandler}/>
