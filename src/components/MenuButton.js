@@ -1,12 +1,24 @@
 import React from 'react';
-import { View, StyleSheet, Image, Alert } from 'react-native';
+import { View, StyleSheet, Image } from 'react-native';
 import ActionButton from 'react-native-action-button';
 import * as Icon from '@expo/vector-icons';
 import LanguageManager from '../manager/LanguageManager';
 
 export default class MenuButton extends React.Component {
+
     constructor(props) {
-      super(props);
+        super(props);
+
+        this.currentDate = new Date();
+        if (props.shareConfig)
+        {
+            props.shareConfig.onDateChanged(this.onDateChanged.bind(this));
+        }
+
+    }
+
+    onDateChanged(newDate){
+        this.currentDate = newDate;
     }
 
     render() {
@@ -29,7 +41,7 @@ export default class MenuButton extends React.Component {
                 <ActionButton.Item buttonColor='#3498db' title={LanguageManager.getInstance().getText("ADD_MEAL")} onPress={() => this.props.navigation.navigate('AddMeal')}>
                   <Icon.Ionicons name="md-restaurant" style={styles.actionButtonIcon} />
                 </ActionButton.Item>
-                <ActionButton.Item buttonColor='#1abc9c' title={LanguageManager.getInstance().getText("ADD_SYMPTOM")} onPress={() => this.props.navigation.navigate('AddSymptom')}>
+                <ActionButton.Item buttonColor='#1abc9c' title={LanguageManager.getInstance().getText("ADD_SYMPTOM")} onPress={() => this.props.navigation.navigate('AddSymptom', {'selectedDateAndTime' : this.currentDate })}>
                   <Icon.Ionicons name="md-medkit" style={styles.actionButtonIcon} />
                 </ActionButton.Item>
               </ActionButton>                

@@ -15,11 +15,10 @@ import HeaderSaveButton from '../components/HeaderSaveButton';
 import GearManager from '../manager/GearManager';
 
 
-export default class SymptomTrackerScreen extends React.Component {
-    static navigationOptions = ({ navigation }) => {
-        const { state } = navigation;
-
-        if (state.params != undefined) {
+export default class SymptomTrackerScreen extends React.Component{
+    static navigationOptions = ({navigation}) => {
+        const {state} = navigation;
+        if(state.params != undefined && state.params.onSymptomsUpdated != undefined) {
             return {
                 title: LanguageManager.getInstance().getText("ADD_SYMPTOM"),
                 headerLeft: <HeaderBackButton onPress={() => navigation.state.params.onCancelPressed()} />,
@@ -38,8 +37,6 @@ export default class SymptomTrackerScreen extends React.Component {
         this.symptomSelectionChangeHandler = this.symptomSelectionChangeHandler.bind(this);
         this.state = {
             symptomEntryNote: "", //works correctly \o/
-            tempDate: new Date(), //used to temporarliy save date and then set it to selectedDateAndTime after corresponding checks
-            selectedDateAndTime: new Date(), //works correctly \o/
             selectedSymptoms: [], //bit buggy when deleting existing symptoms from list
             dayChangeDialogVisible: false,
             resetSymptomGroup: false,
@@ -50,15 +47,22 @@ export default class SymptomTrackerScreen extends React.Component {
     }
 
     componentWillMount() {
-        const { setParams } = this.props.navigation;
-        setParams({ onSymptomsUpdated: this.onSymptomsUpdated.bind(this) });
+        this.setState({
+            tempDate: new Date(), //used to temporarliy save date and then set it to selectedDateAndTime after corresponding checks
+            selectedDateAndTime: this.props.navigation.state.params.selectedDateAndTime
+        });
     }
 
     componentDidMount() {
-        this.props.navigation.setParams({
+    //     this._willBlurSubscription = this.props.navigation.addListener('willBlur', payload =>
+    //         BackHandler.removeEventListener('hardwareBackPress', this.onBackButtonPressAndroid)
+    //     );
+        
+        this.props.navigation.setParams({ 
             onOkPressed: this.saveCurrentData.bind(this),
             onCancelPressed: this.handleCancelButton.bind(this),
-        })
+            onSymptomsUpdated: this.onSymptomsUpdated.bind(this)
+        });
 
         this.keyboardDidShowListener = Keyboard.addListener(
             'keyboardDidShow',
@@ -171,32 +175,32 @@ export default class SymptomTrackerScreen extends React.Component {
     render() {
         const marginToUse = ((this.state.keyboardOpen) ? 300 : 0);
 
-        return (
-            <View style={styles.container}>
-                <KeyboardAwareScrollView>
-                    {/* <TextInput onSubmitEditing={Keyboard.dismiss} /> */}
-                    <HorizontalLineWithText text={LanguageManager.getInstance().getText("DATE") + "test"} />
-                    <DayChooser ref={component => this._dayChooser = component} date={this.state.selectedDateAndTime} onDateChanged={this.dateEditedHandler} />
-                    <HorizontalLineWithText text={LanguageManager.getInstance().getText("TIME")} />
-                    <TimePicker ref={component => this._timePicker = component} textString="SYMPTOM_OCCURED" onTimeChanged={this.timeEditedHandler} />
-                    <HorizontalLineWithText text={LanguageManager.getInstance().getText("SYMPTOMS")} />
-                    <SymptomGroup ref={component => this._symptomGroup = component} selection={this.state.selectedSymptoms} onSelectionChanged={this.symptomSelectionChangeHandler} navigation={this.props.navigation} />
-                    <HorizontalLineWithText text={LanguageManager.getInstance().getText("NOTES")} />
-                    <NoteEdit ref={component => this._noteEdit = component} note={this.state.symptomEntryNote} onTextChanged={this.noteEditedHandler} />
-                    <View style={{ paddingBottom: 10 }} />
-
-                    {/*Dialog for Day Change Save Dialog*/}
-                    <View>
-                        <Dialog.Container visible={this.state.cancelSaveDialogVisible}>
-                            <Dialog.Title>{LanguageManager.getInstance().getText("DISCARD")}</Dialog.Title>
-                            <Dialog.Description>
-                                {LanguageManager.getInstance().getText("DO_YOU_WANT_TO_DISCARD")}
-                            </Dialog.Description>
-                            <Dialog.Button label={LanguageManager.getInstance().getText("BACK")} onPress={this.handleBack} />
-                            <Dialog.Button label={LanguageManager.getInstance().getText("DISCARD")} onPress={this.handleDiscard} />
-                        </Dialog.Container>
-                    </View>
-                    {/* <KeyboardListener
+            return(
+                <View style={styles.container}>
+                  <KeyboardAwareScrollView>
+                      {/* <TextInput onSubmitEditing={Keyboard.dismiss} /> */}
+                      <HorizontalLineWithText text = {LanguageManager.getInstance().getText("DATE")}/>
+                      <DayChooser ref={component => this._dayChooser = component} date = {this.state.selectedDateAndTime} onDateChanged={this.dateEditedHandler}/>
+                      <HorizontalLineWithText text = {LanguageManager.getInstance().getText("TIME")}/>
+                      <TimePicker ref={component => this._timePicker = component} textString = "SYMPTOM_OCCURED" onTimeChanged={this.timeEditedHandler}/>
+                      <HorizontalLineWithText text = {LanguageManager.getInstance().getText("SYMPTOMS")}/>
+                      <SymptomGroup ref={component => this._symptomGroup = component} selection={this.state.selectedSymptoms} onSelectionChanged={this.symptomSelectionChangeHandler} navigation={this.props.navigation}/>
+                      <HorizontalLineWithText text = {LanguageManager.getInstance().getText("NOTES")}/>
+                      <NoteEdit ref={component => this._noteEdit = component} note={this.state.symptomEntryNote} onTextChanged={this.noteEditedHandler}/>
+                      <View style={{paddingBottom: 10}} />
+       
+                      {/*Dialog for Day Change Save Dialog*/}
+                       <View>
+                          <Dialog.Container visible={this.state.cancelSaveDialogVisible}>
+                          <Dialog.Title>{LanguageManager.getInstance().getText("DISCARD")}</Dialog.Title>
+                          <Dialog.Description>
+                          {LanguageManager.getInstance().getText("DO_YOU_WANT_TO_DISCARD")}
+                          </Dialog.Description>
+                          <Dialog.Button label={LanguageManager.getInstance().getText("BACK")} onPress={this.handleBack} />
+                          <Dialog.Button label={LanguageManager.getInstance().getText("DISCARD")} onPress={this.handleDiscard} />
+                          </Dialog.Container>
+                      </View>
+                      {/* <KeyboardListener
                           onWillShow={() => { this.setState({ keyboardOpen: true }); }}
                           onWillHide={() => { this.setState({ keyboardOpen: false }); }}
                       /> */}
