@@ -37,12 +37,15 @@ export default class SymptomGroup extends React.Component {
 
     DatabaseManager.getInstance().fetchSymptoms(
       (_, error) => { alert("Error fetching symptoms" + error) },
-      (_, { rows: { _array } }) => this.setState(
+      (_, { rows: { _array } }) => {
+        console.log(JSON.stringify(_array))
+        this.setState(
         {
           symptoms: _array,
           //error: res.error || null,
           loading: false,
         })
+      }
     );
   }
 
@@ -62,6 +65,22 @@ export default class SymptomGroup extends React.Component {
     this.props.onSelectionChanged(newList)
   }
 
+  noSymptomButton = () => (
+    <SymptomIconButton
+      key = {-1}	
+      type={6}	
+      defaultSeverity={	
+        0	
+      }	
+      symptomID={-1}	
+      symptomName="NO_SYMPTOMS"	
+      onSymptomDeleted={() => this.refreshSymptoms()}	
+      onSeverityChooserHandled = {this.severityChooserHandler}	
+      canOpenSeverity = {this.state.canOpenSeverityChooser}	
+      onSymptomSelected = {this.symptomSelected}	
+      onSymptomDeselected = {this.symptomDeselected}	
+    />)
+
   groupSymptoms(from, size) {
     let cluster = [];
     let symptomPos = 0;
@@ -78,19 +97,25 @@ export default class SymptomGroup extends React.Component {
         type = 3;
       }
 
-      cluster.push(
-        <SymptomIconButton type={type}
-          key={this.state.symptoms[k].id}
-          defaultSeverity={this.getDefaultSeverity(this.state.symptoms[k].id)}
-          symptomID={this.state.symptoms[k].id}
-          symptomName={this.state.symptoms[k].name}
-          symptomIcon={this.state.symptoms[k].icon}
-          onSymptomDeleted={() => this.refreshSymptoms()}
-          onSeverityChooserHandled={this.severityChooserHandler}
-          canOpenSeverity={this.state.canOpenSeverityChooser}
-          onSymptomSelected={this.symptomSelected}
-          onSymptomDeselected={this.symptomDeselected} />
-      );
+      let symptomIndex =  k - 1;
+      if(k == 0) {
+        cluster.push(this.noSymptomButton());
+      }
+      else{
+        cluster.push(
+          <SymptomIconButton type={type}
+            key={this.state.symptoms[symptomIndex].id}
+            defaultSeverity={this.getDefaultSeverity(this.state.symptoms[symptomIndex].id)}
+            symptomID={this.state.symptoms[symptomIndex].id}
+            symptomName={this.state.symptoms[symptomIndex].name}
+            symptomIcon={this.state.symptoms[symptomIndex].icon}
+            onSymptomDeleted={() => this.refreshSymptoms()}
+            onSeverityChooserHandled={this.severityChooserHandler}
+            canOpenSeverity={this.state.canOpenSeverityChooser}
+            onSymptomSelected={this.symptomSelected}
+            onSymptomDeselected={this.symptomDeselected} />
+        );
+      }
     }
 
     if (k < (from + size)) {
@@ -108,14 +133,6 @@ export default class SymptomGroup extends React.Component {
 
     for (i = 0; i < this.state.symptoms.length; i += CLUSTER_SIZE) {
       moreList.push(<View key={i} style={styles.groupContainer}>{this.groupSymptoms(i, CLUSTER_SIZE)}</View>)
-    }
-
-    if (this.state.symptoms.length % CLUSTER_SIZE == 0) {
-      moreList.push(
-        <View key={this.state.symptoms.length}
-          style={styles.groupContainer}>
-          {this.groupSymptoms(this.state.symptoms.length, CLUSTER_SIZE)}
-        </View>);
     }
 
     return moreList
@@ -144,7 +161,7 @@ export default class SymptomGroup extends React.Component {
       return (
         <View>
           <NavigationEvents onDidFocus={() => this.refreshSymptoms()} />
-          <View style={{ zIndex: 0, marginBottom: 30 }}>
+          <View style={{ zIndex: 0, marginBottom: 50 }}>
             {this.renderMoreSymptoms()}
           </View>
         </View>
