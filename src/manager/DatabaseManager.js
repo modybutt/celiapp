@@ -148,8 +148,10 @@ export default class DatabaseManager {
       tx.executeSql('SELECT * FROM symptoms WHERE id = ?',
         [symptomID], 
         (_, {rows: {_array}}) => {
-          objData.name = _array[0].name;
-          objData.icon = _array[0].icon;
+          if(!!_array[0]){
+            objData.name = _array[0].name;
+            objData.icon = _array[0].icon;
+          }
           //objData.usage = _array[0].usage;
           this.createEvent(Events.Symptom, timestamp, objData, onError, null);
           this.updateSymptomUsage(symptomID, onError, onSuccess);
