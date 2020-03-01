@@ -210,7 +210,7 @@ export default class SymptomTrackerScreen extends React.Component{
     }
 
     isSymptomSelected() {
-        return Array.isArray(this.state.selectedSymptoms) && this.state.selectedSymptoms.length > 1;
+        return Array.isArray(this.state.selectedSymptoms) && this.state.selectedSymptoms.length > 0;
     }
 
     saveCurrentData = (goHome) => {
