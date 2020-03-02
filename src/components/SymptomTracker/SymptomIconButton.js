@@ -324,8 +324,10 @@ export default class SymptomIconButton extends Component {
 		}
 
 		let { selected } = this.state;
-		let zIndex = selected ? 100 : 0;
-
+        let zIndex = selected ? 100 : 0;
+        
+        const symptomName = this.props.symptomID != -1 ? this.props.symptomName : 'NO_SYMPTOMS'; //TODO: Temp solution. Needs to be an entry in the database
+        
 		if (this.props.active == null || this.props.active == true) {
 			return (
 				<View style={(Platform.OS === 'ios') ?
@@ -362,7 +364,7 @@ export default class SymptomIconButton extends Component {
 							</Animated.View>
 						</TouchableOpacity>
 					</Animated.View>
-					<Text style={style.symptomNameText}>{LanguageManager.getInstance().getText(this.props.symptomName)}</Text>
+					<Text style={style.symptomNameText}>{LanguageManager.getInstance().getText(symptomName)}</Text>
 					<AnimatedTouchable onPress={this.onPressYellow}
 						style={[
 							style.smallBubbleYellow,
@@ -477,7 +479,7 @@ export default class SymptomIconButton extends Component {
 						<View style={[style.bigBubbleBig, { backgroundColor: bigBubbleColor } ]}>
 							<Image source={Image.resolveAssetSource(this.props.symptomIcon)} style={style.iconImageBig}/>
 						</View>
-						<Text style={style.symptomNameTextBig}>{LanguageManager.getInstance().getText(this.props.symptomName)}</Text>
+						<Text style={style.symptomNameTextBig}>{LanguageManager.getInstance().getText(symptomName)}</Text>
 					</View>
 				);
 			} else {
@@ -486,7 +488,7 @@ export default class SymptomIconButton extends Component {
 						<View style={[style.bigBubble, { backgroundColor: bigBubbleColor } ]}>
 							<Image source={Image.resolveAssetSource(this.props.symptomIcon)} style={style.iconImage}/>
 						</View>
-						<Text style={style.symptomNameText}>{LanguageManager.getInstance().getText(this.props.symptomName)}</Text>
+						<Text style={style.symptomNameText}>{LanguageManager.getInstance().getText(symptomName)}</Text>
 					</View>
 				);
 			}
