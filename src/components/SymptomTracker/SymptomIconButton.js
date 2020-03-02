@@ -3,6 +3,7 @@ import { TouchableOpacity, Text, Alert, Animated, Image, Easing, View, StyleShee
 import Dialog from "react-native-dialog";
 
 import Constants from 'expo-constants';
+import {SYMPTOM_BUTTON_TYPES} from "./SymptomIconButtonConstants.js"
 
 // constants
 import {
@@ -12,8 +13,8 @@ import {
 	// topRight,
 	bigBubbleSize,
 	smallBubbleSize,
-  bubbleColorOrange,
-  bubbleColorYellow,
+    bubbleColorOrange,
+    bubbleColorYellow,
 	bubbleColorRed,
 	imageHeight,
 	imageWidth,
@@ -24,8 +25,6 @@ import {
 } from './SymptomIconButtonConstants';
 import LanguageManager from '../../manager/LanguageManager';
 import DatabaseManager from '../../manager/DatabaseManager';
-
-
 
 const AnimatedTouchable = Animated.createAnimatedComponent(TouchableOpacity);
 
@@ -38,8 +37,6 @@ const HIGH_COLOR = 'rgb(255, 0, 0)';
 // other buttons and their animations
 export default class SymptomIconButton extends Component {
 
-	//Prop: type -->  1 == left icon, 2 == normal 3 == right icon. -- Changes the placement of the severity chooser icons around the symptom icon
-	//Prop: type -->  4 == MoreSymptomsButton, 5 CreateSymptomButton, 6 NoSymptomButton
 	//Prop: symptomID --> 1 - 7 --> systemIcons. 0 --> more symptoms button. All IDs higher than that show the userDefinedIcon.
 
 	constructor(props) {
@@ -74,11 +71,11 @@ export default class SymptomIconButton extends Component {
 	};
 
 	handleAddButtonPress = () => {
-		if(this.props.type == 4){
+		if(this.props.type == SYMPTOM_BUTTON_TYPES.MORE_SYMPTOMS){
 			this.props.navigation.navigate("MoreSymptoms", this.props.moreSymptomsParams)
-		}else if (this.props.type == 5) {
+		}else if (this.props.type == SYMPTOM_BUTTON_TYPES.CREATE_SYMPTOM) {
 			this.props.navigation.navigate("AddNewSymptom")
-        }else if (this.props.type == 6)
+        }else if (this.props.type == SYMPTOM_BUTTON_TYPES.NO_SYMPTOM)
         {
             this.onPressNoSymptoms();
         }
@@ -234,7 +231,7 @@ export default class SymptomIconButton extends Component {
 
 		let springValue = Animated.add(Animated.add(this.topLeftValue, this.topRightValue), this.topCenterValue);
 
-		if(this.props.type == 1){
+		if(this.props.type == SYMPTOM_BUTTON_TYPES.SEVERITY_CHOOSER_LEFT){
 			center = {
 				top: 15,
 				left: 15,
@@ -254,7 +251,7 @@ export default class SymptomIconButton extends Component {
 				top: 45,
 				left: 90,
 			};
-		}else if(this.props.type == 2){
+		}else if(this.props.type == SYMPTOM_BUTTON_TYPES.SEVERITY_CHOOSER_CENTRE){
 			center = {
 				top: 15,
 				left: 15,
@@ -274,7 +271,7 @@ export default class SymptomIconButton extends Component {
 				top: -30,
 				left: 85,
 			};
-		}else if(this.props.type == 3){
+		}else if(this.props.type == SYMPTOM_BUTTON_TYPES.SEVERITY_CHOOSER_RIGHT){
 			center = {
 				top: 15,
 				left: 15,
