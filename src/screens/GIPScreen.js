@@ -34,12 +34,17 @@ export default class GIPScreen extends React.Component{
         this.state = {
             modified: false,
             gipEntryNote: "",
-            tempDate: new Date(), 
-            selectedDateAndTime: new Date(), 
             keyboardOpen: false,
             photo: null,            
             gipManualResult : 2
         } 
+    }
+
+    componentWillMount() {
+        this.setState({
+            tempDate: new Date(), //used to temporarliy save date and then set it to selectedDateAndTime after corresponding checks
+            selectedDateAndTime: this.props.navigation.state.params.selectedDateAndTime
+        });
     }
 
     componentDidMount() {        
