@@ -74,7 +74,7 @@ export default class EntryList extends React.Component {
           case 2: color = 'orange'; break;
           case 3: color = 'red'; break;
         }
-        
+        if (objData.symptomID === -1) objData.name = 'NO_SYMPTOMS'; //TODO: Temp solution. Needs to be an entry in the database
         return (
           <TouchableOpacity onPress={() => this.props.navigation.navigate('ViewSymptom', {event: item})}>
             <ListItem

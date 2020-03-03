@@ -8,6 +8,7 @@ import Dialog from "react-native-dialog";
 import FoodDiaryImageEdit from '../components/FoodDiary/FoodDiaryImageEdit'
 import HorizontalLineWithText from '../components/HorizontalLineWithText';
 import FoodDiaryRatingBar from '../components/FoodDiary/FoodDiaryRatingBar';
+import ResultBlock from '../components/ResultDisplay'; 
 import FoodDiaryTagEdit from '../components/FoodDiary/FoodDiaryTagEdit'
 
 export default class FoodViewScreen extends React.Component {
@@ -47,6 +48,38 @@ export default class FoodViewScreen extends React.Component {
 
     render() {
         let objData = JSON.parse(this.state.event.objData);
+
+        var resultDate = objData.timestamp;
+
+        var displayBlock = {
+            resultValue: 'Negative',
+            accuracyPercentText: 100,
+            dateValue: new Date(resultDate).getUTCDate() + '/' +  (new Date(resultDate).getUTCMonth()+1) + '/' +  new Date(resultDate).getUTCFullYear(),
+            timeValue: new Date(resultDate).getUTCHours() + ':' + new Date(resultDate).getUTCMinutes(),
+            resultState: objData.result
+        };
+
+        switch(objData.result) {
+            case 0:
+                displayBlock.resultValue = 'Gluten';
+                displayBlock.accuracyPercentText = 100;
+                displayBlock.resultState = 1;
+              break;
+            case 1:
+                displayBlock.resultValue = 'No gluten';
+                displayBlock.accuracyPercentText = 100;
+                displayBlock.resultState = 0;
+              break;
+            case 2:
+                displayBlock.resultValue = 'Inconclusive';
+                displayBlock.accuracyPercentText = 50;
+                displayBlock.resultState = 2;
+               break;
+            default:
+                displayBlock.resultValue = 'Inconclusive';
+                displayBlock.accuracyPercentText = 50;
+                displayBlock.resultState = 2;
+          }
         const tags = [
           LanguageManager.getInstance().getText("GLUTEN"),
           LanguageManager.getInstance().getText("NO_GLUTEN"),
@@ -59,12 +92,10 @@ export default class FoodViewScreen extends React.Component {
                     <FoodDiaryImageEdit snapshot={objData.photo} active={false} size="medium" />
                 </View>
                 <HorizontalLineWithText text={LanguageManager.getInstance().getText("DATE")}/>
-                <Text>{LanguageManager.getInstance().getDateAsText(objData.timestamp)}</Text>
-                <HorizontalLineWithText text={LanguageManager.getInstance().getText("TAGS")}/>
-                <FoodDiaryTagEdit all={[tags[objData.result]]} selected={0} isExclusive={true}/>
-                <HorizontalLineWithText text = {LanguageManager.getInstance().getText("NOTES")}/>
-                <Text>{objData.note}</Text>
                 <View style={{paddingBottom: 10}} />
+                <ResultBlock dataBlock={displayBlock}></ResultBlock>
+                <HorizontalLineWithText text = {LanguageManager.getInstance().getText("NOTES")}/>
+                <View style={{paddingBottom: 10}}/>
                 <View>
                   <Dialog.Container visible={this.state.showDeleteConfirmDialog}>
                     <Dialog.Title>{LanguageManager.getInstance().getText("DELETE")}</Dialog.Title>
@@ -82,6 +113,7 @@ export default class FoodViewScreen extends React.Component {
     }
 }
 
+
 const styles = StyleSheet.create({
     headText:{
        fontSize: 20,
@@ -89,3 +121,14 @@ const styles = StyleSheet.create({
        margin: 10
     },
 });
+//Expected Datablock Template
+/**
+ * 
+ * var displayBlock = {
+  resultValue: 20,
+  accuracyPercentText: 2220,
+  dateValue: '12/12/12',
+  timeValue: '12:12',
+  resultState: 3
+}
+ */

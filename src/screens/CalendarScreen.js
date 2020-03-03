@@ -35,10 +35,17 @@ export default class CalendarScreen extends React.Component {
   }
 
   onDateChange(date) {
+    let d = new Date(date);
+    d.setHours(d.getHours() + 12); //TODO: dirty UTC time. Needs more permanent fix.
     if (this.state.selectedDate != date) {
       this.list.updateList(date)
       this.setState({selectedDate: date})
+      this.onDatechangesListener(d);
     }
+  }
+
+  getCurrentDate = () => {
+      return this.state.selectedDate;
   }
 
   render() {
@@ -46,7 +53,9 @@ export default class CalendarScreen extends React.Component {
       <View style={styles.container}>
         <CeliCalendarPicker selectedDate={this.state.selectedDate} onDateChange={(date) => this.onDateChange(date)}/>
         <EntryList navigation={this.props.navigation} selectedDate={this.state.selectedDate} ref={list => this.list = list} />
-        <MenuButton navigation={this.props.navigation}/>
+        <MenuButton navigation={this.props.navigation} shareConfig={{
+                onDateChanged : (onDatechangesListener) => {this.onDatechangesListener = onDatechangesListener;}
+            }}/>
       </View>
     );
   }

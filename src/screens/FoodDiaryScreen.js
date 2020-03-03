@@ -36,9 +36,7 @@ export default class FoodDiaryScreen extends React.Component{
         this.classChangedHandler = this.classChangedHandler.bind(this);
         this.state = {
             foodEntryNote: "",
-            tempDate: new Date(), 
-            foodEntryName: "", 
-            selectedDateAndTime: new Date(), 
+            foodEntryName: "",            
             foodRating: 0,
             keyboardOpen: false,
             photo: null,
@@ -51,6 +49,13 @@ export default class FoodDiaryScreen extends React.Component{
         modified: true, // true for DEBUG now
         cancelSaveDialogVisible: false,
         saveAsEmptyFoodDialogVisible: false,
+    }
+
+    componentWillMount() {
+        this.setState({
+            tempDate: new Date(), //used to temporarliy save date and then set it to selectedDateAndTime after corresponding checks
+            selectedDateAndTime: this.props.navigation.state.params.selectedDateAndTime
+        });
     }
 
     componentDidMount() {        

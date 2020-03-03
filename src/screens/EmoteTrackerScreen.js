@@ -28,8 +28,6 @@ export default class EmoteTrackerScreen extends React.Component{
         this.state={
             show: false,
             selectedSymbolID: 3, // 1: unhappy, ... , 5: happy
-            selectedDateAndTime: new Date(), //works correctly \o/
-            tempDate: new Date(), //used to temporarliy save date and then set it to selectedDateAndTime after corresponding checks
             emoteNote: "",
             keyboardOpen: false,
             modified: false
@@ -42,6 +40,13 @@ export default class EmoteTrackerScreen extends React.Component{
         })
        this._noteEdit.deleteNote();
      }
+
+     componentWillMount() {
+        this.setState({
+            tempDate: new Date(), //used to temporarliy save date and then set it to selectedDateAndTime after corresponding checks
+            selectedDateAndTime: this.props.navigation.state.params.selectedDateAndTime
+        });
+    }
 
     componentDidMount() {        
         this.props.navigation.setParams({ 

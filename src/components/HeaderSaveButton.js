@@ -8,12 +8,20 @@ export default class HeaderSaveButton extends React.Component{
 
     constructor(props) {
         super(props);
-        this.color = '#ddd';
+        
+
+        if (this.props.shareConfig)
+        {
+            this.color = '#ddd';
+            this.props.shareConfig.onSymptomsUpdated(this.updateColor.bind(this));
+        } else
+        {
+            this.color = '#000';
+        }        
     }
 
     render() {
         let iconName = 'md-save';
-        this.props.shareConfig.onSymptomsUpdated(this.updateColor.bind(this));
         if (this.props.type == 1) {
             iconName = 'md-checkbox-outline'
         } else if (this.props.type == 2) {
