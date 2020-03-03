@@ -64,16 +64,17 @@ export default class UsernameDialog extends React.Component {
 
 var styles = StyleSheet.create({
   container: {
-    justifyContent: 'space-around',
-    alignItems: 'center',
+    alignItems: 'center'
   },
   title: {
+    marginTop: 75,
     fontSize: 32,
     fontWeight: 'bold',
   },
   logo: {
     width: 200,
     height: 200,
+    margin: 50,
     borderColor: '#000',
     borderWidth: 1,
   },
