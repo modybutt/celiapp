@@ -1,5 +1,6 @@
 import React,{Suspense} from 'react';
 import {View, Text} from 'react-native';
+import { NavigationEvents } from 'react-navigation';
 import SymptomCircle from './CircleDisplay';
 import DatabaseManager from '../manager/DatabaseManager';
 
@@ -7,9 +8,8 @@ import DatabaseManager from '../manager/DatabaseManager';
 let m_dateStack = [];
 
 export default class CircleDisplayFull extends React.Component {
-
-  componentDidMount()
-  {
+  
+  updateData() {
     const self = this;
 
     let maxDateValue = new Date().getUTCDate()
@@ -54,11 +54,19 @@ export default class CircleDisplayFull extends React.Component {
     )
   }
 
+  componentDidMount()
+  {
+    this.updateData();
+  }
+
 
   render() {
    
     return (
       <View>
+        <NavigationEvents
+          onDidFocus={() => this.updateData()}
+        />
       { this.state && this.state.data &&
 
         <SymptomCircle colourInfoList={m_dateStack}

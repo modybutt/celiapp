@@ -95,22 +95,22 @@ export default class SymptomCircle extends React.Component
        
         if (colourManager[i] == 0)
         {
-          setOfCircles.push(<Native.View style={circleStyle(rotatedX, rotatedY, this.props.NoInputColour)}/>)
+          setOfCircles.push(<Native.View key={i} style={circleStyle(rotatedX, rotatedY, this.props.SymptomOnlyColour)}/>)
         }
         
         if (colourManager[i] == 1)
         {
-          setOfCircles.push(<Native.View style={circleStyle(rotatedX, rotatedY, this.props.GlutenColour)}/>)
+          setOfCircles.push(<Native.View key={i} style={circleStyle(rotatedX, rotatedY, this.props.SymptomOnlyColour)}/>)
         }
         
         if (colourManager[i] == 2)
         {
-          setOfCircles.push(<Native.View style={circleStyle(rotatedX, rotatedY, this.props.NoGlutenColour)}/>)
+          setOfCircles.push(<Native.View key={i} style={circleStyle(rotatedX, rotatedY, this.props.SymptomOnlyColour)}/>)
         }
         
         if (colourManager[i] == 3)
         {
-          setOfCircles.push(<Native.View style={circleStyle(rotatedX, rotatedY, this.props.SymptomOnlyColour)}/>)
+          setOfCircles.push(<Native.View key={i} style={circleStyle(rotatedX, rotatedY, this.props.SymptomOnlyColour)}/>)
         }
 
         rotatedX = roteX(circleX,circleY,centerX,centerY, (dayAngleRad * i) + dayAngleRad/2 );
@@ -119,13 +119,13 @@ export default class SymptomCircle extends React.Component
 
       switch (colourManager[m_dateDayNum]) {
         case 0:
-          todaysColour = this.props.NoInputColour;
+          todaysColour = this.props.SymptomOnlyColour;
           break;
         case 1:
-          todaysColour = this.props.GlutenColour;
+          todaysColour = this.props.SymptomOnlyColour;
           break;
         case 2:
-          todaysColour = this.props.NoGlutenColour;
+          todaysColour = this.props.SymptomOnlyColour;
             break;
         case 3:
           todaysColour = this.props.SymptomOnlyColour;
@@ -173,30 +173,12 @@ export default class SymptomCircle extends React.Component
 
 
                 <Native.View style={{ width: 100, height: 50, backgroundColor: todaysColour, borderRadius:20 ,position:"absolute", top: progressBarY - 60, left: progressBarX + 80}}>
-                  <Native.Text style={{ fontSize: 18, textAlign: 'center', marginTop: 10 , color:'white'}}>{m_dateDay + " Day"}</Native.Text>
+                  <Native.Text style={{ fontSize: 18, textAlign: 'center', marginTop: 10 , color:'white'}}>{"Day " + m_dateDayNum}</Native.Text>
                 </Native.View>
 
 
 
-                <Native.View style={{width: 100, height: 50, position:"absolute", top: progressBarY + 275, left: progressBarX + 10}}>
-                  <Native.Text style={{ fontSize: 18, textAlign: 'center' }}>{ counterList[2] == 1?  counterList[2] + " Day\nNo Gluten" : counterList[2] + " Day's\nNo Gluten"}</Native.Text>
-                  <Native.View style={circleStyle(-25, 10, this.props.NoGlutenColour)}/>
-                </Native.View>
 
-                <Native.View style={{width: 100, height: 50, position:"absolute", top: progressBarY + 275, left: progressBarX + 160}}>
-                  <Native.Text style={{ fontSize: 18, textAlign: 'center' }}>{ counterList[1] == 1? counterList[1] + " Day\nGluten" : counterList[1] + " Day's\nGluten"}</Native.Text>
-                  <Native.View style={circleStyle(-25, 10,this.props.GlutenColour)}/>
-                </Native.View>
-
-                <Native.View style={{width: 100, height: 50, position:"absolute", top: progressBarY + 350, left: progressBarX + 160}}>
-                  <Native.Text style={{ fontSize: 18, textAlign: 'center' }}>{ counterList[0] == 1? counterList[0] + " Day\nNo Entry" : counterList[0] + " Day's\nNo Entry"}</Native.Text>
-                  <Native.View style={circleStyle(-25, 10,this.props.NoInputColour)}/>
-                </Native.View>
-
-                <Native.View style={{width: 100, height: 50, position:"absolute", top: progressBarY + 350, left: progressBarX + 10}}>
-                  <Native.Text style={{ fontSize: 18, textAlign: 'center' }}>{ counterList[3] == 1? counterList[3] + " Day\nSymptoms Only" : counterList[3] + " Day's\nSymptoms Only"}</Native.Text>
-                  <Native.View style={circleStyle(-25, 10,this.props.SymptomOnlyColour)}/>
-                </Native.View>
 
             </Native.View>
         );
