@@ -41,11 +41,16 @@ export default class NotificationManager
             body: body,
             android: { sound: true },
             ios: { sound: true },
+            icon: '../../src/assets/images/icon.jpeg',
+            data: {
+                title: title,
+                body: body
+            }
         };
         
         let now = new Date();
         let tomorrow = new Date();
-        tomorrow.setDate(now.getDate() + 1);
+        tomorrow.setSeconds(now.getSeconds() + 1);
 
         // if the new time falls early in the morning or late at night, set it to the next morning
         if (tomorrow.getHours() <= 7 || tomorrow.getHours() >= 20)
@@ -53,7 +58,7 @@ export default class NotificationManager
             tomorrow.setHours(8, 0, 0);
         }
 
-        const schedulingOptions = { time: tomorrow };
+        const schedulingOptions = { time: tomorrow,  };
         Notifications.scheduleLocalNotificationAsync(localnotification, schedulingOptions);
     }
 
