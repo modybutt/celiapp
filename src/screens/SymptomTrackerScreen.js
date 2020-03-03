@@ -18,20 +18,16 @@ import GearManager from '../manager/GearManager';
 export default class SymptomTrackerScreen extends React.Component{
     static navigationOptions = ({navigation}) => {
         const {state} = navigation;
-
-        if(state.params != undefined) {
+        if(state.params != undefined && state.params.onSymptomsUpdated != undefined) {
             return {
                 title: LanguageManager.getInstance().getText("ADD_SYMPTOM"),
-                headerLeft: <HeaderBackButton onPress={() => navigation.state.params.onCancelPressed()}/>,
-                headerRight:<HeaderSaveButton onPress={() => navigation.state.params.onOkPressed(true)} shareConfig={{
+                headerLeft: <HeaderBackButton onPress={() => navigation.state.params.onCancelPressed()} />,
+                headerRight: <HeaderSaveButton onPress={() => navigation.state.params.onOkPressed(true)} shareConfig={{
                     onSymptomsUpdated: state.params.onSymptomsUpdated
                 }} />
             }
         }
     }
-
-    //_didFocusSubscription;
-    //_willBlurSubscription;
 
     constructor(props) {
         super(props);
@@ -41,24 +37,20 @@ export default class SymptomTrackerScreen extends React.Component{
         this.symptomSelectionChangeHandler = this.symptomSelectionChangeHandler.bind(this);
         this.state = {
             symptomEntryNote: "", //works correctly \o/
-            tempDate: new Date(), //used to temporarliy save date and then set it to selectedDateAndTime after corresponding checks
-            selectedDateAndTime: new Date(), //works correctly \o/
             selectedSymptoms: [], //bit buggy when deleting existing symptoms from list
             dayChangeDialogVisible: false,
             resetSymptomGroup: false,
             cancelSaveDialogVisible: false,
             selectSymptomDialogVisible: false,
             keyboardOpen: false
-        } 
-
-        // this._didFocusSubscription = props.navigation.addListener('didFocus', payload =>
-        //     BackHandler.addEventListener('hardwareBackPress', this.onBackButtonPressAndroid)
-        // );
+        }
     }
 
     componentWillMount() {
-        const {setParams} = this.props.navigation;
-        setParams({onSymptomsUpdated: this.onSymptomsUpdated.bind(this)});
+        this.setState({
+            tempDate: new Date(), //used to temporarliy save date and then set it to selectedDateAndTime after corresponding checks
+            selectedDateAndTime: this.props.navigation.state.params.selectedDateAndTime
+        });
     }
 
     componentDidMount() {
@@ -67,99 +59,89 @@ export default class SymptomTrackerScreen extends React.Component{
     //     );
         
         this.props.navigation.setParams({ 
-            onOkPressed: this.saveCurrentData.bind(this) ,
-            onCancelPressed: this.handleCancelButton.bind(this) ,
-        })
+            onOkPressed: this.saveCurrentData.bind(this),
+            onCancelPressed: this.handleCancelButton.bind(this),
+            onSymptomsUpdated: this.onSymptomsUpdated.bind(this)
+        });
 
         this.keyboardDidShowListener = Keyboard.addListener(
             'keyboardDidShow',
             this._keyboardDidShow,
-          );
-          this.keyboardDidHideListener = Keyboard.addListener(
+        );
+        this.keyboardDidHideListener = Keyboard.addListener(
             'keyboardDidHide',
             this._keyboardDidHide,
-          );
+        );
 
     }
 
     componentWillUnmount() {
         this.keyboardDidShowListener.remove();
         this.keyboardDidHideListener.remove();
-      }
+    }
 
-      _keyboardDidShow = ()  => {
+    _keyboardDidShow = () => {
         this.setState({
             keyboardOpen: true,
         })
-      }
-    
-      _keyboardDidHide = ()  => {
+    }
+
+    _keyboardDidHide = () => {
         this.setState({
             keyboardOpen: false,
         })
-      }
-
-    // onBackButtonPressAndroid = () => {
-    //     alert("B")
-    // };
-
-    // componentWillUnmount() {
-    //     this._didFocusSubscription && this._didFocusSubscription.remove();
-    //     this._willBlurSubscription && this._willBlurSubscription.remove();
-    // }
-
+    }
 
     clearNoteText = () => {
-         this.setState({
-             symptomEntryNote: ""
-         })
+        this.setState({
+            symptomEntryNote: ""
+        })
         this._noteEdit.deleteNote();
-      }
+    }
 
-      onSymptomsUpdated = (callback) => {
+    onSymptomsUpdated = (callback) => {
         this.symptomsUpdated = callback;
-      }
+    }
 
-      clearSymptomGroup = () =>{
+    clearSymptomGroup = () => {
         this.setState({
             selectedSymptoms: []
         })
         this._symptomGroup.deleteSymptoms();
-      }
+    }
 
-
-    noteEditedHandler(note){
+    noteEditedHandler(note) {
         this.setState({
             selectedSymptoms: []
         })
         this._symptomGroup.deleteSymptoms();
-      }
+    }
 
 
-      setBackDayChooserOneDay = () =>{
+    setBackDayChooserOneDay = () => {
         this._dayChooser.changeDay(false);
-      }
+    }
 
-      showBackDiscardDialog = () => {
+    showBackDiscardDialog = () => {
         this.setState({ cancelSaveDialogVisible: true });
-      };
+    };
 
-      handleBack = () => {
+    handleBack = () => {
         this.setState({ cancelSaveDialogVisible: false });
-      };
+    };
 
-      handleDiscard = () => {
+    handleDiscard = () => {
         this.navigateHome()
         this.setState({ cancelSaveDialogVisible: false });
-      };
+    };
 
-    noteEditedHandler = (note) =>{
+    noteEditedHandler = (note) => {
         this.setState({
             symptomEntryNote: note,
         });
     }
 
-    dateEditedHandler = (dateTime) =>{
+    dateEditedHandler = (dateTime) => {
         //TODO: if symptoms selected and not saved, ask user. Then refresh page.
         this.state.tempDate = dateTime
 
@@ -172,9 +154,7 @@ export default class SymptomTrackerScreen extends React.Component{
         })
     }
 
-    timeEditedHandler = (dateTime) =>{
-        // //Only update the time of the current selectedDateAndTime
-
+    timeEditedHandler = (dateTime) => {
         let tmpDateTime = this.state.selectedDateAndTime
         tmpDateTime.setHours(dateTime.getHours())
         tmpDateTime.setMinutes(dateTime.getMinutes())
@@ -185,21 +165,21 @@ export default class SymptomTrackerScreen extends React.Component{
         })
     }
 
-    symptomSelectionChangeHandler = (sympIDsAndSeverity) =>{
+    symptomSelectionChangeHandler = (sympIDsAndSeverity) => {
         this.symptomsUpdated(sympIDsAndSeverity.length > 0);
         this.setState({
             selectedSymptoms: sympIDsAndSeverity,
         });
     }
 
-    render(){
+    render() {
         const marginToUse = ((this.state.keyboardOpen) ? 300 : 0);
 
             return(
                 <View style={styles.container}>
                   <KeyboardAwareScrollView>
                       {/* <TextInput onSubmitEditing={Keyboard.dismiss} /> */}
-                      <HorizontalLineWithText text = {LanguageManager.getInstance().getText("DATE")+"test"}/>
+                      <HorizontalLineWithText text = {LanguageManager.getInstance().getText("DATE")}/>
                       <DayChooser ref={component => this._dayChooser = component} date = {this.state.selectedDateAndTime} onDateChanged={this.dateEditedHandler}/>
                       <HorizontalLineWithText text = {LanguageManager.getInstance().getText("TIME")}/>
                       <TimePicker ref={component => this._timePicker = component} textString = "SYMPTOM_OCCURED" onTimeChanged={this.timeEditedHandler}/>
@@ -224,29 +204,27 @@ export default class SymptomTrackerScreen extends React.Component{
                           onWillShow={() => { this.setState({ keyboardOpen: true }); }}
                           onWillHide={() => { this.setState({ keyboardOpen: false }); }}
                       /> */}
-                  </KeyboardAwareScrollView>
-                </View>
-            )
+                </KeyboardAwareScrollView>
+            </View>
+        )
     }
 
-    isSymptomSelected()
-    {
-        return Array.isArray(this.state.selectedSymptoms) && this.state.selectedSymptoms.length > 1;
+    isSymptomSelected() {
+        return Array.isArray(this.state.selectedSymptoms) && this.state.selectedSymptoms.length > 0;
     }
 
-    saveCurrentData = (goHome) =>{
+    saveCurrentData = (goHome) => {
         let added = 1;
         let tmpDateTime = this.state.selectedDateAndTime;
-        
-        if(this.isSymptomSelected())
-        {
+
+        if (this.isSymptomSelected()) {
             this.state.selectedSymptoms.forEach((symptom) => {
-                DatabaseManager.getInstance().createSymptomEvent(symptom.symptomID, symptom.severity, this.state.symptomEntryNote, tmpDateTime.getTime(), 
-                    (error) => {alert(error)}, 
-                    () => {GlutonManager.getInstance().setMessage(2); GearManager.getInstance().sendMessage("msg 32")}
+                DatabaseManager.getInstance().createSymptomEvent(symptom.symptomID, symptom.severity, this.state.symptomEntryNote, tmpDateTime.getTime(),
+                    (error) => { alert(error) },
+                    () => { GlutonManager.getInstance().setMessage(2); GearManager.getInstance().sendMessage("msg 32") }
                 );
             });
-    
+
             if (goHome) {
                 setTimeout(() => this.navigateHome(), 100);
             }
@@ -255,14 +233,14 @@ export default class SymptomTrackerScreen extends React.Component{
         }
     }
 
-    navigateHome = () =>{
+    navigateHome = () => {
         this.props.navigation.goBack();
     }
 
-    handleCancelButton = () =>{
-        if(Array.isArray(this.state.selectedSymptoms) && this.state.selectedSymptoms.length){
+    handleCancelButton = () => {
+        if (Array.isArray(this.state.selectedSymptoms) && this.state.selectedSymptoms.length) {
             this.showBackDiscardDialog()
-        }else{
+        } else {
             this.navigateHome()
         }
     }
@@ -270,12 +248,12 @@ export default class SymptomTrackerScreen extends React.Component{
 }
 
 var styles = StyleSheet.create({
-  container: {
-    margin: 25
-  },
- headText:{
-    fontSize: 20,
-    textAlign: 'center',
-    margin: 10
- }
+    container: {
+        margin: 25
+    },
+    headText: {
+        fontSize: 20,
+        textAlign: 'center',
+        margin: 10
+    }
 });
