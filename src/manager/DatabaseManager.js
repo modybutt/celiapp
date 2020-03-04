@@ -49,14 +49,14 @@ export default class DatabaseManager {
                 (2, "DIARRHEA",     "' + DIARRHEA_ICON      + '", ' + now + ', ' + now + ', 0),\
                 (3, "HEADACHE",     "' + HEADACHE_ICON      + '", ' + now + ', ' + now + ', 0),\
                 (4, "IRRITABILITY", "' + IRRITABILITY_ICON  + '", ' + now + ', ' + now + ', 0),\
-                (5, "STOMACHACHE",  "' + STOMACHACHE_ICON   + '", ' + now + ', ' + now + ', 0),\
-                (6, "VOMITING",     "' + VOMITING_ICON      + '", ' + now + ', ' + now + ', 0),\
+                (5, "ABDOMINAL_DISCOMFORT",  "' + STOMACHACHE_ICON   + '", ' + now + ', ' + now + ', 0),\
+                (6, "NAUSEA",     "' + VOMITING_ICON      + '", ' + now + ', ' + now + ', 0),\
                 (7, "WEIGHT_LOSS",  "' + WEIGHT_LOSS_ICON   + '", ' + now + ', ' + now + ', 0),\
-                (8, "SYMPTOM_8",    "' + USER_SYMPTOM_ICON  + '", ' + now + ', ' + now + ', 0),\
-                (9, "SYMPTOM_9",    "' + USER_SYMPTOM_ICON  + '", ' + now + ', ' + now + ', 0),\
-                (10, "SYMPTOM_10",  "' + USER_SYMPTOM_ICON  + '", ' + now + ', ' + now + ', 0),\
-                (11, "SYMPTOM_11",  "' + USER_SYMPTOM_ICON  + '", ' + now + ', ' + now + ', 0),\
-                (12, "SYMPTOM_12",  "' + USER_SYMPTOM_ICON  + '", ' + now + ', ' + now + ', 0),\
+                (8, "RUMBLING_IN_STOMACH",    "' + USER_SYMPTOM_ICON  + '", ' + now + ', ' + now + ', 0),\
+                (9, "TENESMUS",    "' + USER_SYMPTOM_ICON  + '", ' + now + ', ' + now + ', 0),\
+                (10, "HUNGER_PAINS",  "' + USER_SYMPTOM_ICON  + '", ' + now + ', ' + now + ', 0),\
+                (11, "LOW_ENERGY",  "' + USER_SYMPTOM_ICON  + '", ' + now + ', ' + now + ', 0),\
+                (12, "FOOD_CRAVING",  "' + USER_SYMPTOM_ICON  + '", ' + now + ', ' + now + ', 0),\
                 (13, "SYMPTOM_13",  "' + USER_SYMPTOM_ICON  + '", ' + now + ', ' + now + ', 0),\
                 (14, "SYMPTOM_14",  "' + USER_SYMPTOM_ICON  + '", ' + now + ', ' + now + ', 0),\
                 (15, "SYMPTOM_15",  "' + USER_SYMPTOM_ICON  + '", ' + now + ', ' + now + ', 0),\
