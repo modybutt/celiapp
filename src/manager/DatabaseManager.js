@@ -56,11 +56,7 @@ export default class DatabaseManager {
                 (9, "TENESMUS",    "' + USER_SYMPTOM_ICON  + '", ' + now + ', ' + now + ', 0),\
                 (10, "HUNGER_PAINS",  "' + USER_SYMPTOM_ICON  + '", ' + now + ', ' + now + ', 0),\
                 (11, "LOW_ENERGY",  "' + USER_SYMPTOM_ICON  + '", ' + now + ', ' + now + ', 0),\
-                (12, "FOOD_CRAVING",  "' + USER_SYMPTOM_ICON  + '", ' + now + ', ' + now + ', 0),\
-                (13, "SYMPTOM_13",  "' + USER_SYMPTOM_ICON  + '", ' + now + ', ' + now + ', 0),\
-                (14, "SYMPTOM_14",  "' + USER_SYMPTOM_ICON  + '", ' + now + ', ' + now + ', 0),\
-                (15, "SYMPTOM_15",  "' + USER_SYMPTOM_ICON  + '", ' + now + ', ' + now + ', 0),\
-                (16, "SYMPTOM_16",  "' + USER_SYMPTOM_ICON  + '", ' + now + ', ' + now + ', 0);',
+                (12, "FOOD_CRAVING",  "' + USER_SYMPTOM_ICON  + '", ' + now + ', ' + now + ', 0);',
                 (param) => alert("insert into symptoms: " + JSON.stringify(param)));
             
             tx.executeSql(
