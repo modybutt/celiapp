@@ -51,7 +51,7 @@ export default class DatabaseManager {
                 (4, "IRRITABILITY", "' + IRRITABILITY_ICON  + '", ' + now + ', ' + now + ', 0),\
                 (5, "ABDOMINAL_DISCOMFORT",  "' + STOMACHACHE_ICON   + '", ' + now + ', ' + now + ', 0),\
                 (6, "NAUSEA",     "' + VOMITING_ICON      + '", ' + now + ', ' + now + ', 0),\
-                (7, "WEIGHT_LOSS",  "' + WEIGHT_LOSS_ICON   + '", ' + now + ', ' + now + ', 0),\
+                (7, "LOSS_OF_APPETITE",  "' + WEIGHT_LOSS_ICON   + '", ' + now + ', ' + now + ', 0),\
                 (8, "RUMBLING_IN_STOMACH",    "' + USER_SYMPTOM_ICON  + '", ' + now + ', ' + now + ', 0),\
                 (9, "TENESMUS",    "' + USER_SYMPTOM_ICON  + '", ' + now + ', ' + now + ', 0),\
                 (10, "HUNGER_PAINS",  "' + USER_SYMPTOM_ICON  + '", ' + now + ', ' + now + ', 0),\
@@ -122,7 +122,7 @@ export default class DatabaseManager {
   //Public
   fetchSymptoms(onError, onSuccess) {
     this.db.transaction(tx => {
-      tx.executeSql('SELECT * FROM symptoms ORDER BY usage DESC', null, onSuccess, onError);
+      tx.executeSql('SELECT * FROM symptoms ORDER BY name ASC', null, onSuccess, onError);
     });
   }
   
