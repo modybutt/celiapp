@@ -36,7 +36,6 @@ export default class CalendarScreen extends React.Component {
 
   onDateChange(date) {
     let d = new Date(date);
-    d.setHours(d.getHours() + 12); //TODO: dirty UTC time. Needs more permanent fix.
     if (this.state.selectedDate != date) {
       this.list.updateList(date)
       this.setState({selectedDate: date})
