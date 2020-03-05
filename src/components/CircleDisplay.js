@@ -95,7 +95,7 @@ export default class SymptomCircle extends React.Component
        
         if (colourManager[i] == 0)
         {
-          setOfCircles.push(<Native.View key={i} style={circleStyle(rotatedX, rotatedY, this.props.SymptomOnlyColour)}/>)
+          setOfCircles.push(<Native.View key={i} style={circleStyle(rotatedX, rotatedY, this.props.NoInputColour)}/>)
         }
         
         if (colourManager[i] == 1)
@@ -119,7 +119,7 @@ export default class SymptomCircle extends React.Component
 
       switch (colourManager[m_dateDayNum]) {
         case 0:
-          todaysColour = this.props.SymptomOnlyColour;
+          todaysColour = this.props.NoInputColour;
           break;
         case 1:
           todaysColour = this.props.SymptomOnlyColour;
