@@ -92,56 +92,38 @@ export default class EntryList extends React.Component {
         )
       }
       case Events.Food: {
-        if (objData.icon != null) {
           return (
             <TouchableOpacity onPress={() => this.props.navigation.navigate('ViewMeal', {event: item})}>
               <ListItem
                 title={objData.name}
                 rightTitle={<FoodDiaryRatingBar active={false} rating={objData.rating} iconSize={5} />}
                 subtitle={LanguageManager.getInstance().getDateAsText(item.created)}
-                leftAvatar={{ source: Image.resolveAssetSource(objData.icon) }}
+                leftIcon={{ name: 'restaurant', containerStyle: {
+                    margin: 10
+                }}}
                 chevron={true}
               />
             </TouchableOpacity>
           )
-        } else {
-          return (
-            <TouchableOpacity onPress={() => this.props.navigation.navigate('ViewMeal', {event: item})}>
-              <ListItem
-                title={objData.name}
-                rightTitle={<FoodDiaryRatingBar active={false} rating={objData.rating} iconSize={5} />}
-                subtitle={LanguageManager.getInstance().getDateAsText(item.created)}
-                leftAvatar={{ icon: {name: 'camera'} }}
-                chevron={true}
-              />
-            </TouchableOpacity>
-          )
-        }
+        
       }
-      case Events.GIP: {
-        if (objData.photo != null) {
+      case Events.GIP: {        
           return (
             <TouchableOpacity onPress={() => this.props.navigation.navigate('ViewGIP', {event: item})}>
-              <ListItem
-                title={"GIP test"}
+              <ListItem 
+                title={LanguageManager.getInstance().getText('GIP_RESULT')}
                 subtitle={LanguageManager.getInstance().getDateAsText(item.created)}
-                leftAvatar={{ source: Image.resolveAssetSource(objData.photo) }}
+                leftAvatar={{ source: Image.resolveAssetSource(require('../assets/images/GIP_icon.png')),
+                overlayContainerStyle: {
+                    flex: 1,
+                    justifyContent: 'center',
+                    backgroundColor: "rgba(255, 150, 10, 1)"
+                  } }
+                }
                 chevron={true}
               />
             </TouchableOpacity>
-          )
-        } else {
-          return (
-            <TouchableOpacity onPress={() => this.props.navigation.navigate('ViewGIP', {event: item})}>
-              <ListItem
-                title={"GIP test"}
-                subtitle={LanguageManager.getInstance().getDateAsText(item.created)}
-                leftAvatar={{ icon: {name: 'camera'} }}
-                chevron={true}
-              />
-            </TouchableOpacity>
-          )
-        }
+          )        
       }
       
       case Events.Emotion: {
