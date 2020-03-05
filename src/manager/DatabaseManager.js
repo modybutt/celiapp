@@ -6,9 +6,15 @@ import DIARRHEA_ICON from '../assets/images/SymptomTracker/diarrhea.png';
 import HEADACHE_ICON from '../assets/images/SymptomTracker/headache.png';
 import IRRITABILITY_ICON from '../assets/images/SymptomTracker/irritability.png';
 import STOMACHACHE_ICON from '../assets/images/SymptomTracker/stomachAche.png';
+import STOMACH_RUMBLE_ICON from '../assets/images/SymptomTracker/stomachRumble.png';
 import VOMITING_ICON from '../assets/images/SymptomTracker/vomiting.png';
 import WEIGHT_LOSS_ICON from '../assets/images/SymptomTracker/weightLoss.png';
 import USER_SYMPTOM_ICON from '../assets/images/SymptomTracker/userDefinedSymptom.png';
+import LOSS_OF_APPETITE_ICON from '../assets/images/SymptomTracker/lossOfAppetite.png';
+import HUNGER_PAIN_ICON from '../assets/images/SymptomTracker/hungerPain.png';
+import FOOD_CRAVING_ICON from '../assets/images/SymptomTracker/craving.png';
+import TENESMUS_ICON from '../assets/images/SymptomTracker/tenesmus.png';
+import LOW_ENERGY_ICON from '../assets/images/SymptomTracker/tired.png';
 import Events from '../constants/Events';
 import NotificationManager from './NotificationManager';
 
@@ -45,22 +51,18 @@ export default class DatabaseManager {
             
             tx.executeSql(
               'INSERT OR IGNORE INTO symptoms (id, name, icon, created, modified, usage) VALUES \
-                (1, "BLOATING",     "' + BLOATING_ICON      + '", ' + now + ', ' + now + ', 0),\
-                (2, "DIARRHEA",     "' + DIARRHEA_ICON      + '", ' + now + ', ' + now + ', 0),\
-                (3, "HEADACHE",     "' + HEADACHE_ICON      + '", ' + now + ', ' + now + ', 0),\
-                (4, "IRRITABILITY", "' + IRRITABILITY_ICON  + '", ' + now + ', ' + now + ', 0),\
-                (5, "STOMACHACHE",  "' + STOMACHACHE_ICON   + '", ' + now + ', ' + now + ', 0),\
-                (6, "VOMITING",     "' + VOMITING_ICON      + '", ' + now + ', ' + now + ', 0),\
-                (7, "WEIGHT_LOSS",  "' + WEIGHT_LOSS_ICON   + '", ' + now + ', ' + now + ', 0),\
-                (8, "SYMPTOM_8",    "' + USER_SYMPTOM_ICON  + '", ' + now + ', ' + now + ', 0),\
-                (9, "SYMPTOM_9",    "' + USER_SYMPTOM_ICON  + '", ' + now + ', ' + now + ', 0),\
-                (10, "SYMPTOM_10",  "' + USER_SYMPTOM_ICON  + '", ' + now + ', ' + now + ', 0),\
-                (11, "SYMPTOM_11",  "' + USER_SYMPTOM_ICON  + '", ' + now + ', ' + now + ', 0),\
-                (12, "SYMPTOM_12",  "' + USER_SYMPTOM_ICON  + '", ' + now + ', ' + now + ', 0),\
-                (13, "SYMPTOM_13",  "' + USER_SYMPTOM_ICON  + '", ' + now + ', ' + now + ', 0),\
-                (14, "SYMPTOM_14",  "' + USER_SYMPTOM_ICON  + '", ' + now + ', ' + now + ', 0),\
-                (15, "SYMPTOM_15",  "' + USER_SYMPTOM_ICON  + '", ' + now + ', ' + now + ', 0),\
-                (16, "SYMPTOM_16",  "' + USER_SYMPTOM_ICON  + '", ' + now + ', ' + now + ', 0);',
+                (1,  "BLOATING",               "' + BLOATING_ICON           + '", ' + now + ', ' + now + ', 0),\
+                (2,  "DIARRHEA",               "' + DIARRHEA_ICON           + '", ' + now + ', ' + now + ', 0),\
+                (3,  "HEADACHE",               "' + HEADACHE_ICON           + '", ' + now + ', ' + now + ', 0),\
+                (4,  "IRRITABILITY",           "' + IRRITABILITY_ICON       + '", ' + now + ', ' + now + ', 0),\
+                (5,  "ABDOMINAL_DISCOMFORT",   "' + STOMACHACHE_ICON        + '", ' + now + ', ' + now + ', 0),\
+                (6,  "NAUSEA",                 "' + VOMITING_ICON           + '", ' + now + ', ' + now + ', 0),\
+                (7,  "LOSS_OF_APPETITE",       "' + LOSS_OF_APPETITE_ICON   + '", ' + now + ', ' + now + ', 0),\
+                (8,  "RUMBLING_IN_STOMACH",    "' + STOMACH_RUMBLE_ICON     + '", ' + now + ', ' + now + ', 0),\
+                (9,  "TENESMUS",               "' + TENESMUS_ICON           + '", ' + now + ', ' + now + ', 0),\
+                (10, "HUNGER_PAINS",           "' + HUNGER_PAIN_ICON             + '", ' + now + ', ' + now + ', 0),\
+                (11, "LOW_ENERGY",             "' + LOW_ENERGY_ICON         + '", ' + now + ', ' + now + ', 0),\
+                (12, "FOOD_CRAVING",           "' + FOOD_CRAVING_ICON       + '", ' + now + ', ' + now + ', 0);',
                 (param) => alert("insert into symptoms: " + JSON.stringify(param)));
             
             tx.executeSql(
@@ -126,7 +128,7 @@ export default class DatabaseManager {
   //Public
   fetchSymptoms(onError, onSuccess) {
     this.db.transaction(tx => {
-      tx.executeSql('SELECT * FROM symptoms ORDER BY usage DESC', null, onSuccess, onError);
+      tx.executeSql('SELECT * FROM symptoms ORDER BY name ASC', null, onSuccess, onError);
     });
   }
   

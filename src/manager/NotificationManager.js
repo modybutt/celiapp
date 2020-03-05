@@ -50,7 +50,7 @@ export default class NotificationManager
         
         let now = new Date();
         let tomorrow = new Date();
-        tomorrow.setSeconds(now.getSeconds() + 1);
+        tomorrow.setDate(now.getDate() + 1);
 
         // if the new time falls early in the morning or late at night, set it to the next morning
         if (tomorrow.getHours() <= 7 || tomorrow.getHours() >= 20)
