@@ -22,8 +22,8 @@ As a ‹role›, I'd like to ‹feature short description› [ , in order to ‹
 
 ## Notes and resources
 
-* <some useful information or context for the story>
-* <links to designs or slack conversations>
+* e.g. some useful information or context for the story
+* e.g. links to designs or slack conversations
 * ...
 
 ## Story writing guidelines - Can delete everything below here
