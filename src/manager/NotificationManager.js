@@ -53,9 +53,10 @@ export default class NotificationManager
         tomorrow.setHours(now.getHours() + 12);
 
         // if the new time falls early in the morning or late at night, set it to the next morning
-        if (tomorrow.getHours() <= 7 || tomorrow.getHours() >= 20)
+        if (tomorrow.getHours() <= 7 || tomorrow.getHours() >= 22)
         {
             tomorrow.setHours(8, 0, 0);
+            tomorrow.setDate(tomorrow.getDate() + 1);
         }
         const schedulingOptions = { time: tomorrow };
         Notifications.scheduleLocalNotificationAsync(localnotification, schedulingOptions);
