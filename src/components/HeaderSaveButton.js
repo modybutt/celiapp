@@ -2,7 +2,6 @@
 import React from 'react';
 import { TouchableOpacity, StyleSheet } from 'react-native';
 import * as Icon from '@expo/vector-icons';
-import Colors from '../constants/Colors';
 
 export default class HeaderSaveButton extends React.Component{
 
@@ -17,7 +16,19 @@ export default class HeaderSaveButton extends React.Component{
         } else
         {
             this.color = '#000';
-        }        
+        }
+        this.state = {
+            wasPressed: false
+        };
+    }
+
+    componentWillMount() {
+        this.setState({wasPressed: false});
+    }
+
+    handlePress = () => {
+        this.props.onPress();
+        this.setState({wasPressed: true});
     }
 
     render() {
@@ -29,7 +40,7 @@ export default class HeaderSaveButton extends React.Component{
         }
 
         return (
-            <TouchableOpacity style={this.getStyle()} onPress={this.props.onPress}>
+            <TouchableOpacity disabled={this.state.wasPressed} style={this.getStyle()} onPress={this.handlePress}>
                 <Icon.Ionicons name={iconName} size={40} color={this.color}/>
             </TouchableOpacity>
         )
