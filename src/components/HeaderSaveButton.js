@@ -29,6 +29,10 @@ export default class HeaderSaveButton extends React.Component{
     handlePress = () => {
         this.props.onPress();
         this.setState({wasPressed: true});
+        setTimeout(() => 
+        {
+            this.setState({wasPressed: false});
+        }, 300);
     }
 
     render() {
