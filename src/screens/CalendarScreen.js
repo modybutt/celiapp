@@ -34,14 +34,18 @@ export default class CalendarScreen extends React.Component {
     this.onDateChange(this.state.initDate)
   }
 
-  onDateChange(date) {
-    let d = new Date(date);
-    if (this.state.selectedDate != date) {
-      this.list.updateList(date)
-      this.setState({selectedDate: date})
-      this.onDatechangesListener(d);
+    onDateChange(date) 
+    {
+        let d = new Date(date);
+        d.setHours(new Date().getHours());
+        d.setMinutes(new Date().getMinutes());
+        if (this.state.selectedDate != date) 
+        {        
+            this.list.updateList(date);
+            this.setState({selectedDate: d});
+            this.onDatechangesListener(d);
+        }
     }
-  }
 
   getCurrentDate = () => {
       return this.state.selectedDate;
