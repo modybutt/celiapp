@@ -1,38 +1,43 @@
-                         				CELI APP
-   		   				  - All You Could Eat -
+![Project Logo](/.github/logos/combined_logos.png)
+
+# Celiapp
+
+An app to help people with [coeliac_disease](https://en.wikipedia.org/wiki/Coeliac_disease) control their intake of gluten.
+
+## Project information
 						  
 [Report bugs here](https://forms.gle/cLYvsLpdG7K9TA6S6)
 
 [Google drive folder](https://drive.google.com/drive/folders/14PHvjDnpShU3ikbmvI3tGRPABUAJEEVm?usp=sharing)
 
-##########################################################################################################################
-                              Prerequisites
+## Developer information
 
-Install node & npm : https://nodejs.org/en/
+### Prerequisites
 
-Install expo-cli :  "npm install -g expo-cli"
+Install node & npm [from here](https://nodejs.org/en/)
+
+Install expo-cli :  `npm install -g expo-cli`
 
 Install the Expo client app on your android/IOS device
 
-##########################################################################################################################
-						      Install & Run
+
+## Install & Run
 
 Setup:
-"npm install"
+`npm install`
 
 Run:
-"npm start"
+`expo start`
 
-Note: If you get "error Invalid Regular Expression..." error, fix the node 
+Note for windows users: If you get "error Invalid Regular Expression..." error, fix the node 
 dependency as per this article: https://stackoverflow.com/a/58122821/488802
 
 IOS: point camera app at QR code
 Android: In Expo client app, open QR code
 
-##########################################################################################################################
+## Application Files
 
-						     Application Files
-
+```
 celiapp
     ./package.json		NPM Installation Module
     ./app.json			Application Configuration
@@ -62,27 +67,26 @@ celiapp/src/components
 celiapp/src/screens
     ./***.js			MainTabNavigator Screens
     ./***/***.js		Sub Screens, Dialogs, ...
+    
+```
 
-##########################################################################################################################
+### Tools & Tutorails
 
-						Tools & Tutorails
+* REACT NATIVE: 		https://facebook.github.io/react-native/docs/getting-started
+* EXPO: 			https://expo.io
+* JEST:			https://jestjs.io
+* Android Studio: 	https://developer.android.com/studio
+* Icons Library: 		https://ionicons.com
+* Import Organizer: 	https://github.com/tleunen/babel-plugin-module-resolver
+* Tortoise GitSVN: 	https://tortoisegit.org
+* EXPO-SQLite:		https://github.com/expo/expo/tree/master/packages/expo-sqlite
 
-REACT NATIVE: 		https://facebook.github.io/react-native/docs/getting-started
-EXPO: 			https://expo.io
-JEST:			https://jestjs.io
-Android Studio: 	https://developer.android.com/studio
-Icons Library: 		https://ionicons.com
-Import Organizer: 	https://github.com/tleunen/babel-plugin-module-resolver
-Tortoise GitSVN: 	https://tortoisegit.org
-EXPO-SQLite:		https://github.com/expo/expo/tree/master/packages/expo-sqlite
 
-##########################################################################################################################
+### Useful Git Commands
 
-		      				Useful Git Commands
-
+```
 git pull			update repo from master
 git commit -m "Commit Message"	commit local changes to repo
 git push			push local repo to master
 // ... merge & pull request?
-
-
+```
