@@ -1,14 +1,16 @@
 ![Project Logo](/.github/logos/combined_logos.png)
 
-# Celiapp
+# CeliApp
 
-An app to help people with [coeliac_disease](https://en.wikipedia.org/wiki/Coeliac_disease) control their intake of gluten.
+An app to help people with [coeliac disease](https://en.wikipedia.org/wiki/Coeliac_disease) control their intake of gluten.
 
 ## Project information
 						  
 [Report bugs here](https://forms.gle/cLYvsLpdG7K9TA6S6)
 
 [Google drive folder](https://drive.google.com/drive/folders/14PHvjDnpShU3ikbmvI3tGRPABUAJEEVm?usp=sharing)
+
+[CeliApp kanban board](https://github.com/itcgames/celiapp/projects/1)
 
 ## Developer information
 
@@ -70,7 +72,7 @@ celiapp/src/screens
     
 ```
 
-### Tools & Tutorails
+### Tools & Tutorails
 
 * REACT NATIVE: 		https://facebook.github.io/react-native/docs/getting-started
 * EXPO: 			https://expo.io
