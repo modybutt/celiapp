@@ -9,6 +9,7 @@ import DatabaseManager from '../manager/DatabaseManager';
 import LanguageManager from '../manager/LanguageManager';
 import GlutonManager from '../manager/GlutonManager';
 import DayChooser from '../components/DayChooser';
+import TimePicker from '../components/TimePicker';
 import HeaderSaveButton from '../components/HeaderSaveButton';
 import GearManager from '../manager/GearManager';
 
@@ -119,6 +120,17 @@ export default class EmoteTrackerScreen extends React.Component{
         }
     }
 
+    timeEditedHandler = (dateTime) => {
+        let tmpDateTime = this.state.selectedDateAndTime
+        tmpDateTime.setHours(dateTime.getHours())
+        tmpDateTime.setMinutes(dateTime.getMinutes())
+        //TODO: Change time of tmpDateTime
+
+        this.setState({
+            selectedDateAndTime: tmpDateTime,
+        })
+    }
+
     //TODO Uplift selectedSymbolID
 
     render(){
@@ -127,6 +139,8 @@ export default class EmoteTrackerScreen extends React.Component{
             <ScrollView style={{marginBottom: marginToUse}}>
                 <HorizontalLineWithText text = {LanguageManager.getInstance().getText("DATE")}/>
                 <DayChooser ref={component => this._dayChooser = component} date = {this.state.selectedDateAndTime} onDateChanged={this.dateEditedHandler}/>
+                <HorizontalLineWithText text = {LanguageManager.getInstance().getText("TIME")}/>
+                <TimePicker ref={component => this._timePicker = component} textString = "SYMPTOM_OCCURED" onTimeChanged={this.timeEditedHandler}/>
                 <HorizontalLineWithText text = {LanguageManager.getInstance().getText("EMOTION")}/>
                 <EmoteTrackerSymbolGroup ref={component => this._dayChooser = component} onEmotionChanged={this.emotionChangedHandler}/>
                 <HorizontalLineWithText text = {LanguageManager.getInstance().getText("NOTES")}/>
