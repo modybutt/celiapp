@@ -8,6 +8,7 @@ export default class CeliCalendarPicker extends React.Component {
     return (
       <View style={styles.container}>
         <CalendarPicker
+          maxDate= {new Date()}
           onDateChange={(date, type) => this.props.onDateChange(date)}
           selectedStartDate={this.props.selectedDate}
           weekdays={[LanguageManager.getInstance().getText("MON"),LanguageManager.getInstance().getText("TUE"),LanguageManager.getInstance().getText("WED"),LanguageManager.getInstance().getText("THU"),LanguageManager.getInstance().getText("FRI"),LanguageManager.getInstance().getText("SAT"),LanguageManager.getInstance().getText("SUN")]}
