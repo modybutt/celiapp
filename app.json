@@ -7,11 +7,11 @@
       "sdkVersion": "35.0.0",
       "orientation": "portrait",
       "ios": {
-          "buildNumber": "105",
+          "buildNumber": "109",
           "bundleIdentifier": "ie.itcarlow.CeliApp"
       },
       "android": {
-        "versionCode": 105,
+        "versionCode": 109,
         "package": "ie.itcarlow.CeliApp"
       },
       "platforms": [
