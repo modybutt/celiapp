@@ -285,6 +285,17 @@ export default class DatabaseManager {
     }, onError, onSuccess);
   }
 
+  fetchEventsCount(onError, onSuccess) {
+    this.db.transaction(tx => {
+        tx.executeSql(`SELECT COUNT(*) as noEvents,
+            strftime('%d', created / 1000, 'unixepoch') as day,
+            strftime('%m', created / 1000, 'unixepoch') as month,
+            strftime('%Y', created / 1000, 'unixepoch') as year
+            FROM events GROUP BY year, month, day;`,
+            [], onSuccess, onError);
+      });
+  }
+
   fetchEvents(timestamp, onError, onSuccess) {
     if (timestamp != null) {
       let start = new Date(timestamp);

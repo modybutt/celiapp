@@ -12,7 +12,6 @@ import CeliCalendarPicker from "../components/CeliCalendarPicker";
 import EntryList from "../components/EntryList"
 import MenuButton from '../components/MenuButton';
 import LanguageManager from '../manager/LanguageManager';
-import HeaderSaveButton from '../components/HeaderSaveButton';
 
 export default class CalendarScreen extends React.Component {
   static navigationOptions = ({navigation}) => ({
@@ -27,7 +26,10 @@ export default class CalendarScreen extends React.Component {
   componentDidMount() {        
     this.props.navigation.setParams({ 
         onOkPressed: this.resetDate.bind(this),
-    })
+    });
+    this.props.navigation.addListener('willFocus', () => {
+        this.refs.celiCalendar.onfocus();
+    });
   }
 
   resetDate() {
@@ -54,7 +56,7 @@ export default class CalendarScreen extends React.Component {
   render() {
     return (
       <View style={styles.container}>
-        <CeliCalendarPicker selectedDate={this.state.selectedDate} onDateChange={(date) => this.onDateChange(date)}/>
+        <CeliCalendarPicker ref='celiCalendar' selectedDate={this.state.selectedDate} onDateChange={(date) => this.onDateChange(date)}/>
         <EntryList navigation={this.props.navigation} selectedDate={this.state.selectedDate} ref={list => this.list = list} />
         <MenuButton navigation={this.props.navigation} shareConfig={{
                 onDateChanged : (onDatechangesListener) => {this.onDatechangesListener = onDatechangesListener;}
