@@ -17,7 +17,7 @@ import { images } from '../components/EmoteTracker/EmoteTrackerConstants';
 import FoodDiaryRatingBar from '../components/FoodDiary/FoodDiaryRatingBar';
 import LanguageManager from '../manager/LanguageManager';
 import Events from '../constants/Events';
-
+import moment from 'moment';
 
 
 export default class EntryList extends React.Component {
@@ -65,7 +65,9 @@ export default class EntryList extends React.Component {
 
   renderItem(item) {
     let objData  = JSON.parse(item.objData);
-    
+    let createdDate = moment(item.created); 
+
+    let time = createdDate.local().format('HH:mm');
     switch(item.eventType) {
       case Events.Symptom: {
         let color = 'transparent';
@@ -74,12 +76,12 @@ export default class EntryList extends React.Component {
           case 2: color = 'orange'; break;
           case 3: color = 'red'; break;
         }
-        if (objData.symptomID === -1) objData.name = 'NO_SYMPTOMS'; //TODO: Temp solution. Needs to be an entry in the database
+        if (objData.symptomID === 0) objData.name = 'NO_SYMPTOMS'; //TODO: Temp solution. Needs to be an entry in the database
         return (
           <TouchableOpacity onPress={() => this.props.navigation.navigate('ViewSymptom', {event: item})}>
             <ListItem
               title={LanguageManager.getInstance().getText(objData.name)}
-              subtitle={LanguageManager.getInstance().getDateAsText(item.created)}
+              subtitle={time}
               leftAvatar={{
                 source: Image.resolveAssetSource(objData.icon),
                 overlayContainerStyle: {
@@ -97,7 +99,7 @@ export default class EntryList extends React.Component {
               <ListItem
                 title={objData.name}
                 rightTitle={<FoodDiaryRatingBar active={false} rating={objData.rating} iconSize={5} />}
-                subtitle={LanguageManager.getInstance().getDateAsText(item.created)}
+                subtitle={time}
                 leftIcon={{ name: 'restaurant', containerStyle: {
                     margin: 10
                 }}}
@@ -112,7 +114,7 @@ export default class EntryList extends React.Component {
             <TouchableOpacity onPress={() => this.props.navigation.navigate('ViewGIP', {event: item})}>
               <ListItem 
                 title={LanguageManager.getInstance().getText('GIP_RESULT')}
-                subtitle={LanguageManager.getInstance().getDateAsText(item.created)}
+                subtitle={time}
                 leftAvatar={{ source: Image.resolveAssetSource(require('../assets/images/GIP_icon.png')),
                 overlayContainerStyle: {
                     flex: 1,
@@ -141,7 +143,7 @@ export default class EntryList extends React.Component {
           <TouchableOpacity onPress={() => this.props.navigation.navigate('ViewEmote', {event: item})}>
              <ListItem
               title={LanguageManager.getInstance().getText(picture.imgName)}
-              subtitle={LanguageManager.getInstance().getDateAsText(item.created)}
+              subtitle={time}
               leftAvatar={{
                 source: Image.resolveAssetSource(picture.uri)
               }}
