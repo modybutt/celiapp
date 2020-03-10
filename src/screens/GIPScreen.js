@@ -145,25 +145,25 @@ export default class GIPScreen extends React.Component{
     saveData(goHome){
         let tmpDateTime = this.state.selectedDateAndTime
         tmpDateTime.setFullYear(tmpDateTime.getFullYear());
-        if (this.state.photo) {
-          FileSystem.readAsStringAsync(this.state.photo.uri,
-            {'encoding': FileSystem.EncodingType.Base64})
-            .then(result => {
-              this.state.photo.base46 = result;
-              DatabaseManager.getInstance().createGIPEvent(
-                this.state.gipManualResult,
-                this.state.gipEntryNote,
-                this.state.photo,
-                tmpDateTime.getTime(),
-                (error) => {alert(error)},
-                () => {
-                  GlutonManager.getInstance().setMessage(2);
-                  GearManager.getInstance().sendMessage("msg 31")
-                }
-              );
-            })
-             .catch((err) => alert(error))
-        } else {
+        // if (this.state.photo) {
+        //   FileSystem.readAsStringAsync(this.state.photo.uri,
+        //     {'encoding': FileSystem.EncodingType.Base64})
+        //     .then(result => {
+        //       this.state.photo.base46 = result;
+        //       DatabaseManager.getInstance().createGIPEvent(
+        //         this.state.gipManualResult,
+        //         this.state.gipEntryNote,
+        //         this.state.photo,
+        //         tmpDateTime.getTime(),
+        //         (error) => {alert(error)},
+        //         () => {
+        //           GlutonManager.getInstance().setMessage(2);
+        //           GearManager.getInstance().sendMessage("msg 31")
+        //         }
+        //       );
+        //     })
+        //      .catch((err) => alert(error))
+        // } else {
           DatabaseManager.getInstance().createGIPEvent(
             this.state.gipManualResult,
             this.state.gipEntryNote,
@@ -175,7 +175,7 @@ export default class GIPScreen extends React.Component{
               GearManager.getInstance().sendMessage("msg 31")
             }
           );
-        }
+        // }
         if (goHome) {
           setTimeout(() => this.navigateHome(), 100);
         }
