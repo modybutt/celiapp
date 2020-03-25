@@ -12,7 +12,7 @@ import Dialog from "react-native-dialog";
 import { Button } from 'react-native-elements';
 
 import LOGO from '../assets/images/web_hi_res_512.png';
-
+import { createStyles, maxHeight } from 'react-native-media-queries'; 
 export default class UsernameDialog extends React.Component {
   constructor(props){
     super(props);
@@ -62,19 +62,20 @@ export default class UsernameDialog extends React.Component {
   }
 }
 
-var styles = StyleSheet.create({
+var base = StyleSheet.create({
   container: {
     alignItems: 'center'
   },
   title: {
-    marginTop: 75,
+    marginTop: '10%',
+    marginBottom: 0,
     fontSize: 32,
     fontWeight: 'bold',
   },
   logo: {
     width: 200,
     height: 200,
-    margin: 50,
+    margin: '10%',
     borderColor: '#000',
     borderWidth: 1,
   },
@@ -96,3 +97,22 @@ var styles = StyleSheet.create({
      color: "gray",
    },
  });
+
+ const styles = createStyles(
+    base,
+     maxHeight(700, {
+        title: {
+            marginTop: '8%',
+            marginBottom: 0,
+            fontSize: 26,
+            fontWeight: 'bold',
+          },
+          logo: {
+            width: 125,
+            height: 125,
+            margin: '5%',
+            borderColor: '#000',
+            borderWidth: 1,
+          },
+     })
+ );
