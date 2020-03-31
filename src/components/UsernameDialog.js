@@ -38,7 +38,7 @@ export default class UsernameDialog extends React.Component {
         <Text style={styles.title}>CeliApp</Text>
         <Image style={styles.logo} source={LOGO} />
         <View style={styles.container}>
-          <Text>Welcome to the CeliApp and the 21-day challenge!</Text>
+          <Text>Welcome the 21-day challenge!</Text>
           <Text>Please provide your email address to get started:</Text>
           <TextInput
             ref={(input) => { this.emailInput = input; }}
@@ -102,17 +102,17 @@ var base = StyleSheet.create({
     base,
      maxHeight(700, {
         title: {
-            marginTop: '8%',
+            marginTop: '6%',
             marginBottom: 0,
-            fontSize: 26,
+            fontSize: 20,
             fontWeight: 'bold',
           },
           logo: {
-            width: 125,
-            height: 125,
-            margin: '5%',
+            width: 100,
+            height: 100,
+            margin: '3%',
             borderColor: '#000',
             borderWidth: 1,
-          },
+          }
      })
  );
