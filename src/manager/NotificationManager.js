@@ -41,7 +41,6 @@ export default class NotificationManager
             body: body,
             android: { sound: true },
             ios: { sound: true },
-            icon: '../../src/assets/images/icon.jpeg',
             data: {
                 title: title,
                 body: body
