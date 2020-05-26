@@ -11,6 +11,8 @@ import MenuButton from '../components/MenuButton';
 import PopUpMenu from '../components/PopUpMenu';
 import LanguageManager from '../manager/LanguageManager';
 import CircleDisplayFull from '../components/CircleDisplayFull';
+import Avatar from '../components/Avatar/App'
+
 
 
 export default class HomeScreen extends React.Component {
@@ -44,6 +46,9 @@ export default class HomeScreen extends React.Component {
                 UnfinishedBackGroundColour={'#999'}
                 InsideCircleBGColour={'#fff'}
         /> 
+        {/* Avatar here!*/ }
+        <Text>Here we go!</Text>
+        <Avatar></Avatar>
          <MenuButton navigation={this.props.navigation}/>
       </View>
 	  );

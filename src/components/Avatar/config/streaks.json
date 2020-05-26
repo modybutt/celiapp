@@ -1,0 +1,32 @@
+{
+    "streaks": [ {
+        "id": "GLUTENFREEBREAKFASTADDEDDAYS",
+        "name": "Added gluten free breakfasts for %n% days!",
+        "interval": 2,
+        "pointmultiplier": 3,
+        "entryid": "GLUTENFREEBREAKFAST",
+        "timetype": "DAY"
+    },{
+        "id": "GLUTENFREELUNCHADDEDDAYS",
+        "name": "Added gluten free lunches for %n% days!",
+        "interval": 5,
+        "pointmultiplier": 3,
+        "entryid": "GLUTENFREELUNCH",
+        "timetype": "DAY"
+    },{
+        "id": "GLUTENFREEDINNERADDED",
+        "name": "Added gluten free dinners for %n% days!",
+        "interval": 5,
+        "pointmultiplier": 3,
+        "entryid": "GLUTENFREEDINNER",
+        "timetype": "DAY"
+    },{
+        "id": "ENTRIESINAROW",
+        "name": "Logged something for %n% days in a row",
+        "interval": 10,
+        "pointmultiplier": 1,
+        "entryid": "",
+        "timetype": "DAY"
+    }
+    ]
+}

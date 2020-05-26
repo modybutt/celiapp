@@ -1,0 +1,22 @@
+{
+    "achievements": [ {
+        "id": "MEALADDED",
+        "message": "Added Meal",
+        "challengename": "Add a meal",
+        "points": 15,
+        "type": "REPEATABLE"
+    },{
+        "id": "SYMPTOMADDED",
+        "message": "Added Symptom",
+        "challengename": "Add a symptom",
+        "points": 10,
+        "type": "REPEATABLE"
+
+    }, {
+        "id": "10MEALSADDED",
+        "message": "Added 10 Meals",
+        "challengename": "Add 10 Meals",
+        "points": 30,
+        "type": "ONETIME"
+    }]
+}

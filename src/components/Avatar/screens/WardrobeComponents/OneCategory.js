@@ -1,0 +1,248 @@
+import React, { Component } from "react";
+import {
+  TouchableOpacity,
+  Alert,
+  ImageBackground,
+  Text,
+  StyleSheet,
+  View,
+} from "react-native";
+import { Piece } from "../../avataaars-lib/react-native-avataaars/dist";
+import styled from "styled-components/native";
+import { observer } from "mobx-react";
+import store from "../../manager/GlutenBuddyStore";
+import { showMessage, hideMessage } from "react-native-flash-message";
+//import AlertPro from "react-native-alert-pro";
+
+const styles = StyleSheet.create({
+  textLvlOk: {
+    color: "#000",
+    fontWeight: "bold",
+    fontSize: 14, // px
+    padding: 2,
+    backgroundColor: "green",
+    textAlign: "center",
+  },
+  textLvlNotOk: {
+    color: "#000",
+    fontWeight: "bold",
+    fontSize: 14, // px
+    padding: 2,
+    backgroundColor: "red",
+    textAlign: "center",
+  },
+  oneItemContainerSelected: {
+    width: 100,
+    padding: (0, 0),
+    marginRight: 8,
+    borderWidth: 4,
+    borderRadius: 10,
+    borderColor: "blue",
+    backgroundColor: "#b5d1ff", //, #4db9d6  "#AAF0D1", //  90EE90
+  },
+  oneItemContainerUnlocked: {
+    width: 100,
+    padding: (0, 0),
+    marginRight: 8,
+    borderRadius: 10,
+    backgroundColor: "#b5d1ff", //, #4db9d6  "#AAF0D1", //  90EE90
+  },
+  oneItemContainerLocked: {
+    width: 100,
+    padding: (0, 0),
+    marginRight: 8,
+    borderWidth: 4,
+    borderRadius: 10,
+    borderColor: "red",
+    backgroundColor: "orange",
+  },
+});
+
+export const OneLevelStyles = styled.View`
+  padding: 0px 20px;
+`;
+
+export const Title = styled.Text`
+  color: #123;
+  font-size: 23px;
+  font-weight: bold;
+`;
+
+export const SlideScroll = styled.ScrollView.attrs({
+  showsHorizontalScrollIndicator: false,
+  horizontal: true,
+})``;
+
+// contains subtitles and descriptions
+export const ContainerSubtitle = styled.View`
+  flex-direction: column;
+  padding: 0px 0px;
+  text-align: center;
+  /* backgroundColor: green; */
+`;
+
+/* beschreibung des items */
+export const SubtitleDescription = styled.Text`
+  color: #888;
+  font-size: 12px;
+  text-align: center;
+`;
+
+class OneLevel extends Component {
+  constructor(props) {
+    super(props);
+  }
+  render() {
+    const { categoryIndex, slide } = this.props;
+    return (
+      <OneLevelStyles>
+        <Title>{slide.title}</Title>
+        <SlideScroll>
+          {slide.items &&
+            slide.section &&
+            slide.items.map((item, index) => (
+              <OneItem
+                key={index}
+                item={item}
+                categoryIndex={categoryIndex}
+                slide={slide}
+                section={slide.section}
+                sectionId={slide.sectionId}
+              />
+            ))}
+        </SlideScroll>
+      </OneLevelStyles>
+    );
+  }
+}
+
+export default OneLevel;
+
+//OneItem
+@observer
+class OneItem extends Component {
+  constructor(props) {
+    super(props);
+    this.onItemSelected = this.onItemSelected.bind({});
+  }
+
+  render() {
+    const { item, section, sectionId, categoryIndex, slide } = this.props;
+    const unlocked = store.currentLevel >= slide.minLevel;
+    const selected = this.getActiveItem(categoryIndex) === item.id;
+    return (
+      <View>
+        <TouchableOpacity
+          style={
+            unlocked && selected
+              ? styles.oneItemContainerSelected
+              : unlocked
+              ? styles.oneItemContainerUnlocked
+              : styles.oneItemContainerLocked
+          }
+          onPress={() => {
+            var allowed = this.onItemSelected({
+              self: this,
+              id: item.id,
+              sectionId: sectionId,
+              shirtId: item.shirtId,
+              clotheColor: item.clotheColor,
+              glassesId: item.glassesId,
+              skinId: item.skinId,
+              haircutId: item.haircutId,
+              hairColor: item.hairColor,
+              eyeType: "Default",
+              minScore: item.minScore,
+              minLevel: slide.minLevel,
+            });
+          }}
+        >
+          <Piece
+            sectionId={sectionId}
+            pieceType={section}
+            pieceSize="100"
+            eyeType={"Default"}
+            accessoriesType={item.glassesId}
+            topType={item.hairColor ? store.topType : item.haircutId} // if hairColor == null : fill with item.haricutId: else: store.topType
+            hairColor={item.hairColor}
+            clotheType={item.shirtId}
+            clotheColor={item.clotheColor}
+            skinColor={item.skinId}
+          />
+          <ContainerSubtitle>
+            <Text style={unlocked ? styles.textLvlOk : styles.textLvlNotOk}>
+              {item.imgSubtitle}
+            </Text>
+            <SubtitleDescription>{item.imgDescription}</SubtitleDescription>
+          </ContainerSubtitle>
+        </TouchableOpacity>
+      </View>
+    );
+  }
+
+  onItemSelected(obj) {
+    var currentScore = store.score;
+    var currentLevel = store.currentLevel;
+    console.log(currentLevel, "currentlevel")
+    if (currentLevel < obj.minLevel) {
+      var msg =
+        "Your level is (" +
+        (obj.minLevel - currentLevel) +
+        ") too low. You can put this item on as soon as you have reached the required level.";
+      showMessage({
+        message: "Nope",
+        description: msg,
+        type: "warning",
+      });
+      console.log("nope, you cant put this on!");
+      return false;
+    }
+    activeId = obj.id;
+    switch (obj.sectionId) {
+      case 1:
+        store.setClotheType(obj.shirtId);
+        store.setClotheColor(obj.clotheColor)
+        store.setActiveClotheTypeId(activeId);
+        break;
+      case 2:
+        store.setTopType(obj.haircutId)
+        store.setActiveTopTypeId(activeId);
+        break;
+      case 3:
+        store.setAccessoriesType(obj.glassesId)
+        store.setActiveAccessoriesTypeId(activeId);
+        break;
+      case 4:
+        store.setSkinColor(obj.skinId)
+        store.setActiveSkinColorId(activeId);
+        break;
+      case 5:
+        store.setHairColor(obj.hairColor)
+        store.setActiveHairColorId(activeId);
+        break;
+      case 6:
+        break;
+      default:
+        console.log("something went wrong here in onItemSelected");
+    }
+    return true;
+  }
+
+  // for CSS only:
+  getActiveItem(catIndex) {
+    switch (catIndex) {
+      case 1:
+        return store.activeClotheTypeId;
+      case 2:
+        return store.activeTopTypeId;
+      case 3:
+        return store.activeAccessoriesTypeId;
+      case 4:
+        return store.activeSkinColorId;
+      case 5:
+        return store.activeHairColorId;
+      default:
+        console.log("OneCategory: loading acitve Items failed!", catIndex);
+    }
+  }
+}
