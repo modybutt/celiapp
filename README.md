@@ -28,6 +28,21 @@ Install the Expo client app on your android/IOS device
 Setup:
 `npm install`
 
+
+### Android ViewPager Error:
+	expo >= 36.0.0 Errormessage ViewPager:
+		ViewPagerAndroid has been extracted from react-native core and will 
+		be removed in a future release. It can now be installed and imported 
+		from '@react-native-community/viewpager' instead of 'react-native'
+
+#### Step 1)  
+`yarn add @react-native-community/viewpager`
+#### Step 2) manually adjust import in node_modules\react-native-tab-view\src\PagerAndroid.js
+	
+delete import `import { ViewPager} from 'react-native';`
+instead use this import `import ViewPager from '@react-native-community/viewpager';`
+
+
 Run:
 `expo start`
 

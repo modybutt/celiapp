@@ -4,6 +4,9 @@ import { createStackNavigator, createMaterialTopTabNavigator } from 'react-navig
 import TabBarIcon from '../components/TabBarIcon';
 import EvaluationScreen from '../screens/EvaluationScreen';
 import HomeScreen from '../screens/HomeScreen';
+
+import AvatarScreen from '../screens/AvatarScreen';
+
 import CalendarScreen from '../screens/CalendarScreen';
 import DebugScreen from '../screens/DebugScreen';
 import SymptomTrackerScreen from '../screens/SymptomTrackerScreen';
@@ -64,7 +67,19 @@ const TabNavStack = createMaterialTopTabNavigator({
             />
           )
         }
-    }
+    },
+    Avatar: {
+      screen: AvatarScreen,
+      navigationOptions: {
+        //tabBarLabel: 'Calendar',
+        tabBarIcon: ({ focused }) => (
+          <TabBarIcon
+            focused={focused}
+            name={'ios-happy'}
+          />
+        )
+      }
+  }
 }, {
     initialRouteName: 'Calendar',
     tabBarPosition: 'bottom',
