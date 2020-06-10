@@ -10,6 +10,7 @@ import UploadManager from './src/manager/UploadManager';
 import NotificationManager from './src/manager/NotificationManager';
 import UsernameDialog from './src/components/UsernameDialog';
 
+
 import { } from 'react-native-dotenv';
 
 export default class App extends React.Component {
@@ -97,6 +98,7 @@ export default class App extends React.Component {
   render() {
     return (
       <View style={styles.container}>
+
         {this.state.isSplashReady == false 
           ? null 
           : this.state.hasUserId 

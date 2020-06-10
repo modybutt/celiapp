@@ -1,0 +1,74 @@
+{
+  "_from": "avataaars@^1.2.1",
+  "_id": "avataaars@1.2.1",
+  "_inBundle": false,
+  "_integrity": "sha512-4MmcXx3EKGwkKqEtVRiKxM08MMib2KYC1o5DcotpLUVuoe5EkWNuhJVB2JAH753II4VzMK7fO2EA5rf5QirPQg==",
+  "_location": "/avataaars",
+  "_phantomChildren": {},
+  "_requested": {
+    "type": "range",
+    "registry": true,
+    "raw": "avataaars@^1.2.1",
+    "name": "avataaars",
+    "escapedName": "avataaars",
+    "rawSpec": "^1.2.1",
+    "saveSpec": null,
+    "fetchSpec": "^1.2.1"
+  },
+  "_requiredBy": [
+    "/react-native-avataaars"
+  ],
+  "_resolved": "https://registry.npmjs.org/avataaars/-/avataaars-1.2.1.tgz",
+  "_shasum": "8e2e968dbd7f558876f1f18f56973e7aa47afbec",
+  "_spec": "avataaars@^1.2.1",
+  "_where": "D:\\Downloads\\original\\node_modules\\react-native-avataaars",
+  "author": {
+    "name": "Fang-Pen Lin",
+    "email": "hello@fangpenlin.com"
+  },
+  "bugs": {
+    "url": "https://github.com/fangpenlin/avataaars/issues"
+  },
+  "bundleDependencies": false,
+  "dependencies": {
+    "lodash": "^4.17.4",
+    "prop-types": "^15.6.0"
+  },
+  "deprecated": false,
+  "description": "React component for avataaars ",
+  "devDependencies": {
+    "@types/react": "^16.0.25",
+    "import-sort-style-renke": "^4.2.0",
+    "tslint": "^5.8.0",
+    "tslint-config-standard": "^7.0.0",
+    "tslint-react": "^3.2.0",
+    "typescript": "^2.6.2"
+  },
+  "homepage": "https://github.com/fangpenlin/avataaars#readme",
+  "importSort": {
+    ".js, .jsx, .es6, .es": {
+      "parser": "babylon",
+      "style": "import-sort-style-renke"
+    },
+    ".ts, .tsx": {
+      "parser": "typescript",
+      "style": "import-sort-style-renke"
+    }
+  },
+  "keywords": [
+    "react",
+    "avatar"
+  ],
+  "license": "MIT",
+  "main": "dist/index.js",
+  "name": "avataaars",
+  "peerDependencies": {
+    "react": "^16.0.0"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+ssh://git@github.com/fangpenlin/avataaars.git"
+  },
+  "types": "dist/index.d.ts",
+  "version": "1.2.1"
+}

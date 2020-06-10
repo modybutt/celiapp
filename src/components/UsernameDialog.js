@@ -12,7 +12,7 @@ import Dialog from "react-native-dialog";
 import { Button } from 'react-native-elements';
 
 import LOGO from '../assets/images/web_hi_res_512.png';
-
+import { createStyles, maxHeight } from 'react-native-media-queries'; 
 export default class UsernameDialog extends React.Component {
   constructor(props){
     super(props);
@@ -38,7 +38,7 @@ export default class UsernameDialog extends React.Component {
         <Text style={styles.title}>CeliApp</Text>
         <Image style={styles.logo} source={LOGO} />
         <View style={styles.container}>
-          <Text>Welcome to the CeliApp and the 21-day challenge!</Text>
+          <Text>Welcome the 21-day challenge!</Text>
           <Text>Please provide your email address to get started:</Text>
           <TextInput
             ref={(input) => { this.emailInput = input; }}
@@ -62,19 +62,20 @@ export default class UsernameDialog extends React.Component {
   }
 }
 
-var styles = StyleSheet.create({
+var base = StyleSheet.create({
   container: {
     alignItems: 'center'
   },
   title: {
-    marginTop: 75,
+    marginTop: '10%',
+    marginBottom: 0,
     fontSize: 32,
     fontWeight: 'bold',
   },
   logo: {
     width: 200,
     height: 200,
-    margin: 50,
+    margin: '10%',
     borderColor: '#000',
     borderWidth: 1,
   },
@@ -96,3 +97,22 @@ var styles = StyleSheet.create({
      color: "gray",
    },
  });
+
+ const styles = createStyles(
+    base,
+     maxHeight(700, {
+        title: {
+            marginTop: '6%',
+            marginBottom: 0,
+            fontSize: 20,
+            fontWeight: 'bold',
+          },
+          logo: {
+            width: 100,
+            height: 100,
+            margin: '3%',
+            borderColor: '#000',
+            borderWidth: 1,
+          }
+     })
+ );
