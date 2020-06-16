@@ -1,0 +1,18 @@
+{
+    "achievementrecords": [ {
+        "id": "MEALADDED",
+        "name": "Meals added",
+        "icon": "restaurant",
+        "recordtype": "MEAL"
+    },{
+        "id": "SYMPTOMADDED",
+        "name": "Symptoms added",
+        "icon": "healing",
+        "recordtype": "SYMPTOM"
+    }, {
+        "id": "GLUTENMEALADDED",
+        "name": "Meals with Gluten added",
+        "icon": "not_interested",
+        "recordtype": "GLUTENMEAL"
+    }]
+}

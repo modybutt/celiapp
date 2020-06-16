@@ -4,7 +4,7 @@ import { createStackNavigator, createMaterialTopTabNavigator } from 'react-navig
 import TabBarIcon from '../components/TabBarIcon';
 import EvaluationScreen from '../screens/EvaluationScreen';
 import HomeScreen from '../screens/HomeScreen';
-import AvatarScreen from '../screens/AvatarScreen';
+import WardrobeScreen from '../screens/WardrobeOverview';
 import CalendarScreen from '../screens/CalendarScreen';
 import DebugScreen from '../screens/DebugScreen';
 import SymptomTrackerScreen from '../screens/SymptomTrackerScreen';
@@ -66,8 +66,8 @@ const TabNavStack = createMaterialTopTabNavigator({
           )
         }
     },
-    Avatar: {
-      screen: AvatarScreen,
+    Wardrobe: {
+      screen: WardrobeScreen,
       navigationOptions: {
         //tabBarLabel: 'Calendar',
         tabBarIcon: ({ focused }) => (
@@ -91,7 +91,8 @@ const TabNavStack = createMaterialTopTabNavigator({
         indicatorStyle: {
           backgroundColor: 'lightblue',
         }
-    }
+    },
+    lazy: false,
 });
 
 export default createStackNavigator({

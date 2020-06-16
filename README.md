@@ -96,8 +96,7 @@ git push			push local repo to master
 # Usage
 
 ```bash
-npm install
-npm install react-native-safe-area-context@0.7.3 --save
+npm install && npm install react-native-safe-area-context@0.7.3 --save
 ```
 
 
