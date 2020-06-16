@@ -1,45 +1,44 @@
 import React, { Component } from "react";
-import { View, ScrollView, Text, Button, StyleSheet } from "react-native";
-//import { NavigationContainer } from "@react-navigation/native";
-// TODO
+import {
+  View,
+  ScrollView,
+  Text,
+  Button,
+  StyleSheet,
+  TouchableOpacity,
+  ImageBackground,
+} from "react-native";
+import MenuButton from "../../MenuButton";
+import InitWardrobeNavigator from "./WardrobeComponents/wardrobeNavigation/InitWardrobeNavigator";
+import {
+  Avatar,
+  Piece,
+} from "../avataaars-lib/react-native-avataaars/dist";
 import styled from "styled-components/native";
-import WardrobeTabCategories from "./WardrobeComponents/WardrobeTabCategories";
-import { Avatar } from "./../avataaars-lib/react-native-avataaars";
+
 import { observer } from "mobx-react";
 import store from "../manager/GlutenBuddyStore";
-import AchievementManager from "./../manager/AchievementManager";
+import emotionStore from "../../../manager/buddyManager/EmotionStore";
+
+import AchievementManager from "../manager/AchievementManager";
 import * as Progress from "react-native-progress";
 import FlashMessage from "react-native-flash-message";
-import { TouchableOpacity } from "react-native-gesture-handler";
-import { showMessage, hideMessage } from "react-native-flash-message";
 
-const Container = styled.View`
-  padding: 0px 20px;
-  backgroundcolor: #7fff00;
-`;
-
-const Title = styled.Text`
-  color: #fff;
-  font-size: 23px;
-  font-weight: bold;
-`;
-
-const SlideScroll = styled.ScrollView.attrs({
-  showsVerticalScrollIndicator: false,
-  horizontal: false,
-})``;
 
 tickle = 0;
 
 @observer
-class Wardrobe extends Component {
+export default class Wardrobe extends React.Component {
+  static navigationOptions = ({navigation}) => ({
+    title: "Wardrobe",
+  });
   constructor(props) {
     super(props);
   }
-
   async componentDidMount() {
     var score = await AchievementManager.getLevelPoints();
     var level = await AchievementManager.getCurrentLevel();
+    store.setCurrentLevel(level);
     var levelBounds = await AchievementManager.getCurrentLevelBounds();
     levelBounds[0] = Math.round(levelBounds[0]);
     levelBounds[1] = Math.round(levelBounds[1]);
@@ -50,29 +49,51 @@ class Wardrobe extends Component {
     store.setScore(score);
   }
 
+  onPopupEvent(eventName, index) {
+    if (eventName !== "itemSelected") {
+      return;
+    }
+
+    switch (index) {
+      case 0:
+        this.props.navigation.navigate("Settings");
+        break;
+      // case 1: this.props.navigation.navigate('Camera'); break;
+      case 1:
+        this.props.navigation.navigate("Gear");
+        break;
+      default:
+        this.props.navigation.navigate("Debug");
+        break;
+    }
+  }
+
   render() {
     return (
-      <NavigationContainer
-        independent={true}
-        style={{ backgroundColor: "blue" }}
-      >
-        <View
-          style={{
-            flexDirection: "column",
-            justifyContent: "center",
-            alignItems: "center",
-          }}
+      <View style={styles.outerView}>
+        <ImageBackground
+          source={require("../../../assets/images/bg_celiac.png")}
+          style={styles.backgroundimage}
+          imageStyle={{ opacity: 0.1 }}
         >
-          <Text>
-            Score: {store.score} / {store.thisLevelEnd}
-          </Text>
-          <Progress.Bar
-            progress={store.progressBarProgress}
-            width={200}
-            height={15}
-          />
-          <TouchableOpacity onPress={() => this.onAvatarClick()}>
+          <View style={styles.innerView}>
+            <Text>
+              Score: {store.score} / {store.thisLevelEnd}
+            </Text>
+            <Progress.Bar
+              style={styles.progressbar}
+              progress={store.progressBarProgress}
+              width={200}
+              height={15}
+            />
+          </View>
+
+          <TouchableOpacity
+            style={styles.touchable}
+            onPress={() => this.onAvatarClick()}
+          >
             <Avatar
+              style={styles.avatar}
               size={store.size}
               avatarStyle="Transparent"
               topType={store.topType}
@@ -81,21 +102,25 @@ class Wardrobe extends Component {
               facialHairType={store.facialHairType}
               clotheType={store.clotheType}
               clotheColor={store.clotheColor}
-              eyeType={store.eyeType}
-              eyebrowType={store.eyebrowType}
-              mouthType={store.mouthType}
+              eyeType={emotionStore.eyeType}
+              eyebrowType={emotionStore.eyebrowType}
+              mouthType={emotionStore.mouthType}
               skinColor={store.skinColor}
             />
           </TouchableOpacity>
-        </View>
-        <WardrobeTabCategories></WardrobeTabCategories>
-
-       
+        </ImageBackground>
+        <InitWardrobeNavigator
+          style={{
+            flex: 1,
+            justifyContent: "center",
+            alignItems: "center",
+          }}
+        ></InitWardrobeNavigator>
+        <MenuButton navigation={this.props.navigation} />
         <FlashMessage position="bottom" />
-      </NavigationContainer>
+      </View>
     );
   }
-
   async getCurrentLevel() {
     AchievementManager.getCurrentLevel();
   }
@@ -111,7 +136,6 @@ class Wardrobe extends Component {
       Math.round(progressThisLevel + Number.EPSILON) / (bounds[1] - bounds[0]);
     return progressPercent;
   }
-
   onAvatarClick() {
     if (tickle % 3 == 0) {
       //console.log("Hey, Stop That!")
@@ -126,4 +150,44 @@ class Wardrobe extends Component {
   }
 }
 
-export default Wardrobe;
+const styles = StyleSheet.create({
+  background: {
+    width: "100%",
+    height: "100%",
+  },
+  popup: {
+    position: "absolute",
+    right: 40,
+    top: 40,
+  },
+  gluton: {
+    //position: 'absolute',
+    top: "25%",
+    //left: '25%',
+    width: "100%",
+    alignItems: "center",
+  },
+  outerView: {
+    flex: 1,
+  },
+  avatar: {
+    flex: 1,
+  },
+  innerView: {
+    paddingTop: 30,
+    alignItems: "center",
+    justifyContent: "center",
+  },
+  progressbar: {
+    width: "44%",
+  },
+  touchable: {
+    alignItems: "center",
+    justifyContent: "center",
+  },
+  backgroundimage: {
+    resizeMode: "cover",
+    //backgroundColor:'rgba(255,0,0,0.5)', //
+    //opacity: 0.5
+  },
+});

@@ -14,25 +14,26 @@ class EmotionStore {
     @observable accessoriesTypeEmotion = "Blank";
 
     @action
-    setFacialExpression = (num) => {
+    setEmotionId = (num) => {
         switch (num){
-            case 1: // super happy
-                this.setSuperHappy();
+            case 1:
+            this.setSuperSad();
                 break;
-            case 2: // happy
-                this.setHappy();
+            case 2:
+            this.setSad();
                 break;
-            case 3: // neutral
+            case 3:
                 this.setNeutral();
                 break;
-            case 4: // super happy
-                this.setSad();
+            case 4:
+
+                this.setHappy();
                 break;
-            case 5: // super happy
-                this.setSuperSad();
+            case 5:
+                this.setSuperHappy();
                 break;
             default:
-                console.error("SetFacialExpression Failed", num);
+                console.error("SetEmotionId Failed", num);
         }
     }
 

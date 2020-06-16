@@ -4,7 +4,6 @@ import { createStackNavigator, createMaterialTopTabNavigator } from 'react-navig
 import TabBarIcon from '../components/TabBarIcon';
 import EvaluationScreen from '../screens/EvaluationScreen';
 import HomeScreen from '../screens/HomeScreen';
-import WardrobeScreen from '../screens/WardrobeOverview';
 import CalendarScreen from '../screens/CalendarScreen';
 import DebugScreen from '../screens/DebugScreen';
 import SymptomTrackerScreen from '../screens/SymptomTrackerScreen';
@@ -20,6 +19,11 @@ import CameraScreen from '../screens/CameraScreen';
 import GearScreen from '../screens/GearScreen';
 import SymptomTrackerMoreSymptomsScreen from '../screens/SymptomTrackerMoreSymptomsScreen';
 import SymptomTrackerAddNewScreen from '../screens/SymptomTrackerAddNewScreen';
+import GlutenbuddyRoot from '../screens/GlutenbuddyRoot';
+import Wardrobe from '../components/Glutenbuddy/screens/Wardrobe';
+import Challenges from "../components/Glutenbuddy/screens/Challenges";
+import Achievements from "../components/Glutenbuddy/screens/Achievements";
+import ChallengesTest from "../components/Glutenbuddy/screens/ChallengesTest";
 
 const EvaluationStack = createStackNavigator({
   Evaluation: EvaluationScreen,
@@ -66,8 +70,8 @@ const TabNavStack = createMaterialTopTabNavigator({
           )
         }
     },
-    Wardrobe: {
-      screen: WardrobeScreen,
+    GlutenbuddyRoot: {
+      screen: GlutenbuddyRoot,
       navigationOptions: {
         //tabBarLabel: 'Calendar',
         tabBarIcon: ({ focused }) => (
@@ -143,5 +147,11 @@ export default createStackNavigator({
   },
   Gear: {
     screen: GearScreen,
-  } 
+  },
+
+  GlutenbuddyRoot: GlutenbuddyRoot,
+  Wardrobe: Wardrobe,
+  Challenges: Challenges,
+  Achievements: Achievements,
+  ChallengesTest: ChallengesTest,
 });

@@ -1,8 +1,6 @@
-import React, { Component } from "react";
+import React from "react";
 import {
   View,
-  ScrollView,
-  Text,
   Button,
   StyleSheet,
   TouchableOpacity,
@@ -10,29 +8,38 @@ import {
   ImageBackground,
 } from "react-native";
 import MenuButton from "../components/MenuButton";
-import InitWardrobeNavigator from "../components/Glutenbuddy/screens/WardrobeComponents/wardrobeNavigation/InitWardrobeNavigator";
-import {
-  Avatar,
-  Piece,
-} from "../components/Glutenbuddy/avataaars-lib/react-native-avataaars/dist";
-import styled from "styled-components/native";
+import { Avatar, Piece } from "../components/Glutenbuddy/avataaars-lib/react-native-avataaars/dist";
 import { createStackNavigator, createAppContainer } from "react-navigation";
 
-//import WardrobeTabCategories from "./WardrobeComponents/WardrobeTabCategories";
-//import { Avatar } from "./../avataaars-lib/react-native-avataaars";
 import { observer } from "mobx-react";
 import store from "../components/Glutenbuddy/manager/GlutenBuddyStore";
-import emotionStore from "../components/Glutenbuddy/manager/EmotionStore";
-import Wardrobe from "./AvatarScreen";
+import emotionStore from "../manager/buddyManager/EmotionStore";
+import Wardrobe from "../components/Glutenbuddy/screens/Wardrobe";
 import LanguageManager from "../manager/LanguageManager";
-//import TODEL from './WTODEL';
-//import ActionButton from 'react-native-circular-action-menu';
-import Icon from "react-native-vector-icons/Ionicons";
 
 // Screens:
 import Challenges from "../components/Glutenbuddy/screens/Challenges";
 import Achievements from "../components/Glutenbuddy/screens/Achievements";
 import ChallengesTest from "../components/Glutenbuddy/screens/ChallengesTest";
+
+// required for Navigation:
+import EvaluationScreen from '../screens/EvaluationScreen';
+import HomeScreen from '../screens/HomeScreen';
+import CalendarScreen from '../screens/CalendarScreen';
+import DebugScreen from '../screens/DebugScreen';
+import SymptomTrackerScreen from '../screens/SymptomTrackerScreen';
+import FoodDiaryScreen from '../screens/FoodDiaryScreen';
+import GIPScreen from '../screens/GIPScreen';
+import EmoteTrackerScreen from '../screens/EmoteTrackerScreen';
+import SymptomViewScreen from '../screens/SymptomViewScreen';
+import FoodViewScreen from '../screens/FoodViewScreen';
+import GIPViewScreen from '../screens/GIPViewScreen';
+import EmoteViewScreen from '../screens/EmoteViewScreen';
+import SettingsScreen from '../screens/SettingsScreen';
+import CameraScreen from '../screens/CameraScreen';
+import GearScreen from '../screens/GearScreen';
+import SymptomTrackerMoreSymptomsScreen from '../screens/SymptomTrackerMoreSymptomsScreen';
+import SymptomTrackerAddNewScreen from '../screens/SymptomTrackerAddNewScreen';
 
 tickle = 0;
 
@@ -61,11 +68,6 @@ const styles = StyleSheet.create({
   },
   wardrobe: {
     flex: 1,
-    /*width: '100%', 
-    height: '100%',
-    backgroundColor: 'white',
-    alignItems: 'center',
-    justifyContent: 'center',*/
   },
   actionButtonIcon: {
     fontSize: 20,
@@ -78,7 +80,6 @@ const styles = StyleSheet.create({
     width: "80%",
     flexDirection: "row",
     flexWrap: "wrap",
-
   },
   touchable: {
     width: "34%",
@@ -99,7 +100,8 @@ const styles = StyleSheet.create({
     height: "100%",
   },
   backgroundimage: {
-    width: '100%', height: '100%',
+    width: "100%",
+    height: "100%",
     resizeMode: "cover",
     //backgroundColor:'rgba(255,0,0,0.5)', //
     //opacity: 0.5
@@ -111,7 +113,8 @@ const styles = StyleSheet.create({
 });
 
 @observer
-class WardrobeOverview extends React.Component {
+class GlutenbuddyRoot extends React.Component {
+
   static navigationOptions = ({ navigation }) => ({
     title: "Avatar Menu", //LanguageManager.getInstance().getText("TRACKINGS")
   });
@@ -124,7 +127,8 @@ class WardrobeOverview extends React.Component {
           style={styles.backgroundimage}
           imageStyle={{ opacity: 0.3 }}
         >
-          <TouchableOpacity style={styles.centerComponent}
+          <TouchableOpacity
+            style={styles.centerComponent}
             onPress={() => this.props.navigation.navigate("Wardrobe")}
           >
             <Avatar
@@ -143,50 +147,47 @@ class WardrobeOverview extends React.Component {
             />
           </TouchableOpacity>
 
-          <Button
-            title="Go to Avatar screen"
-            onPress={() => this.props.navigation.navigate("Wardrobe")}
-          />
           <View style={styles.centerComponent}>
-          <View style={styles.parent}>
-            <TouchableOpacity
-              style={[styles.touchable]}
-              onPress={() => this.props.navigation.navigate("Wardrobe")}
-            >
-              <Image
-                style={styles.images}
-                source={require("../assets/images/avatar_menu/wardrobe.png")}
-              />
-            </TouchableOpacity>
-            <TouchableOpacity
-              style={[styles.touchable]}
-              onPress={() => this.props.navigation.navigate("Challenges")}
-            >
-              <Image
-                style={styles.images}
-                source={require("../assets/images/avatar_menu/challenges.png")}
-              />
-            </TouchableOpacity>
-            <TouchableOpacity
-              style={[styles.touchable]}
-              onPress={() => this.props.navigation.navigate("Achievements")}
-            >
-              <Image
-                style={styles.images}
-                source={require("../assets/images/avatar_menu/trophy.png")}
-              />
-            </TouchableOpacity>
-            <TouchableOpacity
-              style={[styles.touchable]}
-              onPress={() => this.props.navigation.navigate("ChallengesTest")}
-            >
-              <Image
-                style={styles.images}
-                source={require("../assets/images/avatar_menu/tests.png")}
-              />
-            </TouchableOpacity>
+            <View style={styles.parent}>
+              <TouchableOpacity
+                style={[styles.touchable]}
+                onPress={() => this.props.navigation.navigate("Wardrobe")}
+              >
+                <Image
+                  style={styles.images}
+                  source={require("../assets/images/avatar_menu/wardrobe.png")}
+                />
+              </TouchableOpacity>
+              <TouchableOpacity
+                style={[styles.touchable]}
+                onPress={() => this.props.navigation.navigate("Challenges")}
+              >
+                <Image
+                  style={styles.images}
+                  source={require("../assets/images/avatar_menu/challenges.png")}
+                />
+              </TouchableOpacity>
+              <TouchableOpacity
+                style={[styles.touchable]}
+                onPress={() => this.props.navigation.navigate("Achievements")}
+              >
+                <Image
+                  style={styles.images}
+                  source={require("../assets/images/avatar_menu/trophy.png")}
+                />
+              </TouchableOpacity>
+              <TouchableOpacity
+                style={[styles.touchable]}
+                onPress={() => this.props.navigation.navigate("ChallengesTest")}
+              >
+                <Image
+                  style={styles.images}
+                  source={require("../assets/images/avatar_menu/tests.png")}
+                />
+              </TouchableOpacity>
+            </View>
           </View>
-          </View>
+          <MenuButton navigation={this.props.navigation} />
         </ImageBackground>
       </View>
     );
@@ -216,27 +217,58 @@ class WardrobeOverview extends React.Component {
   }*/
 }
 
-class DisplayWardrobe extends React.Component {
-  render() {
-    return (
-      <View style={styles.wardrobe}>
-        <Wardrobe style={styles.wardrobe} />
-      </View>
-    );
-  }
-}
-
+// reuse of existing stackNavigator (MainTabNavigator) results in error msg
 const RootStack = createStackNavigator(
   {
-    Overview: WardrobeOverview,
-    Wardrobe: DisplayWardrobe,
+    GlutenbuddyRoot: GlutenbuddyRoot,
+    Wardrobe: Wardrobe,
     Challenges: Challenges,
     Achievements: Achievements,
     ChallengesTest: ChallengesTest,
+    
+    AddSymptom: {
+      screen: SymptomTrackerScreen,
+    },
+    MoreSymptoms:{
+      screen: SymptomTrackerMoreSymptomsScreen,
+    },
+    AddNewSymptom: {
+      screen: SymptomTrackerAddNewScreen
+    },
+    ViewSymptom: {
+      screen: SymptomViewScreen,
+    },  
+    AddMeal: {
+      screen: FoodDiaryScreen,
+    },
+    ViewMeal: {
+      screen: FoodViewScreen,
+    },    
+    AddEmote: {
+      screen: EmoteTrackerScreen,
+    },
+    AddGIP: {
+      screen: GIPScreen,
+    },
+    ViewGIP: {
+      screen: GIPViewScreen,
+    },
+    ViewEmote: {
+      screen: EmoteViewScreen,
+    },   
+    Settings: {
+      screen: SettingsScreen,
+    },
+    Debug: {
+      screen: DebugScreen,
+    },
+    Camera: {
+      screen: CameraScreen,
+    },
+    Gear: {
+      screen: GearScreen,
+    }
   },
-  {
-    initialRouteName: "Overview",
-  }
 );
 
 const AppContainer = createAppContainer(RootStack);
