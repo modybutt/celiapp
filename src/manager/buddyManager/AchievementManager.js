@@ -3,7 +3,7 @@ import { AsyncStorage } from "react-native";
 export default class AchievementManager {
   static async triggerAchievement(achievementID) {
     if (this.achievementsJson == undefined) {
-      this.achievementsJson = require("../../../").achievements;
+      this.achievementsJson = require("../../config/achievements.json").achievements;
     }
     if (this.levelJson == undefined) {
       this.levelJson = require("../../config/levels.json").levels;

@@ -93,7 +93,7 @@ const styles = StyleSheet.create({
     aspectRatio: 1,
     alignItems: "center",
     justifyContent: "center",
-    backgroundColor: "#669933",
+    backgroundColor: "transparent",
   },
   child: {
     //flex:1,
@@ -187,7 +187,7 @@ class GlutenbuddyRoot extends React.Component {
               >
                 <Image
                   style={styles.images}
-                  source={require("../assets/images/avatar_menu/wardrobe.png")}
+                  source={require("../assets/images/avatar_menu/checkroom-24px.png")}
                 />
               </TouchableOpacity>
               <TouchableOpacity
@@ -196,7 +196,7 @@ class GlutenbuddyRoot extends React.Component {
               >
                 <Image
                   style={styles.images}
-                  source={require("../assets/images/avatar_menu/challenges.png")}
+                  source={require("../assets/images/avatar_menu/flag-24px.png")}
                 />
               </TouchableOpacity>
               <TouchableOpacity
@@ -205,7 +205,7 @@ class GlutenbuddyRoot extends React.Component {
               >
                 <Image
                   style={styles.images}
-                  source={require("../assets/images/avatar_menu/trophy.png")}
+                  source={require("../assets/images/avatar_menu/emoji_events-24px.png")}
                 />
               </TouchableOpacity>
               <TouchableOpacity
@@ -214,7 +214,7 @@ class GlutenbuddyRoot extends React.Component {
               >
                 <Image
                   style={styles.images}
-                  source={require("../assets/images/avatar_menu/tests.png")}
+                  source={require("../assets/images/avatar_menu/settings-24px.png")}
                 />
               </TouchableOpacity>
             </View>
