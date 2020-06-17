@@ -17,11 +17,10 @@ import {
 import styled from "styled-components/native";
 
 import { observer } from "mobx-react";
-import store from "../manager/GlutenBuddyStore";
+import store from "../../../manager/buddyManager/GlutenBuddyStore";
 import emotionStore from "../../../manager/buddyManager/EmotionStore";
 
-import AchievementManager from "../manager/AchievementManager";
-import * as Progress from "react-native-progress";
+import AchievementManager from "../../../manager/buddyManager/AchievementManager";
 import FlashMessage from "react-native-flash-message";
 
 
@@ -35,19 +34,7 @@ export default class Wardrobe extends React.Component {
   constructor(props) {
     super(props);
   }
-  async componentDidMount() {
-    var score = await AchievementManager.getLevelPoints();
-    var level = await AchievementManager.getCurrentLevel();
-    store.setCurrentLevel(level);
-    var levelBounds = await AchievementManager.getCurrentLevelBounds();
-    levelBounds[0] = Math.round(levelBounds[0]);
-    levelBounds[1] = Math.round(levelBounds[1]);
-    store.setThisLevelBegin(levelBounds[0]);
-    store.setThisLevelEnd(levelBounds[1]);
-    let progressPercent = this.calcValuesForProgressBar(levelBounds, score);
-    store.setProgressBarProgress(progressPercent);
-    store.setScore(score);
-  }
+
 
   onPopupEvent(eventName, index) {
     if (eventName !== "itemSelected") {
@@ -76,17 +63,7 @@ export default class Wardrobe extends React.Component {
           style={styles.backgroundimage}
           imageStyle={{ opacity: 0.1 }}
         >
-          <View style={styles.innerView}>
-            <Text>
-              Score: {store.score} / {store.thisLevelEnd}
-            </Text>
-            <Progress.Bar
-              style={styles.progressbar}
-              progress={store.progressBarProgress}
-              width={200}
-              height={15}
-            />
-          </View>
+
 
           <TouchableOpacity
             style={styles.touchable}
@@ -130,12 +107,7 @@ export default class Wardrobe extends React.Component {
     return points;
   }
 
-  calcValuesForProgressBar(bounds, currentScore) {
-    let progressThisLevel = currentScore - bounds[0];
-    let progressPercent =
-      Math.round(progressThisLevel + Number.EPSILON) / (bounds[1] - bounds[0]);
-    return progressPercent;
-  }
+
   onAvatarClick() {
     if (tickle % 3 == 0) {
       //console.log("Hey, Stop That!")

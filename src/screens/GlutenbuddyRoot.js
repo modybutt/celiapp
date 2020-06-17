@@ -1,19 +1,25 @@
 import React from "react";
 import {
   View,
-  Button,
+  Text,
   StyleSheet,
   TouchableOpacity,
   Image,
   ImageBackground,
 } from "react-native";
+import * as Progress from "react-native-progress";
+import AchievementManager from "../manager/buddyManager/AchievementManager";
+
 import MenuButton from "../components/MenuButton";
-import { Avatar, Piece } from "../components/Glutenbuddy/avataaars-lib/react-native-avataaars/dist";
+import {
+  Avatar,
+  Piece,
+} from "../components/Glutenbuddy/avataaars-lib/react-native-avataaars/dist";
 import { createStackNavigator, createAppContainer } from "react-navigation";
 
 import { observer } from "mobx-react";
-import store from "../components/Glutenbuddy/manager/GlutenBuddyStore";
-import emotionStore from "../manager/buddyManager/EmotionStore";
+import store from "../manager/buddyManager/GlutenBuddyStore";
+import emotionStore from "..//manager/buddyManager/EmotionStore";
 import Wardrobe from "../components/Glutenbuddy/screens/Wardrobe";
 import LanguageManager from "../manager/LanguageManager";
 
@@ -23,23 +29,23 @@ import Achievements from "../components/Glutenbuddy/screens/Achievements";
 import ChallengesTest from "../components/Glutenbuddy/screens/ChallengesTest";
 
 // required for Navigation:
-import EvaluationScreen from '../screens/EvaluationScreen';
-import HomeScreen from '../screens/HomeScreen';
-import CalendarScreen from '../screens/CalendarScreen';
-import DebugScreen from '../screens/DebugScreen';
-import SymptomTrackerScreen from '../screens/SymptomTrackerScreen';
-import FoodDiaryScreen from '../screens/FoodDiaryScreen';
-import GIPScreen from '../screens/GIPScreen';
-import EmoteTrackerScreen from '../screens/EmoteTrackerScreen';
-import SymptomViewScreen from '../screens/SymptomViewScreen';
-import FoodViewScreen from '../screens/FoodViewScreen';
-import GIPViewScreen from '../screens/GIPViewScreen';
-import EmoteViewScreen from '../screens/EmoteViewScreen';
-import SettingsScreen from '../screens/SettingsScreen';
-import CameraScreen from '../screens/CameraScreen';
-import GearScreen from '../screens/GearScreen';
-import SymptomTrackerMoreSymptomsScreen from '../screens/SymptomTrackerMoreSymptomsScreen';
-import SymptomTrackerAddNewScreen from '../screens/SymptomTrackerAddNewScreen';
+import EvaluationScreen from "../screens/EvaluationScreen";
+import HomeScreen from "../screens/HomeScreen";
+import CalendarScreen from "../screens/CalendarScreen";
+import DebugScreen from "../screens/DebugScreen";
+import SymptomTrackerScreen from "../screens/SymptomTrackerScreen";
+import FoodDiaryScreen from "../screens/FoodDiaryScreen";
+import GIPScreen from "../screens/GIPScreen";
+import EmoteTrackerScreen from "../screens/EmoteTrackerScreen";
+import SymptomViewScreen from "../screens/SymptomViewScreen";
+import FoodViewScreen from "../screens/FoodViewScreen";
+import GIPViewScreen from "../screens/GIPViewScreen";
+import EmoteViewScreen from "../screens/EmoteViewScreen";
+import SettingsScreen from "../screens/SettingsScreen";
+import CameraScreen from "../screens/CameraScreen";
+import GearScreen from "../screens/GearScreen";
+import SymptomTrackerMoreSymptomsScreen from "../screens/SymptomTrackerMoreSymptomsScreen";
+import SymptomTrackerAddNewScreen from "../screens/SymptomTrackerAddNewScreen";
 
 tickle = 0;
 
@@ -110,14 +116,29 @@ const styles = StyleSheet.create({
     alignItems: "center",
     justifyContent: "center",
   },
+  progressbar: {
+    width: "44%",
+  },
 });
 
 @observer
 class GlutenbuddyRoot extends React.Component {
-
   static navigationOptions = ({ navigation }) => ({
     title: "Avatar Menu", //LanguageManager.getInstance().getText("TRACKINGS")
   });
+  async componentDidMount() {
+    var score = await AchievementManager.getLevelPoints();
+    var level = await AchievementManager.getCurrentLevel();
+    store.setCurrentLevel(level);
+    var levelBounds = await AchievementManager.getCurrentLevelBounds();
+    levelBounds[0] = Math.round(levelBounds[0]);
+    levelBounds[1] = Math.round(levelBounds[1]);
+    store.setThisLevelBegin(levelBounds[0]);
+    store.setThisLevelEnd(levelBounds[1]);
+    let progressPercent = this.calcValuesForProgressBar(levelBounds, score);
+    store.setProgressBarProgress(progressPercent);
+    store.setScore(score);
+  }
 
   render() {
     return (
@@ -131,6 +152,17 @@ class GlutenbuddyRoot extends React.Component {
             style={styles.centerComponent}
             onPress={() => this.props.navigation.navigate("Wardrobe")}
           >
+            <View style={styles.innerView}>
+              <Text>
+                Score: {store.score} / {store.thisLevelEnd}
+              </Text>
+              <Progress.Bar
+                style={styles.progressbar}
+                progress={store.progressBarProgress}
+                width={200}
+                height={15}
+              />
+            </View>
             <Avatar
               size={store.size}
               avatarStyle="Transparent"
@@ -192,7 +224,12 @@ class GlutenbuddyRoot extends React.Component {
       </View>
     );
   }
-
+  calcValuesForProgressBar(bounds, currentScore) {
+    let progressThisLevel = currentScore - bounds[0];
+    let progressPercent =
+      Math.round(progressThisLevel + Number.EPSILON) / (bounds[1] - bounds[0]);
+    return progressPercent;
+  }
   /*
      {/** backgroundColor: "#339966" */
   /** backgroundColor: "#996633" */
@@ -218,58 +255,56 @@ class GlutenbuddyRoot extends React.Component {
 }
 
 // reuse of existing stackNavigator (MainTabNavigator) results in error msg
-const RootStack = createStackNavigator(
-  {
-    GlutenbuddyRoot: GlutenbuddyRoot,
-    Wardrobe: Wardrobe,
-    Challenges: Challenges,
-    Achievements: Achievements,
-    ChallengesTest: ChallengesTest,
-    
-    AddSymptom: {
-      screen: SymptomTrackerScreen,
-    },
-    MoreSymptoms:{
-      screen: SymptomTrackerMoreSymptomsScreen,
-    },
-    AddNewSymptom: {
-      screen: SymptomTrackerAddNewScreen
-    },
-    ViewSymptom: {
-      screen: SymptomViewScreen,
-    },  
-    AddMeal: {
-      screen: FoodDiaryScreen,
-    },
-    ViewMeal: {
-      screen: FoodViewScreen,
-    },    
-    AddEmote: {
-      screen: EmoteTrackerScreen,
-    },
-    AddGIP: {
-      screen: GIPScreen,
-    },
-    ViewGIP: {
-      screen: GIPViewScreen,
-    },
-    ViewEmote: {
-      screen: EmoteViewScreen,
-    },   
-    Settings: {
-      screen: SettingsScreen,
-    },
-    Debug: {
-      screen: DebugScreen,
-    },
-    Camera: {
-      screen: CameraScreen,
-    },
-    Gear: {
-      screen: GearScreen,
-    }
+const RootStack = createStackNavigator({
+  GlutenbuddyRoot: GlutenbuddyRoot,
+  Wardrobe: Wardrobe,
+  Challenges: Challenges,
+  Achievements: Achievements,
+  ChallengesTest: ChallengesTest,
+
+  AddSymptom: {
+    screen: SymptomTrackerScreen,
   },
-);
+  MoreSymptoms: {
+    screen: SymptomTrackerMoreSymptomsScreen,
+  },
+  AddNewSymptom: {
+    screen: SymptomTrackerAddNewScreen,
+  },
+  ViewSymptom: {
+    screen: SymptomViewScreen,
+  },
+  AddMeal: {
+    screen: FoodDiaryScreen,
+  },
+  ViewMeal: {
+    screen: FoodViewScreen,
+  },
+  AddEmote: {
+    screen: EmoteTrackerScreen,
+  },
+  AddGIP: {
+    screen: GIPScreen,
+  },
+  ViewGIP: {
+    screen: GIPViewScreen,
+  },
+  ViewEmote: {
+    screen: EmoteViewScreen,
+  },
+  Settings: {
+    screen: SettingsScreen,
+  },
+  Debug: {
+    screen: DebugScreen,
+  },
+  Camera: {
+    screen: CameraScreen,
+  },
+  Gear: {
+    screen: GearScreen,
+  },
+});
 
 const AppContainer = createAppContainer(RootStack);
 

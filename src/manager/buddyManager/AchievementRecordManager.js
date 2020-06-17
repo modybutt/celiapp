@@ -16,13 +16,13 @@ export default class AchievementRecordManager{
         var achcount = await this.getCountForAchievementRecord(id);
         achcount = achcount + 1;
         await AsyncStorage.setItem(id + "count", achcount.toString());
-        var recordtype = require("../config/achievementRecords.json").achievementrecords.find(element=>element.id == id).recordtype;
+        var recordtype = require("../../config/achievementRecords.json").achievementrecords.find(element=>element.id == id).recordtype;
         this.checkAchievements(recordtype, achcount);
 
     }
 
     static async increaseCountForAchievementRecordByType(type){
-        var achievementrecord = require("../config/achievementRecords.json");
+        var achievementrecord = require("../../config/achievementRecords.json");
         this.increaseCountForAchievementRecord(achievementrecord.achievementrecords.find(element=>element.recordtype == type).id);
     }
 

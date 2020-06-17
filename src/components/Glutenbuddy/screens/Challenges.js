@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { StyleSheet, Text, View, Button, AsyncStorage, FlatList } from 'react-native';
 //import { NavigationContainer } from '@react-navigation/native';
 //import { createStackNavigator } from '@react-navigation/stack';
-import AchievementManager from '../manager/AchievementManager';
+import AchievementManager from "../../../manager/buddyManager/AchievementManager";
 import Icon from 'react-native-vector-icons/MaterialIcons';
 
 //import BackToHomeScreenButton from '../BackToHomeScreenButton';
@@ -25,8 +25,8 @@ const styles = StyleSheet.create({
   }
 
 });
-challenges = require('../config/achievements.json').achievements;
-iconsource = require('../config/achievementRecords.json').achievementrecords;
+challenges = require('../../../config/achievements.json').achievements;
+iconsource = require('../../../config/achievementRecords.json').achievementrecords;
 function Item( {item} ){
   return (
     <View style={styles.item}>

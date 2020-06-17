@@ -5,7 +5,7 @@ import AchievementManager from './AchievementManager';
 export default class StreakManager{
 
     static async checkStreak(id){
-        var streakjson = require("../config/streaks.json");
+        var streakjson = require("../../config/streaks.json");
         var streak = streakjson.streaks.find(element=>element.id == id);
         var lastadded = await AsyncStorage.getItem("LastEntry" + streak.entryid);
         var currdate = new Date();

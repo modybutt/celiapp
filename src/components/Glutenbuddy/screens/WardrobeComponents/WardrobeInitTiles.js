@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import { View, ImageBackground } from "react-native";
 import { Container, ContainerScrollView } from "./WardrobeInitTilesStyles";
 import OneCategory from "./OneCategory";
-import WardrobeItemsToDisplay from "../../config/wardrobeItems";
+import WardrobeItemsToDisplay from "../../../../config/wardrobeItems";
 
 const WardrobeMain = ({ category }) => {
   const [slides, setSlides] = useState([]);

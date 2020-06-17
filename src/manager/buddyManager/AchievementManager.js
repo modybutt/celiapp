@@ -3,10 +3,10 @@ import { AsyncStorage } from "react-native";
 export default class AchievementManager {
   static async triggerAchievement(achievementID) {
     if (this.achievementsJson == undefined) {
-      this.achievementsJson = require("../config/achievements.json").achievements;
+      this.achievementsJson = require("../../../").achievements;
     }
     if (this.levelJson == undefined) {
-      this.levelJson = require("../config/levels.json").levels;
+      this.levelJson = require("../../config/levels.json").levels;
     }
     var achievement = this.achievementsJson.find(
       (element) => element.id == achievementID
@@ -88,7 +88,7 @@ export default class AchievementManager {
       return;
     }
 
-    var temp = require("../config/levels.json").levels;
+    var temp = require("../../config/levels.json").levels;
 
     //bounds for level 1:
     if (currentLevel < 2 && temp[0].points && temp[0].level) {

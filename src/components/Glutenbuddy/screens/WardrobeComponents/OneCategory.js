@@ -10,7 +10,7 @@ import {
 import { Piece } from "../../avataaars-lib/react-native-avataaars/dist";
 import styled from "styled-components/native";
 import { observer } from "mobx-react";
-import store from "../../manager/GlutenBuddyStore";
+import store from "../../../../manager/buddyManager/GlutenBuddyStore";
 import { showMessage, hideMessage } from "react-native-flash-message";
 
 

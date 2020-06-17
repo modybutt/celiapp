@@ -2,9 +2,9 @@ import React, { Component } from 'react';
 import { StyleSheet, Text, View, Button, AsyncStorage } from 'react-native';
 //import { NavigationContainer } from '@react-navigation/native';
 //import { createStackNavigator } from '@react-navigation/stack';
-import AchievementManager from '../manager/AchievementManager';
-import AchievementRecordManager from '../manager/AchievementRecordManager';
-import EntryManager from "../manager/EntryManager";
+import AchievementManager from "../../../manager/buddyManager/AchievementManager";
+import AchievementRecordManager from '../../../manager/buddyManager/AchievementRecordManager';
+import EntryManager from "../../../manager/buddyManager/EntryManager";
 
 //import BackToHomeScreenButton from '../BackToHomeScreenButton';
 

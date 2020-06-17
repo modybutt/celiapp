@@ -3,7 +3,7 @@ import { StyleSheet, Text, View, FlatList } from 'react-native';
 //import { NavigationContainer } from '@react-navigation/native';
 //import { createStackNavigator } from '@react-navigation/stack';
 import Icon from 'react-native-vector-icons/MaterialIcons';
-import AchievementRecordManager from '../manager/AchievementRecordManager';
+import AchievementRecordManager from '../../../manager/buddyManager/AchievementRecordManager';
 //import BackToHomeScreenButton from '../BackToHomeScreenButton';
 
 const styles = StyleSheet.create({
@@ -42,7 +42,7 @@ export default class Achievements extends Component{
 
     constructor(props){
       super(props);
-      var achievementrecords = require('../config/achievementRecords.json').achievementrecords;
+      var achievementrecords = require('../../../config/achievementRecords.json').achievementrecords;
       var i = 0;
       while(i < achievementrecords.length){
         achievementrecords[i].count = 0;
@@ -71,7 +71,7 @@ export default class Achievements extends Component{
 
     }
        async updateAchievementRecords(){
-      var achievementrecords = require('../config/achievementRecords.json').achievementrecords;
+      var achievementrecords = require('../../../config/achievementRecords.json').achievementrecords;
       var i = 0;
       while(i < achievementrecords.length){
         var count = await AchievementRecordManager.getCountForAchievementRecord(this.state.achievementrecords[i].id);
