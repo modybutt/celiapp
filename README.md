@@ -96,13 +96,5 @@ git push			push local repo to master
 # Usage
 
 ```bash
-npm install && npm install react-native-safe-area-context@0.7.3 --save
+npm install
 ```
-
-
-var sharedBlacklist = [
-  /node_modules[\/\\]react[\/\\]dist[\/\\].*/,
-  /website\/node_modules\/.*/,
-  /heapCapture\/bundle\.js/,
-  /.*\/__tests__\/.*/
-];
