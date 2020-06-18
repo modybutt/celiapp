@@ -8,14 +8,13 @@ import {
   TouchableOpacity,
   ImageBackground,
 } from "react-native";
-import MenuButton from "../../MenuButton";
+//import MenuButton from "../../MenuButton";
 import InitWardrobeNavigator from "./WardrobeComponents/wardrobeNavigation/InitWardrobeNavigator";
 import {
   Avatar,
   Piece,
 } from "../avataaars-lib/react-native-avataaars/dist";
 import styled from "styled-components/native";
-
 import { observer } from "mobx-react";
 import store from "../../../manager/buddyManager/GlutenBuddyStore";
 import emotionStore from "../../../manager/buddyManager/EmotionStore";
@@ -34,7 +33,6 @@ export default class Wardrobe extends React.Component {
   constructor(props) {
     super(props);
   }
-
 
   onPopupEvent(eventName, index) {
     if (eventName !== "itemSelected") {
@@ -67,7 +65,7 @@ export default class Wardrobe extends React.Component {
 
           <TouchableOpacity
             style={styles.touchable}
-            onPress={() => this.onAvatarClick()}
+            //onPress={() => this.onAvatarClick()}
           >
             <Avatar
               style={styles.avatar}
@@ -93,7 +91,7 @@ export default class Wardrobe extends React.Component {
             alignItems: "center",
           }}
         ></InitWardrobeNavigator>
-        <MenuButton navigation={this.props.navigation} />
+        {/** <MenuButton navigation={this.props.navigation} />*/}
         <FlashMessage position="bottom" />
       </View>
     );
@@ -145,11 +143,7 @@ const styles = StyleSheet.create({
   avatar: {
     flex: 1,
   },
-  innerView: {
-    paddingTop: 30,
-    alignItems: "center",
-    justifyContent: "center",
-  },
+
   progressbar: {
     width: "44%",
   },

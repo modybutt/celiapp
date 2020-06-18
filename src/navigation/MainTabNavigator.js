@@ -65,7 +65,7 @@ const TabNavStack = createMaterialTopTabNavigator(
         ),
       },
     },
-
+/** // Screen for x-Day-challenge:
     Home: {
       screen: HomeScreen, //Note for Oisin: replace this with your component
       navigationOptions: {
@@ -75,6 +75,7 @@ const TabNavStack = createMaterialTopTabNavigator(
         ),
       },
     },
+*/  
   },
   {
     initialRouteName: "GlutenbuddyRoot",

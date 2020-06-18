@@ -15,7 +15,11 @@ import {
   Avatar,
   Piece,
 } from "../components/Glutenbuddy/avataaars-lib/react-native-avataaars/dist";
-import { createStackNavigator, createAppContainer } from "react-navigation";
+import {
+  createStackNavigator,
+  createAppContainer,
+  NavigationEvents,
+} from "react-navigation";
 
 import { observer } from "mobx-react";
 import store from "../manager/buddyManager/GlutenBuddyStore";
@@ -119,17 +123,24 @@ const styles = StyleSheet.create({
   progressbar: {
     width: "44%",
   },
+  innerView: {
+    paddingTop: 20,
+    alignItems: "center",
+    justifyContent: "center",
+  },
 });
 
 @observer
 class GlutenbuddyRoot extends React.Component {
   static navigationOptions = ({ navigation }) => ({
-    title: "Avatar Menu", //LanguageManager.getInstance().getText("TRACKINGS")
+    title: "Glutenbuddy",
   });
-  async componentDidMount() {
+
+  async refreshState() {
     var score = await AchievementManager.getLevelPoints();
     var level = await AchievementManager.getCurrentLevel();
     store.setCurrentLevel(level);
+    store.setScore(score);
     var levelBounds = await AchievementManager.getCurrentLevelBounds();
     levelBounds[0] = Math.round(levelBounds[0]);
     levelBounds[1] = Math.round(levelBounds[1]);
@@ -137,32 +148,33 @@ class GlutenbuddyRoot extends React.Component {
     store.setThisLevelEnd(levelBounds[1]);
     let progressPercent = this.calcValuesForProgressBar(levelBounds, score);
     store.setProgressBarProgress(progressPercent);
-    store.setScore(score);
   }
 
   render() {
     return (
       <View style={styles.container}>
+        <NavigationEvents onDidFocus={() => this.refreshState()} />
         <ImageBackground
           source={require("../assets/images/avatar_menu/landscape_background.png")}
           style={styles.backgroundimage}
           imageStyle={{ opacity: 0.3 }}
         >
+          <View style={styles.innerView}>
+            <Text>
+              Level {store.currentLevel}
+    {/** {"\n"} {store.score} / {store.thisLevelEnd} */}
+            </Text>
+            <Progress.Bar
+              style={styles.progressbar}
+              progress={store.progressBarProgress}
+              width={200}
+              height={15}
+            />
+          </View>
           <TouchableOpacity
             style={styles.centerComponent}
             onPress={() => this.props.navigation.navigate("Wardrobe")}
           >
-            <View style={styles.innerView}>
-              <Text>
-                Score: {store.score} / {store.thisLevelEnd}
-              </Text>
-              <Progress.Bar
-                style={styles.progressbar}
-                progress={store.progressBarProgress}
-                width={200}
-                height={15}
-              />
-            </View>
             <Avatar
               size={store.size}
               avatarStyle="Transparent"
