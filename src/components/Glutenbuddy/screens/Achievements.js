@@ -5,6 +5,8 @@ import { StyleSheet, Text, View, FlatList } from 'react-native';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import AchievementRecordManager from '../../../manager/buddyManager/AchievementRecordManager';
 //import BackToHomeScreenButton from '../BackToHomeScreenButton';
+import { NavigationEvents } from 'react-navigation';
+
 
 const styles = StyleSheet.create({
   container: {
@@ -35,50 +37,47 @@ function Item( {item} ){
 }
 
 export default class Achievements extends Component{
-    
-    async GetAchievementRecordData(achievementrecords){
-
+    static navigationOptions = ({ navigation }) => ({
+      title: "Achievements",
+    });
+    state = {
+      achievementrecords: null
     }
 
-    constructor(props){
-      super(props);
-      var achievementrecords = require('../../../config/achievementRecords.json').achievementrecords;
-      var i = 0;
-      while(i < achievementrecords.length){
-        achievementrecords[i].count = 0;
-        i += 1;
-      }
-
-      this.state = {achievementrecords: achievementrecords};
+    async componentDidMount() {
+      await this.updateAchievementRecords();
     }
+
     render(){
-        const achievementrecords = this.state.achievementrecords;
-        return (
+        if(this.state.achievementrecords == null){
+          return (
+            <View style={styles.container}>
+              <Text>Loading...</Text>
+            </View>
+          )
+        } else {
+          return (
             <View style={styles.container}>
               <FlatList
-                data={ achievementrecords }
+                data={this.state.achievementrecords}
                 renderItem={( {item} ) => <Item item={item} />}
                 keyExtractor={item => item.id}
               />
             </View>
           )
-    }
-    
-    componentDidMount(){
-      this.updateAchievementRecords();
-    }
-    async componentDidUpdate(){
+        }
 
     }
-       async updateAchievementRecords(){
+    async updateAchievementRecords(){
       var achievementrecords = require('../../../config/achievementRecords.json').achievementrecords;
       var i = 0;
       while(i < achievementrecords.length){
-        var count = await AchievementRecordManager.getCountForAchievementRecord(this.state.achievementrecords[i].id);
+        var count = await AchievementRecordManager.getCountForAchievementRecord(achievementrecords[i].id);
         achievementrecords[i].count = count;
         i += 1;
       }
-      this.setState({achievementrecords : achievementrecords});
+      await this.setState({achievementrecords : achievementrecords});
+      this.forceUpdate();
     }
 }
 

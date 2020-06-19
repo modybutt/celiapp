@@ -271,9 +271,10 @@ const RootStack = createStackNavigator({
   GlutenbuddyRoot: GlutenbuddyRoot,
   Wardrobe: Wardrobe,
   Challenges: Challenges,
-  Achievements: Achievements,
   ChallengesTest: ChallengesTest,
-
+  Achievements: {
+    screen: Achievements
+  },
   AddSymptom: {
     screen: SymptomTrackerScreen,
   },

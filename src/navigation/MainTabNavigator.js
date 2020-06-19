@@ -148,6 +148,8 @@ export default createStackNavigator({
   GlutenbuddyRoot: GlutenbuddyRoot,
   Wardrobe: Wardrobe,
   Challenges: Challenges,
-  Achievements: Achievements,
+  Achievements: {
+    screen: Achievements,
+  },
   ChallengesTest: ChallengesTest,
 });
