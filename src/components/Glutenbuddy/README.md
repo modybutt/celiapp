@@ -9,5 +9,4 @@ by Lisa Brandstätter and Lukas Prutsch
 
 ```bash
 npm install
-npm install react-native-safe-area-context@0.7.3 --save
 ```

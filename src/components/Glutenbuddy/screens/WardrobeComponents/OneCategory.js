@@ -13,81 +13,6 @@ import { observer } from "mobx-react";
 import store from "../../../../manager/buddyManager/GlutenBuddyStore";
 import { showMessage, hideMessage } from "react-native-flash-message";
 
-
-const styles = StyleSheet.create({
-  textLvlOk: {
-    color: "#000",
-    fontWeight: "bold",
-    fontSize: 14, // px
-    padding: 2,
-    backgroundColor: "green",
-    textAlign: "center",
-  },
-  textLvlNotOk: {
-    color: "#000",
-    fontWeight: "bold",
-    fontSize: 14, // px
-    padding: 2,
-    backgroundColor: "grey",
-    textAlign: "center",
-  },
-  oneItemContainerSelected: {
-    width: 100,
-    padding: (0, 0),
-    marginRight: 8,
-    borderWidth: 4,
-    borderRadius: 10,
-    borderColor: "blue",
-    backgroundColor: "#b5d1ff", //, #4db9d6  "#AAF0D1", //  90EE90
-  },
-  oneItemContainerUnlocked: {
-    width: 100,
-    padding: (0, 0),
-    marginRight: 8,
-    borderRadius: 10,
-    backgroundColor: "#b5d1ff", //, #4db9d6  "#AAF0D1", //  90EE90
-  },
-  oneItemContainerLocked: {
-    width: 100,
-    padding: (0, 0),
-    marginRight: 8,
-    borderWidth: 4,
-    borderRadius: 10,
-    borderColor: "grey",
-    backgroundColor: "orange",
-  },
-});
-
-export const OneLevelStyles = styled.View`
-  padding: 0px 20px;
-`;
-
-export const Title = styled.Text`
-  color: #123;
-  font-size: 23px;
-  font-weight: bold;
-`;
-
-export const SlideScroll = styled.ScrollView.attrs({
-  showsHorizontalScrollIndicator: false,
-  horizontal: true,
-})``;
-
-// contains subtitles and descriptions
-export const ContainerSubtitle = styled.View`
-  flex-direction: column;
-  padding: 0px 0px;
-  text-align: center;
-  /* backgroundColor: green; */
-`;
-
-/* beschreibung des items */
-export const SubtitleDescription = styled.Text`
-  color: #888;
-  font-size: 12px;
-  text-align: center;
-`;
-
 class OneLevel extends Component {
   constructor(props) {
     super(props);
@@ -183,7 +108,7 @@ class OneItem extends Component {
   onItemSelected(obj) {
     var currentScore = store.score;
     var currentLevel = store.currentLevel;
-    console.log(currentLevel, "currentlevel")
+    console.log(currentLevel, "currentlevel");
     if (currentLevel < obj.minLevel) {
       var msg =
         "Your level is (" +
@@ -201,23 +126,23 @@ class OneItem extends Component {
     switch (obj.sectionId) {
       case 1:
         store.setClotheType(obj.shirtId);
-        store.setClotheColor(obj.clotheColor)
+        store.setClotheColor(obj.clotheColor);
         store.setActiveClotheTypeId(activeId);
         break;
       case 2:
-        store.setTopType(obj.haircutId)
+        store.setTopType(obj.haircutId);
         store.setActiveTopTypeId(activeId);
         break;
       case 3:
-        store.setAccessoriesType(obj.glassesId)
+        store.setAccessoriesType(obj.glassesId);
         store.setActiveAccessoriesTypeId(activeId);
         break;
       case 4:
-        store.setSkinColor(obj.skinId)
+        store.setSkinColor(obj.skinId);
         store.setActiveSkinColorId(activeId);
         break;
       case 5:
-        store.setHairColor(obj.hairColor)
+        store.setHairColor(obj.hairColor);
         store.setActiveHairColorId(activeId);
         break;
       case 6:
@@ -246,3 +171,77 @@ class OneItem extends Component {
     }
   }
 }
+
+const styles = StyleSheet.create({
+  textLvlOk: {
+    color: "#000",
+    fontWeight: "bold",
+    fontSize: 14, // px
+    padding: 2,
+    backgroundColor: "green",
+    textAlign: "center",
+  },
+  textLvlNotOk: {
+    color: "#000",
+    fontWeight: "bold",
+    fontSize: 14, // px
+    padding: 2,
+    backgroundColor: "grey",
+    textAlign: "center",
+  },
+  oneItemContainerSelected: {
+    width: 100,
+    padding: (0, 0),
+    marginRight: 8,
+    borderWidth: 4,
+    borderRadius: 10,
+    borderColor: "blue",
+    backgroundColor: "#b5d1ff", //, #4db9d6  "#AAF0D1", //  90EE90
+  },
+  oneItemContainerUnlocked: {
+    width: 100,
+    padding: (0, 0),
+    marginRight: 8,
+    borderRadius: 10,
+    backgroundColor: "#b5d1ff", //, #4db9d6  "#AAF0D1", //  90EE90
+  },
+  oneItemContainerLocked: {
+    width: 100,
+    padding: (0, 0),
+    marginRight: 8,
+    borderWidth: 4,
+    borderRadius: 10,
+    borderColor: "grey",
+    backgroundColor: "orange",
+  },
+});
+
+export const OneLevelStyles = styled.View`
+  padding: 0px 20px;
+`;
+
+export const Title = styled.Text`
+  color: #123;
+  font-size: 23px;
+  font-weight: bold;
+`;
+
+export const SlideScroll = styled.ScrollView.attrs({
+  showsHorizontalScrollIndicator: false,
+  horizontal: true,
+})``;
+
+// contains subtitles and descriptions
+export const ContainerSubtitle = styled.View`
+  flex-direction: column;
+  padding: 0px 0px;
+  text-align: center;
+  /* backgroundColor: green; */
+`;
+
+/* beschreibung des items */
+export const SubtitleDescription = styled.Text`
+  color: #888;
+  font-size: 12px;
+  text-align: center;
+`;

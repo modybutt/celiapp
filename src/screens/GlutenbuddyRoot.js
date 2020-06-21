@@ -11,10 +11,7 @@ import * as Progress from "react-native-progress";
 import AchievementManager from "../manager/buddyManager/AchievementManager";
 
 import MenuButton from "../components/MenuButton";
-import {
-  Avatar,
-  Piece,
-} from "../components/Glutenbuddy/avataaars-lib/react-native-avataaars/dist";
+import { Avatar } from "../components/Glutenbuddy/avataaars-lib/react-native-avataaars/dist";
 import {
   createStackNavigator,
   createAppContainer,
@@ -25,7 +22,6 @@ import { observer } from "mobx-react";
 import store from "../manager/buddyManager/GlutenBuddyStore";
 import emotionStore from "..//manager/buddyManager/EmotionStore";
 import Wardrobe from "../components/Glutenbuddy/screens/Wardrobe";
-import LanguageManager from "../manager/LanguageManager";
 
 // Screens:
 import Challenges from "../components/Glutenbuddy/screens/Challenges";
@@ -50,85 +46,6 @@ import CameraScreen from "../screens/CameraScreen";
 import GearScreen from "../screens/GearScreen";
 import SymptomTrackerMoreSymptomsScreen from "../screens/SymptomTrackerMoreSymptomsScreen";
 import SymptomTrackerAddNewScreen from "../screens/SymptomTrackerAddNewScreen";
-
-tickle = 0;
-
-const styles = StyleSheet.create({
-  background: {
-    width: "100%",
-    height: "100%",
-  },
-  popup: {
-    position: "absolute",
-    right: 40,
-    top: 40,
-  },
-  gluton: {
-    //position: 'absolute',
-    top: "25%",
-    //left: '25%',
-    width: "100%",
-    alignItems: "center",
-  },
-  container: {
-    flex: 1,
-    backgroundColor: "#fff",
-    alignItems: "center",
-    justifyContent: "center",
-  },
-  wardrobe: {
-    flex: 1,
-  },
-  actionButtonIcon: {
-    fontSize: 20,
-    height: 22,
-    color: "white",
-  },
-  parent: {
-    alignItems: "center",
-    justifyContent: "center",
-    width: "80%",
-    flexDirection: "row",
-    flexWrap: "wrap",
-  },
-  touchable: {
-    width: "34%",
-    margin: "4%",
-    aspectRatio: 1,
-    alignItems: "center",
-    justifyContent: "center",
-    backgroundColor: "transparent",
-  },
-  child: {
-    //flex:1,
-    width: "100%",
-    height: "100%",
-  },
-  images: {
-    flex: 1,
-    width: "100%",
-    height: "100%",
-  },
-  backgroundimage: {
-    width: "100%",
-    height: "100%",
-    resizeMode: "cover",
-    //backgroundColor:'rgba(255,0,0,0.5)', //
-    //opacity: 0.5
-  },
-  centerComponent: {
-    alignItems: "center",
-    justifyContent: "center",
-  },
-  progressbar: {
-    width: "44%",
-  },
-  innerView: {
-    paddingTop: 20,
-    alignItems: "center",
-    justifyContent: "center",
-  },
-});
 
 @observer
 class GlutenbuddyRoot extends React.Component {
@@ -162,7 +79,7 @@ class GlutenbuddyRoot extends React.Component {
           <View style={styles.innerView}>
             <Text>
               Level {store.currentLevel}
-    {/** {"\n"} {store.score} / {store.thisLevelEnd} */}
+              {/** {"\n"} {store.score} / {store.thisLevelEnd} */}
             </Text>
             <Progress.Bar
               style={styles.progressbar}
@@ -242,28 +159,6 @@ class GlutenbuddyRoot extends React.Component {
       Math.round(progressThisLevel + Number.EPSILON) / (bounds[1] - bounds[0]);
     return progressPercent;
   }
-  /*
-     {/** backgroundColor: "#339966" */
-  /** backgroundColor: "#996633" */
-  /** backgroundColor: "#669933" */
-  /*onAvatarClick() {
-    
-    // TODO: open Avatar Wardrobe!!!
-    console.log("open avatar wardrobe!!");
-    if (tickle % 5 == 0) {
-      emotionStore.setSuperHappy();
-    } else if (tickle % 5 == 1) {
-      emotionStore.setHappy();
-    } else if (tickle % 5 == 2) {
-      emotionStore.setNeutral();
-    } else if (tickle % 5 == 3) {
-      emotionStore.setSad();
-    } else if (tickle % 5 == 4) {
-      emotionStore.setSuperSad();
-    }
-    // for more options visit https://getavataaars.com/
-    tickle++;
-  }*/
 }
 
 // reuse of existing stackNavigator (MainTabNavigator) results in error msg
@@ -273,7 +168,7 @@ const RootStack = createStackNavigator({
   Challenges: Challenges,
   ChallengesTest: ChallengesTest,
   Achievements: {
-    screen: Achievements
+    screen: Achievements,
   },
   AddSymptom: {
     screen: SymptomTrackerScreen,
@@ -326,3 +221,80 @@ export default class App extends React.Component {
     return <AppContainer />;
   }
 }
+
+const styles = StyleSheet.create({
+  background: {
+    width: "100%",
+    height: "100%",
+  },
+  popup: {
+    position: "absolute",
+    right: 40,
+    top: 40,
+  },
+  gluton: {
+    //position: 'absolute',
+    top: "25%",
+    //left: '25%',
+    width: "100%",
+    alignItems: "center",
+  },
+  container: {
+    flex: 1,
+    backgroundColor: "#fff",
+    alignItems: "center",
+    justifyContent: "center",
+  },
+  wardrobe: {
+    flex: 1,
+  },
+  actionButtonIcon: {
+    fontSize: 20,
+    height: 22,
+    color: "white",
+  },
+  parent: {
+    alignItems: "center",
+    justifyContent: "center",
+    width: "80%",
+    flexDirection: "row",
+    flexWrap: "wrap",
+  },
+  touchable: {
+    width: "34%",
+    margin: "4%",
+    aspectRatio: 1,
+    alignItems: "center",
+    justifyContent: "center",
+    backgroundColor: "transparent",
+  },
+  child: {
+    //flex:1,
+    width: "100%",
+    height: "100%",
+  },
+  images: {
+    flex: 1,
+    width: "100%",
+    height: "100%",
+  },
+  backgroundimage: {
+    width: "100%",
+    height: "100%",
+    resizeMode: "cover",
+    //backgroundColor:'rgba(255,0,0,0.5)', //
+    //opacity: 0.5
+  },
+  centerComponent: {
+    alignItems: "center",
+    justifyContent: "center",
+  },
+  progressbar: {
+    width: "44%",
+  },
+  innerView: {
+    paddingTop: 20,
+    alignItems: "center",
+    justifyContent: "center",
+  },
+});

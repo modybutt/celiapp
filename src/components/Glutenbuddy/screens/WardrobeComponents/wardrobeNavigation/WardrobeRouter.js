@@ -1,7 +1,5 @@
 import React from "react";
 import { createMaterialTopTabNavigator } from "react-navigation";
-import { StyleSheet, Text, View } from "react-native";
-
 import WardrobeCategoryShirt from "../WardrobeCategories/WardrobeCategoryShirt";
 import WardrobeCategoryHairColor from "../WardrobeCategories/WardrobeCategoryHairColor";
 import WardrobeCategoryGlasses from "../WardrobeCategories/WardrobeCategoryGlasses";
@@ -16,12 +14,9 @@ const AppNavigator = createMaterialTopTabNavigator(
     CategoryGlasses: WardrobeCategoryGlasses,
     CategoryHairstyle: WardrobeCategoryHairstyle,
     CategorySkinColor: WardrobeCategorySkinColor
-
-    
   },
   {
     tabBarOptions: {
-
       activeTintColor: "white",
       inactiveTintColor: "tomato",
       showIcon: true,
@@ -29,10 +24,9 @@ const AppNavigator = createMaterialTopTabNavigator(
       style: {
         backgroundColor: "#4295f5",
       },
-      
     },
     lazy: false,
   }
 );
-//AppNavigator.lazy = false;
+
 export default AppNavigator;

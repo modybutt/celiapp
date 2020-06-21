@@ -1,20 +1,12 @@
-import React, { Component } from "react";
+import React from "react";
 import {
   View,
-  ScrollView,
-  Text,
-  Button,
   StyleSheet,
   TouchableOpacity,
   ImageBackground,
 } from "react-native";
-//import MenuButton from "../../MenuButton";
 import InitWardrobeNavigator from "./WardrobeComponents/wardrobeNavigation/InitWardrobeNavigator";
-import {
-  Avatar,
-  Piece,
-} from "../avataaars-lib/react-native-avataaars/dist";
-import styled from "styled-components/native";
+import { Avatar } from "../avataaars-lib/react-native-avataaars/dist";
 import { observer } from "mobx-react";
 import store from "../../../manager/buddyManager/GlutenBuddyStore";
 import emotionStore from "../../../manager/buddyManager/EmotionStore";
@@ -22,12 +14,9 @@ import emotionStore from "../../../manager/buddyManager/EmotionStore";
 import AchievementManager from "../../../manager/buddyManager/AchievementManager";
 import FlashMessage from "react-native-flash-message";
 
-
-tickle = 0;
-
 @observer
 export default class Wardrobe extends React.Component {
-  static navigationOptions = ({navigation}) => ({
+  static navigationOptions = ({ navigation }) => ({
     title: "Wardrobe",
   });
   constructor(props) {
@@ -61,8 +50,6 @@ export default class Wardrobe extends React.Component {
           style={styles.backgroundimage}
           imageStyle={{ opacity: 0.1 }}
         >
-
-
           <TouchableOpacity
             style={styles.touchable}
             //onPress={() => this.onAvatarClick()}
@@ -104,7 +91,6 @@ export default class Wardrobe extends React.Component {
     var points = await AchievementManager.getLevelPoints();
     return points;
   }
-
 
   onAvatarClick() {
     if (tickle % 3 == 0) {
