@@ -48,7 +48,7 @@ class EmotionStore {
 
     @action
     setHappy = () => {
-        this.eyeType = "Surprised";
+        this.eyeType = "Default";
         this.eyebrowType= "RaisedExcited";
         this.mouthType="Twinkle";
         this.accessoriesTypeEmotion="Blank"; // for testing purpose

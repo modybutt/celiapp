@@ -19,6 +19,9 @@ const styles = StyleSheet.create({
 });
 
 export default class ChallengesTest extends Component{
+  static navigationOptions = ({ navigation }) => ({
+    title: "ChallengesTest",
+  });
     render(){
         return (
             <View style={styles.container}>

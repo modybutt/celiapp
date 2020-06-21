@@ -24,7 +24,7 @@ const WardrobeMain = ({ category }) => {
       case 5:
         return require("../../../../config/avatarCategoryItems/categoryHairColor.json");
       default:
-        console.error("WardrobeInitTiles.js: CategoryIndex not Valid!");
+        console.error("WardrobeInitTiles.js: Index not Valid!");
     }
   };
 

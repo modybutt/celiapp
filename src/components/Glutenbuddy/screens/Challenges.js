@@ -36,6 +36,9 @@ function Item( {item} ){
 }
 
 export default class Challenges extends Component{
+  static navigationOptions = ({ navigation }) => ({
+    title: "Challenges",
+  });
     render(){
         var i = 0;
         while(i < challenges.length){
