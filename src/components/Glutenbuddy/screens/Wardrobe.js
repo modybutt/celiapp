@@ -57,7 +57,7 @@ export default class Wardrobe extends React.Component {
             <Avatar
               style={styles.avatar}
               size={store.size}
-              avatarStyle="Transparent"
+              avatarStyle={store.avatarStyle}
               topType={store.topType}
               accessoriesType={store.accessoriesType}
               hairColor={store.hairColor}

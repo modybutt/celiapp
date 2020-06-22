@@ -94,7 +94,7 @@ class GlutenbuddyRoot extends React.Component {
           >
             <Avatar
               size={store.size}
-              avatarStyle="Transparent"
+              avatarStyle={store.avatarStyle}
               topType={store.topType}
               hairColor={store.hairColor}
               facialHairType={store.facialHairType}
