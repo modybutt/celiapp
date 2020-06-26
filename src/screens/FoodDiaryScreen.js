@@ -193,6 +193,9 @@ export default class FoodDiaryScreen extends React.Component{
             if (this.state.selectedClassKey == 1){
                 EntryManager.AddEntry("GLUTENFREEBREAKFAST");
             }
+            if (this.state.selectedClassKey == 2){
+                EntryManager.AddEntry("UNSUREBREAKFAST");
+            }
         }
         if (this.state.selectedMealKey == 1){
             if (this.state.selectedClassKey == 0){
