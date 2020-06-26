@@ -43,7 +43,8 @@ export default class Achievements extends Component{
     state = {
       achievementrecords: null
     }
-
+    // Wird aufgerufen nach instanzieren => Normalerweise nur einmal!
+    // Navigator instanziert komponente aus irgendeinem grund jedesmal neu
     async componentDidMount() {
       await this.updateAchievementRecords();
     }

@@ -26,7 +26,7 @@ export default class StreakManager{
                 var level = await AchievementManager.getCurrentLevel();
                 alertmsg += "\nReached Level " + level.toString() + "!";
             }
-            alert(alertmsg);
+            AchievementManager.sendAchievementAlert(alertmsg);
         }
     }
 

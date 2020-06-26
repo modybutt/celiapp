@@ -12,6 +12,7 @@ import UsernameDialog from './src/components/UsernameDialog';
 
 
 import { } from 'react-native-dotenv';
+import FlashMessage from 'react-native-flash-message';
 
 export default class App extends React.Component {
   state = {
@@ -106,6 +107,7 @@ export default class App extends React.Component {
             : <UsernameDialog onUsername ={this.handleNewUsername}/>
         }
         <LoadingScreen hide={this.state.isAppReady} style={styles.loading}/>
+        <FlashMessage position="bottom" duration={5000}/>
       </View>
     );
   }

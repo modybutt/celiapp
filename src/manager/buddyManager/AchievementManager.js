@@ -1,4 +1,5 @@
 import { AsyncStorage } from "react-native";
+import { showMessage } from "react-native-flash-message";
 
 export default class AchievementManager {
   static async triggerAchievement(achievementID) {
@@ -78,7 +79,11 @@ export default class AchievementManager {
   }
 
   static sendAchievementAlert(text) {
-    alert(text);
+    showMessage({
+      message: "Achievement earned!",
+      description: text,
+      type: "success"
+    });
   }
 
   static async getCurrentLevelBounds() {
