@@ -20,7 +20,7 @@ Install node & npm [from here](https://nodejs.org/en/)
 
 Install expo-cli :  `npm install -g expo-cli`
 
-Install the Expo client app on your android/IOS device
+Install the Expo client (capable Version 2.16.1 for expo-SDK 35) app on your android/IOS device 
 
 
 ## Install & Run
