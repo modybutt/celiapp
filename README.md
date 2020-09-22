@@ -72,7 +72,7 @@ celiapp/src/screens
     
 ```
 
-### Tools & Tutorails
+### Tools & Tutorials
 
 * REACT NATIVE: 		https://facebook.github.io/react-native/docs/getting-started
 * EXPO: 			https://expo.io
