@@ -46,6 +46,8 @@ import CameraScreen from "../screens/CameraScreen";
 import GearScreen from "../screens/GearScreen";
 import SymptomTrackerMoreSymptomsScreen from "../screens/SymptomTrackerMoreSymptomsScreen";
 import SymptomTrackerAddNewScreen from "../screens/SymptomTrackerAddNewScreen";
+import CeliAppLogger from "../../src/logging/CeliAppLogger";
+import loggingStore from "../manager/buddyManager/LoggingStore";
 
 @observer
 class GlutenbuddyRoot extends React.Component {
@@ -154,6 +156,12 @@ class GlutenbuddyRoot extends React.Component {
     );
   }
   calcValuesForProgressBar(bounds, currentScore) {
+
+  /***************Singleton-Test => call changeGamificationFlag longclick on Avatar *****************************/
+  //console.log(loggingStore.gamificationFlag);
+  //loggingStore.changeGamificationFlag();
+  //console.log(loggingStore.gamificationFlag);
+
     let progressThisLevel = currentScore - bounds[0];
     let progressPercent =
       Math.round(progressThisLevel + Number.EPSILON) / (bounds[1] - bounds[0]);
