@@ -15,6 +15,7 @@ import HeaderSaveButton from '../components/HeaderSaveButton';
 import GearManager from '../manager/GearManager';
 import AchievementManager from '../manager/buddyManager/AchievementManager';
 import AchievementRecordManager from '../manager/buddyManager/AchievementRecordManager';
+import CeliLogger from '../analytics/analyticsManager';
 
 
 export default class SymptomTrackerScreen extends React.Component{
@@ -53,6 +54,7 @@ export default class SymptomTrackerScreen extends React.Component{
             tempDate: new Date(), //used to temporarliy save date and then set it to selectedDateAndTime after corresponding checks
             selectedDateAndTime: this.props.navigation.state.params.selectedDateAndTime
         });
+        CeliLogger.addLog(this.constructor.name, "opened");
     }
 
     componentDidMount() {
@@ -80,6 +82,7 @@ export default class SymptomTrackerScreen extends React.Component{
     componentWillUnmount() {
         this.keyboardDidShowListener.remove();
         this.keyboardDidHideListener.remove();
+        CeliLogger.addLog(this.constructor.name, "closed");
     }
 
     _keyboardDidShow = () => {
