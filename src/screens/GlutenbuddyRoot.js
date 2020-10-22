@@ -47,7 +47,7 @@ import GearScreen from "../screens/GearScreen";
 import SymptomTrackerMoreSymptomsScreen from "../screens/SymptomTrackerMoreSymptomsScreen";
 import SymptomTrackerAddNewScreen from "../screens/SymptomTrackerAddNewScreen";
 import loggingStore from "../../src/manager/buddyManager/LoggingStore";
-import analyticsManager from "../analytics/analyticsManager";
+import CeliLogger from '../analytics/analyticsManager';
 
 @observer
 class GlutenbuddyRoot extends React.Component {
@@ -92,7 +92,8 @@ class GlutenbuddyRoot extends React.Component {
           </View>
           <TouchableOpacity
             style={styles.centerComponent}
-            onPress={() => this.props.navigation.navigate("Wardrobe")}
+            onPress={() =>
+              this.props.navigation.navigate("Wardrobe")}
           >
             <Avatar
               size={store.size}
@@ -157,12 +158,12 @@ class GlutenbuddyRoot extends React.Component {
   }
   calcValuesForProgressBar(bounds, currentScore) {
 
-  /***************Singleton-Test => call changeGamificationFlag longclick on Avatar *****************************/
-  //console.log(loggingStore.gamificationFlag);
-  loggingStore.changeGamificationFlag();
-  //console.log(loggingStore.gamificationFlag);
+    /***************Singleton-Test => call changeGamificationFlag longclick on Avatar *****************************/
+    //console.log(loggingStore.gamificationFlag);
+    loggingStore.changeGamificationFlag();
+    //console.log(loggingStore.gamificationFlag);
 
-  analyticsManager.addLog(this.constructor.name, "home");
+    CeliLogger.addLog(this.constructor.name, "home");
 
     let progressThisLevel = currentScore - bounds[0];
     let progressPercent =

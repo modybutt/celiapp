@@ -1,8 +1,10 @@
 import React from 'react';
 import { View, Text, Button, StyleSheet, Image  } from 'react-native';
-import WardrobeMain from './../WardrobeInitTiles';       
+import WardrobeMain from './../WardrobeInitTiles';
+import CeliLogger from '../../../../../analytics/analyticsManager';
 
-const WardrobeCategoryHairColor = () => {
+
+const WardrobeCategoryHairColor = ({navigation}) => {
     return (
       <View style={styles.container}>
         <WardrobeMain category={5}></WardrobeMain>
@@ -31,4 +33,8 @@ WardrobeCategoryHairColor.navigationOptions = {
       />
     );
   },
+  tabBarOnPress: ({ navigation, defaultHandler }) => {
+    CeliLogger.addLog(navigation.state.routeName, "switched to");
+    defaultHandler()
+  }
 };

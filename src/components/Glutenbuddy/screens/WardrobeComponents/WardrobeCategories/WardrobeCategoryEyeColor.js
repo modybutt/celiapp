@@ -2,7 +2,7 @@ import React from 'react';
 import { View, Text, Button, StyleSheet, Image  } from 'react-native';
 import WardrobeMain from './../WardrobeInitTiles';
 
-const WardrobeCategoryEyeColor = () => {
+const WardrobeCategoryEyeColor = ({navigation}) => {
     return (
       <View style={styles.container}>
         <WardrobeMain category={6}></WardrobeMain>

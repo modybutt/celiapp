@@ -1,6 +1,7 @@
 import React from 'react';
 import { View, Text, Button, StyleSheet, Image  } from 'react-native';
 import WardrobeInitTiles from '../WardrobeInitTiles';
+import CeliLogger from '../../../../../analytics/analyticsManager';
 
 const WardrobeCategorySkinColor = ({navigation}) => {
     return (
@@ -33,4 +34,8 @@ WardrobeCategorySkinColor.navigationOptions = {
       />
     );
   },
+  tabBarOnPress: ({ navigation, defaultHandler }) => {
+    CeliLogger.addLog(navigation.state.routeName, "switched to");
+    defaultHandler()
+  }
 };
