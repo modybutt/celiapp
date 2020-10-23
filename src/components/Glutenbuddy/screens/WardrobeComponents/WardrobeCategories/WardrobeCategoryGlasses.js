@@ -3,8 +3,18 @@ import { View, Text, Button, StyleSheet, Image } from "react-native";
 import WardrobeMain from "./../WardrobeInitTiles";
 import CeliLogger from '../../../../../analytics/analyticsManager';
 
-
+var onTabbarPress = true;
 const WardrobeCategoryGlasses = ({ navigation }) => {
+  // this body is be for tab switches via swipes only!
+  /*this.focusListener = */
+  navigation.addListener("didFocus", () => {
+    if (onTabbarPress === false) {
+      CeliLogger.addLog(navigation.state.routeName, "focussed via swipe");
+    }
+    onTabbarPress = false;
+  });
+    //this.focusListener.remove();
+  
   return (
     <View style={styles.container}>
       <WardrobeMain category={3}></WardrobeMain>
@@ -35,7 +45,9 @@ WardrobeCategoryGlasses.navigationOptions = {
     );
   },
   tabBarOnPress: ({ navigation, defaultHandler }) => {
-    CeliLogger.addLog(navigation.state.routeName, "switched to");
+    onTabbarPress = true;
+    console.log("tabbaronpress")
+    CeliLogger.addLog(navigation.state.routeName, "focussed via tap");
     defaultHandler()
-  }
+  },
 };
