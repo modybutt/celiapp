@@ -12,25 +12,18 @@ class LoggingStore {
 
   @action
   changeGamificationFlag = () => {
-    
-    if (this.gamificationFlag == false){
-      this.gamificationFlag = true;
-    } else {
-      this.gamificationFlag = false;
-    }
-    
+    this.gamificationFlag = !this.gamificationFlag;
   };
- 
 }
 
 const schema = {
   gamificationFlag: true,
-
 };
 
 const store = new LoggingStore();
 
 const persistingStore = persist(schema)(store);
+
 hydrate("gamificationFlag", persistingStore);
 
 export default persistingStore;

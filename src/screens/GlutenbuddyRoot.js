@@ -118,6 +118,7 @@ class GlutenbuddyRoot extends React.Component {
                   description: "You have just activated Gamification!",
                   type: "success"
                 });
+                CeliLogger.addLog(this.constructor.name, "gamification enabled!");
               } else {
                 loggingStore.changeGamificationFlag();
                 showMessage({
@@ -125,6 +126,7 @@ class GlutenbuddyRoot extends React.Component {
                   description: "You have just deactivated Gamification!",
                   type: "success"
                 });
+                CeliLogger.addLog(this.constructor.name, "gamification disabled!");
               }
             }}
           >
@@ -154,7 +156,7 @@ class GlutenbuddyRoot extends React.Component {
 
     /***************Singleton-Test => call changeGamificationFlag longclick on Avatar *****************************/
     //console.log(loggingStore.gamificationFlag);
-    loggingStore.changeGamificationFlag();
+    //loggingStore.changeGamificationFlag();
     //console.log(loggingStore.gamificationFlag);
 
     CeliLogger.addLog(this.constructor.name, "home");

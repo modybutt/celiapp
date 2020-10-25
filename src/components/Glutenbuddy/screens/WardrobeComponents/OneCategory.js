@@ -12,6 +12,9 @@ import styled from "styled-components/native";
 import { observer } from "mobx-react";
 import store from "../../../../manager/buddyManager/GlutenBuddyStore";
 import { showMessage, hideMessage } from "react-native-flash-message";
+import CeliLogger from "../../../../analytics/analyticsManager";
+
+var selectedCategory = "SelectedCategory";
 
 class OneLevel extends Component {
   constructor(props) {
@@ -113,37 +116,45 @@ class OneItem extends Component {
       var msg =
         "Your level is (" +
         (obj.minLevel - currentLevel) +
-        ") too low. You can put this item on as soon as you have reached the required level.";
+        ") too low. Add some entries to unlock this item.";
       showMessage({
         message: "Nope",
         description: msg,
         type: "warning",
       });
       console.log("nope, you cant put this on!");
+      CeliLogger.addLog(selectedCategory, "access denied!, tried putting on objId: " + obj.id);
       return false;
     }
     activeId = obj.id;
+    CeliLogger.addLog(selectedCategory, "access granted, putting on objId: " + obj.id);
+
     switch (obj.sectionId) {
       case 1:
         store.setClotheType(obj.shirtId);
         store.setClotheColor(obj.clotheColor);
         store.setActiveClotheTypeId(activeId);
+        CeliLogger.addLog(selectedCategory + " " + obj.sectionId, "new shirtId: " + obj.shirtId + ", color: " + obj.clotheColor);
         break;
       case 2:
         store.setTopType(obj.haircutId);
         store.setActiveTopTypeId(activeId);
+        CeliLogger.addLog(selectedCategory + " " + obj.sectionId, "new hairstyleId: " + obj.haircutId);
         break;
       case 3:
         store.setAccessoriesType(obj.glassesId);
         store.setActiveAccessoriesTypeId(activeId);
+        CeliLogger.addLog(selectedCategory + " " + obj.sectionId, "new glassesId: " + obj.glassesId);
         break;
       case 4:
         store.setSkinColor(obj.skinId);
         store.setActiveSkinColorId(activeId);
+        CeliLogger.addLog(selectedCategory + " " + obj.sectionId, "new skinId: " + obj.skinId);
         break;
       case 5:
         store.setHairColor(obj.hairColor);
         store.setActiveHairColorId(activeId);
+        CeliLogger.addLog(selectedCategory + " " + obj.sectionId, "new hairColor: " + obj.hairColor);
         break;
       case 6:
         break;
@@ -167,7 +178,7 @@ class OneItem extends Component {
       case 5:
         return store.activeHairColorId;
       default:
-        console.log("OneCategory: loading acitve Items failed!", catIndex);
+        console.log("OneCategory: loading active Items failed!", catIndex);
     }
   }
 }
