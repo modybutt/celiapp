@@ -2,6 +2,7 @@ import React from "react";
 import {
   View,
   StyleSheet,
+  Image,
   TouchableOpacity,
   ImageBackground,
 } from "react-native";
@@ -50,10 +51,20 @@ export default class Wardrobe extends React.Component {
           style={styles.backgroundimage}
           imageStyle={{ opacity: 0.1 }}
         >
-          <TouchableOpacity
+          <View style={styles.iconavatargroup}>
+            <TouchableOpacity
+                style={[styles.touchable]}
+                onPress={() => this.props.navigation.navigate("Challenges")}
+              >
+                <Image
+                  style={styles.images}
+                  source={require("../assets/challenges.png")}
+                />
+            </TouchableOpacity>
+            <TouchableOpacity
             style={styles.touchable}
             //onPress={() => this.onAvatarClick()}
-          >
+            >
             <Avatar
               style={styles.avatar}
               size={store.size}
@@ -69,15 +80,25 @@ export default class Wardrobe extends React.Component {
               mouthType={emotionStore.mouthType}
               skinColor={store.skinColor}
             />
-          </TouchableOpacity>
+            </TouchableOpacity>
+            <TouchableOpacity
+                style={[styles.touchable]}
+                onPress={() => this.props.navigation.navigate("Achievements")}
+              >
+                <Image
+                  style={styles.images}
+                  source={require("../assets/flag-24px.png")}
+                />
+              </TouchableOpacity>
+            </View>
         </ImageBackground>
-        <InitWardrobeNavigator
-          style={{
-            flex: 1,
+          <InitWardrobeNavigator
+            style={{
+            flex: 0.5,
             justifyContent: "center",
             alignItems: "center",
-          }}
-        ></InitWardrobeNavigator>
+            }}>
+          </InitWardrobeNavigator>
         {/** <MenuButton navigation={this.props.navigation} />*/}
         <FlashMessage position="bottom" duration={5000} />
       </View>
@@ -127,7 +148,7 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   avatar: {
-    flex: 1,
+    flex: 0.3,
   },
 
   progressbar: {
@@ -136,10 +157,22 @@ const styles = StyleSheet.create({
   touchable: {
     alignItems: "center",
     justifyContent: "center",
+    flex: 0.3,
   },
   backgroundimage: {
     resizeMode: "cover",
+    flex: 0.5,
     //backgroundColor:'rgba(255,0,0,0.5)', //
     //opacity: 0.5
+  },
+  iconavatargroup: {
+    flex: 1,
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignItems: "center"
+  },
+  images: {
+    flex: 0.3,
+    resizeMode: "center",
   },
 });
