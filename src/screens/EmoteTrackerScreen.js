@@ -14,6 +14,8 @@ import HeaderSaveButton from '../components/HeaderSaveButton';
 import GearManager from '../manager/GearManager';
 import EmotionStore from '../manager/buddyManager/EmotionStore'
 import { observer } from "mobx-react";
+import CeliLogger from '../analytics/analyticsManager';
+
 
 @observer
 export default class EmoteTrackerScreen extends React.Component{
@@ -49,6 +51,7 @@ export default class EmoteTrackerScreen extends React.Component{
             tempDate: new Date(), //used to temporarliy save date and then set it to selectedDateAndTime after corresponding checks
             selectedDateAndTime: this.props.navigation.state.params.selectedDateAndTime
         });
+        CeliLogger.addLog(this.constructor.name, "opened");
     }
 
     componentDidMount() {        
@@ -65,13 +68,13 @@ export default class EmoteTrackerScreen extends React.Component{
             'keyboardDidHide',
             this._keyboardDidHide,
           );
-
     }
 
     
     componentWillUnmount() {
         this.keyboardDidShowListener.remove();
         this.keyboardDidHideListener.remove();
+        CeliLogger.addLog(this.constructor.name, "closed");
       }
 
       _keyboardDidShow = ()  => {

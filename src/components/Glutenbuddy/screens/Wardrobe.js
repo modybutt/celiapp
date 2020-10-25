@@ -14,6 +14,7 @@ import emotionStore from "../../../manager/buddyManager/EmotionStore";
 
 import AchievementManager from "../../../manager/buddyManager/AchievementManager";
 import FlashMessage from "react-native-flash-message";
+import CeliLogger from '../../../analytics/analyticsManager';
 
 @observer
 export default class Wardrobe extends React.Component {
@@ -22,6 +23,14 @@ export default class Wardrobe extends React.Component {
   });
   constructor(props) {
     super(props);
+  }
+
+  componentWillMount() {
+    CeliLogger.addLog(this.constructor.name, "opened");
+  }
+
+  componentWillUnmount() {
+    CeliLogger.addLog(this.constructor.name, "closed");
   }
 
   onPopupEvent(eventName, index) {
@@ -111,19 +120,6 @@ export default class Wardrobe extends React.Component {
   async getDBPoints() {
     var points = await AchievementManager.getLevelPoints();
     return points;
-  }
-
-  onAvatarClick() {
-    if (tickle % 3 == 0) {
-      //console.log("Hey, Stop That!")
-      store.setMouthType("Smile");
-    } else if (tickle % 3 == 1) {
-      store.setMouthType("Serious");
-    } else if (tickle % 3 == 2) {
-      store.setMouthType("Sad");
-    }
-    // for more options visit https://getavataaars.com/
-    tickle++;
   }
 }
 

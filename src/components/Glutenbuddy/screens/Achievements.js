@@ -6,6 +6,8 @@ import Icon from 'react-native-vector-icons/MaterialIcons';
 import AchievementRecordManager from '../../../manager/buddyManager/AchievementRecordManager';
 //import BackToHomeScreenButton from '../BackToHomeScreenButton';
 import { NavigationEvents } from 'react-navigation';
+import CeliLogger from '../../../analytics/analyticsManager';
+
 
 
 const styles = StyleSheet.create({
@@ -43,10 +45,19 @@ export default class Achievements extends Component{
     state = {
       achievementrecords: null
     }
+
+    componentWillMount() {
+      CeliLogger.addLog(this.constructor.name, "opened");
+    }
+  
     // Wird aufgerufen nach instanzieren => Normalerweise nur einmal!
     // Navigator instanziert komponente aus irgendeinem grund jedesmal neu
     async componentDidMount() {
       await this.updateAchievementRecords();
+    }
+
+    componentWillUnmount() {
+      CeliLogger.addLog(this.constructor.name, "closed");
     }
 
     render(){

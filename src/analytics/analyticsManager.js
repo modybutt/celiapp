@@ -1,3 +1,6 @@
+import gamificationState from "../manager/buddyManager/LoggingStore";
+
+
 export default class analyticsManager{
 
     static initializeAnalytics(email){
@@ -10,9 +13,11 @@ export default class analyticsManager{
         newlog.componentName = componentName;
         newlog.date = new Date();
         newlog.gestureType = "Click";
-        var analytics = require('analytics.json');
-        analytics.push(newlog);
-        var fs  = require('fs');
-        fs.writeFile('analytics.json', JSON.stringify(analytics));
+        newlog.gamification = gamificationState.gamificationFlag;
+        //var analytics = require('./analytics.json');
+        //analytics.push(newlog);
+        //var fs  = require('fs');
+        console.log("newlog: ", newlog);
+        //fs.writeFile('./analytics.json', JSON.stringify(analytics));
     }
 }

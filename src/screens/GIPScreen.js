@@ -16,6 +16,7 @@ import LanguageManager from '../manager/LanguageManager';
 import GlutonManager from '../manager/GlutonManager';
 import HeaderSaveButton from '../components/HeaderSaveButton';
 import GearManager from '../manager/GearManager';
+import CeliLogger from '../analytics/analyticsManager';
 
 
 export default class GIPScreen extends React.Component{
@@ -37,7 +38,7 @@ export default class GIPScreen extends React.Component{
             keyboardOpen: false,
             photo: null,            
             gipManualResult : 2
-        } 
+        }  
     }
 
     componentWillMount() {
@@ -45,6 +46,8 @@ export default class GIPScreen extends React.Component{
             tempDate: new Date(), //used to temporarliy save date and then set it to selectedDateAndTime after corresponding checks
             selectedDateAndTime: this.props.navigation.state.params.selectedDateAndTime
         });
+        CeliLogger.addLog(this.constructor.name, "opened");
+
     }
 
     componentDidMount() {        
@@ -66,6 +69,7 @@ export default class GIPScreen extends React.Component{
     componentWillUnmount() {
         this.keyboardDidShowListener.remove();
         this.keyboardDidHideListener.remove();
+        CeliLogger.addLog(this.constructor.name, "closed");
       }
 
     clearNoteText = () => {
