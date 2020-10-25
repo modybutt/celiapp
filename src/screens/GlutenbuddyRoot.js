@@ -45,11 +45,12 @@ import SettingsScreen from "../screens/SettingsScreen";
 import CameraScreen from "../screens/CameraScreen";
 import GearScreen from "../screens/GearScreen";
 import SymptomTrackerMoreSymptomsScreen from "../screens/SymptomTrackerMoreSymptomsScreen";
-import SymptomTrackerAddNewScreen from "../screens/SymptomTrackerAddNewScreen;
+import SymptomTrackerAddNewScreen from "../screens/SymptomTrackerAddNewScreen";
 import EmoteTrackerSymbol from "../components/EmoteTracker/EmoteTrackerSymbol";
 import EmotionDisplayIcon from "../components/EmotionDisplayIcon";
 import loggingStore from "../../src/manager/buddyManager/LoggingStore";
 import CeliLogger from '../analytics/analyticsManager';
+import { showMessage } from "react-native-flash-message";
 
 @observer
 class GlutenbuddyRoot extends React.Component {
@@ -72,7 +73,16 @@ class GlutenbuddyRoot extends React.Component {
   }
 
   render() {
-    return (
+    var barstyle = {
+      opacity: 0.0,
+      paddingTop: 20,
+      alignItems: "center",
+      justifyContent: "center",
+    };
+    if(loggingStore.gamificationFlag){
+      barstyle.opacity = 1;
+    };
+    return (  
       <View style={styles.container}>
         <NavigationEvents onDidFocus={() => this.refreshState()} />
         <ImageBackground
@@ -80,7 +90,7 @@ class GlutenbuddyRoot extends React.Component {
           style={styles.backgroundimage}
           imageStyle={{ opacity: 0.3 }}
         >
-          <View style={styles.innerView}>
+          <View style={styles.innerView, barstyle}>
             <Text>
               Level {store.currentLevel}
               {/** {"\n"} {store.score} / {store.thisLevelEnd} */}
@@ -94,8 +104,29 @@ class GlutenbuddyRoot extends React.Component {
           </View>
           <TouchableOpacity
             style={styles.centerComponent}
-            onPress={() =>
-              this.props.navigation.navigate("Wardrobe")}
+            delayLongPress={5000}
+            onPress={() => {
+              if(loggingStore.gamificationFlag){
+                this.props.navigation.navigate("Wardrobe")
+              }
+              }}
+            onLongPress={ () => {
+              if(!loggingStore.gamificationFlag){
+                loggingStore.changeGamificationFlag();
+                showMessage({
+                  message: "Gamification activated!",
+                  description: "You have just activated Gamification!",
+                  type: "success"
+                });
+              } else {
+                loggingStore.changeGamificationFlag();
+                showMessage({
+                  message: "Gamification deactivated!",
+                  description: "You have just deactivated Gamification!",
+                  type: "success"
+                });
+              }
+            }}
           >
             <Avatar
               size={store.size}
