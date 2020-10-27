@@ -16,6 +16,8 @@ import LanguageManager from '../manager/LanguageManager';
 import GlutonManager from '../manager/GlutonManager';
 import HeaderSaveButton from '../components/HeaderSaveButton';
 import GearManager from '../manager/GearManager';
+import AchievementManager from '../manager/buddyManager/AchievementManager';
+import EntryManager from '../manager/buddyManager/EntryManager';
 
 
 export default class FoodDiaryScreen extends React.Component{
@@ -183,7 +185,35 @@ export default class FoodDiaryScreen extends React.Component{
             (error) => {alert(error)}, 
             () => {GlutonManager.getInstance().setMessage(2); GearManager.getInstance().sendMessage("msg 31")}
         );
+        // AchievementAddition
+        if (this.state.selectedMealKey == 0){
+            if (this.state.selectedClassKey == 0){
+                EntryManager.AddEntry("GLUTENBREAKFAST");
+            }
+            if (this.state.selectedClassKey == 1){
+                EntryManager.AddEntry("GLUTENFREEBREAKFAST");
+            }
+            if (this.state.selectedClassKey == 2){
+                EntryManager.AddEntry("UNSUREBREAKFAST");
+            }
+        }
+        if (this.state.selectedMealKey == 1){
+            if (this.state.selectedClassKey == 0){
 
+            }
+            if (this.state.selectedClassKey == 1){
+                EntryManager.AddEntry("GLUTENFREELUNCH");
+            }
+        }
+        if (this.state.selectedMealKey == 2){
+            if (this.state.selectedClassKey == 0){
+
+            }
+            if (this.state.selectedClassKey == 1){
+                EntryManager.AddEntry("GLUTENFREEDINNER");
+            }
+        }
+        AchievementManager.triggerAchievement("MEALADDED");
         if (goHome) {
             setTimeout(() => this.navigateHome(), 100);
             }

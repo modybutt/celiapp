@@ -12,8 +12,10 @@ import DayChooser from '../components/DayChooser';
 import TimePicker from '../components/TimePicker';
 import HeaderSaveButton from '../components/HeaderSaveButton';
 import GearManager from '../manager/GearManager';
+import EmotionStore from '../manager/buddyManager/EmotionStore'
+import { observer } from "mobx-react";
 
-
+@observer
 export default class EmoteTrackerScreen extends React.Component{
     static navigationOptions = ({navigation}) => ({
         title: LanguageManager.getInstance().getText("ADD_EMOTION"),
@@ -170,7 +172,8 @@ export default class EmoteTrackerScreen extends React.Component{
             (error) => {alert(error)}, 
             () => {GlutonManager.getInstance().setMessage(2); GearManager.getInstance().sendMessage("msg 30")}
         );
-
+        EmotionStore.setEmotionId(this.state.selectedSymbolID);
+        
         if (goHome) {
             setTimeout(() => this.navigateHome(), 100);
         }

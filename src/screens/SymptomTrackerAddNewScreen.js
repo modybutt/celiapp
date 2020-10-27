@@ -6,6 +6,9 @@ import TextInputSingleLine from '../components/TextInputSingleLine';
 import HeaderSaveButton from '../components/HeaderSaveButton';
 import DatabaseManager from '../manager/DatabaseManager';
 import USER_SYMPTOM_ICON from '../assets/images/SymptomTracker/userDefinedSymptom.png';
+import EntryManager from '../manager/buddyManager/EntryManager';
+import AchievementManager from '../manager/buddyManager/AchievementManager';
+import AchievementRecordManager from '../manager/buddyManager/AchievementRecordManager';
 
 export default class SymptomTrackerAddNewScreen extends React.Component{
     static navigationOptions = ({navigation}) => ({
@@ -37,8 +40,10 @@ export default class SymptomTrackerAddNewScreen extends React.Component{
     }
 
     saveCurrentData = (goHome) =>{
+        //Achievement Addition
+        AchievementManager.triggerAchievement("SYMPTOMADDED");
+        AchievementRecordManager.increaseCountForAchievementRecord('SYMPTOMADDED');
         DatabaseManager.getInstance().createSymptom(this.state.nameString, USER_SYMPTOM_ICON, (error) => {alert(error)}, null);
-
         if (goHome) {
             setTimeout(() => this.navigateHome(), 100);
         }
