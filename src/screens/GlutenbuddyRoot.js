@@ -53,10 +53,17 @@ import CeliLogger from '../analytics/analyticsManager';
 import { showMessage } from "react-native-flash-message";
 
 @observer
-class GlutenbuddyRoot extends React.Component {
+export default class GlutenbuddyRoot extends React.Component {
+
   static navigationOptions = ({ navigation }) => ({
     title: "Glutenbuddy",
   });
+
+  componentDidMount() {
+    this.props.navigation.addListener('willFocus', () => {
+      CeliLogger.addLog(this.constructor.name, "tapped");
+    });
+  }
 
   async refreshState() {
     var score = await AchievementManager.getLevelPoints();
@@ -72,6 +79,7 @@ class GlutenbuddyRoot extends React.Component {
     store.setProgressBarProgress(progressPercent);
   }
 
+
   render() {
     var barstyle = {
       opacity: 0.0,
@@ -79,10 +87,10 @@ class GlutenbuddyRoot extends React.Component {
       alignItems: "center",
       justifyContent: "center",
     };
-    if(loggingStore.gamificationFlag){
+    if (loggingStore.gamificationFlag) {
       barstyle.opacity = 1;
     };
-    return (  
+    return (
       <View style={styles.container}>
         <NavigationEvents onDidFocus={() => this.refreshState()} />
         <ImageBackground
@@ -106,12 +114,12 @@ class GlutenbuddyRoot extends React.Component {
             style={styles.centerComponent}
             delayLongPress={5000}
             onPress={() => {
-              if(loggingStore.gamificationFlag){
+              if (loggingStore.gamificationFlag) {
                 this.props.navigation.navigate("Wardrobe")
               }
-              }}
-            onLongPress={ () => {
-              if(!loggingStore.gamificationFlag){
+            }}
+            onLongPress={() => {
+              if (!loggingStore.gamificationFlag) {
                 loggingStore.changeGamificationFlag();
                 showMessage({
                   message: "Gamification activated!",
@@ -153,14 +161,6 @@ class GlutenbuddyRoot extends React.Component {
     );
   }
   calcValuesForProgressBar(bounds, currentScore) {
-
-    /***************Singleton-Test => call changeGamificationFlag longclick on Avatar *****************************/
-    //console.log(loggingStore.gamificationFlag);
-    //loggingStore.changeGamificationFlag();
-    //console.log(loggingStore.gamificationFlag);
-
-    CeliLogger.addLog(this.constructor.name, "home");
-
     let progressThisLevel = currentScore - bounds[0];
     let progressPercent =
       Math.round(progressThisLevel + Number.EPSILON) / (bounds[1] - bounds[0]);
@@ -223,7 +223,7 @@ const RootStack = createStackNavigator({
 
 const AppContainer = createAppContainer(RootStack);
 
-export default class App extends React.Component {
+export class App extends React.Component {
   render() {
     return <AppContainer />;
   }
@@ -310,5 +310,4 @@ const styles = StyleSheet.create({
   emotiondisplay: {
     flex: 0.2
   }
-
 });
