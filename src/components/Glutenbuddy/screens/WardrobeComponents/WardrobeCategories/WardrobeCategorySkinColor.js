@@ -3,15 +3,17 @@ import { View, Text, Button, StyleSheet, Image  } from 'react-native';
 import WardrobeInitTiles from '../WardrobeInitTiles';
 import CeliLogger from '../../../../../analytics/analyticsManager';
 
-var onTabbarPress = true;
+let onTabbarPress = false;
 const WardrobeCategorySkinColor = ({navigation}) => {
   // this body is be for tab switches via swipes only!
   /*this.focusListener = */
   navigation.addListener("didFocus", () => {
     if (onTabbarPress === false) {
       CeliLogger.addLog(navigation.state.routeName, "focussed via swipe");
+    } else {
+      CeliLogger.addLog(navigation.state.routeName, "focussed via tap");
+      onTabbarPress = false;
     }
-    onTabbarPress = false;
   });
     //this.focusListener.remove();
       
@@ -23,15 +25,6 @@ const WardrobeCategorySkinColor = ({navigation}) => {
 };
 
 export default WardrobeCategorySkinColor;
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1, 
-    alignItems: 'center', 
-    justifyContent: 'center'
-  },
-});
-
 
 
 import Icon from 'react-native-vector-icons/Ionicons';
@@ -46,8 +39,14 @@ WardrobeCategorySkinColor.navigationOptions = {
     );
   },
   tabBarOnPress: ({ navigation, defaultHandler }) => {
-    onTabbarPress = true;
-    CeliLogger.addLog(navigation.state.routeName, "focussed via tap");
     defaultHandler()
   },
 };
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1, 
+    alignItems: 'center', 
+    justifyContent: 'center'
+  },
+});
