@@ -55,7 +55,6 @@ export default class FoodDiaryScreen extends React.Component{
 
     componentWillMount() {
         this.setState({
-            tempDate: new Date(), //used to temporarliy save date and then set it to selectedDateAndTime after corresponding checks
             selectedDateAndTime: this.props.navigation.state.params.selectedDateAndTime
         });
     }
@@ -112,7 +111,6 @@ export default class FoodDiaryScreen extends React.Component{
 
 
     dateEditedHandler = (dateTime) =>{
-        this.state.tempDate = dateTime
 
         let tmpDateTime = this.state.selectedDateAndTime
         tmpDateTime.setDate(dateTime.getDate())

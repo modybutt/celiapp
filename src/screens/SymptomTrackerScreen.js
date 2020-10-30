@@ -50,7 +50,6 @@ export default class SymptomTrackerScreen extends React.Component{
 
     componentWillMount() {
         this.setState({
-            tempDate: new Date(), //used to temporarliy save date and then set it to selectedDateAndTime after corresponding checks
             selectedDateAndTime: this.props.navigation.state.params.selectedDateAndTime
         });
     }
@@ -145,7 +144,6 @@ export default class SymptomTrackerScreen extends React.Component{
 
     dateEditedHandler = (dateTime) => {
         //TODO: if symptoms selected and not saved, ask user. Then refresh page.
-        this.state.tempDate = dateTime
 
         let tmpDateTime = this.state.selectedDateAndTime
         tmpDateTime.setDate(dateTime.getDate())
