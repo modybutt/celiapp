@@ -4,7 +4,7 @@
       "icon": "./src/assets/images/web_hi_res_512.png",
       "version": "0.2.1",
       "slug": "CeliApp",
-      "sdkVersion": "35.0.0",
+      "sdkVersion": "36.0.0",
       "orientation": "portrait",
       "ios": {
           "buildNumber": "109",
