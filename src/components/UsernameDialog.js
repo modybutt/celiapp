@@ -5,16 +5,16 @@ import {
   Dimensions,
   StyleSheet,
   Text,
-  TextInput
+  TextInput, Switch
 } from 'react-native';
 import Dialog from "react-native-dialog";
 
 import { Button } from 'react-native-elements';
 
 import LOGO from '../assets/images/web_hi_res_512.png';
-import { createStyles, maxHeight } from 'react-native-media-queries'; 
+import { createStyles, maxHeight } from 'react-native-media-queries';
 export default class UsernameDialog extends React.Component {
-  constructor(props){
+  constructor(props) {
     super(props);
     this.state = { username: '' };
   }
@@ -23,40 +23,51 @@ export default class UsernameDialog extends React.Component {
 
   buttonDisabled = () => !this.userNameIsValid()
 
-  updateUsername = (name) => this.setState({username: name})
+  updateUsername = (name) => this.setState({ username: name })
 
-  componentDidMount(){
+  updateText = () => {
+    this.setState({myText: 'My Changed Text'})
+ }
+
+  componentDidMount() {
     this.emailInput.focus();
   }
 
   render() {
     return (
-      <View style={{...styles.container,
-                    width: Dimensions.get('window').width,
-                    height: Dimensions.get('window').height}}>
+      <View style={{
+        ...styles.container,
+        width: Dimensions.get('window').width,
+        height: Dimensions.get('window').height
+      }}>
         <View></View>
         <Text style={styles.title}>CeliApp</Text>
         <Image style={styles.logo} source={LOGO} />
         <View style={styles.container}>
           <Text>Welcome the 21-day challenge!</Text>
           <Text>Please provide your email address to get started:</Text>
+          <Text>I have an activation code!</Text>
           <TextInput
             ref={(input) => { this.emailInput = input; }}
             style={styles.emailInput}
             onChangeText={(text) => this.updateUsername(text)} />
-
-          </View>
-          <Button
-            buttonStyle={styles.button}
-            titleStyle={{ color: 'black' }}
-            title=" Sign Up "
-            type="outline"
-            onPress = { () => this.props.onUsername(this.state.username)}
-                            style = {this.buttonDisabled() ? styles.buttonDisabled : ''}
-                            disabled = {this.buttonDisabled() }
-          />
-          <View></View>
-          <View></View>
+          <Text style={styles.textStyle}>{this.state.switchValue ? 'on' : 'off'}</Text>
+          <Switch
+            value={this.state.switchValue}
+            onValueChange={(switchValue) => this.setState({ switchValue })} />
+        {this.state.switchValue ? <Text>Switch is turned on!</Text> : <Text>Is turned OFF!</Text>}
+        </View>
+        <Button
+          buttonStyle={styles.button}
+          titleStyle={{ color: 'black' }}
+          title=" Sign Up "
+          type="outline"
+          onPress={() => this.props.onUsername(this.state.username)}
+          style={this.buttonDisabled() ? styles.buttonDisabled : ''}
+          disabled={this.buttonDisabled()}
+        />
+        <View></View>
+        <View></View>
       </View>
     );
   }
@@ -88,31 +99,31 @@ var base = StyleSheet.create({
     padding: 5,
   },
   button: {
-      backgroundColor: 'white',
-      borderColor: 'black',
-      borderWidth: 1,
-      borderRadius: 2,
-   },
-   buttonDisabled: {
-     color: "gray",
-   },
- });
+    backgroundColor: 'white',
+    borderColor: 'black',
+    borderWidth: 1,
+    borderRadius: 2,
+  },
+  buttonDisabled: {
+    color: "gray",
+  },
+});
 
- const styles = createStyles(
-    base,
-     maxHeight(700, {
-        title: {
-            marginTop: '6%',
-            marginBottom: 0,
-            fontSize: 20,
-            fontWeight: 'bold',
-          },
-          logo: {
-            width: 100,
-            height: 100,
-            margin: '3%',
-            borderColor: '#000',
-            borderWidth: 1,
-          }
-     })
- );
+const styles = createStyles(
+  base,
+  maxHeight(700, {
+    title: {
+      marginTop: '6%',
+      marginBottom: 0,
+      fontSize: 20,
+      fontWeight: 'bold',
+    },
+    logo: {
+      width: 100,
+      height: 100,
+      margin: '3%',
+      borderColor: '#000',
+      borderWidth: 1,
+    }
+  })
+);
