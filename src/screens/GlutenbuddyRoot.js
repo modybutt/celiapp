@@ -86,6 +86,7 @@ export default class GlutenbuddyRoot extends React.Component {
       paddingTop: 20,
       alignItems: "center",
       justifyContent: "center",
+      flex: 0.2,
     };
     if (loggingStore.gamificationFlag) {
       barstyle.opacity = 1;
@@ -98,7 +99,7 @@ export default class GlutenbuddyRoot extends React.Component {
           style={styles.backgroundimage}
           imageStyle={{ opacity: 0.3 }}
         >
-          <View style={styles.innerView, barstyle}>
+          <View style={barstyle}>
             <Text>
               Level {store.currentLevel}
               {/** {"\n"} {store.score} / {store.thisLevelEnd} */}
@@ -110,8 +111,9 @@ export default class GlutenbuddyRoot extends React.Component {
               height={15}
             />
           </View>
+          <View style={styles.centerComponent}>
           <TouchableOpacity
-            style={styles.centerComponent}
+            style={styles.touchable}
             delayLongPress={5000}
             onPress={() => {
               if (loggingStore.gamificationFlag) {
@@ -153,8 +155,10 @@ export default class GlutenbuddyRoot extends React.Component {
               eyebrowType={emotionStore.eyebrowType}
               mouthType={emotionStore.mouthType}
             />
-            <EmotionDisplayIcon style={styles.emotiondisplay} emotionId={emotionStore.getCurrentEmotion()}></EmotionDisplayIcon>
+            <EmotionDisplayIcon style={styles.emotiondisplay} emotionID={emotionStore.currentEmotion}></EmotionDisplayIcon>
           </TouchableOpacity>
+          </View>
+          
           <MenuButton navigation={this.props.navigation} />
         </ImageBackground>
       </View>
@@ -234,56 +238,23 @@ const styles = StyleSheet.create({
     width: "100%",
     height: "100%",
   },
-  popup: {
-    position: "absolute",
-    right: 40,
-    top: 40,
-  },
-  gluton: {
-    //position: 'absolute',
-    top: "25%",
-    //left: '25%',
-    width: "100%",
-    alignItems: "center",
-  },
   container: {
     flex: 1,
     backgroundColor: "#fff",
     alignItems: "center",
-    justifyContent: "center",
-  },
-  wardrobe: {
-    flex: 1,
+    justifyContent: "flex-start",
+    flexDirection: "column"
   },
   actionButtonIcon: {
     fontSize: 20,
     height: 22,
     color: "white",
   },
-  parent: {
-    alignItems: "center",
-    justifyContent: "center",
-    width: "80%",
-    flexDirection: "row",
-    flexWrap: "wrap",
-  },
   touchable: {
-    width: "34%",
-    margin: "4%",
     aspectRatio: 1,
     alignItems: "center",
     justifyContent: "center",
     backgroundColor: "transparent",
-  },
-  child: {
-    //flex:1,
-    width: "100%",
-    height: "100%",
-  },
-  images: {
-    flex: 1,
-    width: "100%",
-    height: "100%",
   },
   backgroundimage: {
     width: "100%",
@@ -294,20 +265,20 @@ const styles = StyleSheet.create({
   },
   centerComponent: {
     alignItems: "center",
-    justifyContent: "center",
+    justifyContent: "flex-start",
+    flex: 1,
   },
   progressbar: {
     width: "44%",
   },
-  innerView: {
-    paddingTop: 20,
-    alignItems: "center",
-    justifyContent: "center",
-  },
   avatar: {
-    flex: 0.8
+    flex: 0.8,
   },
   emotiondisplay: {
-    flex: 0.2
+    flex: 0.4,
+    width: "100%",
+    height: "100%",
+    backgroundColor: "rgba(0,0,0,0)",
+    paddingRight: "45%"
   }
 });

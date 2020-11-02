@@ -62,7 +62,7 @@ export default class Wardrobe extends React.Component {
         >
           <View style={styles.iconavatargroup}>
             <TouchableOpacity
-                style={[styles.touchable]}
+                style={[styles.touchableButton]}
                 onPress={() => this.props.navigation.navigate("Challenges")}
               >
                 <Image
@@ -91,7 +91,7 @@ export default class Wardrobe extends React.Component {
             />
             </TouchableOpacity>
             <TouchableOpacity
-                style={[styles.touchable]}
+                style={[styles.touchableButton]}
                 onPress={() => this.props.navigation.navigate("Achievements")}
               >
                 <Image
@@ -144,7 +144,7 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   avatar: {
-    flex: 0.3,
+    flex: 0.34,
   },
 
   progressbar: {
@@ -165,10 +165,17 @@ const styles = StyleSheet.create({
     flex: 1,
     flexDirection: "row",
     justifyContent: "space-between",
-    alignItems: "center"
+    alignItems: "flex-end"
   },
   images: {
-    flex: 0.3,
+    flex: 0.28,
     resizeMode: "center",
+    alignSelf: "center"
   },
+  touchableButton: {
+    alignItems: "center",
+    justifyContent: "center",
+    flex: 0.3,
+    alignSelf: "center"
+  }
 });

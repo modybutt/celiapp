@@ -79,11 +79,13 @@ export default class AchievementManager {
   }
 
   static sendAchievementAlert(text) {
-    showMessage({
-      message: "Achievement earned!",
-      description: text,
-      type: "success"
-    });
+    if(LoggingStore.gamificationFlag){
+      showMessage({
+        message: "Achievement earned!",
+        description: text,
+        type: "success"
+      });
+    }
   }
 
   static async getCurrentLevelBounds() {

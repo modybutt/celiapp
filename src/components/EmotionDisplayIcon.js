@@ -7,15 +7,35 @@ import {
   Image,
   ImageBackground,
 } from "react-native";
-import {
-    images
-} from './EmoteTracker/EmoteTrackerConstants';
+
+const images = {
+	unhappy: {
+		imgName: "UNHAPPY", 
+		uri: require('../assets/images/EmoteTracker/unhappy.png')
+	},
+	slightlyUnhappy: {
+		imgName: "SLIGHTLY_UNHAPPY", 
+		uri: require('../assets/images/EmoteTracker/slightlyUnhappy.png')
+	},
+	neither: {
+		imgName: "NEITHER",
+		uri: require('../assets/images/EmoteTracker/neither.png')
+	},
+	slightlyHappy: {
+		imgName: "SLIGHTLY_HAPPY", 
+		uri: require('../assets/images/EmoteTracker/slightlyHappy.png')
+	},
+	happy: {
+		imgName:"HAPPY", 
+		uri: require('../assets/images/EmoteTracker/happy.png')	
+	},
+}
 
 export default function EmotionDisplayIcon(props){
     var emotionimage;
     var showimg = true;
     switch(props.emotionID){
-        case 0:
+        default:
             showimg = false;
             break;
         case 1:
@@ -36,17 +56,26 @@ export default function EmotionDisplayIcon(props){
     }
     if(showimg){
         return(
-            <View>
+            <View style={props.style}>
                 <Image
-                    source={emotionimage}
+                    source={emotionimage.uri}
                     style={{
                         resizeMode: "center",
+                        height: "100%",
+                        width: "100%",
                     }}
                 />
             </View>
         )
     } else {
-        return(<View></View>);
+        return(<View style={props.style}>
+                
+            <Image source={images.happy.uri}                     style={{
+                        resizeMode: "center",
+                        height: "100%",
+                        width: "100%",
+                    }}></Image>
+        </View>);
     }
 
 }
