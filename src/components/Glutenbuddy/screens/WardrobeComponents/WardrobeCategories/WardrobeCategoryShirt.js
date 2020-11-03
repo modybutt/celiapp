@@ -1,9 +1,21 @@
 import React from 'react';
 import { View, Text, Button, StyleSheet, Image  } from 'react-native';
 import WardrobeInitTiles from './../WardrobeInitTiles';
+import CeliLogger from '../../../../../analytics/analyticsManager';
 
+var onTabbarPress = true;
 const WardrobeCategoryShirt = ({navigation}) => {
-    return (
+  // this body is be for tab switches via swipes only!
+  /*this.focusListener = */
+  navigation.addListener("didFocus", () => {
+    if (onTabbarPress === false) {
+      CeliLogger.addLog(navigation.state.routeName, "focussed via swipe");
+    }
+    onTabbarPress = false;
+  });
+    //this.focusListener.remove();
+      
+  return (
       <View style={styles.container}>
         <WardrobeInitTiles category={1}></WardrobeInitTiles>
       </View>
@@ -32,6 +44,12 @@ WardrobeCategoryShirt.navigationOptions = {
         style={{ height: focused ? 32 : 21 , width: focused ? 32 : 21, tintColor: tintColor }}
       />
     );
+  },
+  tabBarOnPress: ({ navigation, defaultHandler }) => {
+    onTabbarPress = true;
+    console.log("tabbaronpress")
+    CeliLogger.addLog(navigation.state.routeName, "focussed via tap");
+    defaultHandler()
   },
 };
 

@@ -118,7 +118,7 @@ export default class AchievementManager {
       var lower = temp[currentLevel - 2].points;
       // uppervbound
       var upper = temp[currentLevel - 1].points - 1;
-      console.debug("borders:", lower, upper);
+      //console.debug("borders:", lower, upper);
       if (lower > upper){
         console.log("you have reached the MAX level! Update levels.json!")
         return [upper, upper];

@@ -36,6 +36,11 @@ const CalendarStack = createStackNavigator({
   Calendar: CalendarScreen,
 });
 
+const GlutenStack = createStackNavigator({
+  Glutenbuddy: GlutenbuddyRoot,
+});
+
+
 const TabNavStack = createMaterialTopTabNavigator(
   {
     Evaluation: {
@@ -47,8 +52,8 @@ const TabNavStack = createMaterialTopTabNavigator(
         ),
       },
     },
-    GlutenbuddyRoot: {
-      screen: GlutenbuddyRoot,
+    Glutenbuddy: {
+      screen: GlutenStack,
       navigationOptions: {
         //tabBarLabel: 'Calendar',
         tabBarIcon: ({ focused }) => (
@@ -78,7 +83,7 @@ const TabNavStack = createMaterialTopTabNavigator(
 */  
   },
   {
-    initialRouteName: "GlutenbuddyRoot",
+    initialRouteName: "Glutenbuddy",
     tabBarPosition: "bottom",
     swipeEnabled: false,
     tabBarOptions: {
@@ -145,7 +150,6 @@ export default createStackNavigator({
     screen: GearScreen,
   },
 
-  GlutenbuddyRoot: GlutenbuddyRoot,
   Wardrobe: Wardrobe,
   Challenges: Challenges,
   Achievements: {

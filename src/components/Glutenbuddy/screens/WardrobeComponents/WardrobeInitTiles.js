@@ -2,6 +2,8 @@ import React, { useState, useEffect } from "react";
 import { View } from "react-native";
 import styled from "styled-components/native";
 import OneCategory from "./OneCategory";
+import CeliLogger from '../../../../analytics/analyticsManager';
+
 
 const WardrobeMain = ({ category }) => {
   const [slides, setSlides] = useState([]);
@@ -29,7 +31,11 @@ const WardrobeMain = ({ category }) => {
   };
 
   useEffect(() => {
+    //CeliLogger.addLog(this.constructor.name, "opened catg. " + category );
     onFetchSlides();
+    //return () => {
+      //CeliLogger.addLog(this.constructor.name, "closed");
+    //}
   }, []);
   return (
     <View>

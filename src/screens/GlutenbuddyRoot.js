@@ -46,12 +46,24 @@ import CameraScreen from "../screens/CameraScreen";
 import GearScreen from "../screens/GearScreen";
 import SymptomTrackerMoreSymptomsScreen from "../screens/SymptomTrackerMoreSymptomsScreen";
 import SymptomTrackerAddNewScreen from "../screens/SymptomTrackerAddNewScreen";
+import EmoteTrackerSymbol from "../components/EmoteTracker/EmoteTrackerSymbol";
+import EmotionDisplayIcon from "../components/EmotionDisplayIcon";
+import loggingStore from "../../src/manager/buddyManager/LoggingStore";
+import CeliLogger from '../analytics/analyticsManager';
+import { showMessage } from "react-native-flash-message";
 
 @observer
-class GlutenbuddyRoot extends React.Component {
+export default class GlutenbuddyRoot extends React.Component {
+
   static navigationOptions = ({ navigation }) => ({
     title: "Glutenbuddy",
   });
+
+  componentDidMount() {
+    this.props.navigation.addListener('willFocus', () => {
+      CeliLogger.addLog(this.constructor.name, "tapped");
+    });
+  }
 
   async refreshState() {
     var score = await AchievementManager.getLevelPoints();
@@ -67,7 +79,17 @@ class GlutenbuddyRoot extends React.Component {
     store.setProgressBarProgress(progressPercent);
   }
 
+
   render() {
+    var barstyle = {
+      opacity: 0.0,
+      paddingTop: 20,
+      alignItems: "center",
+      justifyContent: "center",
+    };
+    if (loggingStore.gamificationFlag) {
+      barstyle.opacity = 1;
+    };
     return (
       <View style={styles.container}>
         <NavigationEvents onDidFocus={() => this.refreshState()} />
@@ -76,7 +98,7 @@ class GlutenbuddyRoot extends React.Component {
           style={styles.backgroundimage}
           imageStyle={{ opacity: 0.3 }}
         >
-          <View style={styles.innerView}>
+          <View style={styles.innerView, barstyle}>
             <Text>
               Level {store.currentLevel}
               {/** {"\n"} {store.score} / {store.thisLevelEnd} */}
@@ -90,10 +112,35 @@ class GlutenbuddyRoot extends React.Component {
           </View>
           <TouchableOpacity
             style={styles.centerComponent}
-            onPress={() => this.props.navigation.navigate("Wardrobe")}
+            delayLongPress={5000}
+            onPress={() => {
+              if (loggingStore.gamificationFlag) {
+                this.props.navigation.navigate("Wardrobe")
+              }
+            }}
+            onLongPress={() => {
+              if (!loggingStore.gamificationFlag) {
+                loggingStore.changeGamificationFlag();
+                showMessage({
+                  message: "Gamification activated!",
+                  description: "You have just activated Gamification!",
+                  type: "success"
+                });
+                CeliLogger.addLog(this.constructor.name, "gamification enabled!");
+              } else {
+                loggingStore.changeGamificationFlag();
+                showMessage({
+                  message: "Gamification deactivated!",
+                  description: "You have just deactivated Gamification!",
+                  type: "success"
+                });
+                CeliLogger.addLog(this.constructor.name, "gamification disabled!");
+              }
+            }}
           >
             <Avatar
               size={store.size}
+              style={styles.avatar}
               avatarStyle={store.avatarStyle}
               topType={store.topType}
               hairColor={store.hairColor}
@@ -106,48 +153,8 @@ class GlutenbuddyRoot extends React.Component {
               eyebrowType={emotionStore.eyebrowType}
               mouthType={emotionStore.mouthType}
             />
+            <EmotionDisplayIcon style={styles.emotiondisplay} emotionId={emotionStore.getCurrentEmotion()}></EmotionDisplayIcon>
           </TouchableOpacity>
-
-          <View style={styles.centerComponent}>
-            <View style={styles.parent}>
-              <TouchableOpacity
-                style={[styles.touchable]}
-                onPress={() => this.props.navigation.navigate("Wardrobe")}
-              >
-                <Image
-                  style={styles.images}
-                  source={require("../assets/images/avatar_menu/checkroom-24px.png")}
-                />
-              </TouchableOpacity>
-              <TouchableOpacity
-                style={[styles.touchable]}
-                onPress={() => this.props.navigation.navigate("Challenges")}
-              >
-                <Image
-                  style={styles.images}
-                  source={require("../assets/images/avatar_menu/flag-24px.png")}
-                />
-              </TouchableOpacity>
-              <TouchableOpacity
-                style={[styles.touchable]}
-                onPress={() => this.props.navigation.navigate("Achievements")}
-              >
-                <Image
-                  style={styles.images}
-                  source={require("../assets/images/avatar_menu/emoji_events-24px.png")}
-                />
-              </TouchableOpacity>
-              <TouchableOpacity
-                style={[styles.touchable]}
-                onPress={() => this.props.navigation.navigate("ChallengesTest")}
-              >
-                <Image
-                  style={styles.images}
-                  source={require("../assets/images/avatar_menu/settings-24px.png")}
-                />
-              </TouchableOpacity>
-            </View>
-          </View>
           <MenuButton navigation={this.props.navigation} />
         </ImageBackground>
       </View>
@@ -216,7 +223,7 @@ const RootStack = createStackNavigator({
 
 const AppContainer = createAppContainer(RootStack);
 
-export default class App extends React.Component {
+export class App extends React.Component {
   render() {
     return <AppContainer />;
   }
@@ -297,4 +304,10 @@ const styles = StyleSheet.create({
     alignItems: "center",
     justifyContent: "center",
   },
+  avatar: {
+    flex: 0.8
+  },
+  emotiondisplay: {
+    flex: 0.2
+  }
 });

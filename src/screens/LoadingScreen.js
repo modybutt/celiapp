@@ -2,6 +2,7 @@ import React from 'react';
 import { Text, View, Image, Animated, StyleSheet, Easing , Dimensions } from 'react-native';
 
 import Constants from 'expo-constants';
+import AchievementRecordManager from '../manager/buddyManager/AchievementRecordManager';
 
 export default class LoadingScreen extends React.Component {
 
@@ -32,7 +33,6 @@ export default class LoadingScreen extends React.Component {
       inputRange: [0, 1],
       outputRange: ['0deg', '360deg'],
     });
-
     return (
       <View style={{
         width: Dimensions.get('window').width,
