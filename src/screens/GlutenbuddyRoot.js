@@ -117,8 +117,11 @@ export default class GlutenbuddyRoot extends React.Component {
             style={styles.touchable}
             delayLongPress={5000}
             onPress={() => {
+
               if (loggingStore.gamificationFlag) {
                 this.props.navigation.navigate("Wardrobe")
+              } else {
+                CeliLogger.addLog(this.constructor.name, "tried to press avatar in non-gamify mode!");
               }
             }}
             onLongPress={() => {

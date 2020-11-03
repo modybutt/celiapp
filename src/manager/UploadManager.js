@@ -35,7 +35,8 @@ export default class UploadManager {
       if (response.ok) {
         console.log('Uploaded ' +
           data.symptoms.length + ' symptoms and ' +
-          data.events.length + ' events'
+          data.events.length + ' events' +
+          JSON.stringify(data)
         );
         onSuccess();
       } else {
