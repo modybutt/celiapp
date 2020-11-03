@@ -12,7 +12,7 @@ import {
 
 function getNewestSymptomfromEvents(array){
     var onlysymptoms = array.filter(event => event.eventType == Events.Symptom); //Wenn kein Symptom gespeichert ist, was passiert dann ?
-    return JSON.parse(onlysymptoms[0].objData);
+    return null /*JSON.parse(onlysymptoms[0].objData)*/;
 }
 
 export default function EmotionDisplayIcon(props){

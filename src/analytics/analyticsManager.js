@@ -26,7 +26,7 @@ export default class analyticsManager{
         console.log("newlog: ", newlog);
 
         /*******************************************************DB save method ******************************************************/
-        DatabaseManager.getInstance().createEvent(Events.LogEvent,null,newlog, null, () => { DatabaseManager.getInstance().updateLastRecorded(); });
+        DatabaseManager.getInstance().createEvent(Events.LogEvent,null,null,newlog);//  () => { DatabaseManager.getInstance().updateLastRecorded(); });
     }
 }
 

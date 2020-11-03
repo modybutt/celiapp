@@ -21,7 +21,7 @@ export default class UploadManager {
   }
   
   uploadData(data, onSuccess) {
-    console.log("Uploading Logging", data);
+    console.log("Uploading Logging", JSON.stringify(data));
     console.log('Uploading data for ' + this.token);
     fetch(UploadManager.UPLOAD_DATA_URL, {
       method: 'POST',
@@ -35,8 +35,7 @@ export default class UploadManager {
       if (response.ok) {
         console.log('Uploaded ' +
           data.symptoms.length + ' symptoms and ' +
-          data.events.length + ' events' +
-          JSON.stringify(data)
+          data.events.length + ' events'
         );
         onSuccess();
       } else {

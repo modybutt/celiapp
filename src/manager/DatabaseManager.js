@@ -382,10 +382,13 @@ export default class DatabaseManager {
   updateLastRecorded() {
     this.db.transaction(tx => {
         tx.executeSql('UPDATE settings SET objData = ? WHERE name = "lastRecorded"', [Date.now()]);
-        //tx.executeSql('UPDATE events SET objData = ? WHERE eventType = 4', [Date.now()]);
+        tx.executeSql('UPDATE events SET objData = ? WHERE name = "lastRecorded"', [Date.now()]);
+        //eventType, created, modified, objData
+
+       // tx.executeSql('UPDATE events SET events = ? WHERE eventType = 4', [Date.now()]);
       },
       (_, error) => console.error(JSON.stringify(error)),
-      (_, success) => console.log('Updated lastRecorded' + JSON.stringify(success) +"underscore: "+ JSON.stringify(_))
+      (_, success) => console.log('Updated lastRecorded: ' + JSON.stringify(success) +"   underscore: "+ JSON.stringify(_))
     );
   }
 }
