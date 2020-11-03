@@ -1,4 +1,7 @@
 import gamificationState from "../manager/buddyManager/LoggingStore";
+import {Alert} from 'react-native';
+import DatabaseManager from '../../src/manager/DatabaseManager';
+
 
 
 export default class analyticsManager{
@@ -18,6 +21,9 @@ export default class analyticsManager{
         //analytics.push(newlog);
         //var fs  = require('fs');
         console.log("newlog: ", newlog);
+
+        /*******************************************************DB save method ******************************************************/
+        //DatabaseManager.getInstance().createEvent("logEvent",null,newlog, null, () => { DatabaseManager.getInstance().updateLastRecorded(); });
         //fs.writeFile('./analytics.json', JSON.stringify(analytics));
     }
 }

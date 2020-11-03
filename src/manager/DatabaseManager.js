@@ -261,6 +261,20 @@ export default class DatabaseManager {
     this.createEvent(Events.GIP, timestamp, objData, onError, onSuccess);
   }
 
+    /******************************************************************* 
+   *                          LOG-EVENT TRACKER
+   ********************************************************************/
+
+  createLogEvent(eventType, timestamp, objData, onError, onSuccess) {
+    this.db.transaction(tx => {
+      tx.executeSql('INSERT INTO events (eventType, created, modified, objData) VALUES (?, ?, ?, ?)',
+        [eventType, timestamp, timestamp, JSON.stringify(objData)]);
+    }, onError, onSuccess);
+  }
+
+
+
+
   /******************************************************************* 
    *                          EVENT TRACKER
    ********************************************************************/

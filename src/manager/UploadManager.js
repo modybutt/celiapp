@@ -21,6 +21,7 @@ export default class UploadManager {
   }
   
   uploadData(data, onSuccess) {
+    console.log("Uploading Logging", data);
     console.log('Uploading data for ' + this.token);
     fetch(UploadManager.UPLOAD_DATA_URL, {
       method: 'POST',
