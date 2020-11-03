@@ -1,6 +1,7 @@
 import gamificationState from "../manager/buddyManager/LoggingStore";
 import {Alert} from 'react-native';
 import DatabaseManager from '../../src/manager/DatabaseManager';
+import Events from '../../src/constants/Events';
 
 
 
@@ -15,15 +16,17 @@ export default class analyticsManager{
         newlog.additionalInfo = additionalInfo;
         newlog.componentName = componentName;
         newlog.date = new Date();
-        newlog.gestureType = "Click";
-        newlog.gamification = gamificationState.gamificationFlag;
-        //var analytics = require('./analytics.json');
-        //analytics.push(newlog);
-        //var fs  = require('fs');
+
+        if(gamificationState.gamificationFlag){
+            newlog.gamification = 1;
+        } else {
+            newlog.gamification = 0;
+        }
+
         console.log("newlog: ", newlog);
 
         /*******************************************************DB save method ******************************************************/
-        //DatabaseManager.getInstance().createEvent("logEvent",null,newlog, null, () => { DatabaseManager.getInstance().updateLastRecorded(); });
-        //fs.writeFile('./analytics.json', JSON.stringify(analytics));
+        DatabaseManager.getInstance().createEvent(Events.LogEvent,null,newlog, null, () => { DatabaseManager.getInstance().updateLastRecorded(); });
     }
 }
+

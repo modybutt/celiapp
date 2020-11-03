@@ -37,7 +37,8 @@ export default class EntryList extends React.Component {
         events: _array,
         //error: res.error || null,
         loading: false,
-      })
+      }),
+      console.log("--->>", this.state.events),
     );
   }
   

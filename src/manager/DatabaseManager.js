@@ -261,19 +261,6 @@ export default class DatabaseManager {
     this.createEvent(Events.GIP, timestamp, objData, onError, onSuccess);
   }
 
-    /******************************************************************* 
-   *                          LOG-EVENT TRACKER
-   ********************************************************************/
-
-  createLogEvent(eventType, timestamp, objData, onError, onSuccess) {
-    this.db.transaction(tx => {
-      tx.executeSql('INSERT INTO events (eventType, created, modified, objData) VALUES (?, ?, ?, ?)',
-        [eventType, timestamp, timestamp, JSON.stringify(objData)]);
-    }, onError, onSuccess);
-  }
-
-
-
 
   /******************************************************************* 
    *                          EVENT TRACKER
@@ -310,6 +297,7 @@ export default class DatabaseManager {
       });
   }
 
+  // fetches events from ID 0 (symptoms) to ID 3 (GIP)
   fetchEvents(timestamp, onError, onSuccess) {
     if (timestamp != null) {
       let start = new Date(timestamp);
@@ -317,15 +305,17 @@ export default class DatabaseManager {
       start.setHours(0, 0, 0);
       end.setHours(23, 59, 59);
 
+      // , food, emotion, GIP
       this.db.transaction(tx => {
         tx.executeSql('SELECT * FROM events '
-                    + 'WHERE created BETWEEN ? AND ? '
+                    + 'WHERE (created BETWEEN ? AND ?) AND (eventType < 4) '
                     + 'ORDER BY created DESC',
           [start.getTime(), end.getTime()], onSuccess, onError);
       });
     } else {
       this.db.transaction(tx => {
-        tx.executeSql('SELECT * FROM events ORDER BY created DESC',
+        tx.executeSql('SELECT * FROM events '
+        + 'WHERE eventType < 4 ORDER BY created DESC',
           null, onSuccess, onError);
       });
     }
