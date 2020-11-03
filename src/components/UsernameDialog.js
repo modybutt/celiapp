@@ -5,7 +5,7 @@ import {
   Dimensions,
   StyleSheet,
   Text,
-  TextInput, Switch
+  TextInput, Switch, ScrollView
 } from 'react-native';
 import Dialog from "react-native-dialog";
 
@@ -26,49 +26,58 @@ export default class UsernameDialog extends React.Component {
   updateUsername = (name) => this.setState({ username: name })
 
   updateText = () => {
-    this.setState({myText: 'My Changed Text'})
- }
+    this.setState({ myText: 'My Changed Text' })
+  }
 
   componentDidMount() {
-    this.emailInput.focus();
+    //this.emailInput.focus();
   }
 
   render() {
     return (
-      <View style={{
-        ...styles.container,
-        width: Dimensions.get('window').width,
-        height: Dimensions.get('window').height
-      }}>
-        <View></View>
-        <Text style={styles.title}>CeliApp</Text>
-        <Image style={styles.logo} source={LOGO} />
-        <View style={styles.container}>
-          <Text>Welcome the 21-day challenge!</Text>
-          <Text>Please provide your email address to get started:</Text>
-          <Text>I have an activation code!</Text>
-          <TextInput
-            ref={(input) => { this.emailInput = input; }}
-            style={styles.emailInput}
-            onChangeText={(text) => this.updateUsername(text)} />
-          <Text style={styles.textStyle}>{this.state.switchValue ? 'on' : 'off'}</Text>
-          <Switch
-            value={this.state.switchValue}
-            onValueChange={(switchValue) => this.setState({ switchValue })} />
-        {this.state.switchValue ? <Text>Switch is turned on!</Text> : <Text>Is turned OFF!</Text>}
+      <ScrollView>
+        <View style={{
+          ...styles.container,
+          width: Dimensions.get('window').width,
+          height: Dimensions.get('window').height
+        }}>
+          <View></View>
+          <Text style={styles.title}>CeliApp</Text>
+          <Image style={styles.logo} source={LOGO} />
+          <View style={styles.container}>
+            <Text>Welcome the 21-day challenge!</Text>
+            <Text>Please provide your email address to get started:</Text>
+
+            <TextInput
+              //ref={(input) => { this.emailInput = input; }}
+              style={styles.emailInput}
+              placeholder="email@example.com"
+              onChangeText={(text) => this.updateUsername(text)} />
+            {/** <Text style={styles.textStyle}>{this.state.switchValue ? 'on' : 'off'}</Text>**/}
+            <View style={styles.rowContainer}>
+              <Text>I have an activation code!</Text>
+              <Switch
+                value={this.state.switchValue}
+                onValueChange={(switchValue) => this.setState({ switchValue })} />
+              {/**this.state.switchValue ? <Text>Switch is turned on!</Text> : <Text>Is turned OFF!</Text>**/}
+            </View>
+
+              {this.state.switchValue ? (<View style={styles.container}><TextInput style={styles.emailInput} placeholder="Please enter your code here!"></TextInput></View>) : undefined}
+
+          </View>
+          <Button
+            buttonStyle={styles.button}
+            titleStyle={{ color: 'black' }}
+            title=" Sign Up "
+            type="outline"
+            onPress={() => this.props.onUsername(this.state.username)}
+            style={this.buttonDisabled() ? styles.buttonDisabled : ''}
+            disabled={this.buttonDisabled()}
+          />
+          <View></View>
+          <View></View>
         </View>
-        <Button
-          buttonStyle={styles.button}
-          titleStyle={{ color: 'black' }}
-          title=" Sign Up "
-          type="outline"
-          onPress={() => this.props.onUsername(this.state.username)}
-          style={this.buttonDisabled() ? styles.buttonDisabled : ''}
-          disabled={this.buttonDisabled()}
-        />
-        <View></View>
-        <View></View>
-      </View>
+      </ScrollView>
     );
   }
 }
@@ -106,6 +115,11 @@ var base = StyleSheet.create({
   },
   buttonDisabled: {
     color: "gray",
+  },
+  rowContainer: {
+    flexDirection: 'row',
+    justifyContent: 'space-around',
+    alignItems: 'center'
   },
 });
 
