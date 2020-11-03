@@ -1,6 +1,7 @@
 import { AsyncStorage } from "react-native";
 import { showMessage } from "react-native-flash-message";
-import loggingStore from "../buddyManager/LoggingStore"
+import loggingStore from "../buddyManager/LoggingStore";
+
 
 export default class AchievementManager {
   static async triggerAchievement(achievementID) {
