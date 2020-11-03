@@ -1,4 +1,6 @@
-import React from "react";
+import React, { useState } from "react";
+import DatabaseManager from "../manager/DatabaseManager";
+import Events from "../constants/Events";
 import {
   View,
   Text,
@@ -8,57 +10,23 @@ import {
   ImageBackground,
 } from "react-native";
 
-const images = {
-	unhappy: {
-		imgName: "UNHAPPY", 
-		uri: require('../assets/images/EmoteTracker/unhappy.png')
-	},
-	slightlyUnhappy: {
-		imgName: "SLIGHTLY_UNHAPPY", 
-		uri: require('../assets/images/EmoteTracker/slightlyUnhappy.png')
-	},
-	neither: {
-		imgName: "NEITHER",
-		uri: require('../assets/images/EmoteTracker/neither.png')
-	},
-	slightlyHappy: {
-		imgName: "SLIGHTLY_HAPPY", 
-		uri: require('../assets/images/EmoteTracker/slightlyHappy.png')
-	},
-	happy: {
-		imgName:"HAPPY", 
-		uri: require('../assets/images/EmoteTracker/happy.png')	
-	},
+function getNewestSymptomfromEvents(array){
+    var onlysymptoms = array.filter(event => event.eventType == Events.Symptom);
+    return JSON.parse(onlysymptoms[0].objData);
 }
 
 export default function EmotionDisplayIcon(props){
-    var emotionimage;
     var showimg = true;
-    switch(props.emotionID){
-        default:
-            showimg = false;
-            break;
-        case 1:
-            emotionimage = images.unhappy;
-            break;
-        case 2:
-            emotionimage = images.slightlyUnhappy;
-            break;
-        case 3:
-            emotionimage = images.neither;
-            break;
-        case 4:
-            emotionimage = images.slightlyHappy;
-            break;
-        case 5:
-            emotionimage = images.happy;
-            break;
+    [symptom, setsymptom] = useState(null);
+    DatabaseManager.getInstance().fetchEvents(null, (_, error) => {alert(error)}, (_, {rows: { _array }}) => {setsymptom(getNewestSymptomfromEvents(_array))});
+    if(symptom === null){
+        showimg = false;
     }
     if(showimg){
         return(
             <View style={props.style}>
                 <Image
-                    source={emotionimage.uri}
+                    source={Image.resolveAssetSource(symptom.icon)}
                     style={{
                         resizeMode: "center",
                         height: "100%",
@@ -68,14 +36,9 @@ export default function EmotionDisplayIcon(props){
             </View>
         )
     } else {
-        return(<View style={props.style}>
-                
-            <Image source={images.happy.uri}                     style={{
-                        resizeMode: "center",
-                        height: "100%",
-                        width: "100%",
-                    }}></Image>
-        </View>);
+        return (
+            <View style={props.style}></View>
+        )
     }
 
 }

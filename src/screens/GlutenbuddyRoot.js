@@ -51,6 +51,7 @@ import EmotionDisplayIcon from "../components/EmotionDisplayIcon";
 import loggingStore from "../../src/manager/buddyManager/LoggingStore";
 import CeliLogger from '../analytics/analyticsManager';
 import { showMessage } from "react-native-flash-message";
+import DatabaseManager from "../manager/DatabaseManager";
 
 @observer
 export default class GlutenbuddyRoot extends React.Component {
@@ -155,7 +156,7 @@ export default class GlutenbuddyRoot extends React.Component {
               eyebrowType={emotionStore.eyebrowType}
               mouthType={emotionStore.mouthType}
             />
-            <EmotionDisplayIcon style={styles.emotiondisplay} emotionID={emotionStore.currentEmotion}></EmotionDisplayIcon>
+            <EmotionDisplayIcon style={styles.emotiondisplay}></EmotionDisplayIcon>
           </TouchableOpacity>
           </View>
           

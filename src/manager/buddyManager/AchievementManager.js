@@ -1,5 +1,6 @@
 import { AsyncStorage } from "react-native";
 import { showMessage } from "react-native-flash-message";
+import loggingStore from "../buddyManager/LoggingStore"
 
 export default class AchievementManager {
   static async triggerAchievement(achievementID) {
@@ -79,7 +80,7 @@ export default class AchievementManager {
   }
 
   static sendAchievementAlert(text) {
-    if(LoggingStore.gamificationFlag){
+    if(loggingStore.gamificationFlag){
       showMessage({
         message: "Achievement earned!",
         description: text,
