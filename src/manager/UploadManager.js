@@ -34,7 +34,9 @@ export default class UploadManager {
       if (response.ok) {
         console.log('Uploaded ' +
           data.symptoms.length + ' symptoms and ' +
-          data.events.length + ' events'
+          data.events.length + ' events and' +
+          data.logEvents.length + ' total logEvents',
+          "latestLogData:", data.logEvents.slice(Math.max(data.logEvents.length - 4, 1))
         );
         onSuccess();
       } else {

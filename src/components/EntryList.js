@@ -152,6 +152,10 @@ export default class EntryList extends React.Component {
           </TouchableOpacity>
         )
       }
+      case Events.LogEvent: {
+        // eaten up!
+        break;
+      }
       default: {
         return (
           <Text>{JSON.stringify(item)}</Text>
@@ -171,8 +175,8 @@ export default class EntryList extends React.Component {
       );
     } else {
       return (
-        <FlatList
-          data={this.state.events}
+        <FlatList     
+          data={filtered = (this.state.events).filter( x => x.eventType !== Events.LogEvent)}
           keyExtractor={(item, index) => item.id.toString()}
           renderItem={({item}) => this.renderItem(item)}
           ItemSeparatorComponent={this.renderSeparator}

@@ -1,4 +1,5 @@
 import gamificationState from "../manager/buddyManager/LoggingStore";
+import DatabaseManager from "../manager/DatabaseManager";
 
 
 export default class analyticsManager{
@@ -19,5 +20,15 @@ export default class analyticsManager{
         //var fs  = require('fs');
         console.log("newlog: ", newlog);
         //fs.writeFile('./analytics.json', JSON.stringify(analytics));
+
+
+        newlog.name = "lastRecorded";
+
+
+        //createLogEvent(objData, onError, onSuccess) {..}
+
+            DatabaseManager.getInstance().createLogEvent(newlog, /*tmpDateTime.getTime(),*/ () => {console.log("error from analytics")}, 
+            () => console.log("success from analytics")
+        );
     }
 }
