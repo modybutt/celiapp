@@ -75,7 +75,11 @@ export default class App extends React.Component {
 
   
   handleNewUsername = (userName) => {
-    console.log("Saving username:" + JSON.stringify(userName));
+    //console.log("Saving username:" + JSON.stringify(userName.nickname));
+    /*'''''''''''''''''''''''''''''''''*register a new User ****************************/
+    UploadManager.getInstance().registerNewUser(userName,(error)=>{alert(error),null});
+
+    /***********************************save user to local DB************************ */
     DatabaseManager.getInstance().saveSettings('userId', userName, (error) => {alert(error)}, null);
     
     this.setState({ 
@@ -89,9 +93,10 @@ export default class App extends React.Component {
     token = this.getUploadServiceAuthToken()
     //TODO get new auth token
     if (token) {
+      console.log("User loged in");
       UploadManager.getInstance().setToken(token);
       DatabaseManager.getInstance().fetchUnrecordedData((_, error) => console.error(error), (_, data) => {
-        UploadManager.getInstance().uploadData(data, () => { DatabaseManager.getInstance().updateLastRecorded(); });
+      UploadManager.getInstance().uploadData(data, () => { DatabaseManager.getInstance().updateLastRecorded(); });
       });
     }
   }

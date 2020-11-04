@@ -16,14 +16,14 @@ import { createStyles, maxHeight } from 'react-native-media-queries';
 export default class UsernameDialog extends React.Component {
   constructor(props){
     super(props);
-    this.state = { username: '' };
+    this.state = { email: '', password:'', displayName:'' };
   }
 
-  userNameIsValid = () => !!this.state.username && (this.state.username.length > 3)
+  userNameIsValid = () => !!this.state.email && (this.state.email.length > 3)
 
   buttonDisabled = () => !this.userNameIsValid()
 
-  updateUsername = (name) => this.setState({username: name})
+  //updateUsername = (name) => this.setState({username: name})
 
   componentDidMount(){
     this.emailInput.focus();
@@ -39,11 +39,26 @@ export default class UsernameDialog extends React.Component {
         <Image style={styles.logo} source={LOGO} />
         <View style={styles.container}>
           <Text>Welcome the 21-day challenge!</Text>
-          <Text>Please provide your email address to get started:</Text>
+          <Text>Please provide your user data to get started:</Text>
           <TextInput
+            value={this.state.email}
+            placeholder="email"
             ref={(input) => { this.emailInput = input; }}
             style={styles.emailInput}
-            onChangeText={(text) => this.updateUsername(text)} />
+            onChangeText={(email) => this.setState({email})} />
+{/* 
+          <TextInput
+            placeholder="nickname"
+            ref={(input) => { this.usernameInput = input; }}
+            style={styles.nicknameInput}
+            onChangeText={(displayName) => this.setState({ displayName })} /> */}
+
+  	      <TextInput
+            secureTextEntry={true}
+            placeholder="password"
+            ref={(input) => { this.nicknameInput = input; }}
+            style={styles.passwordInput}
+            onChangeText={(password) => this.setState({password})} />
 
           </View>
           <Button
@@ -51,7 +66,7 @@ export default class UsernameDialog extends React.Component {
             titleStyle={{ color: 'black' }}
             title=" Sign Up "
             type="outline"
-            onPress = { () => this.props.onUsername(this.state.username)}
+            onPress = { () => this.props.onUsername(this.state)}
                             style = {this.buttonDisabled() ? styles.buttonDisabled : ''}
                             disabled = {this.buttonDisabled() }
           />
@@ -80,6 +95,23 @@ var base = StyleSheet.create({
     borderWidth: 1,
   },
   emailInput: {
+    width: 300,
+    height: 40,
+    borderColor: 'gray',
+    borderWidth: 1,
+    margin: 10,
+    padding: 5,
+  },
+  nicknameInput: {
+    width: 300,
+    height: 40,
+    borderColor: 'gray',
+    borderWidth: 1,
+    margin: 10,
+    padding: 5,
+  },
+
+  passwordInput: {
     width: 300,
     height: 40,
     borderColor: 'gray',
