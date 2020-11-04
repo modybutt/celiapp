@@ -12,7 +12,7 @@ export default class analyticsManager{
         newlog.userId = this.email;
         newlog.additionalInfo = additionalInfo;
         newlog.componentName = componentName;
-        newlog.date = new Date();
+        newlog.date = Date.now();
         newlog.gestureType = "Click";
         newlog.gamification = gamificationState.gamificationFlag;
         //var analytics = require('./analytics.json');
@@ -22,7 +22,7 @@ export default class analyticsManager{
         //fs.writeFile('./analytics.json', JSON.stringify(analytics));
 
 
-        newlog.name = "lastRecorded";
+        newlog.name = Date.now();
 
 
         //createLogEvent(objData, onError, onSuccess) {..}

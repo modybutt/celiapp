@@ -179,6 +179,7 @@ export default class DatabaseManager {
       //NotificationManager.getInstance().scheduleNotification();
 
       // objData.timestamp should become just 'timestamp'
+      console.log(objData.timestamp)
     this.createEvent(Events.LogEvent, objData.timestamp, objData, onError, onSuccess);
   }
 
@@ -366,6 +367,7 @@ export default class DatabaseManager {
 
 
   fetchUnrecordedEvents(tx, lastRecorded, onError, onSuccess) {
+    console.log("--> last recorded content", lastRecorded)
     tx.executeSql('SELECT * FROM events WHERE modified > ?',
       [lastRecorded], onSuccess, onError);
   }
