@@ -12,7 +12,7 @@ export default class analyticsManager{
         newlog.userId = this.email;
         newlog.additionalInfo = additionalInfo;
         newlog.componentName = componentName;
-        newlog.date = Date.now();
+        newlog.timestamp= Date.now();
         newlog.gestureType = "Click";
         newlog.gamification = gamificationState.gamificationFlag;
         //var analytics = require('./analytics.json');
