@@ -1,27 +1,25 @@
 import gamificationState from "../manager/buddyManager/LoggingStore";
 import DatabaseManager from "../manager/DatabaseManager";
+import Interactions from "../constants/Interactions";
+
 
 
 export default class analyticsManager{
 
+
+
     static initializeAnalytics(email){
         this.email = email;
     }
-    static addLog(componentName, additionalInfo = ""){
+    static addLog(componentName, interactionInfo = ""){
         var newlog = {}
         newlog.userId = this.email;
-        newlog.additionalInfo = additionalInfo;
+        newlog.interactionInfo = interactionInfo;
         newlog.componentName = componentName;
         newlog.timestamp= Date.now();
-        newlog.gestureType = "Click";
         newlog.gamification = gamificationState.gamificationFlag;
-        //var analytics = require('./analytics.json');
-        //analytics.push(newlog);
-        //var fs  = require('fs');
+
         console.log("newlog: ", newlog);
-        //fs.writeFile('./analytics.json', JSON.stringify(analytics));
-
-
         newlog.name = Date.now();
 
 

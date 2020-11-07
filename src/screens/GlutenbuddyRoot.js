@@ -50,6 +50,7 @@ import EmoteTrackerSymbol from "../components/EmoteTracker/EmoteTrackerSymbol";
 import EmotionDisplayIcon from "../components/EmotionDisplayIcon";
 import loggingStore from "../../src/manager/buddyManager/LoggingStore";
 import CeliLogger from '../analytics/analyticsManager';
+import Interactions from '../constants/Interactions';
 import { showMessage } from "react-native-flash-message";
 
 @observer
@@ -61,7 +62,7 @@ export default class GlutenbuddyRoot extends React.Component {
 
   componentDidMount() {
     this.props.navigation.addListener('willFocus', () => {
-      CeliLogger.addLog(this.constructor.name, "tapped");
+      CeliLogger.addLog(this.constructor.name, Interactions.OPEN);
     });
   }
 
@@ -114,6 +115,7 @@ export default class GlutenbuddyRoot extends React.Component {
             style={styles.centerComponent}
             delayLongPress={5000}
             onPress={() => {
+              CeliLogger.addLog(this.constructor.name, Interactions.TAP);
               if (loggingStore.gamificationFlag) {
                 this.props.navigation.navigate("Wardrobe")
               }
@@ -126,7 +128,7 @@ export default class GlutenbuddyRoot extends React.Component {
                   description: "You have just activated Gamification!",
                   type: "success"
                 });
-                CeliLogger.addLog(this.constructor.name, "gamification enabled!");
+                CeliLogger.addLog(this.constructor.name, Interactions.ENABLED_GAMIFICATION);
               } else {
                 loggingStore.changeGamificationFlag();
                 showMessage({
@@ -134,7 +136,7 @@ export default class GlutenbuddyRoot extends React.Component {
                   description: "You have just deactivated Gamification!",
                   type: "success"
                 });
-                CeliLogger.addLog(this.constructor.name, "gamification disabled!");
+                CeliLogger.addLog(this.constructor.name, Interactions.DISABLED_GAMIFICATION);
               }
             }}
           >
