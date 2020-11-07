@@ -162,27 +162,6 @@ export default class DatabaseManager {
     });
   }
 
-// NEW
-  // create log event:
-  createLogEvent(objData, onError, onSuccess) {
-    /*let objData = {
-      name,
-      type,
-      tag,
-      rating,
-      icon,
-      note
-    }
-    */
-      //every time a meal is added, it will trigger a notification to be scheduled 24 hours later.
-      //All previously added notifications will be removed.
-      //NotificationManager.getInstance().scheduleNotification();
-
-      // objData.timestamp should become just 'timestamp'
-      console.log(objData.timestamp)
-    this.createEvent(Events.LogEvent, objData.timestamp, objData, onError, onSuccess);
-  }
-
 
   //unused
   updateSymptomEvent(eventID, symptomID, severity, note, onError, onSuccess) {
@@ -257,7 +236,24 @@ export default class DatabaseManager {
     this.createEvent(Events.Emotion, timestamp, objData, onError, onSuccess);
   }
 
-
+  /******************************************************************* 
+   *                          LOG_EVENT TRACKER 
+   ********************************************************************/
+  // create log event:
+  createLogEvent(objData, onError, onSuccess) {
+    /*let objData = {
+      name,
+      type,
+      tag,
+      rating,
+      icon,
+      note
+    }
+    */
+      // objData.timestamp should become just 'timestamp'
+      console.log(objData.timestamp)
+    this.createEvent(Events.LogEvent, objData.timestamp, objData, onError, onSuccess);
+  }
 
 
   //unused
@@ -341,29 +337,6 @@ export default class DatabaseManager {
       });
     }
   }
-  
-  // NEW!
-  fetchLogEvents(timestamp, onError, onSuccess) {
-    if (timestamp != null) {
-      let start = new Date(timestamp);
-      let end = new Date(timestamp);
-      start.setHours(0, 0, 0);
-      end.setHours(23, 59, 59);
-
-      this.db.transaction(tx => {
-        tx.executeSql('SELECT * FROM events '
-                    + 'WHERE eventType = 4 '
-                    + 'ORDER BY created DESC',
-          [], onSuccess, onError);
-      });
-    } else {
-      this.db.transaction(tx => {
-        tx.executeSql('SELECT * FROM events WHERE eventType = 4 ORDER BY created DESC',
-          null, onSuccess, onError);
-      });
-    }
-  }
-
 
 
   fetchUnrecordedEvents(tx, lastRecorded, onError, onSuccess) {
@@ -372,11 +345,6 @@ export default class DatabaseManager {
       [lastRecorded], onSuccess, onError);
   }
 
-// NEW : derzeit eventType statt modiefied
-  fetchUnrecordedLogEvents(tx, lastRecorded, onError, onSuccess) {
-    tx.executeSql('SELECT * FROM events WHERE eventType = 4',
-      [], onSuccess, onError);
-  }
   /******************************************************************* 
    *                       Settings Database
    ********************************************************************/   
@@ -423,16 +391,6 @@ export default class DatabaseManager {
             onError,
             (_, { rows: { _array } }) => { unrecordedData.events = _array; }
           );
-
-          // NEW:
-          this.fetchUnrecordedLogEvents(
-            tx,
-            lastRecorded,
-            onError,
-            (_, { rows: { _array } }) => { unrecordedData.logEvents = _array; }
-          );
-
-
         },
         onError);
     },

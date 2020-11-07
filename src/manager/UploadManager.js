@@ -23,7 +23,7 @@ export default class UploadManager {
   }
   
   uploadData(data, onSuccess) {
-    console.log('Uploading data for ' + this.token);
+    console.log('Uploading data for', this.token);
     fetch(UploadManager.UPLOAD_DATA_URL, {
       method: 'POST',
       headers: {
@@ -36,9 +36,7 @@ export default class UploadManager {
       if (response.ok) {
         console.log('Uploaded ' +
           data.symptoms.length + ' symptoms and ' +
-          data.events.length + ' events and' +
-          data.logEvents.length + ' total logEvents',
-          "latestLogData:", data.logEvents.slice(Math.max(data.logEvents.length - 4, 1))
+          data.events.length + ' events.'
         );
         onSuccess();
       } else {
