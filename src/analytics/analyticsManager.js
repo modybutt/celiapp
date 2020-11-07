@@ -20,7 +20,7 @@ export default class analyticsManager{
         newlog.gamification = gamificationState.gamificationFlag;
 
         console.log("newlog: ", newlog);
-        newlog.name = Date.now();
+        //newlog.name = Date.now();
 
 
         //createLogEvent(objData, onError, onSuccess) {..}
