@@ -9,7 +9,7 @@ import GearManager from './src/manager/GearManager';
 import UploadManager from './src/manager/UploadManager';
 import NotificationManager from './src/manager/NotificationManager';
 import UsernameDialog from './src/components/UsernameDialog';
-
+import TokenManager from './src/manager/TokenManager';
 
 import { } from 'react-native-dotenv';
 import FlashMessage from 'react-native-flash-message';
@@ -32,6 +32,7 @@ export default class App extends React.Component {
         }
         
         this.initApplication(settings);
+        console.log("appsettings-->",settings)
       }
     );
 
@@ -62,26 +63,49 @@ export default class App extends React.Component {
     GearManager.getInstance().setWsHost(settings.wsHost);
     GearManager.getInstance().setGearHost(settings.gearHost);
     GearManager.getInstance().connect();
+
+
     
     this.uploadFreshData();
     
     this.setState({
       isSplashReady: true,
       hasUserId: !!settings.userId,
-      userId: settings.userId
+      userId: settings.userId,
+      password: settings.password,
+      loggedIn: false
     });
+
+    if(this.state.hasUserId){
+      TokenManager.getInstance().refreshToken(this.state.userId, this.state.password, this.doNotLogMeIn, this.logMeIn /*null,null*/);
+    }
+
     setTimeout(() =>  this.setState({isAppReady: true}), 3000);
   }
 
-  
-  handleNewUsername = (userName) => {
-    console.log("Saving username:" + JSON.stringify(userName));
+
+  handleUserLogin = (userName, password) => {
+    loggedIn = TokenManager.getInstance().login(userName, password, this.doNotLogMeIn, this.logMeIn /*null,null*/); // Use callback to set varable!
+
     DatabaseManager.getInstance().saveSettings('userId', userName, (error) => {alert(error)}, null);
-    
+    DatabaseManager.getInstance().saveSettings('password', password, (error) => {alert(error)}, null);
     this.setState({ 
       hasUserId : true,
-      userId: userName})
-  };
+      userId: userName,
+      password : password,
+    })
+    //TokenManager.getInstance().login(this.state.userId, this.state.password, null, null)
+  }
+
+  logMeIn = (obj) => {
+    console.log("%%%%%% LOGIN SUCCESSFUL! %%%%%%%%%");
+    console.log("thatstheobject: -->", obj)
+  }
+
+  doNotLogMeIn = () => {
+    console.log("!!!!!!!!!!!!!!!111 LOGIN FAILED!!!!!!!!!!!!!!!!!")
+  }
+  
 
   getUploadServiceAuthToken = () => this.state.userId
 
@@ -104,8 +128,13 @@ export default class App extends React.Component {
           ? null 
           : this.state.hasUserId 
             ? <AppNavigator/>
-            : <UsernameDialog onUsername ={this.handleNewUsername}/>
+            : <UsernameDialog onSubmit={this.handleUserLogin} />
         }
+
+        {/**console.log("try to renew token here:")
+        //tkn = TokenManager.getInstance().fetchNewToken(this.state.userId, this.state.password, null, null),
+        //console.log("--> new token:",tkn)
+      **/}
         <LoadingScreen hide={this.state.isAppReady} style={styles.loading}/>
         <FlashMessage position="bottom" duration={5000}/>
       </View>
