@@ -19,6 +19,7 @@ import GearManager from '../manager/GearManager';
 import AchievementManager from '../manager/buddyManager/AchievementManager';
 import EntryManager from '../manager/buddyManager/EntryManager';
 import CeliLogger from '../analytics/analyticsManager';
+import Interactions from '../constants/Interactions';
 
 
 export default class FoodDiaryScreen extends React.Component{
@@ -59,7 +60,7 @@ export default class FoodDiaryScreen extends React.Component{
             tempDate: new Date(), //used to temporarliy save date and then set it to selectedDateAndTime after corresponding checks
             selectedDateAndTime: this.props.navigation.state.params.selectedDateAndTime
         });
-        CeliLogger.addLog(this.constructor.name, "opened");
+        CeliLogger.addLog(this.constructor.name, Interactions.OPEN);
     }
 
     componentDidMount() {        
@@ -80,7 +81,7 @@ export default class FoodDiaryScreen extends React.Component{
     componentWillUnmount() {
         this.keyboardDidShowListener.remove();
         this.keyboardDidHideListener.remove();
-        CeliLogger.addLog(this.constructor.name, "closed");
+        CeliLogger.addLog(this.constructor.name, Interactions.CLOSE);
       }
 
     clearNoteText = () => {
