@@ -11,8 +11,12 @@ import {
 } from "react-native";
 
 function getNewestSymptomfromEvents(array){
-    var onlysymptoms = array.filter(event => event.eventType == Events.Symptom); //Wenn kein Symptom gespeichert ist, was passiert dann ?
-    return null /*JSON.parse(onlysymptoms[0].objData)*/;
+    var onlysymptoms = array.filter(event => event.eventType == Events.Symptom);
+    if(onlysymptoms.length == 0){
+        return null;
+    } else {
+        return JSON.parse(onlysymptoms[0].objData)
+    }
 }
 
 export default function EmotionDisplayIcon(props){
