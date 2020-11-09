@@ -26,7 +26,7 @@ export default class analyticsManager{
         //createLogEvent(objData, onError, onSuccess) {..}
 
             DatabaseManager.getInstance().createLogEvent(newlog, /*tmpDateTime.getTime(),*/ () => {console.log("error from analytics")}, 
-            () => console.log("success from analytics")
+            () => console.log("")
         );
     }
 }

@@ -33,7 +33,6 @@ export default class App extends React.Component {
         }
 
         this.initApplication(settings);
-        console.log("appsettings-->", settings)
       }
     );
 
@@ -66,7 +65,6 @@ export default class App extends React.Component {
     GearManager.getInstance().connect();
 
 
-
     this.uploadFreshData();
 
     this.setState({
@@ -75,58 +73,67 @@ export default class App extends React.Component {
       userId: settings.userId,
       password: settings.password,
       loggedIn: false,
-
+      gamify: settings.gamify
     });
 
     if (this.state.hasUserId) {
-      TokenManager.getInstance().refreshToken(this.state.userId, this.state.password, this.loginFailedExternally, this.observeServerResponse /*null,null*/);
+      TokenManager.getInstance().refreshToken(this.state.userId, this.state.password, this.loginFailedExternally, this.onLoginFailed, this.onLoginSuccess);
     }
 
     setTimeout(() => this.setState({ isAppReady: true }), 3000);
   }
 
-
   handleUserLogin = (userName, password) => {
-    loggedIn = TokenManager.getInstance().login(userName, password, this.loginFailedExternally, this.observeServerResponse /*null,null*/); // Use callback to set varable!
-
-
-
-    //TokenManager.getInstance().login(this.state.userId, this.state.password, null, null)
+    loggedIn = TokenManager.getInstance().login(userName, password, this.loginFailedExternally, this.onLoginFailed, this.onLoginSuccess);
   }
 
-  observeServerResponse = (obj, userData) => {
-    if (obj.token) {
-      console.log("%%%%%% LOGIN SUCCESSFUL! %%%%%%%%%");
-      this.setState({
-        hasUserId: true,
-        userId: userData.username,
-        password: userData.pw,
-        gamify: obj.gamify
-      })
-      DatabaseManager.getInstance().saveSettings('userId', userData.username, (error) => { alert(error) }, null);
-      DatabaseManager.getInstance().saveSettings('password', userData.pw, (error) => { alert(error) }, null);
+  // returned statuscode is 200:
+  onLoginSuccess = (res, userData) => {
+    const { statusCode, data } = res;
+    console.log("LOGIN SUCCESSFUL!");
+    this.setState({
+      hasUserId: true,
+      userId: userData.username,
+      password: userData.pw,
+      gamify: data.gamify
+    })
+    DatabaseManager.getInstance().saveSettings('userId', userData.username, (error) => { alert(error) }, null);
+    DatabaseManager.getInstance().saveSettings('password', userData.pw, (error) => { alert(error) }, null);
+    DatabaseManager.getInstance().saveSettings('gamify', data.gamify === true ? 1 : -1, (error) => { alert(error) }, null);
 
-      DatabaseManager.getInstance().saveSettings('gamify', obj.gamify, (error) => { alert(error) }, null);
-      if (obj.gamify !== LoggingStore.gamificationFlag) {
-        LoggingStore.changeGamificationFlag();
-      }
-
-    } else {
-      console.log(obj.message)
-      console.log("login failed. e.g. wron gcredentials... TODO: stay on the same screen OR initialize gamification flag randomly!!!")
-
+    // set gamification flag in Store:
+    if (data.gamify !== LoggingStore.gamificationFlag) {
+      LoggingStore.setGamificationFlag(data.gamify);
     }
-
-    console.log("thatstheobject: -->", obj)
   }
 
-  loginFailedExternally = () => {
+  onLoginFailed = (res, userData) => {
+    const { statusCode, data } = res;
+
+    console.log("LOGIN FAILED! " + data.message + "TODO: display error msg!");
+  }
+
+
+  loginFailedExternally = (res, userData) => {
     // no internet connection? server offline? etc. --> set gamify-flag randomly!
-    if (!this.state.hasUserId) {
-      Math.random() < 0.5 ? LoggingStore.setGamificationFlag(true) : LoggingStore.setGamificationFlag(false);
-      // alternatively: //       DatabaseManager.getInstance().saveSettings('gamify', obj.gamify, (error) => { alert(error) }, null);
-
+    console.log("No internet connection?", Math.random());
+    if (!this.state.hasUserId && !(this.state.gamify === 1 || this.state.gamify === -1)) {
+      if (Math.random() < 0.5) {
+        DatabaseManager.getInstance().saveSettings('gamify', 1, (error) => { alert(error) }, null);
+        LoggingStore.setGamificationFlag(true)
+      } else {
+        LoggingStore.setGamificationFlag(false);
+        DatabaseManager.getInstance().saveSettings('gamify', -1, (error) => { alert(error) }, null);
+      }
     }
+
+    // log in without internet connection:
+    this.setState({
+      hasUserId: true,
+      userId: userData.userName,
+      password: userData.pw
+    })
+    console.warn("LOGGED IN WITHOUT VALID USER!")
   }
 
 
@@ -153,11 +160,6 @@ export default class App extends React.Component {
             ? <AppNavigator />
             : <UsernameDialog onSubmit={this.handleUserLogin} />
         }
-
-        {/**console.log("try to renew token here:")
-        //tkn = TokenManager.getInstance().fetchNewToken(this.state.userId, this.state.password, null, null),
-        //console.log("--> new token:",tkn)
-      **/}
         <LoadingScreen hide={this.state.isAppReady} style={styles.loading} />
         <FlashMessage position="bottom" duration={5000} />
       </View>
