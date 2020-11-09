@@ -1,6 +1,6 @@
 
 export default class TokenManager {
-    static LOGIN_USER_URL = 'https://jira.itcarlow.ie/desqol-auth/login ';
+    static LOGIN_USER_URL = 'https://jira.itcarlow.ie/desqol-auth/login';
 
     static getInstance() {
         if (TokenManager.instance == null) {
@@ -43,15 +43,13 @@ export default class TokenManager {
         
         }).then((response) => response.json())
         .then((json) => {
-            console.log("@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@", json)
-            if (json.ok) {
-              console.log('Logged In', json.text());
-              onSuccess(json.json());
-            } else {
-              console.warn('login failed!');
-              onError();
-            }
-          });
+          onSuccess(json, {username, pw});
+        })
+        .catch((error) => console.warn("fatalError" + error))
+        .finally(() => {
+          console.log("finally")
+        });
+        
     }
 }            
             
