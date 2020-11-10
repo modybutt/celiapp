@@ -1,6 +1,9 @@
 import React, { Component } from 'react';
-import { TouchableOpacity, Text, Alert, Animated, Image, Easing, View, StyleSheet } from 'react-native';
+import { TouchableOpacity, Text, Alert, Animated, Image, Easing, View, StyleSheet, Platform } from 'react-native';
 import Dialog from "react-native-dialog";
+
+import Constants from 'expo-constants';
+import {SYMPTOM_BUTTON_TYPES} from "./SymptomIconButtonConstants.js"
 
 // constants
 import {
@@ -10,8 +13,8 @@ import {
 	// topRight,
 	bigBubbleSize,
 	smallBubbleSize,
-  bubbleColorOrange,
-  bubbleColorYellow,
+    bubbleColorOrange,
+    bubbleColorYellow,
 	bubbleColorRed,
 	imageHeight,
 	imageWidth,
@@ -22,8 +25,6 @@ import {
 } from './SymptomIconButtonConstants';
 import LanguageManager from '../../manager/LanguageManager';
 import DatabaseManager from '../../manager/DatabaseManager';
-
-
 
 const AnimatedTouchable = Animated.createAnimatedComponent(TouchableOpacity);
 
@@ -36,17 +37,15 @@ const HIGH_COLOR = 'rgb(255, 0, 0)';
 // other buttons and their animations
 export default class SymptomIconButton extends Component {
 
-	//Prop: type -->  1 == left icon, 2 == normal 3 == right icon. -- Changes the placement of the severity chooser icons around the symptom icon
-	//Prop: type -->  4 == MoreSymptomsButton, 5 CreateSymptomButton
 	//Prop: symptomID --> 1 - 7 --> systemIcons. 0 --> more symptoms button. All IDs higher than that show the userDefinedIcon.
-	
+
 	constructor(props) {
-		super(props);			
-	
+		super(props);
+
 		this.animatedValue = new Animated.Value(0);
 		this.topLeftValue = new Animated.Value(0);
 		this.topCenterValue = new Animated.Value(0);
-		this.topRightValue = new Animated.Value(0);	
+		this.topRightValue = new Animated.Value(0);
 	}
 
 	state = {
@@ -65,18 +64,23 @@ export default class SymptomIconButton extends Component {
 			this.props.onSymptomDeselected(this.props.symptomID, this.state.selectedSeverity);
 		}
 
-		DatabaseManager.getInstance().deleteSymptom(this.props.symptomID, 
-			(error) => {alert(error)}, 
+		DatabaseManager.getInstance().deleteSymptom(this.props.symptomID,
+			(error) => {alert(error)},
 			() => {this.props.onSymptomDeleted()}
 		);
 	};
-	
+
 	handleAddButtonPress = () => {
-		if(this.props.type == 4){
+		if(this.props.type == SYMPTOM_BUTTON_TYPES.MORE_SYMPTOMS){
 			this.props.navigation.navigate("MoreSymptoms", this.props.moreSymptomsParams)
-		}else if (this.props.type == 5) {
+		}else if (this.props.type == SYMPTOM_BUTTON_TYPES.CREATE_SYMPTOM) {
 			this.props.navigation.navigate("AddNewSymptom")
-		}else{
+        }else if (this.props.type == SYMPTOM_BUTTON_TYPES.NO_SYMPTOM)
+        {
+            this.onPressNoSymptoms();
+        }
+        else
+        {
 			if (this.state.selectedSeverity == 0) {
 				this.callAnimation(false);
 			} else {
@@ -97,18 +101,31 @@ export default class SymptomIconButton extends Component {
 			else {
 				if(this.props.canOpenSeverity){
 					this.animate(1);
-					this.setState({zIndexNumber: 1})					
+					this.setState({zIndexNumber: 1})
 					this.props.onSeverityChooserHandled(false, this.props.symptomID);
 					this.setState({selected: !selected});
 				}else{
 					if(setEnabled){
-						//Alert.alert("hallo");
 						this.props.onSeverityChooserHandled(true, this.props.symptomID);
 					}
 				}
-			}	
+			}
 	}
 
+    onPressNoSymptoms()
+    {
+        const { selected } = this.state;
+        this.setState({selected: !selected, selectedSeverity: selected ? 0 : 1});
+        if (selected)
+        {
+            this.props.onSymptomDeselected(this.props.symptomID, 1);
+        }
+        else 
+        {
+            this.props.onSymptomSelected(this.props.symptomID, 1);
+        }
+        this.props.onSeverityChooserHandled(true);
+    }
 
 	onPressYellow = () => {
 		this.setState({selectedSeverity: 1})
@@ -214,7 +231,7 @@ export default class SymptomIconButton extends Component {
 
 		let springValue = Animated.add(Animated.add(this.topLeftValue, this.topRightValue), this.topCenterValue);
 
-		if(this.props.type == 1){
+		if(this.props.type == SYMPTOM_BUTTON_TYPES.SEVERITY_CHOOSER_LEFT){
 			center = {
 				top: 15,
 				left: 15,
@@ -234,7 +251,7 @@ export default class SymptomIconButton extends Component {
 				top: 45,
 				left: 90,
 			};
-		}else if(this.props.type == 2){
+		}else if(this.props.type == SYMPTOM_BUTTON_TYPES.SEVERITY_CHOOSER_CENTRE){
 			center = {
 				top: 15,
 				left: 15,
@@ -254,8 +271,7 @@ export default class SymptomIconButton extends Component {
 				top: -30,
 				left: 85,
 			};
-	
-		}else if(this.props.type == 3){
+		}else if(this.props.type == SYMPTOM_BUTTON_TYPES.SEVERITY_CHOOSER_RIGHT){
 			center = {
 				top: 15,
 				left: 15,
@@ -304,9 +320,16 @@ export default class SymptomIconButton extends Component {
 			case 3: bigBubbleColor= HIGH_COLOR; break;
 		}
 
+		let { selected } = this.state;
+        let zIndex = selected ? 100 : 0;
+        
+        const symptomName = this.props.symptomID != -1 ? this.props.symptomName : 'NO_SYMPTOMS'; //TODO: Temp solution. Needs to be an entry in the database
+        
 		if (this.props.active == null || this.props.active == true) {
 			return (
-				<View style={{marginTop: 60, opacity: this.props.opacity}}>
+				<View style={(Platform.OS === 'ios') ?
+          {marginTop: 60, opacity: this.props.opacity, zIndex: zIndex} :
+          {marginTop: 60, opacity: this.props.opacity}}>
 					<Animated.View
 						style={[
 							style.bigBubble,
@@ -319,7 +342,7 @@ export default class SymptomIconButton extends Component {
 										}),
 									},
 								],
-								backgroundColor: bigBubbleColor,
+								backgroundColor: bigBubbleColor
 							},
 						]}
 					>
@@ -338,7 +361,7 @@ export default class SymptomIconButton extends Component {
 							</Animated.View>
 						</TouchableOpacity>
 					</Animated.View>
-					<Text style={style.symptomNameText}>{LanguageManager.getInstance().getText(this.props.symptomName)}</Text>
+					<Text style={style.symptomNameText}>{LanguageManager.getInstance().getText(symptomName)}</Text>
 					<AnimatedTouchable onPress={this.onPressYellow}
 						style={[
 							style.smallBubbleYellow,
@@ -453,7 +476,7 @@ export default class SymptomIconButton extends Component {
 						<View style={[style.bigBubbleBig, { backgroundColor: bigBubbleColor } ]}>
 							<Image source={Image.resolveAssetSource(this.props.symptomIcon)} style={style.iconImageBig}/>
 						</View>
-						<Text style={style.symptomNameTextBig}>{LanguageManager.getInstance().getText(this.props.symptomName)}</Text>
+						<Text style={style.symptomNameTextBig}>{LanguageManager.getInstance().getText(symptomName)}</Text>
 					</View>
 				);
 			} else {
@@ -462,7 +485,7 @@ export default class SymptomIconButton extends Component {
 						<View style={[style.bigBubble, { backgroundColor: bigBubbleColor } ]}>
 							<Image source={Image.resolveAssetSource(this.props.symptomIcon)} style={style.iconImage}/>
 						</View>
-						<Text style={style.symptomNameText}>{LanguageManager.getInstance().getText(this.props.symptomName)}</Text>
+						<Text style={style.symptomNameText}>{LanguageManager.getInstance().getText(symptomName)}</Text>
 					</View>
 				);
 			}
@@ -493,7 +516,7 @@ const style = StyleSheet.create({
 		alignItems: 'center',
 		backgroundColor: bubbleColorOrange,
 		height: smallBubbleSize,
-		width: smallBubbleSize,		
+		width: smallBubbleSize,
 		borderWidth: 1,
 		borderColor: 'grey',
 		borderRadius: smallBubbleSize / 2,

@@ -38,4 +38,13 @@ export const animateTime = 0;
 // export const easingType = Easing.out(Easing.exp);
 export const easingType = Easing.linear
 export const delay = 0;
+
+export const SYMPTOM_BUTTON_TYPES = {
+	SEVERITY_CHOOSER_LEFT: 1,
+	SEVERITY_CHOOSER_CENTRE: 2,
+	SEVERITY_CHOOSER_RIGHT: 3,
+	MORE_SYMPTOMS: 4,
+	CREATE_SYMPTOM: 5,
+	NO_SYMPTOM: 6
+  };
   

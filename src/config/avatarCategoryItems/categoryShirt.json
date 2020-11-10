@@ -1,0 +1,89 @@
+[
+  {
+    "sectionId": 1,
+    "title": "Lvl 1",
+    "section": "clothe",
+    "minLevel": 1,
+    "items": [
+      {
+        "id": 10001,
+        "shirtId": "BlazerSweater",
+        "minScore": 20,
+        "imgSubtitle": "Blazer",
+        "imgDescription": "blue"
+      },
+      {
+        "id": 10002,
+        "shirtId": "CollarSweater",
+        "clotheColor": "PastelBlue",
+        "minScore": 40,
+        "imgSubtitle": "Collar",
+        "imgDescription": "Sweater blue"
+      },
+      {
+        "id": 10003,
+        "shirtId": "GraphicShirt",
+        "clotheColor": "PastelOrange",
+        "minScore": 60,
+        "imgSubtitle": "Graphic Shirt",
+        "imgDescription": "yellow"
+      },
+      {
+        "id": 10004,
+        "shirtId": "Hoodie",
+        "clotheColor": "PastelRed",
+        "minScore": 100,
+        "imgSubtitle": "Hoodie",
+        "imgDescription": "red / pink"
+      }
+    ]
+  },
+  {
+    "sectionId": 1,
+    "title": "Lvl 2",
+    "section": "clothe",
+    "minLevel": 2,
+    "items": [
+      {
+        "id": 10005,
+        "shirtId": "Overall",
+        "clotheColor": "Blue03",
+        "minScore": 140,
+        "imgSubtitle": "Overall",
+        "imgDescription": "blue"
+      },
+      {
+        "id": 10006,
+        "shirtId": "ShirtCrewNeck",
+        "clotheColor": "Blue02",
+        "minScore": 200,
+        "imgSubtitle": "Crew Neck",
+        "imgDescription": "blue"
+      }
+    ]
+  },
+  {
+    "sectionId": 1,
+    "title": "Lvl 3",
+    "section": "clothe",
+    "minLevel": 3,
+    "items": [
+      {
+        "id": 10007,
+        "shirtId": "ShirtScoopNeck",
+        "clotheColor": "Blue03",
+        "minScore": 240,
+        "imgSubtitle": "Scoop Neck",
+        "imgDescription": "Shirt"
+      },
+      {
+        "id": 10008,
+        "shirtId": "ShirtVNeck",
+        "clotheColor": "Pink",
+        "minScore": 260,
+        "imgSubtitle": "Shirt V Neck",
+        "imgDescription": ""
+      }
+    ]
+  }
+]

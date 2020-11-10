@@ -9,10 +9,15 @@ import DatabaseManager from '../manager/DatabaseManager';
 import LanguageManager from '../manager/LanguageManager';
 import GlutonManager from '../manager/GlutonManager';
 import DayChooser from '../components/DayChooser';
+import TimePicker from '../components/TimePicker';
 import HeaderSaveButton from '../components/HeaderSaveButton';
 import GearManager from '../manager/GearManager';
+import EmotionStore from '../manager/buddyManager/EmotionStore'
+import { observer } from "mobx-react";
+import CeliLogger from '../analytics/analyticsManager';
 
 
+@observer
 export default class EmoteTrackerScreen extends React.Component{
     static navigationOptions = ({navigation}) => ({
         title: LanguageManager.getInstance().getText("ADD_EMOTION"),
@@ -28,8 +33,6 @@ export default class EmoteTrackerScreen extends React.Component{
         this.state={
             show: false,
             selectedSymbolID: 3, // 1: unhappy, ... , 5: happy
-            selectedDateAndTime: new Date(), //works correctly \o/
-            tempDate: new Date(), //used to temporarliy save date and then set it to selectedDateAndTime after corresponding checks
             emoteNote: "",
             keyboardOpen: false,
             modified: false
@@ -42,6 +45,13 @@ export default class EmoteTrackerScreen extends React.Component{
         })
        this._noteEdit.deleteNote();
      }
+
+     componentWillMount() {
+        this.setState({
+            selectedDateAndTime: this.props.navigation.state.params.selectedDateAndTime
+        });
+        CeliLogger.addLog(this.constructor.name, "opened");
+    }
 
     componentDidMount() {        
         this.props.navigation.setParams({ 
@@ -57,13 +67,13 @@ export default class EmoteTrackerScreen extends React.Component{
             'keyboardDidHide',
             this._keyboardDidHide,
           );
-
     }
 
     
     componentWillUnmount() {
         this.keyboardDidShowListener.remove();
         this.keyboardDidHideListener.remove();
+        CeliLogger.addLog(this.constructor.name, "closed");
       }
 
       _keyboardDidShow = ()  => {
@@ -94,7 +104,6 @@ export default class EmoteTrackerScreen extends React.Component{
 
     dateEditedHandler = (dateTime) =>{
         //TODO: if symptoms selected and not saved, ask user. Then refresh page.
-        this.state.tempDate = dateTime
 
         let tmpDateTime = this.state.selectedDateAndTime
         tmpDateTime.setDate(dateTime.getDate())
@@ -114,6 +123,17 @@ export default class EmoteTrackerScreen extends React.Component{
         }
     }
 
+    timeEditedHandler = (dateTime) => {
+        let tmpDateTime = this.state.selectedDateAndTime
+        tmpDateTime.setHours(dateTime.getHours())
+        tmpDateTime.setMinutes(dateTime.getMinutes())
+        //TODO: Change time of tmpDateTime
+
+        this.setState({
+            selectedDateAndTime: tmpDateTime,
+        })
+    }
+
     //TODO Uplift selectedSymbolID
 
     render(){
@@ -122,6 +142,8 @@ export default class EmoteTrackerScreen extends React.Component{
             <ScrollView style={{marginBottom: marginToUse}}>
                 <HorizontalLineWithText text = {LanguageManager.getInstance().getText("DATE")}/>
                 <DayChooser ref={component => this._dayChooser = component} date = {this.state.selectedDateAndTime} onDateChanged={this.dateEditedHandler}/>
+                <HorizontalLineWithText text = {LanguageManager.getInstance().getText("TIME")}/>
+                <TimePicker ref={component => this._timePicker = component} textString = "SYMPTOM_OCCURED" onTimeChanged={this.timeEditedHandler}/>
                 <HorizontalLineWithText text = {LanguageManager.getInstance().getText("EMOTION")}/>
                 <EmoteTrackerSymbolGroup ref={component => this._dayChooser = component} onEmotionChanged={this.emotionChangedHandler}/>
                 <HorizontalLineWithText text = {LanguageManager.getInstance().getText("NOTES")}/>
@@ -151,7 +173,8 @@ export default class EmoteTrackerScreen extends React.Component{
             (error) => {alert(error)}, 
             () => {GlutonManager.getInstance().setMessage(2); GearManager.getInstance().sendMessage("msg 30")}
         );
-
+        EmotionStore.setEmotionId(this.state.selectedSymbolID);
+        
         if (goHome) {
             setTimeout(() => this.navigateHome(), 100);
         }

@@ -8,16 +8,17 @@ import {
   TouchableOpacity
 } from 'react-native';
 
-import CeliCalendarPicker from "../components/CeliCalendarPicker";  
+import CeliCalendarPicker from "../components/CeliCalendarPicker";
 import EntryList from "../components/EntryList"
 import MenuButton from '../components/MenuButton';
 import LanguageManager from '../manager/LanguageManager';
-import HeaderSaveButton from '../components/HeaderSaveButton';
+import CeliLogger from '../analytics/analyticsManager';
 
+var count = 0
 export default class CalendarScreen extends React.Component {
-  static navigationOptions = ({navigation}) => ({
-    title: LanguageManager.getInstance().getText("CALENDAR"),
-    headerRight: <HeaderSaveButton type={2} onPress={() => navigation.state.params.onOkPressed()}/>
+
+  static navigationOptions = ({ navigation }) => ({
+    title: LanguageManager.getInstance().getText("CALENDAR")
   });
 
   state = {
@@ -25,10 +26,14 @@ export default class CalendarScreen extends React.Component {
     selectedDate: Date.now()
   }
 
-  componentDidMount() {        
-    this.props.navigation.setParams({ 
-        onOkPressed: this.resetDate.bind(this),
-    })
+  componentDidMount() {
+    this.props.navigation.setParams({
+      onOkPressed: this.resetDate.bind(this),
+    });
+    this.props.navigation.addListener('willFocus', () => {
+      this.refs.celiCalendar.onfocus();
+      CeliLogger.addLog(this.props.navigation.state.routeName, "tapped");
+    });
   }
 
   resetDate() {
@@ -36,18 +41,28 @@ export default class CalendarScreen extends React.Component {
   }
 
   onDateChange(date) {
+    let d = new Date(date);
+    d.setHours(new Date().getHours());
+    d.setMinutes(new Date().getMinutes());
     if (this.state.selectedDate != date) {
-      this.list.updateList(date)
-      this.setState({selectedDate: date})
+      this.list.updateList(date);
+      this.setState({ selectedDate: d });
+      this.onDatechangesListener(d);
     }
+  }
+
+  getCurrentDate = () => {
+    return this.state.selectedDate;
   }
 
   render() {
     return (
       <View style={styles.container}>
-        <CeliCalendarPicker selectedDate={this.state.selectedDate} onDateChange={(date) => this.onDateChange(date)}/>
+        <CeliCalendarPicker ref='celiCalendar' selectedDate={this.state.selectedDate} onDateChange={(date) => this.onDateChange(date)} />
         <EntryList navigation={this.props.navigation} selectedDate={this.state.selectedDate} ref={list => this.list = list} />
-        <MenuButton navigation={this.props.navigation}/>
+        <MenuButton navigation={this.props.navigation} shareConfig={{
+          onDateChanged: (onDatechangesListener) => { this.onDatechangesListener = onDatechangesListener; }
+        }} />
       </View>
     );
   }

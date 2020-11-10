@@ -30,8 +30,16 @@ export default class DayChooser extends React.Component{
         this.props.onDateChanged(newDate);
     }
 
-
     render(){
+        const date = new Date(this.props.date);
+        date.setDate(date.getDate() + daysDiffToProp + 1);
+        date.setHours(0);
+        date.setMinutes(0);
+        date.setSeconds(0);
+        date.setMilliseconds(0);
+
+        const disableFutureButton = date.getTime() >= new Date().getTime();
+        
         return(
             <View style={{
                 flexDirection:'row',
@@ -45,7 +53,7 @@ export default class DayChooser extends React.Component{
                     <Text style ={styles.dateText}> {this.state.currDateString} </Text>
                 </View>
                 <View>      
-                    <Button buttonStyle={styles.button} title = "  >  " onPress={() => this.changeDay(true)}/>
+                    <Button disabled={disableFutureButton} buttonStyle={styles.button} title = "  >  " onPress={() => this.changeDay(true)}/>
                 </View>
             </View>
         )

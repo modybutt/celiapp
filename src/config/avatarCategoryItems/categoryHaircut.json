@@ -1,0 +1,307 @@
+[
+  {
+    "sectionId": 2,
+    "title": "Lvl 1",
+    "section": "top",
+    "minLevel": 1,
+    "items": [
+      {
+        "id": 20009,
+        "haircutId": "NoHair",
+        "minScore": 20,
+        "imgSubtitle": "Bald",
+        "imgDescription": "no hair"
+      },
+      {
+        "id": 20010,
+        "haircutId": "LongHairFro",
+        "minScore": 40,
+        "imgSubtitle": "Afro",
+        "imgDescription": ""
+      },
+      {
+        "id": 20011,
+        "haircutId": "ShortHairShortCurly",
+        "minScore": 60,
+        "imgSubtitle": "Short Hair",
+        "imgDescription": "Curly"
+      },
+      {
+        "id": 20012,
+        "haircutId": "ShortHairShortFlat",
+        "minScore": 100,
+        "imgSubtitle": "Short Hair",
+        "imgDescription": "Flat"
+      },
+      {
+        "id": 20013,
+        "haircutId": "ShortHairShortRound",
+        "minScore": 140,
+        "imgSubtitle": "Short Hair",
+        "imgDescription": "Round"
+      },
+      {
+        "id": 20014,
+        "haircutId": "ShortHairShortWaved",
+        "minScore": 160,
+        "imgSubtitle": "Short Hair",
+        "imgDescription": "Waved"
+      },
+      {
+        "id": 20015,
+        "haircutId": "ShortHairSides",
+        "minScore": 180,
+        "imgSubtitle": "Short Hair",
+        "imgDescription": "Sides"
+      },
+      {
+        "id": 20030,
+        "haircutId": "LongHairBob",
+        "minScore": 200,
+        "imgSubtitle": "Long Hair",
+        "imgDescription": "Bob"
+      }
+    ]
+  },
+
+  {
+    "sectionId": 2,
+    "title": "Lvl 2",
+    "section": "top",
+    "minLevel": 2,
+    "items": [
+      {
+        "id": 20016,
+        "haircutId": "ShortHairTheCaesar",
+        "minScore": 220,
+        "imgSubtitle": "Short Hair",
+        "imgDescription": "Caesar"
+      },
+      {
+        "id": 20017,
+        "haircutId": "ShortHairTheCaesarSidePart",
+        "minScore": 240,
+        "imgSubtitle": "Short Hair",
+        "imgDescription": "Caesar Side"
+      }
+    ]
+  },
+  {
+    "sectionId": 2,
+    "title": "Lvl 3",
+    "section": "top",
+    "minLevel": 3,
+    "items": [
+      {
+        "id": 20018,
+        "haircutId": "LongHairBun",
+        "minScore": 280,
+        "imgSubtitle": "Long Hair",
+        "imgDescription": "Bun"
+      }
+    ]
+  },
+  {
+    "sectionId": 2,
+    "title": "Lvl 4",
+    "section": "top",
+    "minLevel": 4,
+    "items": [
+      {
+        "id": 20019,
+        "haircutId": "LongHairCurly",
+        "minScore": 290,
+        "imgSubtitle": "Long Hair",
+        "imgDescription": "Curly"
+      },
+      {
+        "id": 20020,
+        "haircutId": "LongHairCurvy",
+        "minScore": 300,
+        "imgSubtitle": "Long Hair",
+        "imgDescription": "Curvy"
+      },
+      {
+        "id": 20021,
+        "haircutId": "LongHairDreads",
+        "minScore": 310,
+        "imgSubtitle": "Long Hair",
+        "imgDescription": "Dreads"
+      },
+      {
+        "id": 20022,
+        "haircutId": "LongHairFrida",
+        "minScore": 320,
+        "imgSubtitle": "Long Hair",
+        "imgDescription": "Frida"
+      },
+      {
+        "id": 20023,
+        "haircutId": "LongHairFro",
+        "minScore": 330,
+        "imgSubtitle": "Long Hair",
+        "imgDescription": "Fro"
+      }
+    ]
+  },
+
+  {
+    "sectionId": 2,
+    "title": "Lvl 5",
+    "section": "top",
+    "minLevel": 5,
+    "items": [
+      {
+        "id": 20024,
+        "haircutId": "LongHairFroBand",
+        "minScore": 340,
+        "imgSubtitle": "Long Hair",
+        "imgDescription": "Fro Band"
+      },
+      {
+        "id": 20025,
+        "haircutId": "LongHairNotTooLong",
+        "minScore": 360,
+        "imgSubtitle": "Long Hair",
+        "imgDescription": "Not too long"
+      },
+      {
+        "id": 20026,
+        "haircutId": "LongHairShavedSides",
+        "minScore": 380,
+        "imgSubtitle": "Long Hair",
+        "imgDescription": "Shaved Sides"
+      },
+      {
+        "id": 20027,
+        "haircutId": "LongHairMiaWallace",
+        "minScore": 400,
+        "imgSubtitle": "Long Hair",
+        "imgDescription": "Mia Wallace"
+      },
+      {
+        "id": 20028,
+        "haircutId": "LongHairStraight",
+        "minScore": 420,
+        "imgSubtitle": "Long Hair",
+        "imgDescription": "Straight 1"
+      }
+    ]
+  },
+
+  {
+    "sectionId": 2,
+    "title": "Lvl 6",
+    "section": "top",
+    "minLevel": 6,
+    "items": [
+      {
+        "id": 20029,
+        "haircutId": "LongHairStraight2",
+        "minScore": 440,
+        "imgSubtitle": "Long Hair",
+        "imgDescription": "Straigt 2"
+      },
+      {
+        "id": 20030,
+        "haircutId": "LongHairStraightStrand",
+        "minScore": 460,
+        "imgSubtitle": "Long Hair",
+        "imgDescription": "Straight Strand"
+      },
+      {
+        "id": 20031,
+        "haircutId": "ShortHairDreads01",
+        "minScore": 480,
+        "imgSubtitle": "Short Hair",
+        "imgDescription": "Dreads 1"
+      },
+      {
+        "id": 20032,
+        "haircutId": "ShortHairDreads02",
+        "minScore": 500,
+        "imgSubtitle": "Short Hair",
+        "imgDescription": "Dreads 2"
+      },
+      {
+        "id": 20033,
+        "haircutId": "ShortHairFrizzle",
+        "minScore": 520,
+        "imgSubtitle": "Short Hair",
+        "imgDescription": "Frizzle"
+      }
+    ]
+  },
+  {
+    "sectionId": 2,
+    "title": "Lvl 7",
+    "section": "top",
+    "minLevel": 7,
+    "items": [
+      {
+        "id": 20034,
+        "haircutId": "Eyepatch",
+        "minScore": 530,
+        "imgSubtitle": "Eyepatch",
+        "imgDescription": "Pirate"
+      },
+      {
+        "id": 20035,
+        "haircutId": "Hat",
+        "minScore": 540,
+        "imgSubtitle": "Hat",
+        "imgDescription": ""
+      },
+      {
+        "id": 20036,
+        "haircutId": "Hijab",
+        "minScore": 560,
+        "imgSubtitle": "Hijab",
+        "imgDescription": ""
+      }
+    ]
+  },
+  {
+    "sectionId": 2,
+    "title": "Lvl 8",
+    "section": "top",
+    "minLevel": 8,
+    "items": [
+      {
+        "id": 20037,
+        "haircutId": "Turban",
+        "minScore": 580,
+        "imgSubtitle": "Turban",
+        "imgDescription": ""
+      },
+      {
+        "id": 20038,
+        "haircutId": "WinterHat1",
+        "minScore": 600,
+        "imgSubtitle": "Winter Hat",
+        "imgDescription": "warm"
+      },
+      {
+        "id": 20039,
+        "haircutId": "WinterHat2",
+        "minScore": 620,
+        "imgSubtitle": "Winter Hat",
+        "imgDescription": "very warm"
+      },
+      {
+        "id": 20040,
+        "haircutId": "WinterHat3",
+        "minScore": 640,
+        "imgSubtitle": "Winter Hat",
+        "imgDescription": "keeps warm"
+      },
+      {
+        "id": 20041,
+        "haircutId": "WinterHat4",
+        "minScore": 660,
+        "imgSubtitle": "Winter Hat",
+        "imgDescription": "keeps warm"
+      }
+    ]
+  }
+]

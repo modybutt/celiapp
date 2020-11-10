@@ -6,6 +6,9 @@ import TextInputSingleLine from '../components/TextInputSingleLine';
 import HeaderSaveButton from '../components/HeaderSaveButton';
 import DatabaseManager from '../manager/DatabaseManager';
 import USER_SYMPTOM_ICON from '../assets/images/SymptomTracker/userDefinedSymptom.png';
+import EntryManager from '../manager/buddyManager/EntryManager';
+import AchievementManager from '../manager/buddyManager/AchievementManager';
+import AchievementRecordManager from '../manager/buddyManager/AchievementRecordManager';
 
 export default class SymptomTrackerAddNewScreen extends React.Component{
     static navigationOptions = ({navigation}) => ({
@@ -37,8 +40,10 @@ export default class SymptomTrackerAddNewScreen extends React.Component{
     }
 
     saveCurrentData = (goHome) =>{
+        //Achievement Addition
+        AchievementManager.triggerAchievement("SYMPTOMADDED");
+        AchievementRecordManager.increaseCountForAchievementRecord('SYMPTOMADDED');
         DatabaseManager.getInstance().createSymptom(this.state.nameString, USER_SYMPTOM_ICON, (error) => {alert(error)}, null);
-
         if (goHome) {
             setTimeout(() => this.navigateHome(), 100);
         }
@@ -52,22 +57,29 @@ export default class SymptomTrackerAddNewScreen extends React.Component{
 
     render(){
         return(
-            <View>
-                <View style={{flexDirection: "row", justifyContent: "space-between", alignItems: 'center', width: Dimensions.get('window').width, height: 80}}>
-                    <Text style={styles.TextStyle}>Name: </Text>
-                    <View style={{width:Dimensions.get('window').width-80, paddingBottom: 18}}>
-                        <TextInputSingleLine ref={component => this._search = component} onTextChanged={this.nameEditedHandler}/>
-                    </View>
-                </View>       
-            </View>
+          <View style={[styles.container, { width: Dimensions.get('window').width }]}>
+              <Text style={styles.text}>Name: </Text>
+              <View style={[styles.textInputContainer, { width: Dimensions.get('window').width - 100 }]}>
+                  <TextInputSingleLine ref={component => this._search = component} onTextChanged={this.nameEditedHandler}/>
+              </View>
+          </View>
         )
     }
 
 }
 
 var styles = StyleSheet.create({
-    TextStyle:{
-       fontSize: 15,
-       fontWeight: 'bold',
-    }
-   });
+  container: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    height: 80,
+    margin: 25
+  },
+  text: {
+     fontSize: 15,
+     fontWeight: 'bold',
+  },
+  textInputContainer: {
+    paddingBottom: 18
+  }
+});
