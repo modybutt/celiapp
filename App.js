@@ -87,18 +87,36 @@ export default class App extends React.Component {
     loggedIn = TokenManager.getInstance().login(userName, password, this.loginFailedExternally, this.onLoginFailed, this.onLoginSuccess);
   }
 
+  handleUserRegistration = (nickname, userName, password) => {
+    // nickname eat up atm!
+    console.log("Printing params:", userName, password);
+
+    TokenManager.getInstance().registerUser(nickname, userName, password,
+      () => console.log("NO INTERNETCONNECTION/SERVER DOWN?"),
+      () => console.log("Registration Failed. Reason:", res.data.message),
+      this.onRegisterSuccess);
+  }
+
+  onRegisterSuccess = (res, userData) => {
+    const { statusCode, data } = res;
+    const { nickname, email, pw } = userData;
+    console.log("REGISTERED SUCCESSFULLY!!!, now trying to LOGIN!")
+    TokenManager.login(email, pw, this.loginFailedExternally, this.onLoginFailed, this.onLoginSuccess);
+  }
+
   // returned statuscode is 200:
   onLoginSuccess = (res, userData) => {
     const { statusCode, data } = res;
+    const { username, pw } = userData
     console.log("LOGIN SUCCESSFUL!");
     this.setState({
       hasUserId: true,
-      userId: userData.username,
-      password: userData.pw,
+      userId: username,
+      password: pw,
       gamify: data.gamify
     })
-    DatabaseManager.getInstance().saveSettings('userId', userData.username, (error) => { alert(error) }, null);
-    DatabaseManager.getInstance().saveSettings('password', userData.pw, (error) => { alert(error) }, null);
+    DatabaseManager.getInstance().saveSettings('userId', username, (error) => { alert(error) }, null);
+    DatabaseManager.getInstance().saveSettings('password', pw, (error) => { alert(error) }, null);
     DatabaseManager.getInstance().saveSettings('gamify', data.gamify === true ? 1 : -1, (error) => { alert(error) }, null);
 
     // set gamification flag in Store:
@@ -158,7 +176,7 @@ export default class App extends React.Component {
           ? null
           : this.state.hasUserId
             ? <AppNavigator />
-            : <UsernameDialog onSubmit={this.handleUserLogin} />
+            : <UsernameDialog onLogin={this.handleUserLogin} onRegister={this.handleUserRegistration} />
         }
         <LoadingScreen hide={this.state.isAppReady} style={styles.loading} />
         <FlashMessage position="bottom" duration={5000} />

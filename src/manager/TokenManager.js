@@ -1,8 +1,11 @@
 
 export default class TokenManager {
     static LOGIN_USER_URL = 'https://jira.itcarlow.ie/desqol-auth/login';
-    static STATUS_LOGIN_OK = 200;
-    static WRONG_CREDENTIALS = 403;
+    static REGISTER_USER_URL = 'https://jira.itcarlow.ie/desqol-auth/registration';
+    static OK = 200; // to del
+    static FORBIDDEN = 403; // to del
+    static CONFLICT = 409; // to del
+    static BAD_REQUEST = 400; // to del
 
     static getInstance() {
         if (TokenManager.instance == null) {
@@ -47,14 +50,49 @@ export default class TokenManager {
             .then(this.processResponse)
             .then(res => {
                 const { statusCode, data } = res;
-                if (statusCode === TokenManager.STATUS_LOGIN_OK) {
+                if (statusCode === TokenManager.OK) {
                     onSuccess(res, { username, pw })
-                } else if (statusCode === TokenManager.WRONG_CREDENTIALS) {
+                } else if (statusCode === TokenManager.FORBIDDEN) {
                     onLoginFailed(res, { username, pw })
                 }
             }).catch(error => {
-                onError(error, {username, pw})
+                onError(error, { username, pw })
                 //return { name: "network error", description: "" };
+            });
+    }
+
+    registerUser(nickname, email, pw, onFatalError, onRegisterFailed, onSuccess) {
+
+        fetch(TokenManager.REGISTER_USER_URL, {
+            method: 'POST',
+            headers: {
+                Accept: 'application/json',
+                'Content-Type': 'application/json',
+                //'X-Token': this.token,
+            },
+            body: JSON.stringify({
+                "nickname": nickname,
+                "email": email,
+                "password": pw
+            })
+        })
+            .then(this.processResponse)
+            .then(res => {
+                const { statusCode, data } = res;
+                if (statusCode === TokenManager.OK) {
+                    console.log("registration ok!");
+                    onSuccess(res, { nickname, email, pw })
+                    return;
+                } else if (statusCode === 400 || statusCode === 403 || statusCode === 409) {
+                    console.log("user already registerd || not whitelisted?", statusCode)
+                    onRegisterFailed(res, { nickname, email, pw })
+                    return;
+                } else {
+                    console.log("unhandled status code", statusCode)
+                    return;
+                }
+            }).catch(error => {
+                //onFatalError(error, {nickname, email, pw})
             });
     }
 }
