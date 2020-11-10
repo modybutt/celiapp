@@ -1,5 +1,6 @@
 import React from "react";
 import { createMaterialTopTabNavigator } from "react-navigation";
+import { withNavigation } from "react-navigation";
 import WardrobeCategoryShirt from "../WardrobeCategories/WardrobeCategoryShirt";
 import WardrobeCategoryHairColor from "../WardrobeCategories/WardrobeCategoryHairColor";
 import WardrobeCategoryGlasses from "../WardrobeCategories/WardrobeCategoryGlasses";
@@ -29,4 +30,4 @@ const AppNavigator = createMaterialTopTabNavigator(
   }
 );
 
-export default AppNavigator;
+export default /*withNavigation*/(AppNavigator);

@@ -18,6 +18,7 @@ import HeaderSaveButton from '../components/HeaderSaveButton';
 import GearManager from '../manager/GearManager';
 import AchievementManager from '../manager/buddyManager/AchievementManager';
 import EntryManager from '../manager/buddyManager/EntryManager';
+import CeliLogger from '../analytics/analyticsManager';
 
 
 export default class FoodDiaryScreen extends React.Component{
@@ -57,6 +58,7 @@ export default class FoodDiaryScreen extends React.Component{
         this.setState({
             selectedDateAndTime: this.props.navigation.state.params.selectedDateAndTime
         });
+        CeliLogger.addLog(this.constructor.name, "opened");
     }
 
     componentDidMount() {        
@@ -72,12 +74,12 @@ export default class FoodDiaryScreen extends React.Component{
             'keyboardDidHide',
             this._keyboardDidHide,
           );
-
     }
 
     componentWillUnmount() {
         this.keyboardDidShowListener.remove();
         this.keyboardDidHideListener.remove();
+        CeliLogger.addLog(this.constructor.name, "closed");
       }
 
     clearNoteText = () => {
