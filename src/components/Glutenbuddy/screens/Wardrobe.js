@@ -4,7 +4,6 @@ import {
   StyleSheet,
   Image,
   TouchableOpacity,
-  ImageBackground,
 } from "react-native";
 import InitWardrobeNavigator from "./WardrobeComponents/wardrobeNavigation/InitWardrobeNavigator";
 import { Avatar } from "../avataaars-lib/react-native-avataaars/dist";
@@ -56,58 +55,48 @@ export default class Wardrobe extends React.Component {
   render() {
     return (
       <View style={styles.outerView}>
-        <ImageBackground
-          source={require("../../../assets/images/bg_celiac.png")}
-          style={styles.backgroundimage}
-          imageStyle={{ opacity: 0.1 }}
-        >
-          <View style={styles.iconavatargroup}>
-            <TouchableOpacity
-                style={[styles.touchableButton]}
-                onPress={() => this.props.navigation.navigate("Challenges")}
-              >
-                <Image
-                  style={styles.images}
-                  source={require("../assets/challenges.png")}
-                />
-            </TouchableOpacity>
-            <TouchableOpacity activeOpacity={1}
-              style={styles.touchable}
-              onPress={() => (CeliLogger.addLog(this.constructor.name, Interactions.TAP + " not supported"))}
-            >
-              <Avatar
-                style={styles.avatar}
-                size={store.size}
-                avatarStyle={store.avatarStyle}
-                topType={store.topType}
-                accessoriesType={store.accessoriesType}
-                hairColor={store.hairColor}
-                facialHairType={store.facialHairType}
-                clotheType={store.clotheType}
-                clotheColor={store.clotheColor}
-                eyeType={emotionStore.eyeType}
-                eyebrowType={emotionStore.eyebrowType}
-                mouthType={emotionStore.mouthType}
-                skinColor={store.skinColor}
-              />
-            </TouchableOpacity>
-            <TouchableOpacity
-                style={[styles.touchableButton]}
-                onPress={() => this.props.navigation.navigate("Achievements")}
-              >
-                <Image
-                  style={styles.images}
-                  source={require("../assets/flag-24px.png")}
-                />
-              </TouchableOpacity>
-            </View>
-        </ImageBackground>
+
+        <View style={styles.iconavatargroup}>
+          <TouchableOpacity
+            style={styles.touchableButton}
+            onPress={() => this.props.navigation.navigate("Challenges")}
+          >
+            <Image
+              style={styles.images}
+              source={require("../assets/challenges_medium.png")}
+            />
+          </TouchableOpacity>
+          <TouchableOpacity activeOpacity={1}
+            style={styles.touchableAvatar}
+            onPress={() => (CeliLogger.addLog(this.constructor.name, Interactions.TAP + " not supported"))}
+          >
+            <Avatar
+              size={store.size}
+              avatarStyle={store.avatarStyle}
+              topType={store.topType}
+              accessoriesType={store.accessoriesType}
+              hairColor={store.hairColor}
+              facialHairType={store.facialHairType}
+              clotheType={store.clotheType}
+              clotheColor={store.clotheColor}
+              eyeType={emotionStore.eyeType}
+              eyebrowType={emotionStore.eyebrowType}
+              mouthType={emotionStore.mouthType}
+              skinColor={store.skinColor}
+            />
+          </TouchableOpacity>
+          <TouchableOpacity
+            style={styles.touchableButton}
+            onPress={() => this.props.navigation.navigate("Achievements")}
+          >
+            <Image
+              style={styles.images}
+              source={require("../assets/flag_medium.png")}
+            />
+          </TouchableOpacity>
+        </View>
         <InitWardrobeNavigator
-          style={{
-            flex: 0.5,
-            justifyContent: "center",
-            alignItems: "center",
-          }}>
+          style={styles.navigator}>
         </InitWardrobeNavigator>
         {/** <MenuButton navigation={this.props.navigation} />*/}
         <FlashMessage position="bottom" duration={5000} />
@@ -125,58 +114,35 @@ export default class Wardrobe extends React.Component {
 }
 
 const styles = StyleSheet.create({
-  background: {
-    width: "100%",
-    height: "100%",
-  },
-  popup: {
-    position: "absolute",
-    right: 40,
-    top: 40,
-  },
-  gluton: {
-    //position: 'absolute',
-    top: "25%",
-    //left: '25%',
-    width: "100%",
-    alignItems: "center",
-  },
   outerView: {
     flex: 1,
-  },
-  avatar: {
-    flex: 0.34,
-  },
-
-  progressbar: {
-    width: "44%",
-  },
-  touchable: {
-    alignItems: "center",
-    justifyContent: "center",
-    flex: 0.3,
-  },
-  backgroundimage: {
-    resizeMode: "cover",
-    flex: 0.5,
-    //backgroundColor:'rgba(255,0,0,0.5)', //
-    //opacity: 0.5
-  },
-  iconavatargroup: {
-    flex: 1,
-    flexDirection: "row",
-    justifyContent: "space-between",
-    alignItems: "flex-end"
-  },
-  images: {
-    flex: 0.28,
-    resizeMode: "center",
-    alignSelf: "center"
   },
   touchableButton: {
     alignItems: "center",
     justifyContent: "center",
-    flex: 0.3,
+    flex: 0.33,
     alignSelf: "center"
-  }
+  },
+  touchableAvatar: {
+    alignItems: "center",
+    justifyContent: "center",
+    flex: 0.4,
+  },
+  iconavatargroup: {
+    flex: 0.75,
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignItems: "flex-end"
+  },
+  navigator: {
+    flex: 1,
+    justifyContent: "center",
+    alignItems: "center",
+  },
+  images: {
+    width: 80,
+    height: 80,
+    resizeMode: "center",
+    alignSelf: "center"
+  },
 });
