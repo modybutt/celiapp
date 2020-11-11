@@ -13,7 +13,6 @@ export default class analyticsManager{
     }
     static addLog(componentName, interactionInfo = ""){
         var newlog = {}
-        newlog.userId = this.email;
         newlog.interactionInfo = interactionInfo;
         newlog.componentName = componentName;
         newlog.timestamp= Date.now();

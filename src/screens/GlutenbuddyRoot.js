@@ -123,25 +123,7 @@ export default class GlutenbuddyRoot extends React.Component {
                 this.props.navigation.navigate("Wardrobe")
               }
             }}
-            onLongPress={() => {
-              if (!loggingStore.gamificationFlag) {
-                loggingStore.changeGamificationFlag();
-                showMessage({
-                  message: "Gamification activated!",
-                  description: "You have just activated Gamification!",
-                  type: "success"
-                });
-                CeliLogger.addLog(this.constructor.name, Interactions.ENABLED_GAMIFICATION);
-              } else {
-                loggingStore.changeGamificationFlag();
-                showMessage({
-                  message: "Gamification deactivated!",
-                  description: "You have just deactivated Gamification!",
-                  type: "success"
-                });
-                CeliLogger.addLog(this.constructor.name, Interactions.DISABLED_GAMIFICATION);
-              }
-            }}
+
           >
             <Avatar
               size={store.size}
