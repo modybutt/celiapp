@@ -2,10 +2,6 @@
 export default class TokenManager {
     static LOGIN_USER_URL = 'https://jira.itcarlow.ie/desqol-auth/login';
     static REGISTER_USER_URL = 'https://jira.itcarlow.ie/desqol-auth/registration';
-    static OK = 200; // to del
-    static FORBIDDEN = 403; // to del
-    static CONFLICT = 409; // to del
-    static BAD_REQUEST = 400; // to del
 
     static getInstance() {
         if (TokenManager.instance == null) {
@@ -24,12 +20,10 @@ export default class TokenManager {
     }
 
     login(email, pw, onError, onLoginFailed, onSuccess) {
-        console.log("Tkn Mngr: logging in!");
         this.fetchNewToken(email, pw, onError, onLoginFailed, onSuccess);
     }
 
     refreshToken(username, pw, onError, onLoginFailed, onSuccess) {
-        console.log("Tkn Mngr: refreshing Tkn!");
         this.fetchNewToken(username, pw, onError, onLoginFailed, onSuccess);
     }
 
@@ -50,9 +44,9 @@ export default class TokenManager {
             .then(this.processResponse)
             .then(res => {
                 const { statusCode, data } = res;
-                if (statusCode === TokenManager.OK) {
+                if (statusCode === 200) {
                     onSuccess(res, { username, pw })
-                } else if (statusCode === TokenManager.FORBIDDEN) {
+                } else if (statusCode === 403) {
                     onLoginFailed(res, { username, pw })
                 }
             }).catch(error => {
@@ -79,8 +73,7 @@ export default class TokenManager {
             .then(this.processResponse)
             .then(res => {
                 const { statusCode, data } = res;
-                if (statusCode === TokenManager.OK) {
-                    console.log("registration ok!");
+                if (statusCode === 200) {
                     onSuccess(res, { nickname, email, pw })
                     return;
                 } else if (statusCode === 400 || statusCode === 403 || statusCode === 409) {
@@ -92,6 +85,7 @@ export default class TokenManager {
                     return;
                 }
             }).catch(error => {
+                // eat up
                 //onFatalError(error, {nickname, email, pw})
             });
     }

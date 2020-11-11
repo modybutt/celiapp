@@ -12,6 +12,9 @@ import Dialog from "react-native-dialog";
 import { Button } from 'react-native-elements';
 import LOGO from '../assets/images/web_hi_res_512.png';
 import { createStyles, maxHeight } from 'react-native-media-queries';
+import { ScrollView } from 'react-native-gesture-handler';
+
+
 export default class SignIn extends React.Component {
   constructor(props) {
     super(props);
@@ -33,58 +36,60 @@ export default class SignIn extends React.Component {
 
   render() {
     return (
-      <View style={{
-        ...styles.container,
-        width: Dimensions.get('window').width,
-        height: Dimensions.get('window').height
-      }}>
-        <View></View>
-        <Text style={styles.title}>CeliApp</Text>
-        <Image style={styles.logo} source={LOGO} />
-        <View style={styles.container}>
-          <Text>Welcome the 21-day challenge!</Text>
-          <Text>Please provide your email address to get started:</Text>
-          <TextInput
-            placeholder="some@email.com"
-            ref={(input) => { this.emailInput = input; }}
-            style={styles.emailInput}
-            onChangeText={(text) => this.updateUsername(text)} />
+      <ScrollView>
+        <View style={{
+          ...styles.container,
+          width: Dimensions.get('window').width,
+          height: Dimensions.get('window').height
+        }}>
+          <View></View>
+          <Text style={styles.title}>CeliApp</Text>
+          <Image style={styles.logo} source={LOGO} />
+          <View style={styles.container}>
+            <Text>Welcome the 21-day challenge!</Text>
+            <Text>Please provide your email address to get started:</Text>
+            <TextInput
+              placeholder="some@email.com"
+              ref={(input) => { this.emailInput = input; }}
+              style={styles.emailInput}
+              onChangeText={(text) => this.updateUsername(text)} />
 
-          <TextInput
-            secureTextEntry={true}
-            placeholder="password"
-            ref={(input) => { this.nicknameInput = input; }}
-            style={styles.passwordInput}
-            onChangeText={(password) => this.updatePassword(password)} />
-        </View>
-        <View style={styles.buttonViewContainer}>
-          <View style={styles.buttonContainer}>
-
-            <Button
-              buttonStyle={styles.button}
-              titleStyle={{ color: 'black' }}
-              title=" Sign In "
-              type="outline"
-              onPress={() => (this.props.onLogin(this.state.username, this.state.password))}
-              style={this.buttonDisabled() ? styles.buttonDisabled : ''}
-              disabled={this.buttonDisabled()}
-            />
-
+            <TextInput
+              secureTextEntry={true}
+              placeholder="password"
+              ref={(input) => { this.nicknameInput = input; }}
+              style={styles.passwordInput}
+              onChangeText={(password) => this.updatePassword(password)} />
           </View>
-          <View style={styles.buttonContainer}>
-            <Button
-              buttonStyle={styles.button}
-              titleStyle={{ color: 'black' }}
-              title=" Sign Up "
-              type="outline"
-              onPress={() => (this.props.switchGui())}
-              style={this.buttonDisabled() ? styles.buttonDisabled : ''}
-            />
+          <View style={styles.buttonViewContainer}>
+            <View style={styles.buttonContainer}>
+
+              <Button
+                buttonStyle={styles.button}
+                titleStyle={{ color: 'black' }}
+                title=" Sign In "
+                type="outline"
+                onPress={() => (this.props.onLogin(this.state.username, this.state.password))}
+                style={this.buttonDisabled() ? styles.buttonDisabled : this.button}
+                disabled={this.buttonDisabled()}
+              />
+
+            </View>
+            <View style={styles.buttonContainer}>
+              <Button
+                buttonStyle={styles.button}
+                titleStyle={{ color: 'black' }}
+                title=" Sign Up "
+                type="outline"
+                onPress={() => (this.props.switchGui())}
+                style={this.buttonDisabled() ? styles.buttonDisabled : ''}
+              />
+            </View>
           </View>
+          <View></View>
+          <View></View>
         </View>
-        <View></View>
-        <View></View>
-      </View>
+      </ScrollView>
     );
   }
 }

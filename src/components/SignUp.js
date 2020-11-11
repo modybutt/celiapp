@@ -9,12 +9,12 @@ import {
   TextInput
 } from 'react-native';
 import Dialog from "react-native-dialog";
-
 import { Button } from 'react-native-elements';
-
 import LOGO from '../assets/images/web_hi_res_512.png';
 import { createStyles, maxHeight } from 'react-native-media-queries';
 import { ScrollView } from 'react-native-gesture-handler';
+
+
 export default class SignUp extends React.Component {
   constructor(props) {
     super(props);

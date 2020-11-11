@@ -14,6 +14,8 @@ import LoggingStore from './src/manager/buddyManager/LoggingStore';
 
 import { } from 'react-native-dotenv';
 import FlashMessage from 'react-native-flash-message';
+import { showMessage } from "react-native-flash-message";
+
 
 export default class App extends React.Component {
   state = {
@@ -84,23 +86,33 @@ export default class App extends React.Component {
   }
 
   handleUserLogin = (userName, password) => {
-    loggedIn = TokenManager.getInstance().login(userName, password, this.loginFailedExternally, this.onLoginFailed, this.onLoginSuccess);
+    TokenManager.getInstance().login(userName, password, this.loginFailedExternally, this.onLoginFailed, this.onLoginSuccess);
   }
 
   handleUserRegistration = (nickname, userName, password) => {
     // nickname eat up atm!
-    console.log("Printing params:", userName, password);
-
     TokenManager.getInstance().registerUser(nickname, userName, password,
-      () => console.log("NO INTERNETCONNECTION/SERVER DOWN?"),
-      () => console.log("Registration Failed. Reason:", res.data.message),
+      showMessage({
+        message: "Registration failed!",
+        description: "You may have no internet access!",
+        type: "warning",
+      }),
+      showMessage({
+        message: "Registration failed!",
+        description: "Maybe your account is not activated yet!",
+        type: "warning",
+      }),
       this.onRegisterSuccess);
   }
 
   onRegisterSuccess = (res, userData) => {
     const { statusCode, data } = res;
     const { nickname, email, pw } = userData;
-    console.log("REGISTERED SUCCESSFULLY!!!, now trying to LOGIN!")
+    showMessage({
+      message: "REGISTERED SUCCESSFULLY!",
+      description: "trying to login ...",
+      type: "success",
+    })
     TokenManager.login(email, pw, this.loginFailedExternally, this.onLoginFailed, this.onLoginSuccess);
   }
 
@@ -108,7 +120,6 @@ export default class App extends React.Component {
   onLoginSuccess = (res, userData) => {
     const { statusCode, data } = res;
     const { username, pw } = userData
-    console.log("LOGIN SUCCESSFUL!");
     this.setState({
       hasUserId: true,
       userId: username,
@@ -123,18 +134,29 @@ export default class App extends React.Component {
     if (data.gamify !== LoggingStore.gamificationFlag) {
       LoggingStore.setGamificationFlag(data.gamify);
     }
+    showMessage({
+      message: "Welcome to CeliApp",
+      description: "... and the 21-day challenge!",
+      type: "success",
+    });
   }
 
   onLoginFailed = (res, userData) => {
     const { statusCode, data } = res;
 
-    console.log("LOGIN FAILED! " + data.message + "TODO: display error msg!");
+    showMessage({
+      message: "LOGIN FAILED!",
+      description: data.message,
+      type: "warning",
+    });
   }
 
 
+  /* 
+  FOR LOGINS WITHOUT INTERNET/SERVER CONNECTION ONLY:
+  */
   loginFailedExternally = (res, userData) => {
     // no internet connection? server offline? etc. --> set gamify-flag randomly!
-    console.log("No internet connection?", Math.random());
     if (!this.state.hasUserId && !(this.state.gamify === 1 || this.state.gamify === -1)) {
       if (Math.random() < 0.5) {
         DatabaseManager.getInstance().saveSettings('gamify', 1, (error) => { alert(error) }, null);
@@ -151,7 +173,11 @@ export default class App extends React.Component {
       userId: userData.userName,
       password: userData.pw
     })
-    console.warn("LOGGED IN WITHOUT VALID USER!")
+    showMessage({
+      message: "LOGIN FAILED!",
+      description: "You may have no internet access!",
+      type: "warning",
+    });
   }
 
 
@@ -179,7 +205,7 @@ export default class App extends React.Component {
             : <UsernameDialog onLogin={this.handleUserLogin} onRegister={this.handleUserRegistration} />
         }
         <LoadingScreen hide={this.state.isAppReady} style={styles.loading} />
-        <FlashMessage position="bottom" duration={5000} />
+        <FlashMessage position="bottom" duration={6000} />
       </View>
     );
   }
