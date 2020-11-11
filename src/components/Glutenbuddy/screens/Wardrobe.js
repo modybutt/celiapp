@@ -132,7 +132,8 @@ const styles = StyleSheet.create({
     flex: 0.75,
     flexDirection: "row",
     justifyContent: "space-between",
-    alignItems: "flex-end"
+    alignItems: "flex-end",
+    backgroundColor: "#dcdfe3"
   },
   navigator: {
     flex: 1,
