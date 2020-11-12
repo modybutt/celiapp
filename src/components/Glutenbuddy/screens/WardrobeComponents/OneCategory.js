@@ -13,6 +13,8 @@ import { observer } from "mobx-react";
 import store from "../../../../manager/buddyManager/GlutenBuddyStore";
 import { showMessage, hideMessage } from "react-native-flash-message";
 import CeliLogger from "../../../../analytics/analyticsManager";
+import Interactions from '../../../../constants/Interactions';
+
 
 var selectedCategory = "SelectedCategory";
 
@@ -123,43 +125,43 @@ class OneItem extends Component {
         type: "warning",
       });
       console.log("nope, you cant put this on!");
-      CeliLogger.addLog(selectedCategory, "access denied!, tried putting on objId: " + obj.id);
+      CeliLogger.addLog(selectedCategory, Interactions.ACCESS_DENIED + "!, tried putting on objId: " + obj.id);
       return false;
     }
     activeId = obj.id;
-    CeliLogger.addLog(selectedCategory, "access granted, putting on objId: " + obj.id);
+    //CeliLogger.addLog(selectedCategory, Interactions.ACCESS_GRANTED + ", access granted, putting on objId: " + obj.id);
 
     switch (obj.sectionId) {
       case 1:
         store.setClotheType(obj.shirtId);
         store.setClotheColor(obj.clotheColor);
         store.setActiveClotheTypeId(activeId);
-        CeliLogger.addLog(selectedCategory + " " + obj.sectionId, "new shirtId: " + obj.shirtId + ", color: " + obj.clotheColor);
+        CeliLogger.addLog(selectedCategory + " " + obj.sectionId, Interactions.CHANGED_CLOTHES + "new shirtId: " + obj.shirtId + ", color: " + obj.clotheColor);
         break;
       case 2:
         store.setTopType(obj.haircutId);
         store.setActiveTopTypeId(activeId);
-        CeliLogger.addLog(selectedCategory + " " + obj.sectionId, "new hairstyleId: " + obj.haircutId);
+        CeliLogger.addLog(selectedCategory + " " + obj.sectionId, Interactions.CHANGED_CLOTHES + "new hairstyleId: " + obj.haircutId);
         break;
       case 3:
         store.setAccessoriesType(obj.glassesId);
         store.setActiveAccessoriesTypeId(activeId);
-        CeliLogger.addLog(selectedCategory + " " + obj.sectionId, "new glassesId: " + obj.glassesId);
+        CeliLogger.addLog(selectedCategory + " " + obj.sectionId, Interactions.CHANGED_CLOTHES + "new glassesId: " + obj.glassesId);
         break;
       case 4:
         store.setSkinColor(obj.skinId);
         store.setActiveSkinColorId(activeId);
-        CeliLogger.addLog(selectedCategory + " " + obj.sectionId, "new skinId: " + obj.skinId);
+        CeliLogger.addLog(selectedCategory + " " + obj.sectionId, Interactions.CHANGED_CLOTHES + "new skinId: " + obj.skinId);
         break;
       case 5:
         store.setHairColor(obj.hairColor);
         store.setActiveHairColorId(activeId);
-        CeliLogger.addLog(selectedCategory + " " + obj.sectionId, "new hairColor: " + obj.hairColor);
+        CeliLogger.addLog(selectedCategory + " " + obj.sectionId, Interactions.CHANGED_CLOTHES + "new hairColor: " + obj.hairColor);
         break;
       case 6:
         break;
       default:
-        console.log("something went wrong here in onItemSelected");
+        CeliLogger.addLog(this.constructor.name, Interactions.ERROR);
     }
     return true;
   }

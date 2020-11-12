@@ -31,11 +31,7 @@ const WardrobeMain = ({ category }) => {
   };
 
   useEffect(() => {
-    //CeliLogger.addLog(this.constructor.name, "opened catg. " + category );
     onFetchSlides();
-    //return () => {
-      //CeliLogger.addLog(this.constructor.name, "closed");
-    //}
   }, []);
   return (
     <View>

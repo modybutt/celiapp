@@ -47,7 +47,7 @@ export default class LoadingScreen extends React.Component {
             height: 150,
             transform: [{ rotate: RotateData }],
           }}
-          source={require('../assets/images/celiapp_icon_trans.png')}
+          source={require('../assets/images/celiapp_icon_new.png')}
         />
         <Text style={{color: 'green'}}>Glutenfree is what you want to be</Text>
         <Text style={{fontSize: 12, color: 'gray'}}>Version {Constants.manifest.version}</Text>

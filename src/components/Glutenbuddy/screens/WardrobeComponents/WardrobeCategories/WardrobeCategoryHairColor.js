@@ -2,6 +2,7 @@ import React from 'react';
 import { View, Text, Button, StyleSheet, Image } from 'react-native';
 import WardrobeMain from './../WardrobeInitTiles';
 import CeliLogger from '../../../../../analytics/analyticsManager';
+import Interactions from '../../../../../constants/Interactions';
 
 var onTabbarPress = true;
 
@@ -10,7 +11,7 @@ const WardrobeCategoryHairColor = ({ navigation }) => {
   /*this.focusListener = */
   navigation.addListener("didFocus", () => {
   if (onTabbarPress === false) {
-    CeliLogger.addLog(navigation.state.routeName, "focussed via swipe");
+    CeliLogger.addLog(navigation.state.routeName, Interactions.NAV_BAR_SWIPE);
   }
   onTabbarPress = false;
 });
@@ -47,7 +48,7 @@ WardrobeCategoryHairColor.navigationOptions = {
   tabBarOnPress: ({ navigation, defaultHandler }) => {
     onTabbarPress = true;
     console.log("tabbaronpress")
-    CeliLogger.addLog(navigation.state.routeName, "focussed via tap");
+    CeliLogger.addLog(navigation.state.routeName, Interactions.NAV_BAR_TAP);
     defaultHandler()
   },
 };

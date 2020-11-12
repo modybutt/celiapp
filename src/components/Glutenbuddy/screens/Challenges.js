@@ -5,6 +5,7 @@ import { StyleSheet, Text, View, Button, AsyncStorage, FlatList } from 'react-na
 import AchievementManager from "../../../manager/buddyManager/AchievementManager";
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import CeliLogger from '../../../analytics/analyticsManager';
+import Interactions from '../../../constants/Interactions';
 
 //import BackToHomeScreenButton from '../BackToHomeScreenButton';
 
@@ -42,11 +43,11 @@ export default class Challenges extends Component {
   });
 
   componentWillMount() {
-    CeliLogger.addLog(this.constructor.name, "opened");
+    CeliLogger.addLog(this.constructor.name, Interactions.OPEN);
   }
 
   componentWillUnmount() {
-    CeliLogger.addLog(this.constructor.name, "closed");
+    CeliLogger.addLog(this.constructor.name, Interactions.CLOSE);
   }
 
   render() {

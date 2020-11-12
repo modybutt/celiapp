@@ -14,6 +14,15 @@ class LoggingStore {
   changeGamificationFlag = () => {
     this.gamificationFlag = !this.gamificationFlag;
   };
+
+  @action
+  setGamificationFlag = (b) => {
+    if(typeof b === "boolean"){
+      this.gamificationFlag = b;
+    }
+  };
+
+
 }
 
 const schema = {

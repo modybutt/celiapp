@@ -1,4 +1,6 @@
-import React from "react";
+import React, { useState } from "react";
+import DatabaseManager from "../manager/DatabaseManager";
+import Events from "../constants/Events";
 import {
   View,
   Text,
@@ -7,46 +9,41 @@ import {
   Image,
   ImageBackground,
 } from "react-native";
-import {
-    images
-} from './EmoteTracker/EmoteTrackerConstants';
+
+function getNewestSymptomfromEvents(array){
+    var onlysymptoms = array.filter(event => event.eventType == Events.Symptom);
+    if(onlysymptoms.length == 0){
+        return null;
+    } else {
+        return JSON.parse(onlysymptoms[0].objData)
+    }
+}
+
 
 export default function EmotionDisplayIcon(props){
-    var emotionimage;
     var showimg = true;
-    switch(props.emotionID){
-        case 0:
-            showimg = false;
-            break;
-        case 1:
-            emotionimage = images.unhappy;
-            break;
-        case 2:
-            emotionimage = images.slightlyUnhappy;
-            break;
-        case 3:
-            emotionimage = images.neither;
-            break;
-        case 4:
-            emotionimage = images.slightlyHappy;
-            break;
-        case 5:
-            emotionimage = images.happy;
-            break;
+    [symptom, setsymptom] = useState(null);
+    DatabaseManager.getInstance().fetchEvents(null, (_, error) => {alert(error)}, (_, {rows: { _array }}) => {setsymptom(getNewestSymptomfromEvents(_array))});
+    if(symptom === null){
+        showimg = false;
     }
     if(showimg){
         return(
-            <View>
+            <View style={props.style}>
                 <Image
-                    source={emotionimage}
+                    source={Image.resolveAssetSource(symptom.icon)}
                     style={{
                         resizeMode: "center",
+                        height: "100%",
+                        width: "100%",
                     }}
                 />
             </View>
         )
     } else {
-        return(<View></View>);
+        return (
+            <View style={props.style}></View>
+        )
     }
 
 }

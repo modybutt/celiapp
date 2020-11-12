@@ -7,6 +7,7 @@ import AchievementRecordManager from '../../../manager/buddyManager/AchievementR
 //import BackToHomeScreenButton from '../BackToHomeScreenButton';
 import { NavigationEvents } from 'react-navigation';
 import CeliLogger from '../../../analytics/analyticsManager';
+import Interactions from '../../../constants/Interactions';
 
 
 
@@ -47,7 +48,7 @@ export default class Achievements extends Component{
     }
 
     componentWillMount() {
-      CeliLogger.addLog(this.constructor.name, "opened");
+      CeliLogger.addLog(this.constructor.name, Interactions.OPEN);
     }
   
     // Wird aufgerufen nach instanzieren => Normalerweise nur einmal!
@@ -57,7 +58,7 @@ export default class Achievements extends Component{
     }
 
     componentWillUnmount() {
-      CeliLogger.addLog(this.constructor.name, "closed");
+      CeliLogger.addLog(this.constructor.name, Interactions.CLOSE);
     }
 
     render(){

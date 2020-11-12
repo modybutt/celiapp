@@ -13,6 +13,7 @@ import EntryList from "../components/EntryList"
 import MenuButton from '../components/MenuButton';
 import LanguageManager from '../manager/LanguageManager';
 import CeliLogger from '../analytics/analyticsManager';
+import Interactions from '../constants/Interactions';
 
 var count = 0
 export default class CalendarScreen extends React.Component {
@@ -32,7 +33,7 @@ export default class CalendarScreen extends React.Component {
     });
     this.props.navigation.addListener('willFocus', () => {
       this.refs.celiCalendar.onfocus();
-      CeliLogger.addLog(this.props.navigation.state.routeName, "tapped");
+      CeliLogger.addLog(this.props.navigation.state.routeName, Interactions.OPEN);
     });
   }
 

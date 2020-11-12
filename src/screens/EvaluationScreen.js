@@ -4,6 +4,7 @@ import MenuButton from '../components/MenuButton';
 import EntryList from '../components/EntryList';
 import LanguageManager from '../manager/LanguageManager';
 import CeliLogger from '../analytics/analyticsManager';
+import Interactions from '../constants/Interactions';
 
 export default class EvaluationScreen extends React.Component {
   static navigationOptions = ({ navigation }) => ({
@@ -12,7 +13,7 @@ export default class EvaluationScreen extends React.Component {
  
   componentDidMount() {
     this.props.navigation.addListener('willFocus', () => {
-      CeliLogger.addLog(this.props.navigation.state.routeName, "tapped");
+      CeliLogger.addLog(this.props.navigation.state.routeName, Interactions.OPEN);
     });
   }
 

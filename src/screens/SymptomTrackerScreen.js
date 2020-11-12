@@ -16,7 +16,7 @@ import GearManager from '../manager/GearManager';
 import AchievementManager from '../manager/buddyManager/AchievementManager';
 import AchievementRecordManager from '../manager/buddyManager/AchievementRecordManager';
 import CeliLogger from '../analytics/analyticsManager';
-
+import Interactions from '../constants/Interactions';
 
 export default class SymptomTrackerScreen extends React.Component{
     static navigationOptions = ({navigation}) => {
@@ -53,7 +53,7 @@ export default class SymptomTrackerScreen extends React.Component{
         this.setState({
             selectedDateAndTime: this.props.navigation.state.params.selectedDateAndTime
         });
-        CeliLogger.addLog(this.constructor.name, "opened");
+        CeliLogger.addLog(this.constructor.name, Interactions.OPEN);
     }
 
     componentDidMount() {
@@ -81,7 +81,7 @@ export default class SymptomTrackerScreen extends React.Component{
     componentWillUnmount() {
         this.keyboardDidShowListener.remove();
         this.keyboardDidHideListener.remove();
-        CeliLogger.addLog(this.constructor.name, "closed");
+        CeliLogger.addLog(this.constructor.name, Interactions.CLOSE);
     }
 
     _keyboardDidShow = () => {

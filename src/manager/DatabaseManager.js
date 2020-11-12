@@ -162,6 +162,7 @@ export default class DatabaseManager {
     });
   }
 
+
   //unused
   updateSymptomEvent(eventID, symptomID, severity, note, onError, onSuccess) {
     let objData = {
@@ -234,6 +235,26 @@ export default class DatabaseManager {
     
     this.createEvent(Events.Emotion, timestamp, objData, onError, onSuccess);
   }
+
+  /******************************************************************* 
+   *                          LOG_EVENT TRACKER 
+   ********************************************************************/
+  // create log event:
+  createLogEvent(objData, onError, onSuccess) {
+    /*let objData = {
+      name,
+      type,
+      tag,
+      rating,
+      icon,
+      note
+    }
+    */
+      // objData.timestamp should become just 'timestamp'
+      console.log(objData.timestamp)
+    this.createEvent(Events.LogEvent, objData.timestamp, objData, onError, onSuccess);
+  }
+
 
   //unused
   updateEmotionEvent(eventID, type, note, onError, onSuccess) {
@@ -316,8 +337,10 @@ export default class DatabaseManager {
       });
     }
   }
-  
+
+
   fetchUnrecordedEvents(tx, lastRecorded, onError, onSuccess) {
+    console.log("--> last recorded content", lastRecorded)
     tx.executeSql('SELECT * FROM events WHERE modified > ?',
       [lastRecorded], onSuccess, onError);
   }
