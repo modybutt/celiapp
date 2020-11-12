@@ -184,7 +184,7 @@ export default class EntryList extends React.Component {
       );
     }
   }
-
+  //https://nyxo.app/fixing-virtualizedlists-should-never-be-nested-inside-plain-scrollviews
   render() {
     return (
       <ScrollView>

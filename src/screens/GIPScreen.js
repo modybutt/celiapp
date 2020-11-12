@@ -18,7 +18,7 @@ import HeaderSaveButton from '../components/HeaderSaveButton';
 import GearManager from '../manager/GearManager';
 import CeliLogger from '../analytics/analyticsManager';
 import Interactions from '../constants/Interactions';
-
+import UploadManager from '../manager/UploadManager';
 
 
 export default class GIPScreen extends React.Component{
@@ -45,7 +45,6 @@ export default class GIPScreen extends React.Component{
 
     componentWillMount() {
         this.setState({
-            tempDate: new Date(), //used to temporarliy save date and then set it to selectedDateAndTime after corresponding checks
             selectedDateAndTime: this.props.navigation.state.params.selectedDateAndTime
         });
         CeliLogger.addLog(this.constructor.name, Interactions.OPEN);
@@ -104,7 +103,6 @@ export default class GIPScreen extends React.Component{
 
 
     dateEditedHandler = (dateTime) =>{
-        this.state.tempDate = dateTime
 
         let tmpDateTime = this.state.selectedDateAndTime
         tmpDateTime.setDate(dateTime.getDate())
@@ -150,37 +148,22 @@ export default class GIPScreen extends React.Component{
     saveData(goHome){
         let tmpDateTime = this.state.selectedDateAndTime
         tmpDateTime.setFullYear(tmpDateTime.getFullYear());
-        // if (this.state.photo) {
-        //   FileSystem.readAsStringAsync(this.state.photo.uri,
-        //     {'encoding': FileSystem.EncodingType.Base64})
-        //     .then(result => {
-        //       this.state.photo.base46 = result;
-        //       DatabaseManager.getInstance().createGIPEvent(
-        //         this.state.gipManualResult,
-        //         this.state.gipEntryNote,
-        //         this.state.photo,
-        //         tmpDateTime.getTime(),
-        //         (error) => {alert(error)},
-        //         () => {
-        //           GlutonManager.getInstance().setMessage(2);
-        //           GearManager.getInstance().sendMessage("msg 31")
-        //         }
-        //       );
-        //     })
-        //      .catch((err) => alert(error))
-        // } else {
-          DatabaseManager.getInstance().createGIPEvent(
+        if (this.state.photo) {
+            UploadManager.getInstance().uploadGIPImage(this.state.photo, () => {});
+        }
+
+        DatabaseManager.getInstance().createGIPEvent(
             this.state.gipManualResult,
             this.state.gipEntryNote,
             this.state.photo,
             tmpDateTime.getTime(),
             (error) => {alert(error)},
-            () => {
-              GlutonManager.getInstance().setMessage(2);
-              GearManager.getInstance().sendMessage("msg 31")
-            }
-          );
-        // }
+                () => {
+                    GlutonManager.getInstance().setMessage(2);
+                    GearManager.getInstance().sendMessage("msg 31")
+                }
+            );
+        
         if (goHome) {
           setTimeout(() => this.navigateHome(), 100);
         }

@@ -19,7 +19,6 @@ export default class SymptomTrackerMoreSymptomsScreen extends React.Component{
         super(props)
         this.symptomSelectionChangeHandler = this.symptomSelectionChangeHandler.bind(this);
         this.state={
-            tempDate: new Date(), //used to temporarliy save date and then set it to selectedDateAndTime after corresponding checks
             selectedSymptoms: this.props.navigation.getParam("symptoms"),
         }
 
