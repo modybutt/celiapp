@@ -51,6 +51,8 @@ export default class SignIn extends React.Component {
             <TextInput
               placeholder="some@email.com"
               ref={(input) => { this.emailInput = input; }}
+              autoCapitalize="none"
+              textContentType="emailAddress"
               style={styles.emailInput}
               onChangeText={(text) => this.updateUsername(text)} />
 
@@ -58,6 +60,7 @@ export default class SignIn extends React.Component {
               secureTextEntry={true}
               placeholder="password"
               ref={(input) => { this.nicknameInput = input; }}
+              textContentType="password"
               style={styles.passwordInput}
               onChangeText={(password) => this.updatePassword(password)} />
           </View>
@@ -117,7 +120,7 @@ var base = StyleSheet.create({
     borderColor: 'gray',
     borderWidth: 1,
     margin: 10,
-    padding: 5,
+    padding: 5
   },
   passwordInput: {
     width: 300,
@@ -125,7 +128,7 @@ var base = StyleSheet.create({
     borderColor: 'gray',
     borderWidth: 1,
     margin: 10,
-    padding: 5,
+    padding: 5
   },
   button: {
     width: 300,
