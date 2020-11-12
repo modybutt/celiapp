@@ -53,12 +53,7 @@ constructor(props) {
     }
 
     return (
-      <ActionButton buttonColor="rgba(231,76,60,1)" onPress={() => (
-        this.state.open ?
-          CeliLogger.addLog(this.constructor.name, Interactions.OPEN) :
-          CeliLogger.addLog(this.constructor.name, Interactions.CLOSE),
-        this.setState({ open: !this.state.open })
-      )}>
+      <ActionButton buttonColor="rgba(231,76,60,1)">
         <ActionButton.Item buttonColor='#00000000' title={LanguageManager.getInstance().getText("ADD_GIP_RESULT")} onPress={() => { this.props.navigation.navigate('AddGIP', { 'selectedDateAndTime': this.currentDate }), console.log("first button pressed!!!") }}>
           <Image source={require('../assets/images/GIP_icon.png')} />
         </ActionButton.Item>
