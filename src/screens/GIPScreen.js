@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, Button, Alert, ScrollView, Keyboard, TouchableOpacity, StyleSheet} from 'react-native';
+import { View, Button, Alert, ScrollView, Keyboard, TouchableOpacity, StyleSheet, Text} from 'react-native';
 import Dialog from "react-native-dialog";
 import { HeaderBackButton } from 'react-navigation'
 import * as FileSystem from 'expo-file-system';
@@ -208,6 +208,7 @@ export default class GIPScreen extends React.Component{
         const meals = [LanguageManager.getInstance().getText("BREAKFAST"), LanguageManager.getInstance().getText("LUNCH"), LanguageManager.getInstance().getText("DINNER"), LanguageManager.getInstance().getText("SNACK")];
         return (
             <ScrollView style={{marginBottom: marginToUse}}>
+                <Text style={styles.infoText}>{LanguageManager.getInstance().getText("GIP_INFO")}.</Text>
                 <HorizontalLineWithText text = {LanguageManager.getInstance().getText("DATE")}/>
                 <DayChooser ref={component => this._dayChooser = component} date = {this.state.selectedDateAndTime} onDateChanged={this.dateEditedHandler}/>
                 <HorizontalLineWithText text = {LanguageManager.getInstance().getText("TIME")}/>
@@ -253,4 +254,10 @@ export default class GIPScreen extends React.Component{
         textAlign: 'center',
         margin: 10
      },
+     infoText:{
+        fontSize: 16,
+        textAlign: 'center',
+        margin: 5,
+        marginBottom: 0
+     }
     });
