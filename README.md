@@ -25,8 +25,8 @@ Install the Expo client (capable Version 2.16.1 for expo-SDK 35) app on your and
 
 ## Install & Run
 
-Setup:
-`npm install`
+Setup (npm clean install):
+`npm ci`
 
 Run:
 `expo start`
