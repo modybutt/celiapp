@@ -34,6 +34,7 @@ export default class Gluton extends React.Component {
                     {
                         toValue: 1,                   // Animate to opacity: 1 (opaque)
                         duration: 1000,              // Make it take a while
+                        useNativeDriver: true
                     }
                 ),
                 Animated.timing(                  // Animate over time
@@ -41,6 +42,7 @@ export default class Gluton extends React.Component {
                     {
                         toValue: 0,                   // Animate to opacity: 1 (opaque)
                         duration: 5000,              // Make it take a while
+                        useNativeDriver: true
                     }
                 )
             ]).start();                        // Starts the animation

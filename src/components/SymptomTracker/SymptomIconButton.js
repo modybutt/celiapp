@@ -158,6 +158,7 @@ export default class SymptomIconButton extends Component {
 						duration: animateTime,
 						//easing: easingType
 						easing: Easing.exp,
+						useNativeDriver: true
 					}
 				),
 				Animated.timing(
@@ -166,6 +167,7 @@ export default class SymptomIconButton extends Component {
 						toValue,
 						duration: animateTime,
 						easing: easingType,
+						useNativeDriver: true
 					}
 				),
 			]),
@@ -175,6 +177,7 @@ export default class SymptomIconButton extends Component {
 					toValue,
 					duration: animateTime,
 					easing: easingType,
+					useNativeDriver: true
 				}
 			),
 			Animated.timing(
@@ -183,6 +186,7 @@ export default class SymptomIconButton extends Component {
 					toValue,
 					duration: animateTime,
 					easing: easingType,
+					useNativeDriver: true
 				}
 			),
 		]).start();
@@ -196,6 +200,7 @@ export default class SymptomIconButton extends Component {
 					toValue,
 					duration: animateTime,
 					easing: easingType,
+					useNativeDriver: true
 				}
 			),
 			Animated.timing(
@@ -204,6 +209,7 @@ export default class SymptomIconButton extends Component {
 					toValue,
 					duration: animateTime,
 					easing: easingType,
+					useNativeDriver: true
 				}
 			),
 			Animated.parallel([
@@ -213,6 +219,7 @@ export default class SymptomIconButton extends Component {
 						toValue,
 						duration: animateTime,
 						easing: easingType,
+						useNativeDriver: true
 					}
 				),
 				Animated.timing(
@@ -221,6 +228,7 @@ export default class SymptomIconButton extends Component {
 						toValue,
 						duration: animateTime,
 						easing: easingType,
+						useNativeDriver: true
 					}
 				),
 			]),

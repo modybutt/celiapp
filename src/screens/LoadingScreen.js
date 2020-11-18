@@ -12,7 +12,7 @@ export default class LoadingScreen extends React.Component {
   }
 
   componentDidMount() {
-    this.StartImageRotateFunction();
+    //this.StartImageRotateFunction();
   }
 
   StartImageRotateFunction() {
@@ -21,6 +21,7 @@ export default class LoadingScreen extends React.Component {
       toValue: 1,
       duration: 1000,
       easing: Easing.linear,
+      useNativeDriver: true
     }).start(() => this.StartImageRotateFunction());
   }
 
