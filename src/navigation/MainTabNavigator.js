@@ -1,8 +1,8 @@
 import React from "react";
 import {
-  createStackNavigator,
-  createMaterialTopTabNavigator,
+  createStackNavigator
 } from "react-navigation";
+import { createMaterialTopTabNavigator } from '@react-navigation/material-top-tabs';
 
 import TabBarIcon from "../components/TabBarIcon";
 import EvaluationScreen from "../screens/EvaluationScreen";

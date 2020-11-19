@@ -1,5 +1,5 @@
 import React from "react";
-import { createMaterialTopTabNavigator } from "react-navigation";
+import { createMaterialTopTabNavigator } from '@react-navigation/material-top-tabs';
 import { withNavigation } from "react-navigation";
 import WardrobeCategoryShirt from "../WardrobeCategories/WardrobeCategoryShirt";
 import WardrobeCategoryHairColor from "../WardrobeCategories/WardrobeCategoryHairColor";
