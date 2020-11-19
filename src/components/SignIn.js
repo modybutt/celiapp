@@ -21,8 +21,8 @@ export default class SignIn extends React.Component {
     this.state = { username: '', password: '' };
   }
 
-  userNameIsValid = () => !!this.state.username && (this.state.username.length > 3)
-  pwIsValid = () => !!this.state.password && (this.state.password.length > 3)
+  userNameIsValid = () => !!this.state.username && (this.state.username.length > 0)
+  pwIsValid = () => !!this.state.password && (this.state.password.length > 0)
 
   buttonDisabled = () => !(this.userNameIsValid() && this.pwIsValid())
 

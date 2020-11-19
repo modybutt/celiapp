@@ -92,43 +92,33 @@ export default class App extends React.Component {
   handleUserRegistration = (nickname, userName, password) => {
     // nickname eat up atm!
     TokenManager.getInstance().registerUser(nickname, userName, password,
-      showMessage({
-        message: "Registration failed!",
-        description: "You may have no internet access!",
+      () => showMessage({
+        message: "Sign up failed!",
+        description: "You may have no Internet access!",
         type: "warning",
       }),
-      showMessage({
-        message: "Registration failed!",
-        description: "Maybe your account is not activated yet!",
+      () => showMessage({
+        message: "Sign up failed!",
+        description: "Your email address may not be whitelisted. Please contact desqol.study@gmail.com.",
         type: "warning",
       }),
-      this.onRegisterSuccess);
-  }
-
-  onRegisterSuccess = (res, userData) => {
-    const { statusCode, data } = res;
-    const { nickname, email, pw } = userData;
-    showMessage({
-      message: "REGISTERED SUCCESSFULLY!",
-      description: "trying to login ...",
-      type: "success",
-    })
-    TokenManager.login(email, pw, this.loginFailedExternally, this.onLoginFailed, this.onLoginSuccess);
+      this.onLoginSuccess);
   }
 
   // returned statuscode is 200:
   onLoginSuccess = (res, userData) => {
     const { statusCode, data } = res;
-    const { username, pw } = userData
+    const { username, pw } = userData;
 
-    showMsg = !this.state.hasUserId
+    let showMsg = !this.state.hasUserId;
 
     this.setState({
       hasUserId: true,
       userId: username,
       password: pw,
       gamify: data.gamify
-    })
+    });
+
     DatabaseManager.getInstance().saveSettings('userId', username, (error) => { alert(error) }, null);
     DatabaseManager.getInstance().saveSettings('password', pw, (error) => { alert(error) }, null);
     DatabaseManager.getInstance().saveSettings('gamify', data.gamify === true ? 1 : -1, (error) => { alert(error) }, null);
@@ -150,7 +140,7 @@ export default class App extends React.Component {
     const { statusCode, data } = res;
 
     showMessage({
-      message: "LOGIN FAILED!",
+      message: "Sign in failed!",
       description: data.message,
       type: "warning",
     });
@@ -179,8 +169,8 @@ export default class App extends React.Component {
       password: userData.pw
     })
     showMessage({
-      message: "LOGIN FAILED!",
-      description: "You may have no internet access!",
+      message: "Sign in failed!",
+      description: "You may have no Internet access!",
       type: "warning",
     });
   }

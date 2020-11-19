@@ -1,4 +1,3 @@
-
 export default class TokenManager {
     static LOGIN_USER_URL = 'https://jira.itcarlow.ie/desqol-auth/login';
     static REGISTER_USER_URL = 'https://jira.itcarlow.ie/desqol-auth/registration';
@@ -28,13 +27,11 @@ export default class TokenManager {
     }
 
     fetchNewToken(username, pw, onError, onLoginFailed, onSuccess) {
-
         fetch(TokenManager.LOGIN_USER_URL, {
             method: 'POST',
             headers: {
                 Accept: 'application/json',
-                'Content-Type': 'application/json',
-                //'X-Token': this.token,
+                'Content-Type': 'application/json'
             },
             body: JSON.stringify({
                 "email": username,
@@ -61,8 +58,7 @@ export default class TokenManager {
             method: 'POST',
             headers: {
                 Accept: 'application/json',
-                'Content-Type': 'application/json',
-                //'X-Token': this.token,
+                'Content-Type': 'application/json'
             },
             body: JSON.stringify({
                 "nickname": nickname,
@@ -74,7 +70,7 @@ export default class TokenManager {
             .then(res => {
                 const { statusCode, data } = res;
                 if (statusCode === 200) {
-                    onSuccess(res, { nickname, email, pw })
+                    this.login(email, pw, onFatalError, onRegisterFailed, onSuccess);
                     return;
                 } else if (statusCode === 400 || statusCode === 403 || statusCode === 409) {
                     console.log("user already registerd || not whitelisted?", statusCode)

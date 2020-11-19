@@ -21,8 +21,8 @@ export default class SignUp extends React.Component {
     this.state = { username: '', password: '', password2: '' };
   }
 
-  userNameIsValid = () => !!this.state.username && (this.state.username.length > 3)
-  pwIsValid = () => !!this.state.password && (this.state.password.length > 3)
+  userNameIsValid = () => !!this.state.username && (this.state.username.length > 0)
+  pwIsValid = () => !!this.state.password && (this.state.password.length > 0)
   pwMatch = () => {
     !!this.state.password
     const { password, password2 } = this.state;
