@@ -1,4 +1,5 @@
-import { createAppContainer, createSwitchNavigator, createStackNavigator } from 'react-navigation';
+import { createAppContainer, createSwitchNavigator } from 'react-navigation';
+import {createStackNavigator} from 'react-navigation-stack';
 
 import MainTabNavigator from './MainTabNavigator';
 

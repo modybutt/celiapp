@@ -1,7 +1,7 @@
 import React from 'react';
 import { View, Button, Picker, TextInput } from 'react-native';
 import Dialog from "react-native-dialog";
-import { HeaderBackButton } from 'react-navigation'
+import { HeaderBackButton } from 'react-navigation-stack'
 import TextInputSingleLine from '../components/TextInputSingleLine';
 import HorizontalLineWithText from '../components/HorizontalLineWithText';
 import LanguageManager from '../manager/LanguageManager';

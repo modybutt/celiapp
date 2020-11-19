@@ -4,7 +4,7 @@ import LanguageManager from '../manager/LanguageManager';
 import HorizontalLineWithText from '../components/HorizontalLineWithText';
 import TextInputSingleLine from '../components/TextInputSingleLine';
 import DatabaseManager from '../manager/DatabaseManager';
-import { HeaderBackButton } from 'react-navigation'
+import { HeaderBackButton } from 'react-navigation-stack'
 import HeaderSaveButton from '../components/HeaderSaveButton';
 import GearManager from '../manager/GearManager';
 

@@ -2,7 +2,7 @@
 import React from 'react';
 import { View, Button, Alert, ScrollView, Keyboard, TouchableOpacity, StyleSheet} from 'react-native';
 import Dialog from "react-native-dialog";
-import { HeaderBackButton } from 'react-navigation'
+import { HeaderBackButton } from 'react-navigation-stack'
 import DatabaseManager from '../manager/DatabaseManager';
 import TextInputSingleLine from '../components/TextInputSingleLine';
 import NoteEdit from '../components/NoteEdit';

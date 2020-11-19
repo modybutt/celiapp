@@ -13,11 +13,12 @@ import AchievementManager from "../manager/buddyManager/AchievementManager";
 import MenuButton from "../components/MenuButton";
 import { Avatar } from "../components/Glutenbuddy/avataaars-lib/react-native-avataaars/dist";
 import {
-  createStackNavigator,
   createAppContainer,
   NavigationEvents,
 } from "react-navigation";
-
+import {
+  createStackNavigator
+} from "react-navigation-stack";
 import { observer } from "mobx-react";
 import store from "../manager/buddyManager/GlutenBuddyStore";
 import emotionStore from "..//manager/buddyManager/EmotionStore";

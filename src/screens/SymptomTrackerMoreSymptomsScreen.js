@@ -1,6 +1,6 @@
 import React from 'react';
 import { View, ScrollView } from 'react-native';
-import { HeaderBackButton } from 'react-navigation'
+import { HeaderBackButton } from 'react-navigation-stack'
 import SymptomGroup from '../components/SymptomTracker/SymptomGroup';
 import MenuButton from '../components/MenuButton';
 import LanguageManager from '../manager/LanguageManager';

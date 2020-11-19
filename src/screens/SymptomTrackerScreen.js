@@ -1,6 +1,6 @@
 import React from 'react';
 import { Keyboard, View, Button, Alert, TextInput, StyleSheet, BackHandler } from 'react-native';
-import { HeaderBackButton } from 'react-navigation'
+import { HeaderBackButton } from 'react-navigation-stack'
 import Dialog from "react-native-dialog";
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view'
 import SymptomGroup from '../components/SymptomTracker/SymptomGroup';

@@ -1,6 +1,6 @@
 import React from 'react';
 import { Text, View, Dimensions, Alert, StyleSheet, Button} from 'react-native';
-import { HeaderBackButton } from 'react-navigation'
+import { HeaderBackButton } from 'react-navigation-stack'
 import LanguageManager from '../manager/LanguageManager';
 import TextInputSingleLine from '../components/TextInputSingleLine';
 import HeaderSaveButton from '../components/HeaderSaveButton';

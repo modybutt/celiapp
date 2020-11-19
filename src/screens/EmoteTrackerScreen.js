@@ -1,6 +1,6 @@
 import React from 'react';
 import { View, Keyboard, ScrollView, StyleSheet, Button} from 'react-native';
-import { HeaderBackButton } from 'react-navigation'
+import { HeaderBackButton } from 'react-navigation-stack'
 import Dialog from "react-native-dialog";
 import EmoteTrackerSymbolGroup from '../components/EmoteTracker/EmoteTrackerSymbolGroup';
 import HorizontalLineWithText from '../components/HorizontalLineWithText';
