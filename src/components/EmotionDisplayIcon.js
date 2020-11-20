@@ -38,6 +38,7 @@ export default function EmotionDisplayIcon(props){
                         width: "100%",
                     }}
                 />
+                <Text style={styles.text}>Latest Symptom</Text>
             </View>
         )
     } else {
@@ -47,3 +48,12 @@ export default function EmotionDisplayIcon(props){
     }
 
 }
+
+const styles = StyleSheet.create({
+  text: {
+    paddingTop: 10,
+    textAlign: 'center',
+    lineHeight: 12,
+    fontSize: 10,
+  }
+});

@@ -261,10 +261,10 @@ const styles = StyleSheet.create({
     flex: 0.8,
   },
   emotiondisplay: {
-    flex: 0.4,
-    width: "100%",
-    height: "100%",
-    backgroundColor: "rgba(0,0,0,0)",
-    paddingRight: "45%"
+    alignItems: 'center',
+    width: "25%",
+    height: "25%",
+    borderColor: 'black',
+    borderWidth: 1,
   }
 });
