@@ -17,11 +17,6 @@ constructor(props) {
         props.shareConfig.onDateChanged(this.onDateChanged.bind(this));
     }
 
-    this.currentDate = new Date();
-    if (props.shareConfig) {
-      props.shareConfig.onDateChanged(this.onDateChanged.bind(this));
-    }
-
   }
 
   onDateChanged(newDate) {
@@ -54,16 +49,16 @@ constructor(props) {
 
     return (
       <ActionButton buttonColor="rgba(231,76,60,1)">
-        <ActionButton.Item buttonColor='#00000000' title={LanguageManager.getInstance().getText("ADD_GIP_RESULT")} onPress={() => { this.props.navigation.navigate('AddGIP', { 'selectedDateAndTime': this.currentDate }), console.log("first button pressed!!!") }}>
+        <ActionButton.Item buttonColor='#00000000' title={LanguageManager.getInstance().getText("ADD_GIP_RESULT")} onPress={() => { this.props.navigation.navigate('AddGIP', { 'selectedDateAndTime': this.getEventDate()  }), console.log("first button pressed!!!") }}>
           <Image source={require('../assets/images/GIP_icon.png')} />
         </ActionButton.Item>
-        <ActionButton.Item buttonColor='#9b59b6' title={LanguageManager.getInstance().getText("ADD_EMOTION")} onPress={() => this.props.navigation.navigate('AddEmote', { 'selectedDateAndTime': this.currentDate })}>
+        <ActionButton.Item buttonColor='#9b59b6' title={LanguageManager.getInstance().getText("ADD_EMOTION")} onPress={() => this.props.navigation.navigate('AddEmote', { 'selectedDateAndTime': this.getEventDate()  })}>
           <Icon.Ionicons name="md-happy" style={styles.actionButtonIcon} />
         </ActionButton.Item>
-        <ActionButton.Item buttonColor='#3498db' title={LanguageManager.getInstance().getText("ADD_MEAL")} onPress={() => this.props.navigation.navigate('AddMeal', { 'selectedDateAndTime': this.currentDate })}>
+        <ActionButton.Item buttonColor='#3498db' title={LanguageManager.getInstance().getText("ADD_MEAL")} onPress={() => this.props.navigation.navigate('AddMeal', { 'selectedDateAndTime': this.getEventDate()  })}>
           <Icon.Ionicons name="md-restaurant" style={styles.actionButtonIcon} />
         </ActionButton.Item>
-        <ActionButton.Item buttonColor='#1abc9c' title={LanguageManager.getInstance().getText("ADD_SYMPTOM")} onPress={() => this.props.navigation.navigate('AddSymptom', { 'selectedDateAndTime': this.currentDate })}>
+        <ActionButton.Item buttonColor='#1abc9c' title={LanguageManager.getInstance().getText("ADD_SYMPTOM")} onPress={() => this.props.navigation.navigate('AddSymptom', { 'selectedDateAndTime': this.getEventDate()  })}>
           <Icon.Ionicons name="md-medkit" style={styles.actionButtonIcon} />
         </ActionButton.Item>
       </ActionButton>
