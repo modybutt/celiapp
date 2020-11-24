@@ -49,7 +49,7 @@ export default class SymptomTrackerScreen extends React.Component{
         }
     }
 
-    componentWillMount() {
+    UNSAFE_componentWillMount() {
         this.setState({
             selectedDateAndTime: this.props.navigation.state.params.selectedDateAndTime
         });

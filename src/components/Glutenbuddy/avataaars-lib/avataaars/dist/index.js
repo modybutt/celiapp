@@ -38,7 +38,7 @@ var AvatarComponent = /** @class */ (function (_super) {
     AvatarComponent.prototype.UNSAFE_componentWillMount = function () {
         this.updateOptionContext(this.props);
     };
-    AvatarComponent.prototype.componentWillReceiveProps = function (nextProps) {
+    AvatarComponent.prototype.UNSAFE_componentWillReceiveProps = function (nextProps) {
         this.updateOptionContext(nextProps);
     };
     AvatarComponent.prototype.render = function () {
@@ -76,7 +76,7 @@ var Piece = /** @class */ (function (_super) {
     Piece.prototype.UNSAFE_componentWillMount = function () {
         this.updateOptionContext(this.props);
     };
-    Piece.prototype.componentWillReceiveProps = function (nextProps) {
+    Piece.prototype.UNSAFE_componentWillReceiveProps = function (nextProps) {
         this.updateOptionContext(nextProps);
     };
     Piece.prototype.render = function () {

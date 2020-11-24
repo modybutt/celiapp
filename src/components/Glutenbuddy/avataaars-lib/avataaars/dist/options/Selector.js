@@ -52,7 +52,7 @@ var Selector = /** @class */ (function (_super) {
             optionContext.setDefaultValue(option.key, defaultValue);
         }
     };
-    Selector.prototype.componentWillUpdate = function (nextProps) {
+    Selector.prototype.UNSAFE_componentWillUpdate = function (nextProps) {
         this.updateOptionValues(nextProps);
     };
     Selector.prototype.componentWillUnmount = function () {

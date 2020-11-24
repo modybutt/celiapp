@@ -22,7 +22,7 @@ export default class HeaderSaveButton extends React.Component{
         };
     }
 
-    componentWillMount() {
+    UNSAFE_componentWillMount() {
         this.setState({wasPressed: false});
     }
 

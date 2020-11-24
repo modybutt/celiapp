@@ -55,7 +55,7 @@ export default class FoodDiaryScreen extends React.Component{
         saveAsEmptyFoodDialogVisible: false,
     }
 
-    componentWillMount() {
+    UNSAFE_componentWillMount() {
         this.setState({
             selectedDateAndTime: this.props.navigation.state.params.selectedDateAndTime
         });

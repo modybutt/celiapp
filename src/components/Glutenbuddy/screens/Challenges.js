@@ -42,7 +42,7 @@ export default class Challenges extends Component {
     title: "Challenges",
   });
 
-  componentWillMount() {
+  UNSAFE_componentWillMount() {
     CeliLogger.addLog(this.constructor.name, Interactions.OPEN);
   }
 

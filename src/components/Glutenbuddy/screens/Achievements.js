@@ -47,7 +47,7 @@ export default class Achievements extends Component{
       achievementrecords: null
     }
 
-    componentWillMount() {
+    UNSAFE_componentWillMount() {
       CeliLogger.addLog(this.constructor.name, Interactions.OPEN);
     }
   
