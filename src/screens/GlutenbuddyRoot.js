@@ -263,8 +263,6 @@ const styles = StyleSheet.create({
   emotiondisplay: {
     alignItems: 'center',
     width: "25%",
-    height: "25%",
-    borderColor: 'black',
-    borderWidth: 1,
+    height: "25%"
   }
 });
