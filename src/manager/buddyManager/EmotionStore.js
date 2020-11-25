@@ -13,9 +13,17 @@ class EmotionStore {
     @observable accessoriesType = "Blank"; // No Glasses if avatar is sad
     @observable accessoriesTypeEmotion = "Blank";
     @observable currentEmotion = 4;
+    
+    currentEmotionTime = new Date(0);
+    
     @action
-    setEmotionId = (num) => {
+    setEmotionId = (num, newEmotionTime) => {
+        if(newEmotionTime < this.currentEmotionTime)
+            return;
+
         this.currentEmotion = num;
+        this.currentEmotionTime = newEmotionTime;
+
         switch (num){
             case 1:
             this.setSuperSad();
@@ -90,7 +98,7 @@ const schema = {
     eyebrowType: true,
     mouthType: true,
     accessoriesType: true,
-    currentEmotion: true,
+    currentEmotion: true
 };
 
 const emotionStore = new EmotionStore();

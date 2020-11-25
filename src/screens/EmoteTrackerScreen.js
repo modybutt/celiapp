@@ -174,7 +174,7 @@ export default class EmoteTrackerScreen extends React.Component{
             (error) => {alert(error)}, 
             () => {GlutonManager.getInstance().setMessage(2); GearManager.getInstance().sendMessage("msg 30")}
         );
-        EmotionStore.setEmotionId(this.state.selectedSymbolID);
+        EmotionStore.setEmotionId(this.state.selectedSymbolID, tmpDateTime);
         
         if (goHome) {
             setTimeout(() => this.navigateHome(), 100);
