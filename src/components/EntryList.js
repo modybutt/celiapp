@@ -67,7 +67,7 @@ export default class EntryList extends React.Component {
     let objData  = JSON.parse(item.objData);
     let createdDate = moment(item.created); 
 
-    let time = createdDate.local().format('HH:mm');
+    let time = createdDate.local().format('YYYY-MM-DD  HH:mm ');
     switch(item.eventType) {
       case Events.Symptom: {
         let color = 'transparent';
