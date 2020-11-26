@@ -64,7 +64,58 @@ export default class DatabaseManager {
                 (11, "LOW_ENERGY",             "' + LOW_ENERGY_ICON         + '", ' + now + ', ' + now + ', 0),\
                 (12, "FOOD_CRAVING",           "' + FOOD_CRAVING_ICON       + '", ' + now + ', ' + now + ', 0);',
                 (param) => alert("insert into symptoms: " + JSON.stringify(param)));
-            
+
+            // See https://github.com/itcgames/celiapp/issues/82#issuecomment-734470136
+            // to explain the following UPDATEs.
+
+            tx.executeSql(
+              'UPDATE symptoms SET icon = "' + BLOATING_ICON + '" WHERE id = 1;',
+              (param) => alert("update symptoms: " + JSON.stringify(param)));
+
+            tx.executeSql(
+              'UPDATE symptoms SET icon = "' + DIARRHEA_ICON + '" WHERE id = 2;',
+              (param) => alert("update symptoms: " + JSON.stringify(param)));
+
+            tx.executeSql(
+              'UPDATE symptoms SET icon = "' + HEADACHE_ICON + '" WHERE id = 3;',
+              (param) => alert("update symptoms: " + JSON.stringify(param)));
+
+            tx.executeSql(
+              'UPDATE symptoms SET icon = "' + IRRITABILITY_ICON + '" WHERE id = 4;',
+              (param) => alert("update symptoms: " + JSON.stringify(param)));
+
+            tx.executeSql(
+              'UPDATE symptoms SET icon = "' + STOMACHACHE_ICON + '" WHERE id = 5;',
+              (param) => alert("update symptoms: " + JSON.stringify(param)));
+
+            tx.executeSql(
+              'UPDATE symptoms SET icon = "' + VOMITING_ICON + '" WHERE id = 6;',
+              (param) => alert("update symptoms: " + JSON.stringify(param)));
+
+            tx.executeSql(
+              'UPDATE symptoms SET icon = "' + LOSS_OF_APPETITE_ICON + '" WHERE id = 7;',
+              (param) => alert("update symptoms: " + JSON.stringify(param)));
+
+            tx.executeSql(
+              'UPDATE symptoms SET icon = "' + STOMACH_RUMBLE_ICON + '" WHERE id = 8;',
+              (param) => alert("update symptoms: " + JSON.stringify(param)));
+
+            tx.executeSql(
+              'UPDATE symptoms SET icon = "' + TENESMUS_ICON + '" WHERE id = 9;',
+              (param) => alert("update symptoms: " + JSON.stringify(param)));
+
+            tx.executeSql(
+              'UPDATE symptoms SET icon = "' + HUNGER_PAIN_ICON + '" WHERE id = 10;',
+              (param) => alert("update symptoms: " + JSON.stringify(param)));
+
+            tx.executeSql(
+              'UPDATE symptoms SET icon = "' + LOW_ENERGY_ICON + '" WHERE id = 11;',
+              (param) => alert("update symptoms: " + JSON.stringify(param)));
+
+            tx.executeSql(
+              'UPDATE symptoms SET icon = "' + FOOD_CRAVING_ICON + '" WHERE id = 12;',
+              (param) => alert("update symptoms: " + JSON.stringify(param)));
+
             tx.executeSql(
               'CREATE TABLE IF NOT EXISTS events (\
                 id INTEGER PRIMARY KEY AUTOINCREMENT,\
