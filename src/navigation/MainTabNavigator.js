@@ -105,6 +105,7 @@ export default createStackNavigator({
     screen: TabNavStack,
     navigationOptions: {
       header: null,
+      title: ''
     },
   },
   AddSymptom: {
