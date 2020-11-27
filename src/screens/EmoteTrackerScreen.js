@@ -51,7 +51,7 @@ export default class EmoteTrackerScreen extends React.Component{
         this.setState({
             selectedDateAndTime: this.props.navigation.state.params.selectedDateAndTime
         });
-        CeliLogger.addLog(this.constructor.name, Interactions.OPEN);
+        CeliLogger.addLog("EmoteTrackerScreen", Interactions.OPEN);
     }
 
     componentDidMount() {        
@@ -74,7 +74,7 @@ export default class EmoteTrackerScreen extends React.Component{
     componentWillUnmount() {
         this.keyboardDidShowListener.remove();
         this.keyboardDidHideListener.remove();
-        CeliLogger.addLog(this.constructor.name, Interactions.CLOSE);
+        CeliLogger.addLog("EmoteTrackerScreen", Interactions.CLOSE);
       }
 
       _keyboardDidShow = ()  => {

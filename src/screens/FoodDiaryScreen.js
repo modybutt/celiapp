@@ -59,7 +59,7 @@ export default class FoodDiaryScreen extends React.Component{
         this.setState({
             selectedDateAndTime: this.props.navigation.state.params.selectedDateAndTime
         });
-        CeliLogger.addLog(this.constructor.name, Interactions.OPEN);
+        CeliLogger.addLog("FoodDiaryScreen", Interactions.OPEN);
     }
 
     componentDidMount() {        
@@ -80,7 +80,7 @@ export default class FoodDiaryScreen extends React.Component{
     componentWillUnmount() {
         this.keyboardDidShowListener.remove();
         this.keyboardDidHideListener.remove();
-        CeliLogger.addLog(this.constructor.name, Interactions.CLOSE);
+        CeliLogger.addLog("FoodDiaryScreen", Interactions.CLOSE);
       }
 
     clearNoteText = () => {

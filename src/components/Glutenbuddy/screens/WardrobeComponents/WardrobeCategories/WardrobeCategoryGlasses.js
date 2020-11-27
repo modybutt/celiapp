@@ -10,7 +10,7 @@ const WardrobeCategoryGlasses = ({ navigation }) => {
   /*this.focusListener = */
   navigation.addListener("didFocus", () => {
     if (onTabbarPress === false) {
-      CeliLogger.addLog(navigation.state.routeName, Interactions.NAV_BAR_SWIPE);
+      CeliLogger.addLog(routeName, Interactions.NAV_BAR_SWIPE);
     }
     onTabbarPress = false;
   });

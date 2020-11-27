@@ -43,11 +43,11 @@ export default class Challenges extends Component {
   });
 
   UNSAFE_componentWillMount() {
-    CeliLogger.addLog(this.constructor.name, Interactions.OPEN);
+    CeliLogger.addLog("Challenges", Interactions.OPEN);
   }
 
   componentWillUnmount() {
-    CeliLogger.addLog(this.constructor.name, Interactions.CLOSE);
+    CeliLogger.addLog("Challenges", Interactions.CLOSE);
   }
 
   render() {

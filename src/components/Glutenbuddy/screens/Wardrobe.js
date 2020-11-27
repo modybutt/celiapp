@@ -26,11 +26,11 @@ export default class Wardrobe extends React.Component {
   }
 
   componentWillMount() {
-    CeliLogger.addLog(this.constructor.name, Interactions.OPEN);
+    CeliLogger.addLog("Wardrobe", Interactions.OPEN);
   }
 
   componentWillUnmount() {
-    CeliLogger.addLog(this.constructor.name, Interactions.CLOSE);
+    CeliLogger.addLog("Wardrobe", Interactions.CLOSE);
   }
 
   onPopupEvent(eventName, index) {
@@ -68,7 +68,7 @@ export default class Wardrobe extends React.Component {
           </TouchableOpacity>
           <TouchableOpacity activeOpacity={1}
             style={styles.touchableAvatar}
-            onPress={() => (CeliLogger.addLog(this.constructor.name, Interactions.TAP + " not supported"))}
+            onPress={() => (CeliLogger.addLog("Wardrobe", Interactions.TAP + " not supported"))}
           >
             <Avatar
               size={store.size}

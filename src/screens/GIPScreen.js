@@ -47,7 +47,7 @@ export default class GIPScreen extends React.Component{
         this.setState({
             selectedDateAndTime: this.props.navigation.state.params.selectedDateAndTime
         });
-        CeliLogger.addLog(this.constructor.name, Interactions.OPEN);
+        CeliLogger.addLog("GIPScreen", Interactions.OPEN);
     }
 
     componentDidMount() {        
@@ -69,7 +69,7 @@ export default class GIPScreen extends React.Component{
     componentWillUnmount() {
         this.keyboardDidShowListener.remove();
         this.keyboardDidHideListener.remove();
-        CeliLogger.addLog(this.constructor.name, Interactions.CLOSE);
+        CeliLogger.addLog("GIPScreen", Interactions.CLOSE);
       }
 
     clearNoteText = () => {

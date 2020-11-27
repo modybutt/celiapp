@@ -161,7 +161,7 @@ class OneItem extends Component {
       case 6:
         break;
       default:
-        CeliLogger.addLog(this.constructor.name, Interactions.ERROR);
+        CeliLogger.addLog("OneItem", Interactions.ERROR);
     }
     return true;
   }

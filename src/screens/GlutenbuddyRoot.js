@@ -64,7 +64,7 @@ export default class GlutenbuddyRoot extends React.Component {
 
   componentDidMount() {
     this.props.navigation.addListener('willFocus', () => {
-      CeliLogger.addLog(this.constructor.name, Interactions.OPEN);
+      CeliLogger.addLog("GlutenbuddyRoot", Interactions.OPEN);
     });
   }
 
@@ -119,7 +119,7 @@ export default class GlutenbuddyRoot extends React.Component {
             style={styles.touchable}
             delayLongPress={5000}
             onPress={() => {
-              CeliLogger.addLog(this.constructor.name, Interactions.TAP);
+              CeliLogger.addLog("GlutenbuddyRoot", Interactions.TAP);
               if (loggingStore.gamificationFlag) {
                 this.props.navigation.navigate("Wardrobe")
               }

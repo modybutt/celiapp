@@ -48,7 +48,7 @@ export default class Achievements extends Component{
     }
 
     UNSAFE_componentWillMount() {
-      CeliLogger.addLog(this.constructor.name, Interactions.OPEN);
+      CeliLogger.addLog("Achievements", Interactions.OPEN);
     }
   
     // Wird aufgerufen nach instanzieren => Normalerweise nur einmal!
@@ -58,7 +58,7 @@ export default class Achievements extends Component{
     }
 
     componentWillUnmount() {
-      CeliLogger.addLog(this.constructor.name, Interactions.CLOSE);
+      CeliLogger.addLog("Achievements", Interactions.CLOSE);
     }
 
     render(){
