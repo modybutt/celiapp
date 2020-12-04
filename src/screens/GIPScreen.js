@@ -1,6 +1,7 @@
 import React from 'react';
 import { View, Button, Alert, ScrollView, Keyboard, TouchableOpacity, StyleSheet, Text} from 'react-native';
 import Dialog from "react-native-dialog";
+import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view'
 import { HeaderBackButton } from 'react-navigation-stack'
 import * as FileSystem from 'expo-file-system';
 import DatabaseManager from '../manager/DatabaseManager';
@@ -203,11 +204,10 @@ export default class GIPScreen extends React.Component{
 
     render() {
 
-        const marginToUse = ((this.state.keyboardOpen) ? 300 : 0);
         const tags = [LanguageManager.getInstance().getText("GLUTEN"), LanguageManager.getInstance().getText("NO_GLUTEN"), LanguageManager.getInstance().getText("UNSURE")];
         const meals = [LanguageManager.getInstance().getText("BREAKFAST"), LanguageManager.getInstance().getText("LUNCH"), LanguageManager.getInstance().getText("DINNER"), LanguageManager.getInstance().getText("SNACK")];
         return (
-            <ScrollView style={{marginBottom: marginToUse}}>
+            <KeyboardAwareScrollView>
                 <Text style={styles.infoText}>{LanguageManager.getInstance().getText("GIP_INFO")}.</Text>
                 <HorizontalLineWithText text = {LanguageManager.getInstance().getText("DATE")}/>
                 <DayChooser ref={component => this._dayChooser = component} date = {this.state.selectedDateAndTime} onDateChanged={this.dateEditedHandler}/>
@@ -241,7 +241,7 @@ export default class GIPScreen extends React.Component{
                         <Dialog.Button label={LanguageManager.getInstance().getText("YES")} onPress={() => this.handleDiscard()} />
                     </Dialog.Container>
                 </View>
-            </ScrollView>
+            </KeyboardAwareScrollView>
         )
     }
 

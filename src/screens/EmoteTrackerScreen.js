@@ -1,5 +1,6 @@
 import React from 'react';
 import { View, Keyboard, ScrollView, StyleSheet, Button} from 'react-native';
+import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view'
 import { HeaderBackButton } from 'react-navigation-stack'
 import Dialog from "react-native-dialog";
 import EmoteTrackerSymbolGroup from '../components/EmoteTracker/EmoteTrackerSymbolGroup';
@@ -138,9 +139,9 @@ export default class EmoteTrackerScreen extends React.Component{
     //TODO Uplift selectedSymbolID
 
     render(){
-        const marginToUse = ((this.state.keyboardOpen) ? 300 : 0);
+
         return(
-            <ScrollView style={{marginBottom: marginToUse}}>
+            <KeyboardAwareScrollView>
                 <HorizontalLineWithText text = {LanguageManager.getInstance().getText("DATE")}/>
                 <DayChooser ref={component => this._dayChooser = component} date = {this.state.selectedDateAndTime} onDateChanged={this.dateEditedHandler}/>
                 <HorizontalLineWithText text = {LanguageManager.getInstance().getText("TIME")}/>
@@ -163,7 +164,7 @@ export default class EmoteTrackerScreen extends React.Component{
                     </Dialog.Container>
                 </View>
 
-            </ScrollView>
+            </KeyboardAwareScrollView>
         )
     }
 

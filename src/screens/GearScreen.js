@@ -107,10 +107,10 @@ export default class GearScreen extends React.Component {
   }
 
   render() {
-    const marginToUse = ((this.state.keyboardOpen) ? 300 : 0);
+
         
     return (
-      <ScrollView style={{marginBottom: marginToUse}}>
+      <ScrollView >
         <HorizontalLineWithText text={LanguageManager.getInstance().getText("WEB_SERVICE")}/>
         <Text>{this.state.wsConnected ? "Connected" : "Disconnected"}</Text>
         <TextInputSingleLine ref={component => this._name = component} defaultValue={this.state.wsHost} onTextChanged={(host) => this.setState({wsHost: host})} />

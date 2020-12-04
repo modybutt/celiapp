@@ -176,7 +176,6 @@ export default class SymptomTrackerScreen extends React.Component{
     }
 
     render() {
-        const marginToUse = ((this.state.keyboardOpen) ? 300 : 0);
 
             return(
                 <View style={styles.container}>
@@ -189,7 +188,7 @@ export default class SymptomTrackerScreen extends React.Component{
                       <HorizontalLineWithText text = {LanguageManager.getInstance().getText("SYMPTOMS")}/>
                       <SymptomGroup ref={component => this._symptomGroup = component} selection={this.state.selectedSymptoms} onSelectionChanged={this.symptomSelectionChangeHandler} navigation={this.props.navigation}/>
                       <HorizontalLineWithText text = {LanguageManager.getInstance().getText("NOTES")}/>
-                      <NoteEdit ref={component => this._noteEdit = component} note={this.state.symptomEntryNote} onTextChanged={this.noteEditedHandler}/>
+                      <NoteEdit style={styles.notes} ref={component => this._noteEdit = component} note={this.state.symptomEntryNote} onTextChanged={this.noteEditedHandler}/>
                       <View style={{paddingBottom: 10}} />
        
                       {/*Dialog for Day Change Save Dialog*/}
@@ -255,7 +254,11 @@ export default class SymptomTrackerScreen extends React.Component{
 
 var styles = StyleSheet.create({
     container: {
-        margin: 25
+        margin: 10
+    },
+    notes: {
+        margin: 10,
+        padding: 10
     },
     headText: {
         fontSize: 20,

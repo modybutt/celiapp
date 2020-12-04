@@ -2,6 +2,7 @@
 import React from 'react';
 import { View, Button, Alert, ScrollView, Keyboard, TouchableOpacity, StyleSheet} from 'react-native';
 import Dialog from "react-native-dialog";
+import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view'
 import { HeaderBackButton } from 'react-navigation-stack'
 import DatabaseManager from '../manager/DatabaseManager';
 import TextInputSingleLine from '../components/TextInputSingleLine';
@@ -254,11 +255,12 @@ export default class FoodDiaryScreen extends React.Component{
 
     render() {
 
-        const marginToUse = ((this.state.keyboardOpen) ? 300 : 0);
+        const marginToUse = 0;// ((this.state.keyboardOpen) ? 300 : 0);
         const tags = [LanguageManager.getInstance().getText("GLUTEN"), LanguageManager.getInstance().getText("NO_GLUTEN"), LanguageManager.getInstance().getText("UNSURE")];
         const meals = [LanguageManager.getInstance().getText("BREAKFAST"), LanguageManager.getInstance().getText("LUNCH"), LanguageManager.getInstance().getText("DINNER"), LanguageManager.getInstance().getText("SNACK")];
         return (
-            <ScrollView style={{marginBottom: marginToUse}}>
+            //extraScrollHeight not supoorted out-of-the-box in android see here https://github.com/AyushAppin/react-native-keyboard-aware-scroll-view
+            <KeyboardAwareScrollView extraScrollHeight={20} scrollEnabled={true} enableAutomaticScroll={true}>
                 <HorizontalLineWithText text = {LanguageManager.getInstance().getText("DATE")}/>
                 <DayChooser ref={component => this._dayChooser = component} date = {this.state.selectedDateAndTime} onDateChanged={this.dateEditedHandler}/>
                 <HorizontalLineWithText text = {LanguageManager.getInstance().getText("TIME")}/>
@@ -310,7 +312,7 @@ export default class FoodDiaryScreen extends React.Component{
                         <Dialog.Button label={LanguageManager.getInstance().getText("DISCARD")} onPress={() => this.handleDiscard()} />
                     </Dialog.Container>
                 </View>
-            </ScrollView>
+            </KeyboardAwareScrollView>
         )
     }
 
