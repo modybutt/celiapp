@@ -174,13 +174,16 @@ export default class EntryList extends React.Component {
         <Image source={require('../assets/images/nothing.gif')} />
       );
     } else {
+      // second ScrollView (horizontal) to avoid virtualised list warnings https://github.com/GeekyAnts/NativeBase/issues/2947
       return (
-        <FlatList     
-          data={filtered = (this.state.events).filter( x => x.eventType !== Events.LogEvent)}
-          keyExtractor={(item, index) => item.id.toString()}
-          renderItem={({item}) => this.renderItem(item)}
-          ItemSeparatorComponent={this.renderSeparator}
-        />
+        <ScrollView horizontal={true}>
+          <FlatList     
+            data={filtered = (this.state.events).filter( x => x.eventType !== Events.LogEvent)}
+            keyExtractor={(item, index) => item.id.toString()}
+            renderItem={({item}) => this.renderItem(item)}
+            ItemSeparatorComponent={this.renderSeparator}
+          />
+        </ScrollView>
       );
     }
   }

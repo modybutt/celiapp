@@ -30,7 +30,7 @@ export default class AvatarComponent extends React.Component<Props> {
         optionContext: OptionContext;
     };
     UNSAFE_componentWillMount(): void;
-    componentWillReceiveProps(nextProps: Props): void;
+    UNSAFE_componentWillReceiveProps(nextProps: Props): void;
     render(): JSX.Element;
     private updateOptionContext;
 }
@@ -43,7 +43,7 @@ export declare class Piece extends React.Component<Props> {
         optionContext: OptionContext;
     };
     UNSAFE_componentWillMount(): void;
-    componentWillReceiveProps(nextProps: Props): void;
+    UNSAFE_componentWillReceiveProps(nextProps: Props): void;
     render(): JSX.Element;
     private updateOptionContext;
 }
