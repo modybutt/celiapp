@@ -25,6 +25,7 @@ export default class DatabaseManager {
    * @returns {DatabaseManager}
    */
   static getInstance() {
+
       if (DatabaseManager.instance == null) {
           DatabaseManager.instance = new DatabaseManager();
           
@@ -135,6 +136,16 @@ export default class DatabaseManager {
             tx.executeSql('INSERT OR IGNORE INTO settings (name, objData) VALUES \
               ("lastRecorded", ' + now + ')',
               (param) => alert("insert into settings: " + JSON.stringify(param)));
+
+            tx.executeSql(
+                'ALTER TABLE events ADD COLUMN deleted INT;',
+                [],
+                (success, other) => console.log("Column added: " + JSON.stringify(success)+ JSON.stringify(other)),
+                (error) => console.log("Error adding column, probably because it already exists " + JSON.stringify(error)));
+
+            //sets the database version. Use this for future migrations  
+            tx.executeSql('PRAGMA user_version = 1', [],
+            (success, other) => console.log("Database schema version set to 1: " + JSON.stringify(success)+ JSON.stringify(other)));
               
           }, (error) => alert("DB init error: " + JSON.stringify(error)));
       }
@@ -353,7 +364,8 @@ export default class DatabaseManager {
 
   deleteEvent(eventID, onError, onSuccess) {
     this.db.transaction(tx => {
-      tx.executeSql('DELETE FROM events WHERE id = ?', [eventID]);
+      //tx.executeSql('DELETE FROM events WHERE id = ?', [eventID]);
+      tx.executeSql('UPDATE events SET deleted =  ?, modified = ? WHERE id = ?',[Date.now(), Date.now(), eventID]);
     }, onError, onSuccess);
   }
 
@@ -363,12 +375,14 @@ export default class DatabaseManager {
             strftime('%d', created / 1000, 'unixepoch') as day,
             strftime('%m', created / 1000, 'unixepoch') as month,
             strftime('%Y', created / 1000, 'unixepoch') as year
-            FROM events GROUP BY year, month, day;`,
+            FROM events WHERE deleted IS NULL
+            GROUP BY year, month, day;`,
             [], onSuccess, onError);
       });
   }
 
   fetchEvents(timestamp, onError, onSuccess) {
+    
     if (timestamp != null) {
       let start = new Date(timestamp);
       let end = new Date(timestamp);
@@ -377,13 +391,13 @@ export default class DatabaseManager {
 
       this.db.transaction(tx => {
         tx.executeSql('SELECT * FROM events '
-                    + 'WHERE created BETWEEN ? AND ? '
+                    + 'WHERE deleted IS NULL AND created BETWEEN ? AND ?  '
                     + 'ORDER BY created DESC',
           [start.getTime(), end.getTime()], onSuccess, onError);
       });
     } else {
       this.db.transaction(tx => {
-        tx.executeSql('SELECT * FROM events ORDER BY created DESC',
+        tx.executeSql('SELECT * FROM events WHERE deleted IS NULL ORDER BY created DESC',
           null, onSuccess, onError);
       });
     }

@@ -1,5 +1,5 @@
 import React from 'react';
-import { ScrollView, View, Text } from 'react-native';
+import { ScrollView, View, Text, Button } from 'react-native';
 import LanguageManager from '../manager/LanguageManager';
 import HeaderMenuButton from '../components/HeaderMenuButton';
 import DatabaseManager from '../manager/DatabaseManager';
@@ -11,7 +11,8 @@ import HorizontalLineWithText from '../components/HorizontalLineWithText';
 
 export default class EmoteViewScreen extends React.Component {
     static navigationOptions = ({navigation}) => ({
-        title: LanguageManager.getInstance().getText("VIEW_EMOTION")
+        title: LanguageManager.getInstance().getText("VIEW_EMOTION"),
+        headerRight: navigation.state.params ? navigation.state.params.headerRight : null
     })
 
     state = {
@@ -24,6 +25,12 @@ export default class EmoteViewScreen extends React.Component {
         this.props.navigation.setParams({ 
             onHeaderMenuSelected: this.onHeaderMenuSelected.bind(this) ,
             // onCancelPressed: this.handleCancelButton.bind(this),
+            headerRight: () => (
+                <Button
+                  onPress={() => this.setState({showDeleteConfirmDialog: true})}
+                  title={"Delete"}
+                  color="#f00"
+                />)
         })
     }
 
