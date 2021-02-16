@@ -8,6 +8,7 @@ import TabBarIcon from "../components/TabBarIcon";
 import EvaluationScreen from "../screens/EvaluationScreen";
 import HomeScreen from "../screens/HomeScreen";
 import CalendarScreen from "../screens/CalendarScreen";
+import ReportScreen from "../screens/ReportScreen";
 import DebugScreen from "../screens/DebugScreen";
 import SymptomTrackerScreen from "../screens/SymptomTrackerScreen";
 import FoodDiaryScreen from "../screens/FoodDiaryScreen";
@@ -40,6 +41,9 @@ const GlutenStack = createStackNavigator({
   Glutenbuddy: GlutenbuddyRoot,
 });
 
+const ReportStack = createStackNavigator({
+  Report: ReportScreen,
+});
 
 const TabNavStack = createMaterialTopTabNavigator(
   {
@@ -70,17 +74,25 @@ const TabNavStack = createMaterialTopTabNavigator(
         ),
       },
     },
-/** // Screen for x-Day-challenge:
-    Home: {
-      screen: HomeScreen, //Note for Oisin: replace this with your component
+    Report: {
+      screen: ReportStack,
       navigationOptions: {
-        //tabBarLabel: 'Home',
         tabBarIcon: ({ focused }) => (
-          <TabBarIcon focused={focused} name={"md-paw"} />
+          <TabBarIcon focused={focused} name={"newspaper-outline"} />
         ),
       },
     },
-*/  
+ // Screen for x-Day-challenge:
+    // Home: {
+    //   screen: HomeScreen, //Note for Oisin: replace this with your component
+    //   navigationOptions: {
+    //     tabBarLabel: 'Home',
+    //     tabBarIcon: ({ focused }) => (
+    //       <TabBarIcon focused={focused} name={"md-paw"} />
+    //     ),
+    //   },
+    // },
+
   },
   {
     initialRouteName: "Glutenbuddy",

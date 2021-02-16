@@ -33,6 +33,7 @@ import ChallengesTest from "../components/Glutenbuddy/screens/ChallengesTest";
 import EvaluationScreen from "../screens/EvaluationScreen";
 import HomeScreen from "../screens/HomeScreen";
 import CalendarScreen from "../screens/CalendarScreen";
+import ReportScreen from "../screens/ReportScreen";
 import DebugScreen from "../screens/DebugScreen";
 import SymptomTrackerScreen from "../screens/SymptomTrackerScreen";
 import FoodDiaryScreen from "../screens/FoodDiaryScreen";
