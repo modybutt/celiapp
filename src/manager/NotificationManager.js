@@ -23,14 +23,14 @@ async function registerForPushNotificationsAsync() {
       finalStatus = status;
     }
     if (finalStatus !== 'granted') {
-      alert('Failed to get push token for push notification!');
+      console.warn('Failed to get push token for push notification!');
       return;
     }
     const token = (await Notifications.getExpoPushTokenAsync()).data;
     console.log(token);
     this.setState({ expoPushToken: token });
   } else {
-    alert('Must use physical device for Push Notifications');
+    console.warn('Must use physical device for Push Notifications');
   }
 
   if (Platform.OS === 'android') {
