@@ -1,4 +1,3 @@
-
 import React from 'react';
 import {
   Image,
@@ -13,7 +12,7 @@ import { Button } from 'react-native-elements';
 import LOGO from '../assets/images/web_hi_res_512.png';
 import { createStyles, maxHeight } from 'react-native-media-queries';
 import { ScrollView } from 'react-native-gesture-handler';
-
+import * as Notifications from 'expo-notifications';
 
 export default class SignIn extends React.Component {
   constructor(props) {
@@ -32,6 +31,7 @@ export default class SignIn extends React.Component {
 
   componentDidMount() {
     //this.emailInput.focus();
+    registerForPushNotificationsAsync();
   }
 
   render() {

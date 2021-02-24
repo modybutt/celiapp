@@ -1,17 +1,47 @@
 import { Alert, Platform } from 'react-native';
-import { Notifications } from 'expo';
 import * as Permissions from 'expo-permissions';
 import LanguageManager from './LanguageManager';
+import Constants from 'expo-constants';
+import * as Notifications from 'expo-notifications';
 
 //request permission to send notifications to user.
-async function getiOSNotificationPermission()
-{
+async function getiOSNotificationPermission() {
     const { status } = await Permissions.getAsync(Permissions.NOTIFICATIONS);
     if (status !== 'granted') 
     {
         await Permissions.askAsync(Permissions.NOTIFICATIONS);
     }
-}
+};
+
+// https://docs.expo.io/push-notifications/push-notifications-setup/
+async function registerForPushNotificationsAsync() {
+  if (Constants.isDevice) {
+    const { status: existingStatus } = await Notifications.getPermissionsAsync();
+    let finalStatus = existingStatus;
+    if (existingStatus !== 'granted') {
+      const { status } = await Notifications.requestPermissionsAsync();
+      finalStatus = status;
+    }
+    if (finalStatus !== 'granted') {
+      alert('Failed to get push token for push notification!');
+      return;
+    }
+    const token = (await Notifications.getExpoPushTokenAsync()).data;
+    console.log(token);
+    this.setState({ expoPushToken: token });
+  } else {
+    alert('Must use physical device for Push Notifications');
+  }
+
+  if (Platform.OS === 'android') {
+    Notifications.setNotificationChannelAsync('default', {
+      name: 'default',
+      importance: Notifications.AndroidImportance.MAX,
+      vibrationPattern: [0, 250, 250, 250],
+      lightColor: '#FF231F7C',
+    });
+  }
+};
 
 export default class NotificationManager 
 {
@@ -21,7 +51,7 @@ export default class NotificationManager
         {
             NotificationManager.instance = new NotificationManager();
             this.instance.initialize();
-            this.instance.scheduleNotification();
+            //this.instance.scheduleNotification();
         }
         return this.instance;
     }
@@ -77,7 +107,9 @@ export default class NotificationManager
 
     initialize() 
     {
-        getiOSNotificationPermission();
-        this.listenForNotifications();
+      console.log('Initialising notifications...');
+      registerForPushNotificationsAsync();
+      //getiOSNotificationPermission();
+      //this.listenForNotifications();
     }
 }

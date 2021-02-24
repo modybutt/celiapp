@@ -25,6 +25,7 @@
     "expo-camera": "~9.0.0",
     "expo-constants": "~9.2.0",
     "expo-file-system": "~9.2.0",
+    "expo-notifications": "~0.7.2",
     "expo-sqlite": "~8.4.0",
     "jest-expo": "^39.0.0",
     "mobx": "^5.5.0",
