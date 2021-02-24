@@ -104,7 +104,7 @@ export default createStackNavigator({
   TabBar: {
     screen: TabNavStack,
     navigationOptions: {
-      header: null,
+      headerShown: false,
       title: ''
     },
   },
