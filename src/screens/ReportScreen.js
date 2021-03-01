@@ -9,15 +9,23 @@ import {
 } from 'react-native';
 
 import LanguageManager from '../manager/LanguageManager';
+import ReportManager from '../manager/ReportManager';
 import CeliLogger from '../analytics/analyticsManager';
 import Interactions from '../constants/Interactions';
 
 var count = 0
+var reportData = null;
+
 export default class ReportScreen extends React.Component {
 
   static navigationOptions = ({ navigation }) => ({
-    title: LanguageManager.getInstance().getText("REPORT")
+    title: LanguageManager.getInstance().getText("WEEKREPORT")
   });
+
+  constructor(props) {
+    super(props);
+    this.state = { reportData: null };
+  }
 
   componentDidMount() {
     this.props.navigation.setParams({
@@ -25,76 +33,41 @@ export default class ReportScreen extends React.Component {
     });
 
     this.props.navigation.addListener('willFocus', () => {
-      CeliLogger.addLog("Report", Interactions.OPEN);
+      CeliLogger.addLog("WeekReport", Interactions.OPEN);
+      ReportManager.weeklyReport(this.receiveData);
     });
+
+    console.log("component mounted")
   }
 
+  receiveData = (data) => { 
+    this.setState({ reportData : data });
+    console.log("received report data:",data );
+  }
+
+
   render() {
+    if(!this.state.reportData) return (<View></View>)
+    reportData =  this.state.reportData;
+    
     return (
-        <Report/>
+      <View style={styles.container}>
+        <Week/>
+        <BestDay/>
+        <View style={{ marginTop:10}}>
+          <View style = {styles.infoBoxRow}>
+            <InfoBox info = {reportData.symptomInfo} image={symptomImage}  color={symptomColor}/>
+            <InfoBox info = {reportData.mealInfo}    image={mealImage}     color={mealColor}/>
+          </View>
+          <View style = {styles.infoBoxRow}>
+            <InfoBox info = {reportData.emotionInfo} image={emotionImage} color={emotionColor}/>
+            <InfoBox info = {reportData.gipInfo}     image={gipImage}     color={gipColor}/>
+          </View>
+        </View>
+      </View>
     );
   }
 }
-
-
-var reportData = {
-  symptomInfo:{
-    body : <p>You have logged <strong>6 meals</strong><br/>That is <strong>3 more</strong> than last week!</p>,
-    headline: <p>5 days you have had <strong>NO SYMPTOMS</strong>!</p>,
-    sub: <p></p>,
-  },
-  mealInfo:{
-    body: <p>You have logged <strong>6 meals</strong><br/>That is <strong>3 more</strong> than last week</p>,
-    headline: <p>3 logged meals were <strong>GLUTENFREE</strong>!</p>,
-    sub: "You have reached intermediate level in foodlogging. Log 3 more to become an expert!",
-  },
-  emotionInfo:{
-    body : <p>You have logged <strong>6 meals</strong><br/>That is <strong>3 more</strong> than last week</p>,
-    headline: <p>3 days you were <strong>DELIGHTED</strong> about your diet</p>,
-    sub: <p></p>,
-  },
-  gipInfo:{
-    body : <p>You have logged 1 test this week. That is 1 more then last week!</p>,
-    headline:  <p>All tests were <strong>GLUTENFREE</strong>!</p>,
-    sub: "You have reached beginner level in testing for Gluten. Log 2 more to become an intermediate!",
-  },
-  dailyActivity: [0.1,0.2,0.3,0.4,0.5,0.6,0.99],
-
-  bestDayHeading : "Thursday October 8th",
-  bestDayBody : "You logged no symptoms, had a delighted mood, a gluten free test and no meals"
-
-}
-
-var reportData = {
-  symptomInfo:{
-    body : "You have logged 6 meals That is 3 more than last week!",
-    headline: "5 days you have had NO SYMPTOMS!",
-    sub: "",
-  },
-  mealInfo:{
-    body: "You have logged 6 meals That is 3 more than last week",
-    headline: "3 logged meals were GLUTENFREE!",
-    sub: "You have reached intermediate level in foodlogging. Log 3 more to become an expert!",
-  },
-  emotionInfo:{
-    body : "You have logged 6 meals That is 3 more than last week",
-    headline: "3 days you were DELIGHTED about your diet",
-    sub: "",
-  },
-  gipInfo:{
-    body : "You have logged 1 test this week. That is 1 more then last week!",
-    headline: " All tests were GLUTENFREE!",
-    sub: "You have reached beginner level in testing for Gluten. Log 2 more to become an intermediate!",
-  },
-  dailyActivity: [0.1,0.2,0.3,0.4,0.5,0.6,0.99],
-
-  bestDayHeading : "Thursday October 8th",
-  bestDayBody : "You logged no symptoms, had a delighted mood, a gluten free test and no meals"
-
-}
-
-
-const B = (props) => <Text style={{fontWeight: 'bold'}}>{props.children}</Text>
 
 const progressShowFractionOfLastQuadrant = (percent) => {
     var style = {
@@ -121,7 +94,7 @@ const progressShowFullQuadrants = (percent) =>{
   return style
 }
 
-const hideNegativePartofFirstQuadrant = (percent) =>{
+const hideNegativePartOfFirstQuadrant = (percent) =>{
   return {
     borderTopColor: percent < 0.25 ? '' :'transparent',
     borderRightColor: 'transparent',
@@ -134,7 +107,7 @@ const DayCircle = ({percent}) =>
   <View style={styles.dayCircleBackground}>
     <View style={[styles.dayProgress, progressShowFullQuadrants(percent)]}/>
     <View style={[styles.dayProgress, progressShowFractionOfLastQuadrant(percent)]}/>
-    <View style={[styles.dayCircleBackground, hideNegativePartofFirstQuadrant(percent)]}/>
+    <View style={[styles.dayCircleBackground, hideNegativePartOfFirstQuadrant(percent)]}/>
     
   </View>
 const Day=({name, percent, today}) => 
@@ -186,25 +159,6 @@ const InfoBox = ({info, image, color}) =>
     <Text style={[ styles.infoBoxHeadline, {color: color}]}>{info.headline}</Text>
     <Text style={[ styles.infoBoxSubtext]}>{info.sub}</Text>
   </View>
-
-function Report(){
-  return (
-    <View style={styles.container}>
-        <Week/>
-        <BestDay/>
-        <View style={{ marginTop:10}}>
-          <View style = {styles.infoBoxRow}>
-            <InfoBox info = {reportData.symptomInfo} image={symptomImage}  color={symptomColor}/>
-            <InfoBox info = {reportData.mealInfo}    image={mealImage}     color={mealColor}/>
-          </View>
-          <View style = {styles.infoBoxRow}>
-            <InfoBox info = {reportData.emotionInfo} image={emotionImage} color={emotionColor}/>
-            <InfoBox info = {reportData.gipInfo}     image={gipImage}     color={gipColor}/>
-          </View>
-        </View>
-    </View>
-  );
-}
 
 var WIDTH = Dimensions.get('window').width;
 var width = WIDTH
