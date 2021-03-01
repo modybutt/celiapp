@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import DatabaseManager from "../manager/DatabaseManager";
 import Events from "../constants/Events";
+
 import {
   View,
   Text,
@@ -19,11 +20,38 @@ function getNewestSymptomfromEvents(array){
     }
 }
 
+function shallowEqual(object1, object2) {
+    if(object1==null ||  object2 == null) return false;
+    const keys1 = Object.keys(object1);
+    const keys2 = Object.keys(object2);
+  
+    if (keys1.length !== keys2.length) {
+      return false;
+    }
+  
+    for (let key of keys1) {
+      if (object1[key] !== object2[key]) {
+        return false;
+      }
+    }
+  
+    return true;
+  }
+
 
 export default function EmotionDisplayIcon(props){
     var showimg = true;
     [symptom, setsymptom] = useState(null);
-    DatabaseManager.getInstance().fetchEvents(null, (_, error) => {alert(error)}, (_, {rows: { _array }}) => {setsymptom(getNewestSymptomfromEvents(_array))});
+
+    DatabaseManager.getInstance().fetchEvents(null, (_, error) => {alert(error)}, (_, {rows: { _array }}) => {
+    newSymptom=getNewestSymptomfromEvents(_array);
+    if(!shallowEqual(newSymptom, symptom)){
+        console.log(symptom)
+        console.log(newSymptom)
+        setsymptom(newSymptom)
+        }
+    });
+    
     if(symptom === null){
         showimg = false;
     }
