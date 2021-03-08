@@ -5,8 +5,8 @@ import {
 import { createMaterialTopTabNavigator } from 'react-navigation-tabs';
 
 import TabBarIcon from "../components/TabBarIcon";
+import TabBarCustomIcon from "../components/TabBarCustomIcon";
 import EvaluationScreen from "../screens/EvaluationScreen";
-import HomeScreen from "../screens/HomeScreen";
 import CalendarScreen from "../screens/CalendarScreen";
 import ReportScreen from "../screens/ReportScreen";
 import DebugScreen from "../screens/DebugScreen";
@@ -52,7 +52,7 @@ const TabNavStack = createMaterialTopTabNavigator(
       navigationOptions: {
         //tabBarLabel: 'Evaluation',
         tabBarIcon: ({ focused }) => (
-          <TabBarIcon focused={focused} name={"md-trending-up"} />
+          <TabBarIcon focused={focused} name={"md-pulse"} />
         ),
       },
     },
@@ -61,7 +61,7 @@ const TabNavStack = createMaterialTopTabNavigator(
       navigationOptions: {
         //tabBarLabel: 'Calendar',
         tabBarIcon: ({ focused }) => (
-          <TabBarIcon focused={focused} name={"ios-happy"} />
+          <TabBarCustomIcon focused={focused} source={require("../assets/images/glutenfree.png")}/>
         ),
       },
     },
@@ -74,14 +74,7 @@ const TabNavStack = createMaterialTopTabNavigator(
         ),
       },
     },
-    Report: {
-      screen: ReportStack,
-      navigationOptions: {
-        tabBarIcon: ({ focused }) => (
-          <TabBarIcon focused={focused} name={"newspaper-outline"} />
-        ),
-      },
-    },
+    
  // Screen for x-Day-challenge:
     // Home: {
     //   screen: HomeScreen, //Note for Oisin: replace this with your component
