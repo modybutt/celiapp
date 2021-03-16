@@ -138,10 +138,10 @@ const BestDay=()=>
     </View>
   </View>
 
-const symptomImage = require('../../assets/images/symptom.png')
-const emotionImage = require('../../assets/images/symptom.png')
-const mealImage = require('../../assets/images/symptom.png')
-const gipImage = require('../../assets/images/symptom.png')
+const symptomImage = require('../assets/images/symptom.png')
+const emotionImage = require('../assets/images/symptom.png')
+const mealImage = require('../assets/images/symptom.png')
+const gipImage = require('../assets/images/symptom.png')
 const symptomColor =  "#1DBBA0"
 const mealColor = "#3398DE"
 const emotionColor = "#9958B7"
