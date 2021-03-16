@@ -78,9 +78,11 @@ const progressShowFractionOfLastQuadrant = (percent) => {
 
   if(percent <= 0) style.borderTopColor = 'transparent';
   
-  const base_rotation = -0.125;
-  const rotateBy = base_rotation + percent;
-  style.transform = [{rotateZ: `${rotateBy}turn`}]
+  const base_rotation = -45;
+  const rotateBy = base_rotation + (percent*360);
+  console.log("rotate by ", percent, ":", rotateBy)
+  style.transform = [{rotateZ: `${rotateBy}deg`}]
+
   return style;
 }
 
@@ -90,7 +92,10 @@ const progressShowFullQuadrants = (percent) =>{
   if(percent < 0.50) style.borderRightColor = 'transparent';
   if(percent < 0.75) style.borderBottomColor = 'transparent';
   if(percent < 1.0) style.borderLeftColor = 'transparent';
-  
+
+  const base_rotation = 45;
+  style.transform = [{rotateZ: `${base_rotation}deg`}]
+
   return style
 }
 
@@ -100,7 +105,7 @@ const hideNegativePartOfFirstQuadrant = (percent) =>{
     borderRightColor: 'transparent',
     borderBottomColor: 'transparent',
     borderLeftColor: 'transparent',
-    transform : [{rotateZ:`${-0.125}turn`}]
+    transform : [{rotateZ:`${-45}deg`}]
   }
 }
 const DayCircle = ({percent}) => 
@@ -111,7 +116,7 @@ const DayCircle = ({percent}) =>
     
   </View>
 const Day=({name, percent, today}) => 
-  <View style={[styles.day, today?styles.today:'']} >
+  <View style={[styles.day, today ? styles.today : '']} >
     <Text style={styles.dayLabel}>{name}</Text>
     <DayCircle percent={percent} />
   </View>
@@ -189,8 +194,7 @@ const styles = StyleSheet.create({
     borderWidth: progressCircleThickness,
     position: 'absolute',
     borderRightColor: textColor,
-    borderColor: textColor,
-    transform:[{rotateZ: '45deg'}]   
+    borderColor: textColor  
   },
 
   dayLabel:{
