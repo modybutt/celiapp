@@ -6,6 +6,7 @@ import SymptomIconButton  from './SymptomIconButton';
 import {SYMPTOM_BUTTON_TYPES} from "./SymptomIconButtonConstants.js"
 import DatabaseManager from '../../manager/DatabaseManager';
 import CREATE_SYMPTOM_ICON from '../../assets/images/SymptomTracker/addSymptom.png';
+import NO_SYMPTOM from '../../assets/images/SymptomTracker/symptom_icon.png';
 
 const NUM_BUTTONS_IN_ROW = 4;
 
@@ -18,14 +19,14 @@ export default class SymptomGroup extends React.Component {
     this.symptomDeselected = this.symptomDeselected.bind(this)
     this.state = {
       canOpenSeverityChooser: true,
-      oneVisible: 0,
+      /*oneVisible: 0,
       twoVisible: 0,
       threeVisible: 0,
       fourVisible: 0,
       fiveVisible: 0,
       sixVisible: 0,
       sevenVisible: 0,
-      eigthVisible: 0,
+      eigthVisible: 0,*/
       backgroundVisible: -1,
       symptoms: null,
       loading: true,
@@ -38,7 +39,7 @@ export default class SymptomGroup extends React.Component {
     name: "NO_SYMPTOMS",
     type: SYMPTOM_BUTTON_TYPES.NO_SYMPTOM,
     severity: 0,
-    icon: ''
+    icon: NO_SYMPTOM
   }
 
   addNewSymptomButton = {
@@ -56,7 +57,7 @@ export default class SymptomGroup extends React.Component {
       (_, { rows: { _array } }) => {
 
         _array.unshift(this.noSymptomButton)
-        _array.push(this.addNewSymptomButton)
+//        _array.push(this.addNewSymptomButton)
 
         this.setState(
         {
@@ -97,7 +98,7 @@ export default class SymptomGroup extends React.Component {
         case 1:
         case 2:
         default:
-          type = SYMPTOM_BUTTON_TYPES.SEVERITY_CHOOSER_CENTRE
+          type = SYMPTOM_BUTTON_TYPES.SEVERITY_CHOOSER_CENTRE;
           break;
       }
     }
@@ -109,7 +110,7 @@ export default class SymptomGroup extends React.Component {
     let symptomColumn = 0;
 
     for (k = from; k < (from + size) && k < this.state.symptoms.length; k++) {
-      symptomColumn = (k % NUM_BUTTONS_IN_ROW);
+      symptomColumn = ((k-1) % NUM_BUTTONS_IN_ROW);
 
       let symptom = this.state.symptoms[k];
       cluster.push(
@@ -142,8 +143,9 @@ export default class SymptomGroup extends React.Component {
 
   renderAllSymptoms() {
     let symptomRows = [];
-
-    for (i = 0; i < this.state.symptoms.length; i += NUM_BUTTONS_IN_ROW) {
+    symptomRows.push(
+      <View key={0} style={styles.groupContainer}>{this.rowOfSymptomButtons(0, 1)}</View>)
+    for (i = 1; i < (this.state.symptoms.length); i += NUM_BUTTONS_IN_ROW) {
       symptomRows.push(
         <View key={i} style={styles.groupContainer}>{this.rowOfSymptomButtons(i, NUM_BUTTONS_IN_ROW)}</View>)
     }

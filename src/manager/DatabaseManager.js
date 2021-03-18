@@ -5,16 +5,16 @@ import BLOATING_ICON from '../assets/images/SymptomTracker/bloating.png';
 import DIARRHEA_ICON from '../assets/images/SymptomTracker/diarrhea.png';
 import HEADACHE_ICON from '../assets/images/SymptomTracker/headache.png';
 import IRRITABILITY_ICON from '../assets/images/SymptomTracker/irritability.png';
-import STOMACHACHE_ICON from '../assets/images/SymptomTracker/stomachAche.png';
-import STOMACH_RUMBLE_ICON from '../assets/images/SymptomTracker/stomachRumble.png';
+import STOMACHACHE_ICON from '../assets/images/SymptomTracker/stomach_ache.png';
+import STOMACH_RUMBLE_ICON from '../assets/images/SymptomTracker/rumbling_stomache.png';
 import VOMITING_ICON from '../assets/images/SymptomTracker/vomiting.png';
-import WEIGHT_LOSS_ICON from '../assets/images/SymptomTracker/weightLoss.png';
+import WEIGHT_LOSS_ICON from '../assets/images/SymptomTracker/weightloss.png';
 import USER_SYMPTOM_ICON from '../assets/images/SymptomTracker/userDefinedSymptom.png';
 import LOSS_OF_APPETITE_ICON from '../assets/images/SymptomTracker/lossOfAppetite.png';
-import HUNGER_PAIN_ICON from '../assets/images/SymptomTracker/hungerPain.png';
-import FOOD_CRAVING_ICON from '../assets/images/SymptomTracker/craving.png';
+import HUNGER_PAIN_ICON from '../assets/images/SymptomTracker/hunger_pains.png';
+import FOOD_CRAVING_ICON from '../assets/images/SymptomTracker/food_craving.png';
 import TENESMUS_ICON from '../assets/images/SymptomTracker/tenesmus.png';
-import LOW_ENERGY_ICON from '../assets/images/SymptomTracker/tired.png';
+import LOW_ENERGY_ICON from '../assets/images/SymptomTracker/low_energy.png';
 import Events from '../constants/Events';
 import NotificationManager from './NotificationManager';
 
@@ -187,7 +187,6 @@ export default class DatabaseManager {
     }, onError, onSuccess);
   }
 
-  //Public
   fetchSymptoms(onError, onSuccess) {
     this.db.transaction(tx => {
       tx.executeSql('SELECT * FROM symptoms ORDER BY name ASC', null, onSuccess, onError);

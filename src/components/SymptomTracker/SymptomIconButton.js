@@ -3,7 +3,7 @@ import { TouchableOpacity, Text, Alert, Animated, Image, Easing, View, StyleShee
 import Dialog from "react-native-dialog";
 
 import Constants from 'expo-constants';
-import {SYMPTOM_BUTTON_TYPES} from "./SymptomIconButtonConstants.js"
+import { SYMPTOM_BUTTON_TYPES } from "./SymptomIconButtonConstants.js"
 
 // constants
 import {
@@ -13,8 +13,8 @@ import {
 	// topRight,
 	bigBubbleSize,
 	smallBubbleSize,
-    bubbleColorOrange,
-    bubbleColorYellow,
+	bubbleColorOrange,
+	bubbleColorYellow,
 	bubbleColorRed,
 	imageHeight,
 	imageWidth,
@@ -29,9 +29,9 @@ import DatabaseManager from '../../manager/DatabaseManager';
 const AnimatedTouchable = Animated.createAnimatedComponent(TouchableOpacity);
 
 const DEFAULT_COLOR = 'rgb(180, 180, 180)';
-const LOW_COLOR = 'rgb(255, 215, 0)';
-const MEDIUM_COLOR = 'rgb(255, 165, 0)';
-const HIGH_COLOR = 'rgb(255, 0, 0)';
+const LOW_COLOR = '#D9EEEA';
+const MEDIUM_COLOR = '#83E2D2';
+const HIGH_COLOR = '#1DBBA0';
 
 // This is the add button that appears in the middle along with
 // other buttons and their animations
@@ -65,91 +65,86 @@ export default class SymptomIconButton extends Component {
 		}
 
 		DatabaseManager.getInstance().deleteSymptom(this.props.symptomID,
-			(error) => {alert(error)},
-			() => {this.props.onSymptomDeleted()}
+			(error) => { alert(error) },
+			() => { this.props.onSymptomDeleted() }
 		);
 	};
 
 	handleAddButtonPress = () => {
-		if(this.props.type == SYMPTOM_BUTTON_TYPES.MORE_SYMPTOMS){
+		if (this.props.type == SYMPTOM_BUTTON_TYPES.MORE_SYMPTOMS) {
 			this.props.navigation.navigate("MoreSymptoms", this.props.moreSymptomsParams)
-		}else if (this.props.type == SYMPTOM_BUTTON_TYPES.CREATE_SYMPTOM) {
+		} else if (this.props.type == SYMPTOM_BUTTON_TYPES.CREATE_SYMPTOM) {
 			this.props.navigation.navigate("AddNewSymptom")
-        }else if (this.props.type == SYMPTOM_BUTTON_TYPES.NO_SYMPTOM)
-        {
-            this.onPressNoSymptoms();
-        }
-        else
-        {
+		} else if (this.props.type == SYMPTOM_BUTTON_TYPES.NO_SYMPTOM) {
+			this.onPressNoSymptoms();
+		}
+		else {
 			if (this.state.selectedSeverity == 0) {
 				this.callAnimation(false);
 			} else {
-				this.setState({selectedSeverity: 0});
+				this.setState({ selectedSeverity: 0 });
 				this.props.onSymptomDeselected(this.props.symptomID, this.state.selectedSeverity);
 			}
 		}
 	}
 
-	callAnimation(setEnabled){
-			let { selected } = this.state;
-			if(selected) {
-				this.animateReverse(0);
-				this.setState({zIndexNumber: -1})
-				this.setState({selected: !selected});
-				this.props.onSeverityChooserHandled(true, this.props.symptomID);
-			}
-			else {
-				if(this.props.canOpenSeverity){
-					this.animate(1);
-					this.setState({zIndexNumber: 1})
-					this.props.onSeverityChooserHandled(false, this.props.symptomID);
-					this.setState({selected: !selected});
-				}else{
-					if(setEnabled){
-						this.props.onSeverityChooserHandled(true, this.props.symptomID);
-					}
+	callAnimation(setEnabled) {
+		let { selected } = this.state;
+		if (selected) {
+			this.animateReverse(0);
+			this.setState({ zIndexNumber: -1 })
+			this.setState({ selected: !selected });
+			this.props.onSeverityChooserHandled(true, this.props.symptomID);
+		}
+		else {
+			if (this.props.canOpenSeverity) {
+				this.animate(1);
+				this.setState({ zIndexNumber: 1 })
+				this.props.onSeverityChooserHandled(false, this.props.symptomID);
+				this.setState({ selected: !selected });
+			} else {
+				if (setEnabled) {
+					this.props.onSeverityChooserHandled(true, this.props.symptomID);
 				}
 			}
+		}
 	}
 
-    onPressNoSymptoms()
-    {
-        const { selected } = this.state;
-        this.setState({selected: !selected, selectedSeverity: selected ? 0 : 1});
-        if (selected)
-        {
-            this.props.onSymptomDeselected(this.props.symptomID, 1);
-        }
-        else 
-        {
-            this.props.onSymptomSelected(this.props.symptomID, 1);
-        }
-        this.props.onSeverityChooserHandled(true);
-    }
+	onPressNoSymptoms() {
+		const { selected } = this.state;
+		this.setState({ selected: !selected, selectedSeverity: selected ? 0 : 1 });
+		if (selected) {
+			this.props.onSymptomDeselected(this.props.symptomID, 1);
+		}
+		else {
+			this.props.onSymptomSelected(this.props.symptomID, 1);
+		}
+		this.props.onSeverityChooserHandled(true);
+	}
 
 	onPressYellow = () => {
-		this.setState({selectedSeverity: 1})
+		this.setState({ selectedSeverity: 1 })
 		this.callAnimation(true);
 		this.props.onSeverityChooserHandled(true);
 		this.props.onSymptomSelected(this.props.symptomID, 1) //1 --> yellow severity
 	}
 
 	onPressOrange = () => {
-		this.setState({selectedSeverity: 2})
+		this.setState({ selectedSeverity: 2 })
 		this.callAnimation(true);
 		this.props.onSeverityChooserHandled(true);
 		this.props.onSymptomSelected(this.props.symptomID, 2) //2 --> orange severity
 	}
 
 	onPressRed = () => {
-		this.setState({selectedSeverity: 3})
+		this.setState({ selectedSeverity: 3 })
 		this.callAnimation(true);
 		this.props.onSeverityChooserHandled(true);
 		this.props.onSymptomSelected(this.props.symptomID, 3) //3 --> red severity
 	}
 
 	animate = (toValue) => {
-		Animated.stagger(delay,[
+		Animated.stagger(delay, [
 			Animated.parallel([
 				Animated.timing(
 					this.animatedValue,
@@ -193,7 +188,7 @@ export default class SymptomIconButton extends Component {
 	}
 
 	animateReverse = (toValue) => {
-		Animated.stagger(delay,[
+		Animated.stagger(delay, [
 			Animated.timing(
 				this.topRightValue,
 				{
@@ -239,82 +234,82 @@ export default class SymptomIconButton extends Component {
 
 		let springValue = Animated.add(Animated.add(this.topLeftValue, this.topRightValue), this.topCenterValue);
 
-		if(this.props.type == SYMPTOM_BUTTON_TYPES.SEVERITY_CHOOSER_LEFT){
+		if (this.props.type == SYMPTOM_BUTTON_TYPES.SEVERITY_CHOOSER_LEFT) {
 			center = {
 				top: 15,
 				left: 15,
 			};
-			
+
 			topCenter = {
 				top: -30,
 				left: 85,
 			};
-			
+
 			topLeft = {
 				top: -60,
 				left: 15,
 			};
-			
+
 			topRight = {
 				top: 45,
 				left: 90,
 			};
-		}else if(this.props.type == SYMPTOM_BUTTON_TYPES.SEVERITY_CHOOSER_CENTRE){
+		} else if (this.props.type == SYMPTOM_BUTTON_TYPES.SEVERITY_CHOOSER_CENTRE) {
 			center = {
 				top: 15,
 				left: 15,
 			};
-			
+
 			topCenter = {
 				top: -60,
 				left: 15,
 			};
-			
+
 			topLeft = {
 				top: -30,
 				left: -55,
 			};
-			
+
 			topRight = {
 				top: -30,
 				left: 85,
 			};
-		}else if(this.props.type == SYMPTOM_BUTTON_TYPES.SEVERITY_CHOOSER_RIGHT){
+		} else if (this.props.type == SYMPTOM_BUTTON_TYPES.SEVERITY_CHOOSER_RIGHT) {
 			center = {
 				top: 15,
 				left: 15,
 			};
-			
+
 			topCenter = {
 				top: -30,
 				left: -55,
 			};
-			
+
 			topLeft = {
 				top: 45,
 				left: -60,
 			};
-			
+
 			topRight = {
 				top: -60,
 				left: 15,
 			};
-		}else{
+		} else {
 			center = {
 				top: 15,
 				left: 15,
 			};
-			
+
 			topCenter = {
 				top: -60,
 				left: 15,
 			};
-			
+
 			topLeft = {
 				top: -30,
 				left: -55,
 			};
-			
+
 			topRight = {
 				top: -30,
 				left: 85,
@@ -323,21 +318,21 @@ export default class SymptomIconButton extends Component {
 
 		let bigBubbleColor = DEFAULT_COLOR;
 		switch (this.state.selectedSeverity) {
-			case 1: bigBubbleColor= LOW_COLOR; break;
-			case 2: bigBubbleColor= MEDIUM_COLOR; break;
-			case 3: bigBubbleColor= HIGH_COLOR; break;
+			case 1: bigBubbleColor = LOW_COLOR; break;
+			case 2: bigBubbleColor = MEDIUM_COLOR; break;
+			case 3: bigBubbleColor = HIGH_COLOR; break;
 		}
 
 		let { selected } = this.state;
-        let zIndex = selected ? 100 : 0;
-        
-        const symptomName = this.props.symptomID != -1 ? this.props.symptomName : 'NO_SYMPTOMS'; //TODO: Temp solution. Needs to be an entry in the database
-        
+		let zIndex = selected ? 100 : 0;
+
+		const symptomName = this.props.symptomID != -1 ? this.props.symptomName : 'NO_SYMPTOMS'; //TODO: Temp solution. Needs to be an entry in the database
+
 		if (this.props.active == null || this.props.active == true) {
 			return (
 				<View style={(Platform.OS === 'ios') ?
-          {marginTop: 60, opacity: this.props.opacity, zIndex: zIndex} :
-          {marginTop: 60, opacity: this.props.opacity}}>
+					{ marginTop: 60, opacity: this.props.opacity, zIndex: zIndex } :
+					{ marginTop: 60, opacity: this.props.opacity }}>
 					<Animated.View
 						style={[
 							style.bigBubble,
@@ -365,7 +360,7 @@ export default class SymptomIconButton extends Component {
 							onLongPress={() => this.props.symptomID > 7 ? this.setState({ showDeleteConfirmDialog: true }) : null}
 						>
 							<Animated.View>
-								<Image source = {Image.resolveAssetSource(this.props.symptomIcon)} style={style.iconImage}/>
+								<Image source={Image.resolveAssetSource(this.props.symptomIcon)} style={style.iconImage} />
 							</Animated.View>
 						</TouchableOpacity>
 					</Animated.View>
@@ -463,13 +458,13 @@ export default class SymptomIconButton extends Component {
 						]}
 					>
 					</AnimatedTouchable>
-					
+
 
 					<View>
 						<Dialog.Container visible={this.state.showDeleteConfirmDialog}>
 							<Dialog.Title>{LanguageManager.getInstance().getText("DELETE")}</Dialog.Title>
 							<Dialog.Description>
-							{LanguageManager.getInstance().getText("DO_YOU_WANT_TO_DELETE")}
+								{LanguageManager.getInstance().getText("DO_YOU_WANT_TO_DELETE")}
 							</Dialog.Description>
 							<Dialog.Button label={LanguageManager.getInstance().getText("BACK")} onPress={() => this.handleBack()} />
 							<Dialog.Button label={LanguageManager.getInstance().getText("DISCARD")} onPress={() => this.handleDelete()} />
@@ -480,18 +475,18 @@ export default class SymptomIconButton extends Component {
 		} else {
 			if (this.props.size === 'big') {
 				return (
-					<View style={{marginTop: 60, opacity: this.props.opacity, alignItems: 'center'}}>
-						<View style={[style.bigBubbleBig, { backgroundColor: bigBubbleColor } ]}>
-							<Image source={Image.resolveAssetSource(this.props.symptomIcon)} style={style.iconImageBig}/>
+					<View style={{ marginTop: 60, opacity: this.props.opacity, alignItems: 'center', backgroundColor: bigBubbleColor }}>
+						<View style={[style.bigBubbleBig]}>
+							<Image source={Image.resolveAssetSource(this.props.symptomIcon)} style={style.iconImageBig} />
 						</View>
 						<Text style={style.symptomNameTextBig}>{LanguageManager.getInstance().getText(symptomName)}</Text>
 					</View>
 				);
 			} else {
 				return (
-					<View style={{marginTop: 60, opacity: this.props.opacity}}>
-						<View style={[style.bigBubble, { backgroundColor: bigBubbleColor } ]}>
-							<Image source={Image.resolveAssetSource(this.props.symptomIcon)} style={style.iconImage}/>
+					<View style={[{ marginTop: 60, opacity: this.props.opacity, backgroundColor: bigBubbleColor }, style.container]}>
+						<View style={[style.bigBubble]}>
+							<Image source={Image.resolveAssetSource(this.props.symptomIcon)} style={style.iconImage} />
 						</View>
 						<Text style={style.symptomNameText}>{LanguageManager.getInstance().getText(symptomName)}</Text>
 					</View>
@@ -502,13 +497,16 @@ export default class SymptomIconButton extends Component {
 }
 
 const style = StyleSheet.create({
+	container: {
+		borderRadius: 3,
+	},
 	bigBubble: {
 		justifyContent: 'center',
 		alignItems: 'center',
 		height: bigBubbleSize,
 		width: bigBubbleSize,
-		borderRadius: bigBubbleSize / 2,
-  	},
+		borderRadius: 3,
+	},
 	smallBubbleYellow: {
 		justifyContent: 'center',
 		alignItems: 'center',
@@ -543,11 +541,11 @@ const style = StyleSheet.create({
 		height: imageHeight,
 		width: imageWidth,
 	},
-	symptomNameText:{
-	  fontSize: 15,
-	  textAlign: 'center',
-	  width: bigBubbleSize,
-	  flexWrap: 'wrap',
+	symptomNameText: {
+		fontSize: 15,
+		textAlign: 'center',
+		width: bigBubbleSize,
+		flexWrap: 'wrap',
 	},
 	bigBubbleBig: {
 		justifyContent: 'center',
@@ -555,15 +553,16 @@ const style = StyleSheet.create({
 		height: imageHeight * 2,
 		width: imageHeight * 2,
 		borderRadius: bigBubbleSize,
-  	},
+	},
 	iconImageBig: {
 		height: imageHeight * 1.5,
-		width: imageWidth  * 1.5,
+		width: imageWidth * 1.5,
 	},
-	symptomNameTextBig:{
+	symptomNameTextBig: {
 		fontSize: 15,
 		textAlign: 'center',
 		width: bigBubbleSize * 2,
 		flexWrap: 'wrap',
-	  },
+	},
+
 });

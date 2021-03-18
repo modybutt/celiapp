@@ -110,6 +110,10 @@ export default createStackNavigator({
   },
   AddSymptom: {
     screen: SymptomTrackerScreen,
+    navigationOptions: {
+      header: null,
+      title: ''
+    },
   },
   MoreSymptoms: {
     screen: SymptomTrackerMoreSymptomsScreen,
@@ -122,15 +126,27 @@ export default createStackNavigator({
   },
   AddMeal: {
     screen: FoodDiaryScreen,
+    navigationOptions: {
+      header: null,
+      title: ''
+    },
   },
   ViewMeal: {
     screen: FoodViewScreen,
   },
   AddEmote: {
     screen: EmoteTrackerScreen,
+    navigationOptions: {
+      header: null,
+      title: ''
+    },
   },
   AddGIP: {
     screen: GIPScreen,
+    navigationOptions: {
+      header: null,
+      title: ''
+    },
   },
   ViewGIP: {
     screen: GIPViewScreen,

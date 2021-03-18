@@ -1,34 +1,6 @@
 import React from 'react';
 import { StyleSheet, Alert, View, AppRegistry, TextInput } from 'react-native';
 
-
-/*export class TextFieldMultiline extends React.Component {
-    constructor(props) {
-        super(props);
-        this.state = { text: 'random text' };
-    }
-
-    render() {
-        return (
-            <View style={{top:20}}>
-        <View style = {style.Text}>
-    <TextAreaInput
-        preText = 'test'
-        numberOfLines = {4}
-        value={preText}
-        />
-        </View>
-        </View>
-    );
-    }
-}*/
-
-
-
-
-
-
-
 export default class TextFieldMultiline extends React.Component {
 
     constructor(props) {
@@ -50,9 +22,14 @@ export default class TextFieldMultiline extends React.Component {
         })
     }
 
+    colorStyle = {
+        borderColor: this.props.color,
+        borderWidth: StyleSheet.hairlineWidth,
+    }
+
     render() {
         return (
-        <View style = {styles.Text}>
+        <View style = {this.props.color ? [styles.container, this.colorStyle] : [styles.container]}>
             <TextInput
                 {...this.props} // Inherit any props passed to it; e.g., multiline, numberOfLines below
                 //onChangeText={(text) => {this.setState({text}); this.onNoteEdit; }}
@@ -71,20 +48,9 @@ export default class TextFieldMultiline extends React.Component {
 
 const styles = StyleSheet.create({
     container: {
-        flex: 1,
         backgroundColor: '#fff',
-        alignItems: 'center',
-        justifyContent: 'center',
+        paddingLeft:5,
     },
-     Text:{
-           borderWidth: 2,
-           borderColor: 'grey',
-           borderRadius: 20,
-           marginLeft: 10,
-           marginRight: 10,
-           alignContent: 'space-around',
-           padding: 10
-           }
 });
 
 

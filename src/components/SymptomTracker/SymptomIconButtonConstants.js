@@ -25,9 +25,9 @@ import LanguageManager from '../../manager/LanguageManager';
 // Style constants
 export const bigBubbleSize = 80;
 export const smallBubbleSize = 50;
-export const bubbleColorRed = 'rgb(255, 0, 0)';
-export const bubbleColorOrange = 'rgb(255, 165, 0)';
-export const bubbleColorYellow = 'rgb(255, 215, 0)';
+export const bubbleColorRed = '#1DBBA0';
+export const bubbleColorOrange = '#83E2D2';
+export const bubbleColorYellow = '#D9EEEA';
 
 
 export const imageHeight = 50;
