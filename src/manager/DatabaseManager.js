@@ -255,8 +255,8 @@ export default class DatabaseManager {
   createMealEvent(name, type, tag, rating, note, icon, timestamp, onError, onSuccess) {
     let objData = {
       name,
-      type,
-      tag,
+      type, //gluten yes no ?
+      tag,  //breakfast lunch dinner
       rating,
       icon,
       note
@@ -388,18 +388,22 @@ export default class DatabaseManager {
       start.setHours(0, 0, 0);
       end.setHours(23, 59, 59);
 
-      this.db.transaction(tx => {
-        tx.executeSql('SELECT * FROM events '
-                    + 'WHERE deleted IS NULL AND created BETWEEN ? AND ?  '
-                    + 'ORDER BY created DESC',
-          [start.getTime(), end.getTime()], onSuccess, onError);
-      });
+      this.fetchEventsBetween(start, end, onError, onSuccess);
     } else {
       this.db.transaction(tx => {
         tx.executeSql('SELECT * FROM events WHERE deleted IS NULL ORDER BY created DESC',
           null, onSuccess, onError);
       });
     }
+  }
+
+  fetchEventsBetween(start, end, onError, onSuccess) {
+    this.db.transaction(tx => {
+      tx.executeSql('SELECT * FROM events '
+                  + 'WHERE deleted IS NULL AND created BETWEEN ? AND ?  '
+                  + 'ORDER BY created DESC',
+        [start.getTime(), end.getTime()], onSuccess, onError);
+      });
   }
 
 

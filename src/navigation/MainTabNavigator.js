@@ -5,9 +5,10 @@ import {
 import { createMaterialTopTabNavigator } from 'react-navigation-tabs';
 
 import TabBarIcon from "../components/TabBarIcon";
+import TabBarCustomIcon from "../components/TabBarCustomIcon";
 import EvaluationScreen from "../screens/EvaluationScreen";
-import HomeScreen from "../screens/HomeScreen";
 import CalendarScreen from "../screens/CalendarScreen";
+import ReportScreen from "../screens/ReportScreen";
 import DebugScreen from "../screens/DebugScreen";
 import SymptomTrackerScreen from "../screens/SymptomTrackerScreen";
 import FoodDiaryScreen from "../screens/FoodDiaryScreen";
@@ -40,6 +41,9 @@ const GlutenStack = createStackNavigator({
   Glutenbuddy: GlutenbuddyRoot,
 });
 
+const ReportStack = createStackNavigator({
+  Report: ReportScreen,
+});
 
 const TabNavStack = createMaterialTopTabNavigator(
   {
@@ -48,7 +52,7 @@ const TabNavStack = createMaterialTopTabNavigator(
       navigationOptions: {
         //tabBarLabel: 'Evaluation',
         tabBarIcon: ({ focused }) => (
-          <TabBarIcon focused={focused} name={"md-trending-up"} />
+          <TabBarIcon focused={focused} name={"md-pulse"} />
         ),
       },
     },
@@ -57,7 +61,7 @@ const TabNavStack = createMaterialTopTabNavigator(
       navigationOptions: {
         //tabBarLabel: 'Calendar',
         tabBarIcon: ({ focused }) => (
-          <TabBarIcon focused={focused} name={"ios-happy"} />
+          <TabBarCustomIcon focused={focused} source={require("../assets/images/glutenfree.png")}/>
         ),
       },
     },
@@ -70,17 +74,18 @@ const TabNavStack = createMaterialTopTabNavigator(
         ),
       },
     },
-/** // Screen for x-Day-challenge:
-    Home: {
-      screen: HomeScreen, //Note for Oisin: replace this with your component
-      navigationOptions: {
-        //tabBarLabel: 'Home',
-        tabBarIcon: ({ focused }) => (
-          <TabBarIcon focused={focused} name={"md-paw"} />
-        ),
-      },
-    },
-*/  
+    
+ // Screen for x-Day-challenge:
+    // Home: {
+    //   screen: HomeScreen, //Note for Oisin: replace this with your component
+    //   navigationOptions: {
+    //     tabBarLabel: 'Home',
+    //     tabBarIcon: ({ focused }) => (
+    //       <TabBarIcon focused={focused} name={"md-paw"} />
+    //     ),
+    //   },
+    // },
+
   },
   {
     initialRouteName: "Glutenbuddy",
@@ -104,7 +109,7 @@ export default createStackNavigator({
   TabBar: {
     screen: TabNavStack,
     navigationOptions: {
-      header: null,
+      headerShown: false,
       title: ''
     },
   },

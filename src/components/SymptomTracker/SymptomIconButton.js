@@ -1,9 +1,7 @@
 import React, { Component } from 'react';
 import { TouchableOpacity, Text, Alert, Animated, Image, Easing, View, StyleSheet, Platform } from 'react-native';
 import Dialog from "react-native-dialog";
-
-import Constants from 'expo-constants';
-import { SYMPTOM_BUTTON_TYPES } from "./SymptomIconButtonConstants.js"
+import {SYMPTOM_BUTTON_TYPES} from "./SymptomIconButtonConstants.js"
 
 // constants
 import {

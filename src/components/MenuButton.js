@@ -1,6 +1,6 @@
 import React from 'react';
 import { View, StyleSheet, Image } from 'react-native';
-import ActionButton from 'react-native-action-button';
+import ActionButton from '@kenetto/react-native-action-button';
 import * as Icon from '@expo/vector-icons';
 import LanguageManager from '../manager/LanguageManager';
 import CeliLogger from '../analytics/analyticsManager';

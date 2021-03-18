@@ -13,7 +13,7 @@ import TextInputSingleLine from '../components/TextInputSingleLine';
 import TextInputMultiLine from '../components/TextInputMultiLine';
 import * as Icon from '@expo/vector-icons';
 import RoundPictureButton from '../components/RoundPictureButton';
-import ActionButton from 'react-native-action-button';
+import ActionButton from '@kenetto/react-native-action-button';
 import CustomButton from '../components/CustomButton'
 import SearchSymptom from '../components/SymptomTracker/SearchSymptom';
 import EntryList from '../components/EntryList';
