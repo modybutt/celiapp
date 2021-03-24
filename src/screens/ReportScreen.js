@@ -1,4 +1,5 @@
 import React from 'react';
+import { SvgXml } from 'react-native-svg';
 import {
   ScrollView,
   StyleSheet,
@@ -143,10 +144,10 @@ const BestDay=()=>
     </View>
   </View>
 
-const symptomImage = require('../assets/images/symptom.png')
-const emotionImage = require('../assets/images/symptom.png')
-const mealImage = require('../assets/images/symptom.png')
-const gipImage = require('../assets/images/symptom.png')
+import symptomImage from '../assets/images/stethoscope_white.svg';
+import emotionImage from '../assets/images/smiley_face_white.svg';
+import mealImage from '../assets/images/cutlery_white.svg';
+import gipImage from '../assets/images/heartbeat.svg';
 const symptomColor =  "#1DBBA0"
 const mealColor = "#3398DE"
 const emotionColor = "#9958B7"
@@ -154,7 +155,7 @@ const gipColor= "#FF8D1E"
 
 const InfoIcon = ({image, color}) =>
   <View style={[styles.infoIcon, {backgroundColor: color}]}>
-  <Image style={styles.infoIconImage} source ={image}/>
+    <SvgXml  width="26" height="26" xml={image}/>
   </View>
 
 const InfoBox = ({info, image, color}) =>   
