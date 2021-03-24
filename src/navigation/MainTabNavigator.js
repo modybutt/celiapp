@@ -6,6 +6,8 @@ import { createMaterialTopTabNavigator } from 'react-navigation-tabs';
 
 import TabBarIcon from "../components/TabBarIcon";
 import TabBarCustomIcon from "../components/TabBarCustomIcon";
+import { SvgXml } from 'react-native-svg';
+import ReportIcon from '../Assets/Images/heartbeat.svg';
 import EvaluationScreen from "../screens/EvaluationScreen";
 import CalendarScreen from "../screens/CalendarScreen";
 import ReportScreen from "../screens/ReportScreen";
@@ -75,6 +77,15 @@ const TabNavStack = createMaterialTopTabNavigator(
       },
     },
     
+    Report: {
+      screen: ReportStack,
+      navigationOptions: {
+        tabBarIcon: ({ focused }) => (
+          <SvgXml width="26" height="26" xml={ReportIcon} />
+        ),
+      },
+    },
+
  // Screen for x-Day-challenge:
     // Home: {
     //   screen: HomeScreen, //Note for Oisin: replace this with your component
