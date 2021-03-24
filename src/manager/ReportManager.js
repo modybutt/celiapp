@@ -55,6 +55,22 @@ export default class ReportManager {
     return startOfWeek;
   }
 
+  static getStartOfThisWeekBeginningMonday(now){
+    var previousSunday = this.getPreviousSunday(now || new Date());
+    var startOfWeek=new Date()
+    startOfWeek.setDate(previousSunday.getDate() + 1);
+    startOfWeek.setHours(0, 0, 0, 0);
+    return startOfWeek;
+  }
+
+  static getEndOfThisWeekBeginningMonday(now){
+    var previousSunday = this.getPreviousSunday(now || new Date());
+    var endOfWeek=new Date()
+    endOfWeek.setDate(previousSunday.getDate() + 7);
+    endOfWeek.setHours(23, 59, 59, 999);
+    return endOfWeek;
+  }
+
   static getEventsBetweenDatesInclusive(start, end) {
     return new Promise((resolve, reject) => {
       DatabaseManager.getInstance().fetchEventsBetween(
@@ -65,26 +81,6 @@ export default class ReportManager {
       );
     })
   }
-
-  // static getEventsFromPreviousSevenDays(){
-
-  //       let today = new Date();
-
-  //       let sixDaysAgo = new Date();
-  //       sixDaysAgo.setDate(today.getDate() -6);
-
-  //       sixDaysAgo.setHours(0, 0, 0);
-  //       today.setHours(23, 59, 59);
-
-  //       return new Promise((resolve, reject) =>{
-  //           DatabaseManager.getInstance().fetchEventsBetween(
-  //               sixDaysAgo, 
-  //               today, 
-  //               () => reject("Error fetching events for previous 7 days"),
-  //               (_, {rows: { _array }}) => resolve(_array), 
-  //               );
-  //       })
-  //   }
 
   static fullDaysSinceEpoch = (date) => Math.floor(date / 8.64e7);
 
@@ -132,7 +128,7 @@ export default class ReportManager {
   static dailyScores = []
   static addToDailyScore = (day, start) => {
     const dayOfWeek = start - day
-    console.log("daOFWeek", dayOfWeek)
+    console.log("dayOfWeek", dayOfWeek)
     this.dailyScores[dayOfWeek] = this.dailyScores[dayOfWeek] || 0;
     this.dailyScores[dayOfWeek] += 1;
   }
@@ -140,8 +136,8 @@ export default class ReportManager {
   static weeklyReport(success) {
     this.dailyScores = Array(7).fill(0);
 
-    const startOfWeek = this.getStartOfPreviousFullWeekBeginningMonday()
-    const endOfWeek = this.getEndOfPreviousFullWeekBeginningMonday()
+    const startOfWeek = this.getStartOfThisWeekBeginningMonday()
+    const endOfWeek = this.getEndOfThisWeekBeginningMonday()
     console.log("startofweek", startOfWeek)
     console.log("endtofweek", endOfWeek)
     

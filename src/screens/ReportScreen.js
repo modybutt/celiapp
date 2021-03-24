@@ -81,7 +81,6 @@ const progressShowFractionOfLastQuadrant = (percent) => {
   
   const base_rotation = -45;
   const rotateBy = base_rotation + (percent*360);
-  console.log("rotate by ", percent, ":", rotateBy)
   style.transform = [{rotateZ: `${rotateBy}deg`}]
 
   return style;
