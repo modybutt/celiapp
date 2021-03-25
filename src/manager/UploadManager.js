@@ -92,8 +92,9 @@ export default class UploadManager {
         'Content-Type': 'application/json',
         'X-Token': this.token,
       },
-      body: JSON.stringify({pushToken: pushToken}),
+      body: JSON.stringify({'pushToken': pushToken}),
     }).then((response) => {
+      console.log('XXX ' + JSON.stringify(response));
       if (response.ok) {
         console.log('Uploaded push token ' + pushToken);
         onSuccess();
