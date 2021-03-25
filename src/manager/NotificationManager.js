@@ -3,6 +3,7 @@ import * as Permissions from 'expo-permissions';
 import LanguageManager from './LanguageManager';
 import Constants from 'expo-constants';
 import * as Notifications from 'expo-notifications';
+import UploadManager from './UploadManager';
 
 //request permission to send notifications to user.
 async function getiOSNotificationPermission() {
@@ -17,48 +18,22 @@ async function getiOSNotificationPermission() {
 async function registerForPushNotificationsAsync() {
   if (Constants.isDevice) {
     const { status: existingStatus } = await Notifications.getPermissionsAsync();
-    let finalStatus = existingStatus;
     if (existingStatus !== 'granted') {
-      const { status } = await Notifications.requestPermissionsAsync();
-      finalStatus = status;
+      const { status: newStatus } = await Notifications.requestPermissionsAsync();
+      existingStatus = newStatus;
     }
-    if (finalStatus !== 'granted') {
-      Alert.alert(
-        "Not granted",
-        "My Alert Msg",
-        [
-          {
-            text: "Cancel",
-            onPress: () => console.log("Cancel Pressed"),
-            style: "cancel"
-          },
-          { text: "OK", onPress: () => console.log("OK Pressed") }
-        ],
-        { cancelable: false }
-      );
+    if (existingStatus !== 'granted') {
       console.warn('Failed to get push token for push notification!');
       return;
     }
     const token = (await Notifications.getExpoPushTokenAsync()).data;
-    console.warn("celiapp_token");
-    console.warn(token);
-    Alert.alert(
-      "Token",
-      token,
-      [
-        {
-          text: "Cancel",
-          onPress: () => console.log("Cancel Pressed"),
-          style: "cancel"
-        },
-        { text: "OK", onPress: () => console.log("OK Pressed") }
-      ],
-      { cancelable: false }
-    );
-    //this.setState({ expoPushToken: token });
-  } else {
+    console.log('Token for push notifications: ' + token);
     
-    console.warn('Must use physical device for Push Notifications');
+    UploadManager.getInstance().uploadPushToken(token, () => {
+      console.log('Uploaded token for push notifications');
+    });
+  } else {
+    console.warn('Must use physical device for push notifications');
   }
 
   if (Platform.OS === 'android') {
@@ -71,8 +46,8 @@ async function registerForPushNotificationsAsync() {
   }
 };
 
-export default class NotificationManager 
-{
+export default class NotificationManager {
+  
     static getInstance()
     {
         if (NotificationManager.instance == null)
