@@ -23,13 +23,41 @@ async function registerForPushNotificationsAsync() {
       finalStatus = status;
     }
     if (finalStatus !== 'granted') {
+      Alert.alert(
+        "Not granted",
+        "My Alert Msg",
+        [
+          {
+            text: "Cancel",
+            onPress: () => console.log("Cancel Pressed"),
+            style: "cancel"
+          },
+          { text: "OK", onPress: () => console.log("OK Pressed") }
+        ],
+        { cancelable: false }
+      );
       console.warn('Failed to get push token for push notification!');
       return;
     }
     const token = (await Notifications.getExpoPushTokenAsync()).data;
-    console.log(token);
-    this.setState({ expoPushToken: token });
+    console.warn("celiapp_token");
+    console.warn(token);
+    Alert.alert(
+      "Token",
+      token,
+      [
+        {
+          text: "Cancel",
+          onPress: () => console.log("Cancel Pressed"),
+          style: "cancel"
+        },
+        { text: "OK", onPress: () => console.log("OK Pressed") }
+      ],
+      { cancelable: false }
+    );
+    //this.setState({ expoPushToken: token });
   } else {
+    
     console.warn('Must use physical device for Push Notifications');
   }
 
