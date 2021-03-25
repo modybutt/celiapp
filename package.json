@@ -70,6 +70,7 @@
   },
   "private": true,
   "devDependencies": {
+    "babel-plugin-inline-import": "^3.0.0",
     "typescript": "~3.9.2"
   }
 }

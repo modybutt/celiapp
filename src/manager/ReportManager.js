@@ -55,6 +55,22 @@ export default class ReportManager {
     return startOfWeek;
   }
 
+  static getStartOfThisWeekBeginningMonday(now){
+    var previousSunday = this.getPreviousSunday(now || new Date());
+    var startOfWeek=new Date()
+    startOfWeek.setDate(previousSunday.getDate() + 1);
+    startOfWeek.setHours(0, 0, 0, 0);
+    return startOfWeek;
+  }
+
+  static getEndOfThisWeekBeginningMonday(now){
+    var previousSunday = this.getPreviousSunday(now || new Date());
+    var endOfWeek=new Date()
+    endOfWeek.setDate(previousSunday.getDate() + 7);
+    endOfWeek.setHours(23, 59, 59, 999);
+    return endOfWeek;
+  }
+
   static getEventsBetweenDatesInclusive(start, end) {
     return new Promise((resolve, reject) => {
       DatabaseManager.getInstance().fetchEventsBetween(
@@ -65,26 +81,6 @@ export default class ReportManager {
       );
     })
   }
-
-  // static getEventsFromPreviousSevenDays(){
-
-  //       let today = new Date();
-
-  //       let sixDaysAgo = new Date();
-  //       sixDaysAgo.setDate(today.getDate() -6);
-
-  //       sixDaysAgo.setHours(0, 0, 0);
-  //       today.setHours(23, 59, 59);
-
-  //       return new Promise((resolve, reject) =>{
-  //           DatabaseManager.getInstance().fetchEventsBetween(
-  //               sixDaysAgo, 
-  //               today, 
-  //               () => reject("Error fetching events for previous 7 days"),
-  //               (_, {rows: { _array }}) => resolve(_array), 
-  //               );
-  //       })
-  //   }
 
   static fullDaysSinceEpoch = (date) => Math.floor(date / 8.64e7);
 
@@ -129,19 +125,93 @@ export default class ReportManager {
     }
   }
 
-  static dailyScores = []
-  static addToDailyScore = (day, start) => {
-    const dayOfWeek = start - day
-    console.log("daOFWeek", dayOfWeek)
-    this.dailyScores[dayOfWeek] = this.dailyScores[dayOfWeek] || 0;
-    this.dailyScores[dayOfWeek] += 1;
+  static dailySummary = new Array(7).fill().map(_ => ({}));
+  static dailyFields = ["eventCount","score","mealCount","moodCount","symptomCount","gipTests"];
+  
+  static initialiseDailySummary = (d) =>{
+    var date = new Date(d)
+    this.dailySummary.forEach(ds => {
+      this.dailyFields
+        .forEach( (f) => {ds[f] = 0;})
+      ds.date = new Date(date)
+      date.setDate(date.getDate()+1)
+    });
+  }
+
+  static addToDailyScore = (day, start, event) => {
+    const dayOfWeek = start - day;  
+
+    this.dailySummary[dayOfWeek].eventCount += 1;
+    this.dailySummary[dayOfWeek].score += this.scoreEvent(event);
+
+    switch (event.eventType) {
+      case Events.Symptom: {
+        this.dailySummary[dayOfWeek].symptomCount++;
+        break;
+      }
+      case Events.Food: {
+        this.dailySummary[dayOfWeek].mealCount++;
+        break;
+      }
+      case Events.Emotion: {
+        this.dailySummary[dayOfWeek].moodCount++;
+        break;
+      }
+      case Events.GIP: {
+        this.dailySummary[dayOfWeek].gipTests++;
+        break;
+      }
+    }
+
+  }
+
+  static symptomString = (count) => {
+    if (count == 1) return "one symptom";
+    if (count >  1) return "" + count + "symptoms";
+    return "no symptoms";
+  }
+
+  static mealString = (count) => {
+      if (count == 1) return "one meal";
+      if (count >  1) return "" + count + "meals";
+      return "no meals";
+  }
+
+  static moodString = (count) => {
+    if (count == 1) return "one mood";
+    if (count >  1) return "" + count + "moods";
+    return "no moods";
+  }
+
+  static gipFreeString = (count) => {
+      if (count == 1) return "a gluten-free test";
+      if (count >  1) return "" + count + "gluten-free tests";
+      return "";
+  }
+
+  static gipPositiveString = (count) => {
+    if (count == 1) return "a gluten-positive test";
+    if (count >  1) return "" + count + "gluten-positive tests";
+    return "";
+  
+}
+
+  static daySummaryString = (day) => {
+    return "You logged " +
+      this.symptomString(day.symptomCount) + ", " +
+      this.moodString(day.moodCount) + ", " +
+      this.mealString(day.mealCount) + ", " +
+      this.gipFreeString(day.gipTests);
   }
 
   static weeklyReport(success) {
-    this.dailyScores = Array(7).fill(0);
+    const TARGET_DAILY_EVENTS = 9;
 
-    const startOfWeek = this.getStartOfPreviousFullWeekBeginningMonday()
-    const endOfWeek = this.getEndOfPreviousFullWeekBeginningMonday()
+    const startOfWeek = this.getStartOfThisWeekBeginningMonday();
+    const endOfWeek = this.getEndOfThisWeekBeginningMonday();
+
+    this.initialiseDailySummary(startOfWeek);
+
     console.log("startofweek", startOfWeek)
     console.log("endtofweek", endOfWeek)
     
@@ -160,12 +230,23 @@ export default class ReportManager {
             return event
           })
           .map(event => { console.log("Event enriched:", event); return event })
-          .map(event => this.addToDailyScore(event.daysAgo, startOfWeekAsDaysAgo))
+          .map(event => this.addToDailyScore(event.daysAgo, startOfWeekAsDaysAgo, event))
 
-        console.log("DailyScores:", this.dailyScores)
-        this.reportData.dailyActivity  = this.dailyScores.map(s => s/9)
+        console.log("DailyScores:", this.dailySummary)
+        this.reportData.dailyActivity  = this.dailySummary.map(d => d.eventCount/TARGET_DAILY_EVENTS)
         this.reportData.weekEndingDate = endOfWeek
         console.log("DailyActivity:", this.reportData.dailyActivity)
+        
+        var bestDay=this.dailySummary[0];
+        for(i=1;i< this.dailySummary.length;i++){
+          if(this.dailySummary[i].score > bestDay.score)
+            bestDay=this.dailySummary[i];
+        }
+
+        var dateFormat = { weekday: 'long', month: 'long', day: 'numeric' };
+        this.reportData.bestDayHeading = bestDay.date.toLocaleDateString("en-US", dateFormat)
+        this.reportData.bestDayBody = this.daySummaryString(bestDay)
+
 
         success(this.reportData)
       })
