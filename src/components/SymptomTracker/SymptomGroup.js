@@ -189,5 +189,6 @@ const styles = StyleSheet.create({
     height: 130,
     flexDirection: 'row',
     justifyContent: 'space-around',
+    paddingBottom: 20,
   },
 });

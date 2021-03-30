@@ -15,8 +15,9 @@ export default class ImageButton extends React.Component {
     }
 
     colorStyle = {
-        backgroundColor: this.props.color,
-        color: '#fff',
+        //backgroundColor: this.props.color,
+        backgroundColor: "#707070",
+        color: '#F7F7F7',
     }
 
     render() {
@@ -106,7 +107,7 @@ var styles = StyleSheet.create({
     },
     button: {
         borderRadius: 3,
-        backgroundColor: '#fff',
+        backgroundColor: '#F7F7F7',
         justifyContent: 'center',
         alignItems: 'center',
     },
@@ -114,5 +115,6 @@ var styles = StyleSheet.create({
         paddingTop: 3,
         fontSize: 10,
         textAlign: 'center',
+        color: "#707070",
     },
 });

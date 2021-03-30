@@ -20,14 +20,14 @@ export default class HeaderBanner extends React.Component{
 
 const styles = StyleSheet.create({
     container: {
-        height:100,
+        height:50,
         backgroundColor: 'blue',
         alignItems: 'center',
         justifyContent: 'center',
     },
     image: {
         /*width: '80%',*/
-        height: '50%',
+        height: '70%',
         aspectRatio: 1,
         resizeMode: 'contain',
     },

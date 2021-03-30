@@ -149,13 +149,13 @@ export default class EmoteTrackerScreen extends React.Component {
         return (
             <>
                 <SafeAreaView style={{ flex: 0, backgroundColor: this.state.color }} />
-                <KeyboardAwareScrollView>
+                <KeyboardAwareScrollView style={{backgroundColor: "#fff"}}>
                     <HeaderBanner color={this.state.color} imageSource={require('../../assets/images/EmoteTracker/mood_icon.png')} />
                     <HorizontalLineWithText color={this.state.color} text={LanguageManager.getInstance().getText("DATE")} />
                     <DayPicker ref={component => this._dayChooser = component} textString="SYMPTOM_OCCURED" onDateChanged={this.dateEditedHandler} />
                     <HorizontalLineWithText color={this.state.color} text={LanguageManager.getInstance().getText("TIME")} />
                     <TimePicker ref={component => this._timePicker = component} textString="SYMPTOM_OCCURED" onTimeChanged={this.timeEditedHandler} />
-                    <HorizontalLineWithText color={this.state.color} text={LanguageManager.getInstance().getText("EMOTION")} />
+                    <HorizontalLineWithText color={this.state.color} text={LanguageManager.getInstance().getText("ENERGY")} />
                     <EmoteTrackerSymbolGroup color={this.state.color} selectedID={this.state.selectedSymbolID} onChancedId={this.emotionChangedHandler} />
                     <HorizontalLineWithText color={this.state.color} text={LanguageManager.getInstance().getText("NOTES")} />
                     <NoteEdit color={this.state.color} ref={component => this._noteEdit = component} onTextChanged={this.noteEditedHandler} />
@@ -163,10 +163,10 @@ export default class EmoteTrackerScreen extends React.Component {
                     <View style={styles.buttonContainer}>
                         <View style={styles.buttonSubContainer}>
                             <TouchableHighlight style={styles.buttonSaveAndCancel} onPress={this.handleCancelButton}>
-                                <Text style={{ textAlign: 'center', color: '#F7F7F7' }}>cancel</Text>
+                                <Text style={{ textAlign: 'center', color: '#707070' }}>cancel</Text>
                             </TouchableHighlight>
                             <TouchableHighlight style={styles.buttonSaveAndCancel} onPress={this.saveCurrentData}>
-                                <Text style={{ textAlign: 'center', color: '#F7F7F7' }}>save</Text>
+                                <Text style={{ textAlign: 'center', color: '#707070' }}>save</Text>
                             </TouchableHighlight>
                         </View>
                     </View>
@@ -253,7 +253,7 @@ var styles = StyleSheet.create({
         width: 90,
         height: 50,
         borderRadius: 3,
-        backgroundColor: '#9958B7',
+        backgroundColor: '#F7F7F7',
         justifyContent: 'center',
         alignItems: 'center'
     }

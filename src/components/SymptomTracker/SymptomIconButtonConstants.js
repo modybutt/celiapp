@@ -34,7 +34,7 @@ export const imageHeight = 50;
 export const imageWidth = 50;
 
 // Animate Constants
-export const animateTime = 0;
+export const animateTime = 100;
 // export const easingType = Easing.out(Easing.exp);
 export const easingType = Easing.linear
 export const delay = 0;

@@ -269,24 +269,20 @@ export default class FoodDiaryScreen extends React.Component {
             //extraScrollHeight not supoorted out-of-the-box in android see here https://github.com/AyushAppin/react-native-keyboard-aware-scroll-view
             <>
             <SafeAreaView style={{ flex: 0, backgroundColor: this.state.color }} />
-            <KeyboardAwareScrollView extraScrollHeight={20} scrollEnabled={true} enableAutomaticScroll={true}>
+            <KeyboardAwareScrollView style={{backgroundColor: "#FFFFFF"}} extraScrollHeight={20} scrollEnabled={true} enableAutomaticScroll={true} >
                 <HeaderBanner color={this.state.color} imageSource={require('../../assets/images/FoodTracker/meal_icon.png')}/>
                 <HorizontalLineWithText color={this.state.color} text={LanguageManager.getInstance().getText("DATE")} />
                 <DayPicker ref={component => this._dayChooser = component} textString="SYMPTOM_OCCURED" onDateChanged={this.dateEditedHandler} />
                 <HorizontalLineWithText color={this.state.color} text={LanguageManager.getInstance().getText("TIME")} />
                 <TimePicker ref={component => this._timePicker = component} textString="EATEN_AT" onTimeChanged={this.timeEditedHandler} />
                 <HorizontalLineWithText color={this.state.color} text={LanguageManager.getInstance().getText("TYPES")} />
-                
                 <FoodTrackerSymbolGroup color={this.state.color} selectedID={this.state.selectedMealKey}  onChancedId={this.mealChangedHandler} />
-
                 <HorizontalLineWithText color={this.state.color} text={LanguageManager.getInstance().getText("IMAGE")} />
                 <View style={{ alignItems: 'center' }}>
                     <FoodDiaryImageEdit color={this.state.color} navigation={this.props.navigation} onPictureTaken={(image) => this.setState({ photo: image })} />
                 </View>
-                <HorizontalLineWithText color={this.state.color} text={LanguageManager.getInstance().getText("TAGS")} />
-                
+                <HorizontalLineWithText color={this.state.color} text={LanguageManager.getInstance().getText("MEAL_GLUTEN")} />
                 <FoodTrackerSymbolClassGroup color={this.state.color} selectedID={this.state.selectedClassKey}  onChancedId={this.classChangedHandler} />
-
                 <HorizontalLineWithText color={this.state.color} text={LanguageManager.getInstance().getText("MEAL_NAME")} />
                 <View style={styles.containerPadding}>
                     <TextInputSingleLine color={this.state.color}
@@ -308,10 +304,10 @@ export default class FoodDiaryScreen extends React.Component {
                 <View style={styles.buttonContainer}>
                     <View style={styles.buttonSubContainer}>
                         <TouchableHighlight style={styles.buttonSaveAndCancel} onPress={this.handleCancelButton}>
-                            <Text style={{ textAlign: 'center', color:'#F7F7F7' }}>cancel</Text>
+                            <Text style={{ textAlign: 'center', color:'#707070' }}>cancel</Text>
                         </TouchableHighlight>
                         <TouchableHighlight style={styles.buttonSaveAndCancel} onPress={() => this.saveCurrentData(true)}>
-                            <Text style={{ textAlign: 'center', color:'#F7F7F7' }}>save</Text>
+                            <Text style={{ textAlign: 'center', color:'#707070' }}>save</Text>
                         </TouchableHighlight>
                     </View>
                 </View>
@@ -365,7 +361,7 @@ var styles = StyleSheet.create({
         width: 90,
         height: 50,
         borderRadius: 3,
-        backgroundColor: 'rgb(33,150,243)',
+        backgroundColor: '#F7F7F7',
         justifyContent: 'center',
         alignItems: 'center'
     },

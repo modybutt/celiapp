@@ -198,12 +198,13 @@ export default class DatabaseManager {
   }
 
   //Public
-  createSymptomEvent(symptomID, severity, note, timestamp, onError, onSuccess) {
+  createSymptomEvent(symptomID, severity,description ,note, timestamp, onError, onSuccess) {
     let objData = {
       symptomID,
       //name: "",
       //icon: "",
       severity,
+      description,
       note
     }
     

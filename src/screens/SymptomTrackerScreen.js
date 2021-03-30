@@ -1,10 +1,11 @@
 import React from 'react';
-import { SafeAreaView, Keyboard, View, Button, Alert, TextInput, StyleSheet,TouchableHighlight,Text, BackHandler } from 'react-native';
+import { SafeAreaView, Keyboard, View, Button, Alert, TextInput, StyleSheet, TouchableHighlight, Text, BackHandler } from 'react-native';
 import { HeaderBackButton } from 'react-navigation-stack'
 import Dialog from "react-native-dialog";
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view'
 import SymptomGroup from '../components/SymptomTracker/SymptomGroup';
 import NoteEdit from '../components/NoteEdit';
+import TextInputSingleLine from '../components/TextInputSingleLine';
 import DayChooser from '../components/DayChooser';
 import TimePicker from '../components/TimePicker';
 import DayPicker from '../components/DayPicker';
@@ -41,6 +42,7 @@ export default class SymptomTrackerScreen extends React.Component {
         this.timeEditedHandler = this.timeEditedHandler.bind(this);
         this.symptomSelectionChangeHandler = this.symptomSelectionChangeHandler.bind(this);
         this.state = {
+            symptomDescription: "",
             symptomEntryNote: "", //works correctly \o/
             selectedSymptoms: [], //bit buggy when deleting existing symptoms from list
             dayChangeDialogVisible: false,
@@ -124,7 +126,6 @@ export default class SymptomTrackerScreen extends React.Component {
         this._symptomGroup.deleteSymptoms();
     }
 
-
     setBackDayChooserOneDay = () => {
         this._dayChooser.changeDay(false);
     }
@@ -171,6 +172,12 @@ export default class SymptomTrackerScreen extends React.Component {
         })
     }
 
+    descriptionEditedHandler = (text) => {
+        this.setState({
+            symptomDescription: text,
+        });
+    }
+
     symptomSelectionChangeHandler = (sympIDsAndSeverity) => {
         //this.symptomsUpdated(sympIDsAndSeverity.length > 0);
         this.setState({
@@ -183,7 +190,7 @@ export default class SymptomTrackerScreen extends React.Component {
         return (
             <>
                 <SafeAreaView style={{ flex: 0, backgroundColor: this.state.color }} />
-                <KeyboardAwareScrollView>
+                <KeyboardAwareScrollView style={{ backgroundColor: "#fff" }}>
                     {/* <TextInput onSubmitEditing={Keyboard.dismiss} /> */}
                     <HeaderBanner color={this.state.color} imageSource={require('../../assets/images/SymptomTracker/add_symptom_icon.png')} />
                     <HorizontalLineWithText color={this.state.color} text={LanguageManager.getInstance().getText("DATE")} />
@@ -192,16 +199,25 @@ export default class SymptomTrackerScreen extends React.Component {
                     <TimePicker ref={component => this._timePicker = component} textString="SYMPTOM_OCCURED" onTimeChanged={this.timeEditedHandler} />
                     <HorizontalLineWithText color={this.state.color} text={LanguageManager.getInstance().getText("SYMPTOMS")} />
                     <SymptomGroup ref={component => this._symptomGroup = component} selection={this.state.selectedSymptoms} onSelectionChanged={this.symptomSelectionChangeHandler} navigation={this.props.navigation} />
+                    <HorizontalLineWithText color={this.state.color} text={LanguageManager.getInstance().getText("SHORT_DESCRIPTION")} />
+                    <View style={styles.containerPadding}>
+                        <TextInputSingleLine color={this.state.color}
+                            ref={component => this._name = component}
+                            onTextChanged={this.descriptionEditedHandler}
+                            style={{ Top: 10 }}
+                            placeholderText={LanguageManager.getInstance().getText("MEAL_NAME_PLACEHOLDER")}
+                        />
+                    </View>
                     <HorizontalLineWithText color={this.state.color} text={LanguageManager.getInstance().getText("NOTES")} />
                     <NoteEdit color={this.state.color} style={styles.notes} ref={component => this._noteEdit = component} note={this.state.symptomEntryNote} onTextChanged={this.noteEditedHandler} />
                     <View style={{ paddingBottom: 10 }} />
                     <View style={styles.buttonContainer}>
                         <View style={styles.buttonSubContainer}>
                             <TouchableHighlight style={styles.buttonSaveAndCancel} onPress={this.handleCancelButton}>
-                                <Text style={{ textAlign: 'center', color: '#F7F7F7' }}>cancel</Text>
+                                <Text style={{ textAlign: 'center', color: '#707070' }}>cancel</Text>
                             </TouchableHighlight>
                             <TouchableHighlight style={styles.buttonSaveAndCancel} onPress={this.saveCurrentData}>
-                                <Text style={{ textAlign: 'center', color: '#F7F7F7' }}>save</Text>
+                                <Text style={{ textAlign: 'center', color: '#707070' }}>save</Text>
                             </TouchableHighlight>
                         </View>
                     </View>
@@ -236,7 +252,7 @@ export default class SymptomTrackerScreen extends React.Component {
 
         if (this.isSymptomSelected()) {
             this.state.selectedSymptoms.forEach((symptom) => {
-                DatabaseManager.getInstance().createSymptomEvent(symptom.symptomID, symptom.severity, this.state.symptomEntryNote, tmpDateTime.getTime(),
+                DatabaseManager.getInstance().createSymptomEvent(symptom.symptomID, symptom.severity,this.state.symptomDescription ,this.state.symptomEntryNote, tmpDateTime.getTime(),
                     (error) => { alert(error) },
                     () => { GlutonManager.getInstance().setMessage(2); GearManager.getInstance().sendMessage("msg 32") }
                 );
@@ -294,8 +310,12 @@ var styles = StyleSheet.create({
         width: 90,
         height: 50,
         borderRadius: 3,
-        backgroundColor: '#1DBBA0',
+        backgroundColor: '#F7F7F7',
         justifyContent: 'center',
         alignItems: 'center'
-    }
+    },
+    containerPadding: {
+        paddingLeft: 20,
+        paddingRight: 20,
+    },
 });

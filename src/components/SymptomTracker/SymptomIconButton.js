@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { TouchableOpacity, Text, Alert, Animated, Image, Easing, View, StyleSheet, Platform } from 'react-native';
 import Dialog from "react-native-dialog";
-import {SYMPTOM_BUTTON_TYPES} from "./SymptomIconButtonConstants.js"
+import { SYMPTOM_BUTTON_TYPES } from "./SymptomIconButtonConstants.js"
 
 // constants
 import {
@@ -89,8 +89,8 @@ export default class SymptomIconButton extends Component {
 	callAnimation(setEnabled) {
 		let { selected } = this.state;
 		if (selected) {
-			this.animateReverse(0);
 			this.setState({ zIndexNumber: -1 })
+			this.animateReverse(0);
 			this.setState({ selected: !selected });
 			this.props.onSeverityChooserHandled(true, this.props.symptomID);
 		}
@@ -149,8 +149,8 @@ export default class SymptomIconButton extends Component {
 					{
 						toValue,
 						duration: animateTime,
-						//easing: easingType
-						easing: Easing.exp,
+						easing: easingType,
+						//easing: Easing.exp,
 						useNativeDriver: true
 					}
 				),
@@ -329,40 +329,17 @@ export default class SymptomIconButton extends Component {
 		if (this.props.active == null || this.props.active == true) {
 			return (
 				<View style={(Platform.OS === 'ios') ?
-					{ marginTop: 60, opacity: this.props.opacity, zIndex: zIndex } :
-					{ marginTop: 60, opacity: this.props.opacity }}>
-					<Animated.View
-						style={[
-							style.bigBubble,
-							{
-								transform: [
-									{
-										scaleY: springValue.interpolate({
-											inputRange: [0, 0.65, 1, 1.65, 2, 2.65, 3],
-											outputRange: [1, 1.1, 1, 1.1, 1, 1.1, 1],
-										}),
-									},
-								],
-								backgroundColor: bigBubbleColor
-							},
-						]}
+					{ opacity: this.props.opacity, zIndex: zIndex, backgroundColor: bigBubbleColor,borderRadius: 3, } :
+					{ opacity: this.props.opacity, backgroundColor: bigBubbleColor,borderRadius: 3, }}>
+					<TouchableOpacity
+						style={style.bigBubble}
+						onPress={this.handleAddButtonPress}
+						onLongPress={() => this.props.symptomID > 7 ? this.setState({ showDeleteConfirmDialog: true }) : null}
 					>
-						<TouchableOpacity
-							hitSlop={{
-								left: 20,
-								right: 20,
-								top: 20,
-								bottom: 20,
-							}}
-							onPress={this.handleAddButtonPress}
-							onLongPress={() => this.props.symptomID > 7 ? this.setState({ showDeleteConfirmDialog: true }) : null}
-						>
-							<Animated.View>
-								<Image source={Image.resolveAssetSource(this.props.symptomIcon)} style={style.iconImage} />
-							</Animated.View>
-						</TouchableOpacity>
-					</Animated.View>
-					<Text style={style.symptomNameText}>{LanguageManager.getInstance().getText(symptomName)}</Text>
+						<Image source={Image.resolveAssetSource(this.props.symptomIcon)} style={style.iconImage} />
+						<Text style={style.symptomNameText}>{LanguageManager.getInstance().getText(symptomName)}</Text>
+					</TouchableOpacity>
+
 					<AnimatedTouchable onPress={this.onPressYellow}
 						style={[
 							style.smallBubbleYellow,
@@ -501,9 +478,10 @@ const style = StyleSheet.create({
 	bigBubble: {
 		justifyContent: 'center',
 		alignItems: 'center',
-		height: bigBubbleSize,
-		width: bigBubbleSize,
-		borderRadius: 3,
+		//height: bigBubbleSize,
+		//width: bigBubbleSize,
+        flex: 1,
+		//borderRadius: 3,
 	},
 	smallBubbleYellow: {
 		justifyContent: 'center',
@@ -536,8 +514,10 @@ const style = StyleSheet.create({
 		borderRadius: smallBubbleSize / 2,
 	},
 	iconImage: {
-		height: imageHeight,
-		width: imageWidth,
+		//height: imageHeight,
+		height: '80%',
+        aspectRatio: 1,
+        resizeMode: 'contain',
 	},
 	symptomNameText: {
 		fontSize: 15,
@@ -564,3 +544,28 @@ const style = StyleSheet.create({
 	},
 
 });
+
+
+/*
+<Animated.View
+style={[
+	style.bigBubble,
+	{
+		transform: [
+			{
+				scaleY: springValue.interpolate({
+					inputRange: [0, 0.65, 1, 1.65, 2, 2.65, 3],
+					outputRange: [1, 1.1, 1, 1.1, 1, 1.1, 1],
+				}),
+			},
+		],
+	},
+]}
+>
+
+<Animated.View>
+	<Image source={Image.resolveAssetSource(this.props.symptomIcon)} style={style.iconImage} />
+</Animated.View>
+
+</Animated.View>
+*/

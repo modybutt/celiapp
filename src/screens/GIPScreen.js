@@ -213,7 +213,7 @@ export default class GIPScreen extends React.Component {
         return (
             <>
                 <SafeAreaView style={{ flex: 0, backgroundColor: this.state.color }} />
-                <KeyboardAwareScrollView>
+                <KeyboardAwareScrollView style={{backgroundColor: "#fff"}}>
                 <HeaderBanner color={this.state.color} imageSource={require('../../assets/images/GipTracker/gip_icon.png')}/>
                     
                     <HorizontalLineWithText color={this.state.color} text={LanguageManager.getInstance().getText("DATE")} />
@@ -221,7 +221,7 @@ export default class GIPScreen extends React.Component {
 
                     <HorizontalLineWithText color={this.state.color} text={LanguageManager.getInstance().getText("TIME")} />
                     <TimePicker ref={component => this._timePicker = component} textString="TAKEN_AT" onTimeChanged={this.timeEditedHandler} />
-                    <HorizontalLineWithText color={this.state.color} text={LanguageManager.getInstance().getText("IMAGE")} />
+                    <HorizontalLineWithText color={this.state.color} text={LanguageManager.getInstance().getText("PICTURE")} />
                     <View style={{ alignItems: 'center' }}>
                         <FoodDiaryImageEdit color={this.state.color} navigation={this.props.navigation} onPictureTaken={(image) => this.setState({ photo: image, modified: true })} />
                     </View>
@@ -233,10 +233,10 @@ export default class GIPScreen extends React.Component {
                     <View style={styles.buttonContainer}>
                         <View style={styles.buttonSubContainer}>
                             <TouchableHighlight style={styles.buttonSaveAndCancel} onPress={this.handleCancelButton}>
-                                <Text style={{ textAlign: 'center', color: '#F7F7F7' }}>cancel</Text>
+                                <Text style={{ textAlign: 'center', color: '#707070' }}>cancel</Text>
                             </TouchableHighlight>
                             <TouchableHighlight style={styles.buttonSaveAndCancel} onPress={() => this.saveCurrentData(true)}>
-                                <Text style={{ textAlign: 'center', color: '#F7F7F7' }}>save</Text>
+                                <Text style={{ textAlign: 'center', color: '#707070' }}>save</Text>
                             </TouchableHighlight>
                         </View>
                     </View>
@@ -296,7 +296,7 @@ var styles = StyleSheet.create({
         width: 90,
         height: 50,
         borderRadius: 3,
-        backgroundColor: '#FF8D1E',
+        backgroundColor: '#F7F7F7',
         justifyContent: 'center',
         alignItems: 'center'
     },

@@ -17,11 +17,11 @@ export const images = {
 		uri: require('../../assets/images/FoodTracker/dinner_active.png')
 	},
 	icecream: {
-		imgName: "ICECREAM",
+		imgName: "SNACK",
 		uri: require('../../assets/images/FoodTracker/icecream.png')
 	},
 	icecream_active: {
-		imgName: "ICECREAM_active",
+		imgName: "SNACK_active",
 		uri: require('../../assets/images/FoodTracker/icecream_active.png')
 	},
 	lunch: {
