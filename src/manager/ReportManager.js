@@ -1,33 +1,32 @@
-import DatabaseManager from '../manager/DatabaseManager';
-import Events, { Emotion, Gluten, Severity } from '../constants/Events';
+import WeeklyReportData from './WeeklyReportData';
 
 export default class ReportManager {
 
-  static reportData = {
+  static reportText = {
     symptomInfo: {
-      body: "You have logged 6 meals That is 3 more than last week!",
-      headline: "5 days you have had NO SYMPTOMS!",
+      body: "You haven’t logged any symptoms.Did you know that you can also enter NO SYMPTOMS if you had none?",
+      headline: "",
       sub: "",
     },
     mealInfo: {
-      body: "You have logged 6 meals That is 3 more than last week",
-      headline: "3 logged meals were GLUTENFREE!",
-      sub: "You have reached intermediate level in food logging. Log 3 more to become an expert!",
+      body: "You have not logged any meals. Surely you must have eaten something this week? ",
+      headline: "",
+      sub: "",
     },
     emotionInfo: {
-      body: "You have logged 6 meals That is 3 more than last week",
-      headline: "3 days you were DELIGHTED about your diet",
+      body: "You have not logged any energy levels. Did you know that logging energy levels can give you better insight into your diet? ",
+      headline: "",
       sub: "",
     },
     gipInfo: {
-      body: "You have logged 1 test this week. That is 1 more then last week!",
-      headline: " All tests were GLUTENFREE!",
-      sub: "You have reached beginner level in testing for Gluten. Log 2 more to become an intermediate!",
+      body: "You have You have not logged any GIP sticks. Logging GIP sticks will help you master your diet! 1 test this week. That is 1 more then last week!",
+      headline: "",
+      sub: "",
     },
-    dailyActivity: [0.0, 0.1, 0.3, 0.5, 0.7, 0.8, 1.0],
+    dailyActivity: [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0],
 
-    bestDayHeading: "Thursday October 8th",
-    bestDayBody: "You logged no symptoms, had a delighted mood, a gluten free test and no meals"
+    bestDayHeading: "Unknown",
+    bestDayBody: "Everyday was just like the previous"
 
   }
 
@@ -71,99 +70,9 @@ export default class ReportManager {
     return endOfWeek;
   }
 
-  static getEventsBetweenDatesInclusive(start, end) {
-    return new Promise((resolve, reject) => {
-      DatabaseManager.getInstance().fetchEventsBetween(
-        start,
-        end,
-        () => reject("Error fetching events for previous 7 days"),
-        (_, { rows: { _array } }) => resolve(_array),
-      );
-    })
-  }
-
   static fullDaysSinceEpoch = (date) => Math.floor(date / 8.64e7);
 
   static dateAsDaysAgo = (date) => this.fullDaysSinceEpoch(new Date()) - this.fullDaysSinceEpoch(date);
-
-  static scoreEvent = (event) => {
-    switch (event.eventType) {
-      case Events.Symptom: {
-        const scores = {
-          [Severity.LOW]: 1,
-          [Severity.MODERATE]: 2,
-          [Severity.SEVERE]: 3,
-        }
-
-        if (event.objData.symptomID === 0) return 5;
-
-        return event.objData.type in scores ? scores[event.objData.type] : 0;
-      }
-      case Events.Food: {
-        const scores = {
-          [Gluten.FREE]: 1,
-          [Gluten.UNKNOWN]: 0.5,
-          [Gluten.PRESENT]: 0,
-        }
-        return event.objData.type in scores ? scores[event.objData.type] : 0;
-      }
-
-      case Events.Emotion: {
-        const scores = {
-          [Emotion.HAPPY]: 4,
-          [Emotion.SLIGHTLY_HAPPY]: 3,
-          [Emotion.NEUTRAL]: 2,
-          [Emotion.SLIGHTLY_UNHAPPY]: 1,
-          [Emotion.UNHAPPY]: 0,
-        }
-        return event.objData.type in scores ? scores[event.objData.type] : 0;
-      }
-
-      case Events.GIP: {
-        return 1;
-      }
-    }
-  }
-
-  static dailySummary = new Array(7).fill().map(_ => ({}));
-  static dailyFields = ["eventCount","score","mealCount","moodCount","symptomCount","gipTests"];
-  
-  static initialiseDailySummary = (d) =>{
-    var date = new Date(d)
-    this.dailySummary.forEach(ds => {
-      this.dailyFields
-        .forEach( (f) => {ds[f] = 0;})
-      ds.date = new Date(date)
-      date.setDate(date.getDate()+1)
-    });
-  }
-
-  static addToDailyScore = (day, start, event) => {
-    const dayOfWeek = start - day;  
-
-    this.dailySummary[dayOfWeek].eventCount += 1;
-    this.dailySummary[dayOfWeek].score += this.scoreEvent(event);
-
-    switch (event.eventType) {
-      case Events.Symptom: {
-        this.dailySummary[dayOfWeek].symptomCount++;
-        break;
-      }
-      case Events.Food: {
-        this.dailySummary[dayOfWeek].mealCount++;
-        break;
-      }
-      case Events.Emotion: {
-        this.dailySummary[dayOfWeek].moodCount++;
-        break;
-      }
-      case Events.GIP: {
-        this.dailySummary[dayOfWeek].gipTests++;
-        break;
-      }
-    }
-
-  }
 
   static symptomString = (count) => {
     if (count == 1) return "one symptom";
@@ -196,21 +105,18 @@ export default class ReportManager {
   
 }
 
-  static daySummaryString = (day) => {
+  static daySummaryString = (weekData) => {
     return "You logged " +
-      this.symptomString(day.symptomCount) + ", " +
-      this.moodString(day.moodCount) + ", " +
-      this.mealString(day.mealCount) + ", " +
-      this.gipFreeString(day.gipTests);
+      this.symptomString(weekData.bestDaySymptomCount()) + ", " +
+      this.moodString(weekData.bestDayMoodCount()) + ", " +
+      this.mealString(weekData.bestDayMealCount()) + ", " +
+      this.gipFreeString(weekData.bestDayGipTests());
   }
 
   static weeklyReport(success) {
-    const TARGET_DAILY_EVENTS = 9;
 
     const startOfWeek = this.getStartOfThisWeekBeginningMonday();
     const endOfWeek = this.getEndOfThisWeekBeginningMonday();
-
-    this.initialiseDailySummary(startOfWeek);
 
     console.log("startofweek", startOfWeek)
     console.log("endtofweek", endOfWeek)
@@ -218,37 +124,24 @@ export default class ReportManager {
     const startOfWeekAsDaysAgo = this.dateAsDaysAgo(startOfWeek)
     console.log("startOfWeekAsDaysAgo", startOfWeekAsDaysAgo)
     
-    this.getEventsBetweenDatesInclusive(startOfWeek, endOfWeek)
-      .then(data => {
-        data
-          .filter(event => event.eventType !== Events.LogEvent)
-          .map(event => {
-            event.objData = JSON.parse(event.objData)
-            event.created = new Date(event.created)
-            event.modified = new Date(event.modified)
-            event.daysAgo = this.dateAsDaysAgo(event.created)
-            return event
-          })
-          .map(event => { console.log("Event enriched:", event); return event })
-          .map(event => this.addToDailyScore(event.daysAgo, startOfWeekAsDaysAgo, event))
+    const weekData = new WeeklyReportData();
 
-        console.log("DailyScores:", this.dailySummary)
-        this.reportData.dailyActivity  = this.dailySummary.map(d => d.eventCount/TARGET_DAILY_EVENTS)
-        this.reportData.weekEndingDate = endOfWeek
-        console.log("DailyActivity:", this.reportData.dailyActivity)
-        
-        var bestDay=this.dailySummary[0];
-        for(i=1;i< this.dailySummary.length;i++){
-          if(this.dailySummary[i].score > bestDay.score)
-            bestDay=this.dailySummary[i];
-        }
+    weekData.init(startOfWeek, endOfWeek)
+      .then( _ => {
+        console.log("Data processed ok")
+        this.reportText.dailyActivity = [0,1,2,3,4,5,6].map(day => weekData.activityRateForDay(day))
+        this.reportText.weekEndingDate = endOfWeek
 
         var dateFormat = { weekday: 'long', month: 'long', day: 'numeric' };
-        this.reportData.bestDayHeading = bestDay.date.toLocaleDateString("en-US", dateFormat)
-        this.reportData.bestDayBody = this.daySummaryString(bestDay)
+        this.reportText.bestDayHeading = weekData.bestDayDate().toLocaleDateString("en-US", dateFormat)
+        this.reportText.bestDayBody = this.daySummaryString(weekData)
 
+        // this.reportText.symptomInfo.body = this.symptomBoxBody(dailySummary)
+        // this.reportText.mealInfo.body = this.infoBoxBody(dailySummary, "mealCount")
+        // this.reportText.emotionInfo.body = this.infoBoxBody(dailySummary, "moodCount")
+        // this.reportText.gipInfo.body = this.infoBoxBody(dailySummary, "gipTests")
 
-        success(this.reportData)
+        success(this.reportText)
       })
       .catch(err => console.log("Report error:", err.message));
   }
