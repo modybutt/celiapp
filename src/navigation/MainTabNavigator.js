@@ -30,6 +30,7 @@ import Wardrobe from "../components/Glutenbuddy/screens/Wardrobe";
 import Challenges from "../components/Glutenbuddy/screens/Challenges";
 import Achievements from "../components/Glutenbuddy/screens/Achievements";
 import ChallengesTest from "../components/Glutenbuddy/screens/ChallengesTest";
+import MainScreen from "../screens/MainScreen";
 
 const EvaluationStack = createStackNavigator({
   Evaluation: EvaluationScreen,
@@ -39,9 +40,13 @@ const CalendarStack = createStackNavigator({
   Calendar: CalendarScreen,
 });
 
-const GlutenStack = createStackNavigator({
-  Glutenbuddy: GlutenbuddyRoot,
+const MainScreenStack = createStackNavigator({
+	Mainscreen: MainScreen,
 });
+
+// const GlutenStack = createStackNavigator({
+//   Glutenbuddy: GlutenbuddyRoot,
+// });
 
 const ReportStack = createStackNavigator({
   Report: ReportScreen,
@@ -59,7 +64,7 @@ const TabNavStack = createMaterialTopTabNavigator(
       },
     },
     Glutenbuddy: {
-      screen: GlutenStack,
+      screen: MainScreenStack,
       navigationOptions: {
         //tabBarLabel: 'Calendar',
         tabBarIcon: ({ focused }) => (
