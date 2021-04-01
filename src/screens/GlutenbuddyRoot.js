@@ -54,13 +54,19 @@ import CeliLogger from '../analytics/analyticsManager';
 import Interactions from '../constants/Interactions';
 import { showMessage } from "react-native-flash-message";
 import DatabaseManager from "../manager/DatabaseManager";
+import TabBarIcon from "../components/TabBarIcon";
+import ImageHeader from './ImageHeader';
 
 @observer
 export default class GlutenbuddyRoot extends React.Component {
 
   static navigationOptions = ({ navigation }) => ({
-    title: "Glutenbuddy",
-  });
+    title: "Celiapp",
+	/*headerLeft: (
+		<TabBarIcon focused={true} name={"md-pulse"} />
+	  )*/
+	  headerTitle:<ImageHeader/>
+	});
 
   componentDidMount() {
     this.props.navigation.addListener('willFocus', () => {
