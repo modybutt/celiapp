@@ -13,6 +13,7 @@ import LanguageManager from '../manager/LanguageManager';
 import ReportManager from '../manager/ReportManager';
 import CeliLogger from '../analytics/analyticsManager';
 import Interactions from '../constants/Interactions';
+import InfoIcon from '../components/InfoIcon';
 
 var count = 0
 var reportData = null;
@@ -152,14 +153,10 @@ const mealColor = "#3398DE"
 const emotionColor = "#9958B7"
 const gipColor= "#FF8D1E"
 
-const InfoIcon = ({image, color}) =>
-  <View style={[styles.infoIcon, {backgroundColor: color}]}>
-    <SvgXml  width="26" height="26" xml={image}/>
-  </View>
-
+//TODO: width klopt nog niet.
 const InfoBox = ({info, image, color}) =>   
   <View style={styles.infoBox}>
-    <InfoIcon image={image} color={color}/>
+    <InfoIcon width={iconWidth} image={image} color={color}/>
     <Text style={[ styles.infoBoxBodytext]}>{info.body}</Text>
     <Text style={[ styles.infoBoxHeadline, {color: color}]}>{info.headline}</Text>
     <Text style={[ styles.infoBoxSubtext]}>{info.sub}</Text>
@@ -294,21 +291,5 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     padding: 13,
     fontWeight: "bold",
-  },
-
-  infoIcon:{
-    margin: 1, 
-    width: iconWidth, 
-    height: iconWidth, 
-    borderRadius: iconWidth/2,
-    borderWidth:0,
-    justifyContent: 'center',
-    alignItems: 'center',
-    backgroundColor: "#FF8D1E"
-  },
-
-  infoIconImage:{
-    width: iconWidth*0.8, 
-    height: iconWidth*0.8,
   }
 });
