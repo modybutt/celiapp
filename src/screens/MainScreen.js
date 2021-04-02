@@ -1,5 +1,5 @@
 import React from 'react';
-import { StyleSheet, View, Text } from 'react-native';
+import { StyleSheet, View, Text, Animated } from 'react-native';
 import ImageHeader from './ImageHeader';
 import Colors from '../constants/Colors'
 
@@ -9,16 +9,28 @@ import mealImage from '../assets/images/cutlery_white.svg';
 import gipImage from '../assets/images/heartbeat.svg';
 
 import Layout from '../constants/Layout';
-import InfoIcon from '../components/InfoIcon';
-import * as Icon from '@expo/vector-icons';
-import { color } from 'react-native-reanimated';
+import LoggedEntry from '../components/LoggedEntry';
 
 export default class MainScreen extends React.Component {
 	
-	static navigationOptions = ({ navigation }) => ({
-    	headerTitle:<ImageHeader color={Color.mainscreenColor}/>
+	state = 
+	{
+		
+	};
+
+	static navigationOptions = ({ navigation }) => 
+	({
+    	headerTitle:<ImageHeader color={Colors.mainscreenColor}/>
 	});
 	
+	
+
+	slide(evt)
+	{
+		
+		this._start();
+	}
+
 	render() {
 		//TODO: add avatar here.
 		//TODO: add i button here.
@@ -27,46 +39,43 @@ export default class MainScreen extends React.Component {
 			<View style={styles.container}>
 				<Text style={styles.week}>Week Placeholder</Text>
 				<Text style={styles.avatar}>Avatar Placeholder</Text>
+				
+				<LoggedEntry 
+					title={'2 symptoms'} 
+					subtitle={'Last entry: Friday Oct 8th.'}
+					viewallText={'view all symptom logs'}
+				 	color={Colors.symptom} 
+					image={symptomImage}/>
 
-				<LoggedEntry text={'2 symptoms'} color={Colors.symptom} image={symptomImage}/>
-				<LoggedEntry text={'7 meals'} color={Colors.meal} image={mealImage}/>
-				<LoggedEntry text={'3 energy levels'} color={Colors.emotion} image={emotionImage}/>
-				<LoggedEntry text={'4 GIP results'} color={Colors.gip} image={gipImage}/>
-			
+				<LoggedEntry 
+					title={'7 meals'} 
+					subtitle={'Last entry: Friday Oct 8th.'}
+					viewallText={'view all meal logs'}
+					color={Colors.meal}
+					image={mealImage}/>
+
+				<LoggedEntry
+					title={'3 energy levels'} 
+					subtitle={'Last entry: Friday Oct 8th.'}
+					viewallText={'view all energy level logs'}
+				 	color={Colors.emotion} 
+					image={emotionImage}/>
+
+				<LoggedEntry 
+					title={'4 GIP results'} 
+					subtitle={'Last entry: Friday Oct 8th.'}
+					viewallText={'view all GIP results'}
+				 	color={Colors.gip} 
+					image={gipImage}/>			
 			</View>	
 		);
 	}
 }
 
-const LoggedEntry = ({text, image, color}) =>
-<View style={styles.entryContainer}>	
-	<View style={styles.leftWrapper}>
-		<InfoIcon style={styles.infoIcon} color={color} image={image} width={50}/>
-	</View>
-
-	<View style={styles.centerWrapper}>
-		<View style={styles.textInfo}>
-			<Text style={[styles.text, styles.entryTitle]}>{text}</Text>
-			<Border color={color}/>			
-			<Text style={[styles.text, styles.entrySubtitle]}>Last entry: Friday Oct 8th.</Text>
-		</View>		
-	</View>
+const animationContainer = () =>
+{
 	
-	<View style={styles.rightWrapper}>
-		<Icon.Ionicons style={styles.addIcon} color={color} size={35} name={"md-add"}/>
-	</View>
-</View>
-
-const Border = ({color}) =>
-<View style=
-	{{
-		marginTop: 8,
-		marginBottom: 8,
-		borderBottomWidth: 2,
-		alignSelf: 'stretch',
-		borderColor: color
-	}}>
-</View>
+}
 
 const window = Layout.window;
 const styles = StyleSheet.create
@@ -92,8 +101,11 @@ const styles = StyleSheet.create
 		width: window.width,
 		height: window.height * 0.12,
 		backgroundColor: '#f7f7f7',
-		marginBottom: 5,
+		marginBottom: 5				
+	},
 
+	dropShadow: 
+	{
 		shadowColor: '#000',
 		shadowOffset: { width: 0, height: 2 },
 		shadowOpacity: 0.2,
@@ -115,6 +127,19 @@ const styles = StyleSheet.create
 	{
 		marginLeft: 'auto',
 		marginRight: 20
+	},
+
+	viewAllContentWrapper:
+	{
+		display: 'flex',
+		flexDirection: 'row',
+		zIndex: -1,
+		right: 0,
+		alignItems: 'center',
+		justifyContent: 'center',
+		position: 'absolute',
+		width: 120,
+		height: window.height * 0.12
 	},
 
 	textInfo:
