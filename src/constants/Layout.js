@@ -9,4 +9,6 @@ export default {
     height,
   },
   isSmallDevice: width < 375,
+
+  iconWidth: width * 0.1
 };

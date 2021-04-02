@@ -58,12 +58,12 @@ export default class ReportScreen extends React.Component {
         <BestDay/>
         <View style={{ marginTop:10}}>
           <View style = {styles.infoBoxRow}>
-            <InfoBox info = {reportData.symptomInfo} image={symptomImage}  color={symptomColor}/>
-            <InfoBox info = {reportData.mealInfo}    image={mealImage}     color={mealColor}/>
+            <InfoBox info = {reportData.symptomInfo} image={symptomImage}  color={Colors.symptom}/>
+            <InfoBox info = {reportData.mealInfo}    image={mealImage}     color={Colors.meal}/>
           </View>
           <View style = {styles.infoBoxRow}>
-            <InfoBox info = {reportData.emotionInfo} image={emotionImage} color={emotionColor}/>
-            <InfoBox info = {reportData.gipInfo}     image={gipImage}     color={gipColor}/>
+            <InfoBox info = {reportData.emotionInfo} image={emotionImage} color={Colors.emotion}/>
+            <InfoBox info = {reportData.gipInfo}     image={gipImage}     color={Colors.gip}/>
           </View>
         </View>
       </View>
@@ -148,12 +148,8 @@ import symptomImage from '../assets/images/stethoscope_white.svg';
 import emotionImage from '../assets/images/smiley_face_white.svg';
 import mealImage from '../assets/images/cutlery_white.svg';
 import gipImage from '../assets/images/heartbeat.svg';
-const symptomColor =  "#1DBBA0"
-const mealColor = "#3398DE"
-const emotionColor = "#9958B7"
-const gipColor= "#FF8D1E"
+import Colors from '../constants/Colors';
 
-//TODO: width klopt nog niet.
 const InfoBox = ({info, image, color}) =>   
   <View style={styles.infoBox}>
     <InfoIcon width={iconWidth} image={image} color={color}/>
