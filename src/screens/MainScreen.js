@@ -1,5 +1,5 @@
 import React from 'react';
-import { StyleSheet, View, Text, Animated } from 'react-native';
+import { StyleSheet, View, Text, Image } from 'react-native';
 import ImageHeader from './ImageHeader';
 import Colors from '../constants/Colors'
 
@@ -7,39 +7,23 @@ import symptomImage from '../assets/images/stethoscope_white.svg';
 import emotionImage from '../assets/images/smiley_face_white.svg';
 import mealImage from '../assets/images/cutlery_white.svg';
 import gipImage from '../assets/images/heartbeat.svg';
+import andyPlaceholder from "../assets/images/avatar_menu/placeholder_andy.png";
 
 import Layout from '../constants/Layout';
 import LoggedEntry from '../components/LoggedEntry';
 
 export default class MainScreen extends React.Component {
 	
-	state = 
-	{
-		
-	};
-
 	static navigationOptions = ({ navigation }) => 
 	({
     	headerTitle:<ImageHeader color={Colors.mainscreenColor}/>
 	});
 	
-	
-
-	slide(evt)
-	{
-		
-		this._start();
-	}
-
 	render() {
-		//TODO: add avatar here.
-		//TODO: add i button here.
-		//TODO: add this week you have logged here.
 		return (
 			<View style={styles.container}>
-				<Text style={styles.week}>Week Placeholder</Text>
-				<Text style={styles.avatar}>Avatar Placeholder</Text>
-				
+				<Text style={styles.week}>Week Placeholder</Text>			
+				<Avatar/>
 				<LoggedEntry 
 					title={'2 symptoms'} 
 					subtitle={'Last entry: Friday Oct 8th.'}
@@ -72,12 +56,21 @@ export default class MainScreen extends React.Component {
 	}
 }
 
-const animationContainer = () =>
-{
-	
-}
+const Avatar = () =>
+	<View style={styles.avatarContainer}>
+		<Image style={styles.avatar} source={andyPlaceholder}/>
+		<View style={styles.loggedInfoContainer}>
+			<Text style={styles.loggedInfo}>This week you have logged</Text>
+			<View style={styles.informationBackground} onTouchEnd = { ()=>console.log('clicky') }>
+				<Text style={styles.informationForeground}>i</Text>
+			</View>
+		</View>
+	</View>
 
 const window = Layout.window;
+//TODO: make this scale with image width/height
+const andyScheenHeight = 0.22;
+const ratio = (window.height * andyScheenHeight) / 1086;
 const styles = StyleSheet.create
 ({
 	container: 
@@ -102,13 +95,53 @@ const styles = StyleSheet.create
 		height: window.height * 0.08
 	},
 
-	avatar:
+	avatarContainer:
 	{
-		backgroundColor: 'red',
 		display: 'flex',
-		flexDirection: 'row',
+		flexDirection: 'column',
 		justifyContent: 'center',
+		alignItems: 'center',
 		width: window.width,
 		height: window.height * 0.25
+	},
+
+	loggedInfoContainer:
+	{
+		display: 'flex',
+		flexDirection: 'row',
+		justifyContent:'center',
+		alignItems: 'center',
+		width: window.width
+	},
+
+	avatar:
+	{
+		width: 904 * ratio,
+		height: window.height * andyScheenHeight
+	},
+
+	loggedInfo:
+	{
+		color: '#707070',
+		fontSize: 20
+	},
+
+	informationBackground:
+	{
+		width: 30,
+		height: 30,
+		borderRadius: 15,
+		right: 20,
+		bottom: 10,
+		position: 'absolute',
+		backgroundColor: '#e92065'
+	},
+
+	informationForeground:
+	{
+		textAlign: 'center',
+		fontSize: 25,
+		color: '#fff',
+		fontWeight: 'bold'
 	}
 });
