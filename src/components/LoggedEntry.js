@@ -85,12 +85,12 @@ export default class LoggedEntry extends React.Component
 }
 
 const Entry = ({title, subtitle, image, color}) =>
-<View style={styles.entryContainer}>
+<View style={styles.container}>
 	<View style={styles.leftWrapper}>
 		<InfoIcon style={styles.infoIcon} color={color} image={image} width={50}/>
 	</View>
 
-	<View style={styles.centerWrapper}>
+	<View style={styles.leftWrapper}>
 		<View style={styles.textInfo}>
 			<Text style={[styles.text, styles.entryTitle]}>{title}</Text>
 			<Border color={color}/>			
@@ -117,19 +117,7 @@ const Border = ({color}) =>
 const window = Layout.window;
 const styles = StyleSheet.create
 ({
-	container: 
-	{
-		fontSize: 26,
-		textAlign: 'center',
-		display: 'flex',
-		flexDirection: 'column',
-		justifyContent: 'flex-start',
-		alignItems: 'center',
-		padding: 13,
-		fontWeight: "bold",
-	},
-
-	entryContainer:
+	container:
 	{		
 		display: 'flex',
 		flexDirection: 'row',
@@ -151,11 +139,6 @@ const styles = StyleSheet.create
 	},
 
 	leftWrapper:
-	{
-		marginLeft: 20
-	},
-
-	centerWrapper:
 	{
 		marginLeft: 20
 	},
@@ -201,33 +184,5 @@ const styles = StyleSheet.create
 	entrySubtitle:
 	{
 		fontSize: 16
-	},
-
-	week:
-	{
-		backgroundColor: 'blue',
-		display: 'flex',
-		flexDirection: 'row',
-		justifyContent: 'center',
-		width: window.width,
-		height: window.height * 0.08
-	},
-
-	avatar:
-	{
-		backgroundColor: 'red',
-		display: 'flex',
-		flexDirection: 'row',
-		justifyContent: 'center',
-		width: window.width,
-		height: window.height * 0.25
-	},
-
-	infoBoxRow:
-	{
-		display: 'flex',
-		flexDirection: 'row',
-		justifyContent: 'center',
-		alignItems: 'center',
-	},
+	}
 });

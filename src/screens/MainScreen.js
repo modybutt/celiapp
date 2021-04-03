@@ -92,80 +92,6 @@ const styles = StyleSheet.create
 		fontWeight: "bold",
 	},
 
-	entryContainer:
-	{		
-		display: 'flex',
-		flexDirection: 'row',
-		justifyContent: 'center',
-		alignItems: 'center',
-		width: window.width,
-		height: window.height * 0.12,
-		backgroundColor: '#f7f7f7',
-		marginBottom: 5				
-	},
-
-	dropShadow: 
-	{
-		shadowColor: '#000',
-		shadowOffset: { width: 0, height: 2 },
-		shadowOpacity: 0.2,
-		shadowRadius: 1,  
-		elevation: 5
-	},
-
-	leftWrapper:
-	{
-		marginLeft: 20
-	},
-
-	centerWrapper:
-	{
-		marginLeft: 20
-	},
-
-	rightWrapper:
-	{
-		marginLeft: 'auto',
-		marginRight: 20
-	},
-
-	viewAllContentWrapper:
-	{
-		display: 'flex',
-		flexDirection: 'row',
-		zIndex: -1,
-		right: 0,
-		alignItems: 'center',
-		justifyContent: 'center',
-		position: 'absolute',
-		width: 120,
-		height: window.height * 0.12
-	},
-
-	textInfo:
-	{
-		display: 'flex',
-		flexDirection: 'column',
-		justifyContent: 'flex-start',
-		alignItems: 'flex-start',
-		width: window.width * 0.6
-	},
-
-	text:
-	{
-		color: '#707070'
-	},
-
-	entryTitle:
-	{
-		fontSize: 22
-	},
-
-	entrySubtitle:
-	{
-		fontSize: 16
-	},
-
 	week:
 	{
 		backgroundColor: 'blue',
@@ -184,13 +110,5 @@ const styles = StyleSheet.create
 		justifyContent: 'center',
 		width: window.width,
 		height: window.height * 0.25
-	},
-
-	infoBoxRow:
-	{
-		display: 'flex',
-		flexDirection: 'row',
-		justifyContent: 'center',
-		alignItems: 'center',
-	},
+	}
 });
