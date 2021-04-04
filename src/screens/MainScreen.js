@@ -13,6 +13,7 @@ import Layout from '../constants/Layout';
 import LoggedEntry from '../components/LoggedEntry';
 import ReportManager from '../manager/ReportManager';
 import WeekDisplay from '../components/WeekDisplay';
+import { TouchableOpacity } from 'react-native-gesture-handler';
 
 export default class MainScreen extends React.Component {
 	
@@ -29,19 +30,23 @@ export default class MainScreen extends React.Component {
 	render() {
 		if(!this.state.reportData) return (<View></View>)
     	reportData = this.state.reportData;
-
+		//TODO: set text dynamically from reportmanager.
 		return (
 			<View style={styles.container}>
 				<WeekDisplay reportData={reportData}/>
 				<Avatar/>
-				<LoggedEntry 
+				<LoggedEntry
+					onAddButtonClicked={(navigationName) => this.props.navigation.navigate(navigationName, {'selectedDateAndTime' : new Date() })}
+					navigationName={'AddSymptom'}
 					title={'2 symptoms'} 
 					subtitle={'Last entry: Friday Oct 8th.'}
 					viewallText={'view all symptom logs'}
 				 	color={Colors.symptom} 
 					image={symptomImage}/>
 
-				<LoggedEntry 
+				<LoggedEntry
+					onAddButtonClicked={(navigationName) => this.props.navigation.navigate(navigationName, {'selectedDateAndTime' : new Date() })}
+					navigationName={'AddMeal'}
 					title={'7 meals'} 
 					subtitle={'Last entry: Friday Oct 8th.'}
 					viewallText={'view all meal logs'}
@@ -49,13 +54,17 @@ export default class MainScreen extends React.Component {
 					image={mealImage}/>
 
 				<LoggedEntry
+					onAddButtonClicked={(navigationName) => this.props.navigation.navigate(navigationName, {'selectedDateAndTime' : new Date() })}
+					navigationName={'AddEmote'}
 					title={'3 energy levels'} 
 					subtitle={'Last entry: Friday Oct 8th.'}
 					viewallText={'view all energy level logs'}
 				 	color={Colors.emotion} 
 					image={emotionImage}/>
 
-				<LoggedEntry 
+				<LoggedEntry
+					onAddButtonClicked={(navigationName) => this.props.navigation.navigate(navigationName, {'selectedDateAndTime' : new Date() })}
+					navigationName={'AddGIP'}
 					title={'4 GIP results'} 
 					subtitle={'Last entry: Friday Oct 8th.'}
 					viewallText={'view all GIP results'}
@@ -78,10 +87,15 @@ export default class MainScreen extends React.Component {
 		});
 	}
 
+	onAddButtonClicked(name)
+	{
+		console.log(`go to ${name} page.`);
+	}
+
 	receiveData = (data) => 
 	{ 
 		this.setState({ reportData : data });
-		console.log("received report data:", data);
+		console.log("received report data mainscreen:", data);
 	}
 }
 
@@ -90,8 +104,11 @@ const Avatar = () =>
 		<Image style={styles.avatar} source={andyPlaceholder}/>
 		<View style={styles.loggedInfoContainer}>
 			<Text style={styles.loggedInfo}>This week you have logged</Text>
-			<View style={styles.informationBackground} onTouchEnd = { ()=>console.log('clicky') }>
-				<Text style={styles.informationForeground}>i</Text>
+			<View style={styles.informationBackground}>
+				<TouchableOpacity style={styles.touchableOpacityInfoButton} onPress={() => 
+				console.log('clicky!')}>
+					<Text style={styles.informationForeground}>i</Text>
+				</TouchableOpacity>
 			</View>
 		</View>
 	</View>
@@ -155,15 +172,19 @@ const styles = StyleSheet.create
 		fontSize: 20
 	},
 
-	informationBackground:
+	touchableOpacityInfoButton:
 	{
 		width: 30,
 		height: 30,
 		borderRadius: 15,
+		backgroundColor: '#e92065',
+	},
+
+	informationBackground:
+	{		
 		right: 20,
 		bottom: 10,
-		position: 'absolute',
-		backgroundColor: '#e92065'
+		position: 'absolute',		
 	},
 
 	informationForeground:

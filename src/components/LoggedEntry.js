@@ -4,6 +4,7 @@ import { StyleSheet, View, Text, Animated } from 'react-native';
 import InfoIcon from '../components/InfoIcon';
 import * as Icon from '@expo/vector-icons';
 import _ from "lodash";
+import { TouchableOpacity } from "react-native-gesture-handler";
 
 const AnimationState =
 {
@@ -62,7 +63,7 @@ export default class LoggedEntry extends React.Component
 	}
 
 	render()
-	{		
+	{
 		return (
 		<View style={styles.dropShadow}>
 			<Animated.View style=
@@ -71,7 +72,13 @@ export default class LoggedEntry extends React.Component
 			}}
 			onTouchMove={(evt) => this.touchMove(evt)}
 			onTouchEnd={(evt) => this.touchEnd(evt)}>
-				<Entry title={this.props.title} subtitle={this.props.subtitle} color={this.props.color} image={this.props.image}/>
+				<Entry title={this.props.title} 
+					subtitle={this.props.subtitle} 
+					color={this.props.color} 
+					image={this.props.image}
+					onAddButtonClicked={this.props.onAddButtonClicked}
+					navigationName={this.props.navigationName}
+					/>
 			</Animated.View>
 			<View style={[styles.viewAllContentWrapper, {backgroundColor:this.props.color}]}>
 				<Text style={{
@@ -84,7 +91,7 @@ export default class LoggedEntry extends React.Component
 	}
 }
 
-const Entry = ({title, subtitle, image, color}) =>
+const Entry = ({title, subtitle, image, color, onAddButtonClicked, navigationName}) =>
 <View style={styles.container}>
 	<View style={styles.leftWrapper}>
 		<InfoIcon style={styles.infoIcon} color={color} image={image} width={50}/>
@@ -99,7 +106,9 @@ const Entry = ({title, subtitle, image, color}) =>
 	</View>
 	
 	<View style={styles.rightWrapper}>
-		<Icon.Ionicons style={styles.addIcon} color={color} size={35} name={"md-add"}/>
+		<TouchableOpacity onPress={() => onAddButtonClicked(navigationName)}>
+			<Icon.Ionicons  style={styles.addIcon} color={color} size={35} name={"md-add"}/>
+		</TouchableOpacity>
 	</View>
 </View>
 
