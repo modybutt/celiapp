@@ -105,7 +105,7 @@ const styles = StyleSheet.create({
 	  },
 	
 	  dayLabel:{
-		color:'#707070',
+		color:'#c3c3c3',
 		textAlign: 'center'
 	  },
 	
