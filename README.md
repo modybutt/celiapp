@@ -37,6 +37,11 @@ dependency as per this article: https://stackoverflow.com/a/58122821/488802
 IOS: point camera app at QR code
 Android: In Expo client app, open QR code
 
+## Testing
+
+To run all unit tests:
+`npm test`
+
 ## Application Files
 
 ```
