@@ -11,6 +11,8 @@ import andyPlaceholder from "../assets/images/avatar_menu/placeholder_andy.png";
 
 import Layout from '../constants/Layout';
 import LoggedEntry from '../components/LoggedEntry';
+import ReportManager from '../manager/ReportManager';
+import WeekDisplay from '../components/WeekDisplay';
 
 export default class MainScreen extends React.Component {
 	
@@ -18,11 +20,19 @@ export default class MainScreen extends React.Component {
 	({
     	headerTitle:<ImageHeader color={Colors.mainscreenColor}/>
 	});
+
+	constructor(props) {
+		super(props);
+		this.state = { reportData: null };
+	  }
 	
 	render() {
+		if(!this.state.reportData) return (<View></View>)
+    	reportData = this.state.reportData;
+
 		return (
 			<View style={styles.container}>
-				<Text style={styles.week}>Week Placeholder</Text>			
+				<WeekDisplay reportData={reportData}/>
 				<Avatar/>
 				<LoggedEntry 
 					title={'2 symptoms'} 
@@ -53,6 +63,25 @@ export default class MainScreen extends React.Component {
 					image={gipImage}/>			
 			</View>	
 		);
+	}
+
+	componentDidMount() 
+	{
+		this.props.navigation.setParams({
+      
+		});
+
+		this.props.navigation.addListener('willFocus', () => 
+		{
+			//CeliLogger.addLog("WeekReport", Interactions.OPEN);
+			ReportManager.weeklyReport(this.receiveData);
+		});
+	}
+
+	receiveData = (data) => 
+	{ 
+		this.setState({ reportData : data });
+		console.log("received report data:", data);
 	}
 }
 
