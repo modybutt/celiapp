@@ -1,149 +1,184 @@
-import DatabaseManager from '../manager/DatabaseManager';
+import DateUtil from '../utils/dateUtils';
 import Events, { Emotion, Gluten, Severity } from '../constants/Events';
 
 export default class WeeklyReportData {
 
-    constructor(){
-        this.dailySummary = new Array(7).fill().map(_ => ({}));
-        this.bestDay = {}
-    }
+  constructor(dataBase) {
+    this.previousWeekEventCounter = {}
+    this.currentWeekEventCounter = {}
+    this.bestDay = {}
+    this.events = []
+    this.currentWeekStart = {}
+    this.currentWeekEnd = {}
+    this.previousWeekStart = {}
+    this.thisTimePreviousWeek = {}
+    this.dataBase = dataBase
+    this.enrichedDays = []
+  }
 
-    scoreEvent = (event) => {
-        switch (event.eventType) {
-          case Events.Symptom: {
-            const scores = {
-              [Severity.LOW]: 1,
-              [Severity.MODERATE]: 2,
-              [Severity.SEVERE]: 3,
-            }
-    
-            if (event.objData.symptomID === 0) return 5;
-    
-            return event.objData.type in scores ? scores[event.objData.type] : 0;
-          }
-          case Events.Food: {
-            const scores = {
-              [Gluten.FREE]: 1,
-              [Gluten.UNKNOWN]: 0.5,
-              [Gluten.PRESENT]: 0,
-            }
-            return event.objData.type in scores ? scores[event.objData.type] : 0;
-          }
-    
-          case Events.Emotion: {
-            const scores = {
-              [Emotion.HAPPY]: 4,
-              [Emotion.SLIGHTLY_HAPPY]: 3,
-              [Emotion.NEUTRAL]: 2,
-              [Emotion.SLIGHTLY_UNHAPPY]: 1,
-              [Emotion.UNHAPPY]: 0,
-            }
-            return event.objData.type in scores ? scores[event.objData.type] : 0;
-          }
-    
-          case Events.GIP: {
-            return 1;
-          }
+  init = (startOfWeek, endOfWeek, now) => {
+    this.currentWeekStart = startOfWeek || DateUtil.getStartOfThisWeekBeginningMonday()
+    this.currentWeekEnd = endOfWeek || DateUtil.getEndOfThisWeekBeginningMonday()
+    this.previousWeekStart = DateUtil.getStartOfPreviousFullWeekBeginningMonday()
+    this.now = now || new Date()
+    this.thisTimePreviousWeek = DateUtil.sameTimeAWeekPrevious(this.now)
+
+    return this.getData(this.previousWeekStart, this.currentWeekEnd);
+  }
+
+  scoreEvent = (event) => {
+
+    switch (event.eventType) {
+      case Events.Symptom: {
+        const scores = {
+          [Severity.LOW]: 1,
+          [Severity.MODERATE]: 2,
+          [Severity.SEVERE]: 3,
         }
-    }
-    
-    init = (startOfWeek, endOfWeek) => {
-        this.initialiseDailySummary(startOfWeek);
-        console.log("Daily summary");
-        
-        return this.getData(startOfWeek, endOfWeek);
-    }
 
-    //TODO move to util class
-    static fullDaysSinceEpoch = (date) => Math.floor(date / 8.64e7);
-    //TODO move to util class
-    static dateAsDaysAgo = (date) => this.fullDaysSinceEpoch(new Date()) - this.fullDaysSinceEpoch(date);
+        if (event.objData.symptomID === 0) return 5;
 
-    getData = (startOfPeriod, endOfPeriod) => 
-        this.getEventsBetweenDatesInclusive(startOfPeriod, endOfPeriod)
-            .then(data => {
-                data
-                    .filter(event => event.eventType !== Events.LogEvent)
-                    .map(event => {
-                    event.objData = JSON.parse(event.objData)
-                    event.created = new Date(event.created)
-                    event.modified = new Date(event.modified)
-                    event.daysAgo = this.dateAsDaysAgo(event.created)
-                    return event
-                })
-                .map(event => { console.log("Event enriched:", event); return event })
-                .map(event => this.addToDailyScore(event.daysAgo, startOfWeekAsDaysAgo, event))
-                this.calcBestDay()
-            })
-            .catch(err => console.log("Report data access error:", err.message));
-
-    getEventsBetweenDatesInclusive = (start, end) =>
-        new Promise((resolve, reject) => {
-            DatabaseManager.getInstance().fetchEventsBetween(
-            start,
-            end,
-            () => reject("Error fetching events for previous 7 days"),
-            (_, { rows: { _array } }) => resolve(_array),
-            );
-        })
-    }
-
-    dailyFields = ["eventCount","score","mealCount","moodCount","symptomCount","gipTests"];
-    
-    initialiseDailySummary = (d) =>{
-        var date = new Date(d)
-        this.dailySummary.forEach(ds => {
-            this.dailyFields
-            .forEach( (f) => {ds[f] = 0;})
-            ds.date = new Date(date)
-            date.setDate(date.getDate()+1)
-        });
-    }
-
-    addToDailyScore = (day, start, event) => {
-        const dayOfWeek = start - day;  
-    
-        this.dailySummary[dayOfWeek].eventCount += 1;
-        this.dailySummary[dayOfWeek].score += this.scoreEvent(event);
-    
-        switch (event.eventType) {
-          case Events.Symptom: {
-            this.dailySummary[dayOfWeek].symptomCount++;
-            break;
-          }
-          case Events.Food: {
-            this.dailySummary[dayOfWeek].mealCount++;
-            break;
-          }
-          case Events.Emotion: {
-            this.dailySummary[dayOfWeek].moodCount++;
-            break;
-          }
-          case Events.GIP: {
-            this.dailySummary[dayOfWeek].gipTests++;
-            break;
-          }
-        }
-    
+        return event.objData.severity in scores ? scores[event.objData.severity] : 0;
       }
 
-      static TARGET_DAILY_EVENTS = 9;
-      activityRateForDay = (dayOfWeek) => this.dailySummary[dayOfWeek].eventCount/this.TARGET_DAILY_EVENTS
-
-      calcBestDay =() => {
-        this.bestDay=this.dailySummary[0];
-        for(i=1;i< this.dailySummary.length;i++){
-          if(this.dailySummary[i].score > this.bestDay.score)
-            this.bestDay=this.dailySummary[i];
+      case Events.Food: {
+        const scores = {
+          [Gluten.FREE]: 1,
+          [Gluten.UNKNOWN]: 0.5,
+          [Gluten.PRESENT]: 0,
         }
+        return event.objData.tag in scores ? scores[event.objData.tag] : 0;
       }
 
-      bestDayDate = () => this.bestDay.date
+      case Events.Emotion: {
+        const scores = {
+          [Emotion.HAPPY]: 5,
+          [Emotion.SLIGHTLY_HAPPY]: 4,
+          [Emotion.NEUTRAL]: 3,
+          [Emotion.SLIGHTLY_UNHAPPY]: 2,
+          [Emotion.UNHAPPY]: 1,
+        }
+        return event.objData.type in scores ? scores[event.objData.type] : 0;
+      }
 
-      bestDaySymptomCount = () => this.bestDay.symptomCount;
-      bestDayMoodCount = () => this.bestDay.moodCount;
-      bestDayMealCount = () => this.bestDay.mealCount;
-      bestDayGipTests = () => this.bestDay.gipTests;
+      case Events.GIP: {
+        return 1;
+      }
+    }
+  }
 
-      
+
+  jsonifyEvent = (event) => {
+    event.objData = JSON.parse(event.objData)
+    event.created = new Date(event.created)
+    event.modified = new Date(event.modified)
+    return event
+  }
+
+  getData = (startOfPeriod, endOfPeriod) => {
+    this.getEventsBetweenDatesInclusive(startOfPeriod, endOfPeriod)
+      .then(data => {
+        this.events = data
+          .filter(event => event.eventType !== Events.LogEvent)
+          .map(this.jsonifyEvent)
+        this.calcBestDay()
+      })
+      .catch(err => console.log("Report data access error:", err.message));
+  }
+
+  getEventsBetweenDatesInclusive = (start, end) =>
+    new Promise((resolve, reject) => {
+      //DatabaseManager.getInstance().fetchEventsBetween(
+      this.dataBase.fetchEventsBetween(
+        start,
+        end,
+        () => reject("Error fetching events for previous 7 days"),
+        (_, { rows: { _array } }) => resolve(_array),
+      );
+    })
+
+  TARGET_DAILY_SCORE = 9
+  TARGET_MEALS_PER_DAY = 3
+  TARGET_SYMPTOMS_PER_DAY = 3
+  TARGET_EMOTIONS_PER_DAY = 3
+
+  targetActivityCounter = (day) =>
+    Math.min(day.mealCount, this.TARGET_MEALS_PER_DAY) +
+    Math.min(day.emotionCount, this.TARGET_EMOTIONS_PER_DAY) +
+    Math.min(day.symptomCount, this.TARGET_SYMPTOMS_PER_DAY)
+
+  activityRateForDay = (dayOfWeek) => this.enrichedDays[dayOfWeek].activity
+  
+  eventInCurrentWeek = (event) => event.created > this.currentWeekStart && event.created < this.currentWeekEnd
+
+  scoreDay = (dayEvents) => dayEvents.reduce(
+    (sum, event) => this.scoreEvent(event) + sum,
+    0
+  )
+
+  calcBestDay = () => {
+
+    var dayEvents = new Array(7).fill(null).map(()=> ({ date: "", events: [] }))
+
+    eventsGroupedIntoDays =
+      this.events
+        .filter(this.eventInCurrentWeek)
+        .reduce((days, event) => {
+          var key = DateUtil.dayOfWeek(event.created)
+          days[key].date = DateUtil.justDate(event.created)
+          days[key].events.push(event)
+          return days
+        }, dayEvents
+        )
+
+    this.enrichedDays = Object.keys(eventsGroupedIntoDays)
+      .map(key => eventsGroupedIntoDays[key])
+      .map(day => (
+        {
+          ...day,
+          score: this.scoreDay(day.events),
+          mealCount: this.countEventsOfTypeOnADay(Events.Food, day.date),
+          emotionCount: this.countEventsOfTypeOnADay(Events.Emotion, day.date),
+          symptomCount: this.countEventsOfTypeOnADay(Events.Symptom, day.date),
+          gipTests: this.countEventsOfTypeOnADay(Events.GIP, day.date),
+        }))
+      .map(day => ({
+        ...day,
+        activity: this.targetActivityCounter(day)
+      }))
+
+    this.bestDay = this.enrichedDays.reduce((bestDay, thisDay) => bestDay.score > thisDay.score ? bestDay : thisDay)
+  }
+
+
+  countEventsOfTypeOnADay = (type, date) => {
+    start = new Date(date)
+    start.setHours(0, 0, 0, 0);
+    end = new Date(date)
+    end.setHours(23, 59, 59, 999);
+    return this.countEventsOfTypeBetweenDates(type, start, end)
+  }
+
+  countEventsOfTypeBetweenDates = (type, start, end) =>
+    this.events
+      .filter(event => event.created > start && event.created < end)
+      .filter(event => event.eventType == type)
+      .length
+
+  bestDayDate = () => this.bestDay.date
+  bestDaySymptomCount = () => this.bestDay.symptomCount;
+  bestDayMoodCount = () => this.bestDay.emotionCount;
+  bestDayMealCount = () => this.bestDay.mealCount;
+  bestDayGipTests = () => this.bestDay.gipTests;
+
+  thisWeekGIPCount = () => this.countEventsOfTypeBetweenDates(Events.GIP, this.currentWeekStart, this.currentWeekEnd)
+  thisWeekSymptomCount = () => this.countEventsOfTypeBetweenDates(Events.Symptom, this.currentWeekStart, this.currentWeekEnd)
+  thisWeekMoodCount = () => this.countEventsOfTypeBetweenDates(Events.Emotion, this.currentWeekStart, this.currentWeekEnd)
+  thisWeekMealCount = () => this.countEventsOfTypeBetweenDates(Events.Food, this.currentWeekStart, this.currentWeekEnd)
+
+  //these only count up to the current Day/Time last week
+  previousWeekGIPCount = () => this.countEventsOfTypeBetweenDates(Events.GIP, this.previousWeekStart, this.thisTimePreviousWeek)
+  previousWeekSymptomCount = () => this.countEventsOfTypeBetweenDates(Events.Symptom, this.previousWeekStart, this.thisTimePreviousWeek)
+  previousWeekMoodCount = () => this.countEventsOfTypeBetweenDates(Events.Emotion, this.previousWeekStart, this.thisTimePreviousWeek)
+  previousWeekMealCount = () => this.countEventsOfTypeBetweenDates(Events.Food, this.previousWeekStart, this.thisTimePreviousWeek)
 };

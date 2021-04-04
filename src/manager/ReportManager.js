@@ -1,4 +1,5 @@
 import WeeklyReportData from './WeeklyReportData';
+import DateUtil from '../utils/dateUtils';
 
 export default class ReportManager {
 
@@ -30,50 +31,6 @@ export default class ReportManager {
 
   }
 
-  static getPreviousSunday(now) {
-    var date = now || new Date();
-    var dayOfWeek = date.getDay();
-    var prevSunday = new Date(date);
-    prevSunday.setDate(date.getDate() - (dayOfWeek == 0 ? 7 : dayOfWeek));
-    return prevSunday;
-  }
-
-  static getEndOfPreviousFullWeekBeginningMonday(now) {
-    var endOfWeek = this.getPreviousSunday(now || new Date());
-    endOfWeek.setHours(23, 59, 59, 999);
-    return endOfWeek;
-  }
-
-  static getStartOfPreviousFullWeekBeginningMonday(now) {
-    var endOfWeek = this.getPreviousSunday(now || new Date());
-    var startOfWeek = new Date(endOfWeek);
-    startOfWeek.setDate(endOfWeek.getDate() - 6);
-
-    startOfWeek.setHours(0, 0, 0, 0);
-
-    return startOfWeek;
-  }
-
-  static getStartOfThisWeekBeginningMonday(now){
-    var previousSunday = this.getPreviousSunday(now || new Date());
-    var startOfWeek=new Date()
-    startOfWeek.setDate(previousSunday.getDate() + 1);
-    startOfWeek.setHours(0, 0, 0, 0);
-    return startOfWeek;
-  }
-
-  static getEndOfThisWeekBeginningMonday(now){
-    var previousSunday = this.getPreviousSunday(now || new Date());
-    var endOfWeek=new Date()
-    endOfWeek.setDate(previousSunday.getDate() + 7);
-    endOfWeek.setHours(23, 59, 59, 999);
-    return endOfWeek;
-  }
-
-  static fullDaysSinceEpoch = (date) => Math.floor(date / 8.64e7);
-
-  static dateAsDaysAgo = (date) => this.fullDaysSinceEpoch(new Date()) - this.fullDaysSinceEpoch(date);
-
   static symptomString = (count) => {
     if (count == 1) return "one symptom";
     if (count >  1) return "" + count + "symptoms";
@@ -102,8 +59,13 @@ export default class ReportManager {
     if (count == 1) return "a gluten-positive test";
     if (count >  1) return "" + count + "gluten-positive tests";
     return "";
-  
-}
+  }
+
+  static gipString = (count) => {
+      if (count == 1) return "a gluten test";
+      if (count >  1) return "" + count + "gluten tests";
+      return "no gluten tests";
+  }
 
   static daySummaryString = (weekData) => {
     return "You logged " +
@@ -113,20 +75,32 @@ export default class ReportManager {
       this.gipFreeString(weekData.bestDayGipTests());
   }
 
+  static infoBoxBody = ( stringify , thisWeekCount, lastWeekCount) =>
+    "You logged " + stringify(thisWeekCount) + " this week. That is " + this.differenceString(thisWeekCount, lastWeekCount) +" at this time last week!"
+    
+  static differenceString = (thisWeekCount, lastWeekCount) => {
+    console.log("this week: "+thisWeekCount)
+    console.log("prev week: "+lastWeekCount)
+    
+    if (thisWeekCount > lastWeekCount) return "" + (thisWeekCount - lastWeekCount) + " more than"
+    if (thisWeekCount < lastWeekCount) return "" + (lastWeekCount - thisWeekCount) + " less than"
+    return "the same as"
+  }
+  
   static weeklyReport(success) {
 
-    const startOfWeek = this.getStartOfThisWeekBeginningMonday();
-    const endOfWeek = this.getEndOfThisWeekBeginningMonday();
+    const startOfWeek = DateUtil.getStartOfThisWeekBeginningMonday();
+    const endOfWeek = DateUtil.getEndOfThisWeekBeginningMonday();
 
     console.log("startofweek", startOfWeek)
     console.log("endtofweek", endOfWeek)
     
-    const startOfWeekAsDaysAgo = this.dateAsDaysAgo(startOfWeek)
+    const startOfWeekAsDaysAgo = DateUtil.dateAsDaysAgo(startOfWeek)
     console.log("startOfWeekAsDaysAgo", startOfWeekAsDaysAgo)
     
     const weekData = new WeeklyReportData();
 
-    weekData.init(startOfWeek, endOfWeek)
+    weekData.init(startOfWeek, endOfWeek, startOfWeekAsDaysAgo)
       .then( _ => {
         console.log("Data processed ok")
         this.reportText.dailyActivity = [0,1,2,3,4,5,6].map(day => weekData.activityRateForDay(day))
@@ -136,10 +110,10 @@ export default class ReportManager {
         this.reportText.bestDayHeading = weekData.bestDayDate().toLocaleDateString("en-US", dateFormat)
         this.reportText.bestDayBody = this.daySummaryString(weekData)
 
-        // this.reportText.symptomInfo.body = this.symptomBoxBody(dailySummary)
-        // this.reportText.mealInfo.body = this.infoBoxBody(dailySummary, "mealCount")
-        // this.reportText.emotionInfo.body = this.infoBoxBody(dailySummary, "moodCount")
-        // this.reportText.gipInfo.body = this.infoBoxBody(dailySummary, "gipTests")
+        this.reportText.symptomInfo.body = this.infoBoxBody(this.symptomString, weekData.thisWeekSymptomCount(), weekData.previousWeekSymptomCount())
+        this.reportText.mealInfo.body = this.infoBoxBody(this.mealString, weekData.thisWeekMealCount(), weekData.previousWeekMealCount())
+        this.reportText.emotionInfo.body = this.infoBoxBody(this.moodString, weekData.thisWeekMoodCount(), weekData.previousWeekMoodCount())
+        this.reportText.gipInfo.body = this.infoBoxBody(this.gipString, weekData.thisWeekGIPCount(), weekData.previousWeekGIPCount())
 
         success(this.reportText)
       })
