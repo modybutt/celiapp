@@ -1,5 +1,6 @@
 import WeeklyReportData from './WeeklyReportData';
 import DateUtil from '../utils/dateUtils';
+import DatabaseManager from '../manager/DatabaseManager'
 
 export default class ReportManager {
 
@@ -98,11 +99,12 @@ export default class ReportManager {
     const startOfWeekAsDaysAgo = DateUtil.dateAsDaysAgo(startOfWeek)
     console.log("startOfWeekAsDaysAgo", startOfWeekAsDaysAgo)
     
-    const weekData = new WeeklyReportData();
+    const weekData = new WeeklyReportData(DatabaseManager.getInstance());
 
-    weekData.init(startOfWeek, endOfWeek, startOfWeekAsDaysAgo)
-      .then( _ => {
-        console.log("Data processed ok")
+    var a= weekData.init(startOfWeek, endOfWeek, new Date())
+    
+    a.then( _ => {
+        console.log("Data processed ok", weekData)
         this.reportText.dailyActivity = [0,1,2,3,4,5,6].map(day => weekData.activityRateForDay(day))
         this.reportText.weekEndingDate = endOfWeek
 

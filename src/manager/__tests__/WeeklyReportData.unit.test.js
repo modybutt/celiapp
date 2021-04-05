@@ -67,8 +67,13 @@ const startOfCurrentWeek = new Date("2021-03-29T00:00:00")
 const endOfCurrentWeek = new Date("2021-04-04T23:59:59")
 const thurs_1_april = new Date("2021-04-01T12:00:00")
 
-weekData.init(startOfCurrentWeek, endOfCurrentWeek, thurs_1_april)
+async function initData(){
+        await weekData.init(startOfCurrentWeek, endOfCurrentWeek, thurs_1_april)
+}
 
+initData();
+
+//weekData.init(startOfCurrentWeek, endOfCurrentWeek, thurs_1_april)
 
 test('this week count', () => {
         expect(weekData.thisWeekSymptomCount()).toBe(8)

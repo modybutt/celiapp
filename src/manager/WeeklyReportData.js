@@ -17,10 +17,10 @@ export default class WeeklyReportData {
   }
 
   init = (startOfWeek, endOfWeek, now) => {
+    this.now = now || new Date()
     this.currentWeekStart = startOfWeek || DateUtil.getStartOfThisWeekBeginningMonday()
     this.currentWeekEnd = endOfWeek || DateUtil.getEndOfThisWeekBeginningMonday()
-    this.previousWeekStart = DateUtil.getStartOfPreviousFullWeekBeginningMonday()
-    this.now = now || new Date()
+    this.previousWeekStart = DateUtil.getStartOfPreviousFullWeekBeginningMonday(this.now)
     this.thisTimePreviousWeek = DateUtil.sameTimeAWeekPrevious(this.now)
 
     return this.getData(this.previousWeekStart, this.currentWeekEnd);
@@ -76,7 +76,7 @@ export default class WeeklyReportData {
   }
 
   getData = (startOfPeriod, endOfPeriod) => {
-    this.getEventsBetweenDatesInclusive(startOfPeriod, endOfPeriod)
+    return this.getEventsBetweenDatesInclusive(startOfPeriod, endOfPeriod)
       .then(data => {
         this.events = data
           .filter(event => event.eventType !== Events.LogEvent)
@@ -88,7 +88,6 @@ export default class WeeklyReportData {
 
   getEventsBetweenDatesInclusive = (start, end) =>
     new Promise((resolve, reject) => {
-      //DatabaseManager.getInstance().fetchEventsBetween(
       this.dataBase.fetchEventsBetween(
         start,
         end,
