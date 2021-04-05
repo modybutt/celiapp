@@ -28,7 +28,7 @@ export default class ReportManager {
     dailyActivity: [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0],
 
     bestDayHeading: "Unknown",
-    bestDayBody: "Everyday was just like the previous"
+    bestDayBody: "Too little activity to calculate"
 
   }
 
@@ -108,10 +108,12 @@ export default class ReportManager {
         this.reportText.dailyActivity = [0,1,2,3,4,5,6].map(day => weekData.activityRateForDay(day))
         this.reportText.weekEndingDate = endOfWeek
 
-        var dateFormat = { weekday: 'long', month: 'long', day: 'numeric' };
-        this.reportText.bestDayHeading = weekData.bestDayDate().toLocaleDateString("en-US", dateFormat)
-        this.reportText.bestDayBody = this.daySummaryString(weekData)
-
+        if(weekData.bestDayDate()){
+          var dateFormat = { weekday: 'long', month: 'long', day: 'numeric' };
+          this.reportText.bestDayHeading = weekData.bestDayDate().toLocaleDateString("en-US", dateFormat)
+          this.reportText.bestDayBody = this.daySummaryString(weekData)
+        }
+        
         this.reportText.symptomInfo.body = this.infoBoxBody(this.symptomString, weekData.thisWeekSymptomCount(), weekData.previousWeekSymptomCount())
         this.reportText.mealInfo.body = this.infoBoxBody(this.mealString, weekData.thisWeekMealCount(), weekData.previousWeekMealCount())
         this.reportText.emotionInfo.body = this.infoBoxBody(this.moodString, weekData.thisWeekMoodCount(), weekData.previousWeekMoodCount())
