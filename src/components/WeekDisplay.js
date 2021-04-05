@@ -6,7 +6,7 @@ export default class LoggedEntry extends React.Component
 {
 	render()
 	{
-		return <Week reportData={this.props.reportData}/>
+		return <Week dailyActivity={this.props.dailyActivity}/>
 	}
 }
 
@@ -62,11 +62,11 @@ const Day=({name, percent, today}) =>
     <DayCircle percent={percent} />
   </View>
 
-const Week=({reportData})=> 
+const Week=({dailyActivity})=> 
 {
+
 	const days = ["Mo","Tu","We","Th","Fr","Sa","Su"].map(
-		(day, i)=> 
-		<Day key = {i} name ={day} percent = {reportData.dailyActivity[i]}/>
+		(day, i)=> <Day key = {i} name ={day} percent = {dailyActivity[i]}/>
 	)
 
 	return (

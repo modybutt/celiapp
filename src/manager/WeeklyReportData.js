@@ -144,10 +144,12 @@ export default class WeeklyReportData {
         }))
       .map(day => ({
         ...day,
-        activity: this.targetActivityCounter(day)
+        activity: this.targetActivityCounter(day)/this.TARGET_DAILY_SCORE
       }))
 
     this.bestDay = this.enrichedDays.reduce((bestDay, thisDay) => bestDay.score > thisDay.score ? bestDay : thisDay)
+    console.log("enriched days", this.enrichedDays)
+    console.log("best days", this.bestDay)
   }
 
 

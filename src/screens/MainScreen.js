@@ -33,7 +33,7 @@ export default class MainScreen extends React.Component {
 		//TODO: set text dynamically from reportmanager.
 		return (
 			<View style={styles.container}>
-				<WeekDisplay reportData={reportData}/>
+				<WeekDisplay dailyActivity={reportData.dailyActivity}/>
 				<Avatar/>
 				<LoggedEntry
 					onAddButtonClicked={(navigationName) => this.props.navigation.navigate(navigationName, {'selectedDateAndTime' : new Date() })}

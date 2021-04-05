@@ -55,7 +55,7 @@ export default class ReportScreen extends React.Component {
     
     return (
       <View style={styles.container}>
-        <WeekDisplay reportData={this.state.reportData}/>
+        <WeekDisplay dailyActivity={this.state.reportData.dailyActivity}/>
         <BestDay/>
         <View style={{ marginTop:10}}>
           <View style = {styles.infoBoxRow}>
