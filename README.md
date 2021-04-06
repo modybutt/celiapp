@@ -14,6 +14,14 @@ An app to help people with [coeliac disease](https://en.wikipedia.org/wiki/Coeli
 
 ## Developer information
 
+### Working on stories
+
+We try to show all planned and ongoing design & development work on this [board](https://github.com/itcgames/celiapp/projects/1). 
+
+Stories are assigned whoever agreed to do it. If you pick up an unassigned story, assign yourself AND move to In Progress. Don't pick up a story assigned to someone else with out checking with assignee first. 
+
+Finally, the stories in backlog are (typically) unprioritized and maybe unrefined, so probably should check with the group before starting a backlog story.
+
 ### Prerequisites
 
 Install node & npm [from here](https://nodejs.org/en/)
