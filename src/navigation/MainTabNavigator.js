@@ -30,6 +30,7 @@ import Wardrobe from "../components/Glutenbuddy/screens/Wardrobe";
 import Challenges from "../components/Glutenbuddy/screens/Challenges";
 import Achievements from "../components/Glutenbuddy/screens/Achievements";
 import ChallengesTest from "../components/Glutenbuddy/screens/ChallengesTest";
+import Colors from '../constants/Colors';
 import MainScreen from "../screens/MainScreen";
 
 const EvaluationStack = createStackNavigator({
@@ -86,7 +87,7 @@ const TabNavStack = createMaterialTopTabNavigator(
       screen: ReportStack,
       navigationOptions: {
         tabBarIcon: ({ focused }) => (
-          <SvgXml width="26" height="26" xml={ReportIcon} />
+          <SvgXml width="26" height="26" fill= {focused? Colors.tabIconSelected : Colors.tabIconDefault} xml={ReportIcon} />
         ),
       },
     },
