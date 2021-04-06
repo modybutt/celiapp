@@ -2,6 +2,7 @@ import React from "react";
 import { StyleSheet, View, Text } from "react-native";
 import Layout from '../constants/Layout';
 
+
 export default class LoggedEntry extends React.Component
 {
 	render()
@@ -50,10 +51,12 @@ const hideNegativePartOfFirstQuadrant = (percent) =>{
 }
 
 const DayCircle = ({percent}) => 
-  <View style={styles.dayCircleBackground}>
-    <View style={[styles.dayProgress, progressShowFullQuadrants(percent)]}/>
-    <View style={[styles.dayProgress, progressShowFractionOfLastQuadrant(percent)]}/>
-    <View style={[styles.dayCircleBackground, hideNegativePartOfFirstQuadrant(percent)]}/>
+  <View style={[]}>
+    <View style={[styles.dayCircle, styles.thinBorder, styles.dayCircleBackground]}/>	  
+    <View style={[styles.dayCircle, styles.thickBorder, progressShowFullQuadrants(percent)]}/>
+    <View style={[styles.dayCircle, styles.thickBorder, progressShowFractionOfLastQuadrant(percent)]}/>
+    <View style={[styles.dayCircle, styles.hideBorder, hideNegativePartOfFirstQuadrant(percent)]}/> 
+	<View style={[styles.dayCircle, styles.thinBorder, hideNegativePartOfFirstQuadrant(percent)]}/>
     
   </View>
 const Day=({name, percent, today}) => 
@@ -77,31 +80,42 @@ const Week=({dailyActivity})=>
 
 var dayWidth = 30;
 const progressCircleThickness = 5;
-var textColor =  '#ff366b'
+var mainActivityColor =  '#ff366b'
 var highlightColor = '#d0ff36'
 var width = Layout.window.width;
+var background=  'rgb(242, 242, 242)'; //todo programmatically get the default card background colour
 
 const styles = StyleSheet.create({
-	dayCircleBackground:{
-		margin: 1, 
+
+	dayCircle:{
 		width: dayWidth, 
 		height: dayWidth, 
-		borderColor: '#707070',
-		borderWidth: 1,
 		borderRadius: dayWidth/2,
+		position: 'absolute',
+	},
+
+	dayCircleBackground:{
 		justifyContent: 'center',
 		alignItems: 'center',
-		marginTop: 5
+		position:"relative",
+
 	  },
 	
-	  dayProgress:{
-		width: dayWidth, 
-		height: dayWidth, 
-		borderRadius: dayWidth/2,
+	  thickBorder:{
 		borderWidth: progressCircleThickness,
-		position: 'absolute',
-		borderRightColor: textColor,
-		borderColor: textColor
+		borderRightColor: mainActivityColor,
+		borderColor: mainActivityColor
+	  },
+
+	  hideBorder:{
+		borderWidth: progressCircleThickness,
+		borderRightColor:  background,
+		borderColor:  background
+	  },
+
+	  thinBorder:{
+		borderColor: '#888',
+		borderWidth: 1,
 	  },
 	
 	  dayLabel:{
