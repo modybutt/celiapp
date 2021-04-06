@@ -15,6 +15,8 @@ import CeliLogger from '../analytics/analyticsManager';
 import Interactions from '../constants/Interactions';
 import InfoIcon from '../components/InfoIcon';
 import WeekDisplay from '../components/WeekDisplay';
+import { TouchableOpacity } from 'react-native-gesture-handler';
+import { AntDesign } from '@expo/vector-icons';  //replace IonIcon as it was impossible to centre them
 
 var count = 0
 var reportData = null;
@@ -48,10 +50,12 @@ export default class ReportScreen extends React.Component {
     console.log("received report data:",data );
   }
 
+  addEvent = (name) => () => this.props.navigation.navigate(name, {'selectedDateAndTime' : new Date() })
 
   render() {
     if(!this.state.reportData) return (<View></View>)
     reportData =  this.state.reportData;
+
     
     return (
       <View style={styles.container}>
@@ -59,12 +63,12 @@ export default class ReportScreen extends React.Component {
         <BestDay/>
         <View style={{ marginTop:10}}>
           <View style = {styles.infoBoxRow}>
-            <InfoBox info = {reportData.symptomInfo} image={symptomImage}  color={Colors.symptom}/>
-            <InfoBox info = {reportData.mealInfo}    image={mealImage}     color={Colors.meal}/>
+            <InfoBox info = {reportData.symptomInfo} image={symptomImage}  color={Colors.symptom} onAddClicked = {this.addEvent("AddSymptom")}/>
+            <InfoBox info = {reportData.mealInfo}    image={mealImage}     color={Colors.meal}    onAddClicked = {this.addEvent("AddMeal")}  />
           </View>
           <View style = {styles.infoBoxRow}>
-            <InfoBox info = {reportData.emotionInfo} image={emotionImage} color={Colors.emotion}/>
-            <InfoBox info = {reportData.gipInfo}     image={gipImage}     color={Colors.gip}/>
+            <InfoBox info = {reportData.emotionInfo} image={emotionImage} color={Colors.emotion}  onAddClicked = {this.addEvent("AddEmote")} />
+            <InfoBox info = {reportData.gipInfo}     image={gipImage}     color={Colors.gip}      onAddClicked = {this.addEvent("AddGIP")} />
           </View>
         </View>
       </View>
@@ -87,17 +91,32 @@ import mealImage from '../assets/images/cutlery_white.svg';
 import gipImage from '../assets/images/heartbeat.svg';
 import Colors from '../constants/Colors';
 
-const InfoBox = ({info, image, color}) =>   
-  <View style={styles.infoBox}>
-    <InfoIcon width={iconWidth} image={image} color={color}/>
-    <Text style={[ styles.infoBoxBodytext]}>{info.body}</Text>
-    <Text style={[ styles.infoBoxHeadline, {color: color}]}>{info.headline}</Text>
-    <Text style={[ styles.infoBoxSubtext]}>{info.sub}</Text>
-  </View>
+
+
+function InfoBox({info, image, color, onAddClicked}){ 
+  return (<View>
+    <View style={styles.infoBox}>
+      <InfoIcon width={iconWidth} image={image} color={color}/>
+      <Text style={[ styles.infoBoxBodytext]}>{info.body}</Text>
+      <Text style={[ styles.infoBoxHeadline, {color: color}]}>{info.headline}</Text>
+      <Text style={[ styles.infoBoxSubtext]}>{info.sub}</Text>
+      <View style={styles.rightWrapper}></View>
+    </View>
+    <View style={[styles.addIcon , {backgroundColor: color}]}>
+        <TouchableOpacity  onPress= {onAddClicked}>
+          <View>
+            <AntDesign name={"plus"} style={styles.plus} size={24} />
+          </View>
+        </TouchableOpacity>
+      </View>
+  </View>)
+}
 
 var WIDTH = Dimensions.get('window').width;
 var width = WIDTH
 var iconWidth = width*0.1;
+var addButtonWidth = width*0.08;
+var infoBoxWidth = (WIDTH/2)-14;
 
 var textColor =  '#ff366b'
 
@@ -111,8 +130,8 @@ const styles = StyleSheet.create({
   },
 
   infoBox:{
-    maxWidth: (WIDTH/2)-14,
-    height: (WIDTH/2)-14,
+    maxWidth: infoBoxWidth,
+    height: infoBoxWidth,
     backgroundColor: '#F7F7F7',
     margin: 4,
     fontWeight: "normal",
@@ -179,5 +198,24 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     padding: 13,
     fontWeight: "bold",
+  },
+
+  addIcon:{
+    marginLeft: infoBoxWidth*0.7,
+    marginTop: -addButtonWidth*0.75,
+    width: addButtonWidth, 
+    height: addButtonWidth, 
+    borderRadius: addButtonWidth / 2,
+    borderWidth:0,
+    justifyContent: 'center',
+    alignContent: 'center',
+    alignItems: 'center',
+    textAlign: 'center',
+    textAlignVertical: "center", 
+    padding: 0,
+  },
+
+  plus:{
+    color: "#FFF",
   }
 });
