@@ -178,7 +178,7 @@ export default class EntryList extends React.Component {
       return (
         <ScrollView horizontal={true}>
           <FlatList     
-            data={filtered = (this.state.events).filter( x => x.eventType !== Events.LogEvent)}
+            data={(this.state.events).filter( x => x.eventType !== Events.LogEvent)}
             keyExtractor={(item, index) => item.id.toString()}
             renderItem={({item}) => this.renderItem(item)}
             ItemSeparatorComponent={this.renderSeparator}

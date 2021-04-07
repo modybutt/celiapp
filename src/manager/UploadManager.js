@@ -1,6 +1,7 @@
 export default class UploadManager {
   static UPLOAD_DATA_URL = 'https://jira.itcarlow.ie/desqol/upload_data';
   static UPLOAD_GIP_IMAGE_URL = 'https://jira.itcarlow.ie/desqol/upload_gip';
+  static UPLOAD_PUSH_NOTIFICATION_URL = 'https://jira.itcarlow.ie/desqol/upload_push_token';
   
   /**
    * @returns {UploadManager}
@@ -79,6 +80,27 @@ export default class UploadManager {
     })
     .catch((error) => {
       console.error('Error:', error);
+    });
+  }
+  
+  uploadPushToken(pushToken, onSuccess) {
+    console.log('Uploading token for ' + this.token);
+    fetch(UploadManager.UPLOAD_PUSH_NOTIFICATION_URL, {
+      method: 'POST',
+      headers: {
+        Accept: 'application/json',
+        'Content-Type': 'application/json',
+        'X-Token': this.token,
+      },
+      body: JSON.stringify({'pushToken': pushToken}),
+    }).then((response) => {
+      console.log('XXX ' + JSON.stringify(response));
+      if (response.ok) {
+        console.log('Uploaded push token ' + pushToken);
+        onSuccess();
+      } else {
+        console.warn('Upload of push token failed!');
+      }
     });
   }
 }

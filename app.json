@@ -2,19 +2,21 @@
   "expo": {
     "name": "CeliApp",
     "icon": "./src/assets/images/web_hi_res_512.png",
-    "version": "0.2.9",
+    "version": "0.2.15",
     "slug": "CeliApp",
     "orientation": "portrait",
     "ios": {
-      "buildNumber": "117",
+      "buildNumber": "123",
       "bundleIdentifier": "ie.itcarlow.CeliApp"
     },
     "android": {
-      "versionCode": 117,
+      "versionCode": 123,
       "package": "ie.itcarlow.CeliApp",
       "adaptiveIcon": {
         "backgroundColor": "#E91F64"
-      }
+      },
+      "useNextNotificationsApi": true
+
     },
     "platforms": [
       "android",

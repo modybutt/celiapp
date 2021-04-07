@@ -59,16 +59,12 @@ export default class App extends React.Component {
 
   initApplication(settings) {
     LanguageManager.getInstance().setLanguage(settings.language);
-    NotificationManager.getInstance(); //just to show the user the notification permission screen.
     GlutonManager.getInstance().setBuddy(settings.nickname);
 
     GearManager.getInstance().setWsHost(settings.wsHost);
     GearManager.getInstance().setGearHost(settings.gearHost);
     GearManager.getInstance().connect();
-
-
-    this.uploadFreshData();
-
+    
     this.setState({
       isSplashReady: true,
       hasUserId: !!settings.userId,
@@ -77,10 +73,15 @@ export default class App extends React.Component {
       loggedIn: false,
       gamify: settings.gamify
     });
-
+    
     if (this.state.hasUserId) {
       TokenManager.getInstance().refreshToken(this.state.userId, this.state.password, this.loginFailedExternally, this.onLoginFailed, this.onLoginSuccess);
     }
+
+    this.uploadFreshData();
+    
+    NotificationManager.getInstance(); //just to show the user the notification permission screen.
+
 
     setTimeout(() => this.setState({ isAppReady: true }), 3000);
   }

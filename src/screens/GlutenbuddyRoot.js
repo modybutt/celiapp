@@ -54,13 +54,16 @@ import CeliLogger from '../analytics/analyticsManager';
 import Interactions from '../constants/Interactions';
 import { showMessage } from "react-native-flash-message";
 import DatabaseManager from "../manager/DatabaseManager";
+import TabBarIcon from "../components/TabBarIcon";
+import ImageHeader from './ImageHeader';
+import Color from '../constants/Colors'
 
 @observer
 export default class GlutenbuddyRoot extends React.Component {
 
   static navigationOptions = ({ navigation }) => ({
-    title: "Glutenbuddy",
-  });
+    	headerTitle:<ImageHeader color={Color.mainscreenColor}/>
+	});
 
   componentDidMount() {
     this.props.navigation.addListener('willFocus', () => {

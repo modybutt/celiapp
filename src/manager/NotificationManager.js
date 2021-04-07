@@ -3,6 +3,7 @@ import * as Permissions from 'expo-permissions';
 import LanguageManager from './LanguageManager';
 import Constants from 'expo-constants';
 import * as Notifications from 'expo-notifications';
+import UploadManager from './UploadManager';
 
 //request permission to send notifications to user.
 async function getiOSNotificationPermission() {
@@ -17,20 +18,22 @@ async function getiOSNotificationPermission() {
 async function registerForPushNotificationsAsync() {
   if (Constants.isDevice) {
     const { status: existingStatus } = await Notifications.getPermissionsAsync();
-    let finalStatus = existingStatus;
     if (existingStatus !== 'granted') {
-      const { status } = await Notifications.requestPermissionsAsync();
-      finalStatus = status;
+      const { status: newStatus } = await Notifications.requestPermissionsAsync();
+      existingStatus = newStatus;
     }
-    if (finalStatus !== 'granted') {
+    if (existingStatus !== 'granted') {
       console.warn('Failed to get push token for push notification!');
       return;
     }
     const token = (await Notifications.getExpoPushTokenAsync()).data;
-    console.log(token);
-    this.setState({ expoPushToken: token });
+    console.log('Token for push notifications: ' + token);
+    
+    UploadManager.getInstance().uploadPushToken(token, () => {
+      console.log('Uploaded token for push notifications');
+    });
   } else {
-    console.warn('Must use physical device for Push Notifications');
+    console.warn('Must use physical device for push notifications');
   }
 
   if (Platform.OS === 'android') {
@@ -43,8 +46,8 @@ async function registerForPushNotificationsAsync() {
   }
 };
 
-export default class NotificationManager 
-{
+export default class NotificationManager {
+  
     static getInstance()
     {
         if (NotificationManager.instance == null)

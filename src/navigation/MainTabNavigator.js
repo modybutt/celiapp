@@ -30,6 +30,8 @@ import Wardrobe from "../components/Glutenbuddy/screens/Wardrobe";
 import Challenges from "../components/Glutenbuddy/screens/Challenges";
 import Achievements from "../components/Glutenbuddy/screens/Achievements";
 import ChallengesTest from "../components/Glutenbuddy/screens/ChallengesTest";
+import Colors from '../constants/Colors';
+import MainScreen from "../screens/MainScreen";
 
 const EvaluationStack = createStackNavigator({
   Evaluation: EvaluationScreen,
@@ -39,9 +41,13 @@ const CalendarStack = createStackNavigator({
   Calendar: CalendarScreen,
 });
 
-const GlutenStack = createStackNavigator({
-  Glutenbuddy: GlutenbuddyRoot,
+const MainScreenStack = createStackNavigator({
+	Mainscreen: MainScreen,
 });
+
+// const GlutenStack = createStackNavigator({
+//   Glutenbuddy: GlutenbuddyRoot,
+// });
 
 const ReportStack = createStackNavigator({
   Report: ReportScreen,
@@ -59,7 +65,7 @@ const TabNavStack = createMaterialTopTabNavigator(
       },
     },
     Glutenbuddy: {
-      screen: GlutenStack,
+      screen: MainScreenStack,
       navigationOptions: {
         //tabBarLabel: 'Calendar',
         tabBarIcon: ({ focused }) => (
@@ -81,7 +87,7 @@ const TabNavStack = createMaterialTopTabNavigator(
       screen: ReportStack,
       navigationOptions: {
         tabBarIcon: ({ focused }) => (
-          <SvgXml width="26" height="26" xml={ReportIcon} />
+          <SvgXml width="26" height="26" fill= {focused? Colors.tabIconSelected : Colors.tabIconDefault} xml={ReportIcon} />
         ),
       },
     },
