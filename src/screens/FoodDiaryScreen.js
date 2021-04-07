@@ -271,7 +271,7 @@ export default class FoodDiaryScreen extends React.Component {
             <>
             <SafeAreaView style={{ flex: 0, backgroundColor: themeColor }} />
             <KeyboardAwareScrollView style={{backgroundColor: "#FFFFFF"}} extraScrollHeight={20} scrollEnabled={true} enableAutomaticScroll={true} >
-                <HeaderBanner color={themeColor} imageSource={require('../../assets/images/FoodTracker/meal_icon.png')}/>
+                <HeaderBanner color={themeColor} imageSource={require('../assets/images/FoodTracker/meal_icon.png')}/>
                 <HorizontalLineWithText color={themeColor} text={LanguageManager.getInstance().getText("DATE")} />
                 <DayPicker ref={component => this._dayChooser = component} textString="SYMPTOM_OCCURED" onDateChanged={this.dateEditedHandler} />
                 <HorizontalLineWithText color={themeColor} text={LanguageManager.getInstance().getText("TIME")} />

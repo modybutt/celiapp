@@ -200,7 +200,7 @@ export default class GIPScreen extends React.Component {
             <>
                 <SafeAreaView style={{ flex: 0, backgroundColor: themeColor }} />
                 <KeyboardAwareScrollView style={{backgroundColor: "#fff"}}>
-                <HeaderBanner color={themeColor} imageSource={require('../../assets/images/GipTracker/gip_icon.png')}/>
+                <HeaderBanner color={themeColor} imageSource={require('../assets/images/GipTracker/gip_icon.png')}/>
                     
                     <HorizontalLineWithText color={themeColor} text={LanguageManager.getInstance().getText("DATE")} />
                     <DayPicker ref={component => this._dayChooser = component} textString="SYMPTOM_OCCURED" onDateChanged={this.dateEditedHandler} />

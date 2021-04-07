@@ -168,7 +168,7 @@ export default class SymptomTrackerScreen extends React.Component {
                 <SafeAreaView style={{ flex: 0, backgroundColor: themeColor }} />
                 <KeyboardAwareScrollView style={{ backgroundColor: "#fff" }}>
                     {/* <TextInput onSubmitEditing={Keyboard.dismiss} /> */}
-                    <HeaderBanner color={themeColor} imageSource={require('../../assets/images/SymptomTracker/add_symptom_icon.png')} />
+                    <HeaderBanner color={themeColor} imageSource={require('../assets/images/SymptomTracker/add_symptom_icon.png')} />
                     <HorizontalLineWithText color={themeColor} text={LanguageManager.getInstance().getText("DATE")} />
                     <DayPicker textString="SYMPTOM_OCCURED" onDateChanged={this.dateEditedHandler} />
                     <HorizontalLineWithText color={themeColor} text={LanguageManager.getInstance().getText("TIME")} />

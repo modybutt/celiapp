@@ -133,7 +133,7 @@ export default class EmoteTrackerScreen extends React.Component {
             <>
                 <SafeAreaView style={{ flex: 0, backgroundColor: themeColor }} />
                 <KeyboardAwareScrollView style={{backgroundColor: "#fff"}}>
-                    <HeaderBanner color={themeColor} imageSource={require('../../assets/images/EmoteTracker/mood_icon.png')} />
+                    <HeaderBanner color={themeColor} imageSource={require('../assets/images/EmoteTracker/mood_icon.png')} />
                     <HorizontalLineWithText color={themeColor} text={LanguageManager.getInstance().getText("DATE")} />
                     <DayPicker ref={component => this._dayChooser = component} textString="SYMPTOM_OCCURED" onDateChanged={this.dateEditedHandler} />
                     <HorizontalLineWithText color={themeColor} text={LanguageManager.getInstance().getText("TIME")} />
