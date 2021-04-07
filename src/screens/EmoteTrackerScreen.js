@@ -1,7 +1,6 @@
 import React from 'react';
-import { SafeAreaView, View, Keyboard, ScrollView, Text, TouchableHighlight, StyleSheet, Button } from 'react-native';
+import { SafeAreaView, View, Keyboard, Text, TouchableHighlight, StyleSheet } from 'react-native';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view'
-//import { HeaderBackButton } from 'react-navigation-stack'
 import Dialog from "react-native-dialog";
 import EmoteTrackerSymbolGroup from '../components/EmoteTracker/EmoteTrackerSymbolGroup';
 import HorizontalLineWithText from '../components/HorizontalLineWithText';
@@ -9,23 +8,17 @@ import NoteEdit from '../components/NoteEdit';
 import DatabaseManager from '../manager/DatabaseManager';
 import LanguageManager from '../manager/LanguageManager';
 import GlutonManager from '../manager/GlutonManager';
-import DayChooser from '../components/DayChooser';
 import DayPicker from '../components/DayPicker';
 import TimePicker from '../components/TimePicker';
 import HeaderBanner from '../components/HeaderBanner';
-//import HeaderSaveButton from '../components/HeaderSaveButton';
 import GearManager from '../manager/GearManager';
 import EmotionStore from '../manager/buddyManager/EmotionStore';
-import { observer } from "mobx-react";
 import CeliLogger from '../analytics/analyticsManager';
 import Interactions from '../constants/Interactions';
 
+const themeColor = '#9958B7';
+
 export default class EmoteTrackerScreen extends React.Component {
-    /*static navigationOptions = ({ navigation }) => ({
-        title: LanguageManager.getInstance().getText("ADD_EMOTION"),
-        //headerLeft: <HeaderBackButton onPress={() => navigation.state.params.onCancelPressed()}/>,
-        //headerRight: <HeaderSaveButton onPress={() => navigation.state.params.onOkPressed(true)}/>
-    })*/
 
     constructor(props) {
         super(props)
@@ -38,7 +31,6 @@ export default class EmoteTrackerScreen extends React.Component {
             emoteNote: "",
             keyboardOpen: false,
             modified: false,
-            color: "#9958B7",
         }
     }
 
@@ -71,7 +63,6 @@ export default class EmoteTrackerScreen extends React.Component {
             this._keyboardDidHide,
         );
     }
-
 
     componentWillUnmount() {
         this.keyboardDidShowListener.remove();
@@ -137,28 +128,20 @@ export default class EmoteTrackerScreen extends React.Component {
         })
     }
 
-    //TODO Uplift selectedSymbolID
-    //{LanguageManager.getInstance().getText("DATE")}
-    //<Image source={this.state.imgSource} style={styles.small} />
-    //<MenuButton navigation={this.props.navigation}/>
-
-    //<DayChooser ref={component => this._dayChooser = component} date={this.state.selectedDateAndTime} onDateChanged={this.dateEditedHandler} />
-
     render() {
-
         return (
             <>
-                <SafeAreaView style={{ flex: 0, backgroundColor: this.state.color }} />
+                <SafeAreaView style={{ flex: 0, backgroundColor: themeColor }} />
                 <KeyboardAwareScrollView style={{backgroundColor: "#fff"}}>
-                    <HeaderBanner color={this.state.color} imageSource={require('../../assets/images/EmoteTracker/mood_icon.png')} />
-                    <HorizontalLineWithText color={this.state.color} text={LanguageManager.getInstance().getText("DATE")} />
+                    <HeaderBanner color={themeColor} imageSource={require('../../assets/images/EmoteTracker/mood_icon.png')} />
+                    <HorizontalLineWithText color={themeColor} text={LanguageManager.getInstance().getText("DATE")} />
                     <DayPicker ref={component => this._dayChooser = component} textString="SYMPTOM_OCCURED" onDateChanged={this.dateEditedHandler} />
-                    <HorizontalLineWithText color={this.state.color} text={LanguageManager.getInstance().getText("TIME")} />
+                    <HorizontalLineWithText color={themeColor} text={LanguageManager.getInstance().getText("TIME")} />
                     <TimePicker ref={component => this._timePicker = component} textString="SYMPTOM_OCCURED" onTimeChanged={this.timeEditedHandler} />
-                    <HorizontalLineWithText color={this.state.color} text={LanguageManager.getInstance().getText("ENERGY")} />
-                    <EmoteTrackerSymbolGroup color={this.state.color} selectedID={this.state.selectedSymbolID} onChancedId={this.emotionChangedHandler} />
-                    <HorizontalLineWithText color={this.state.color} text={LanguageManager.getInstance().getText("NOTES")} />
-                    <NoteEdit color={this.state.color} ref={component => this._noteEdit = component} onTextChanged={this.noteEditedHandler} />
+                    <HorizontalLineWithText color={themeColor} text={LanguageManager.getInstance().getText("ENERGY")} />
+                    <EmoteTrackerSymbolGroup color={themeColor} selectedID={this.state.selectedSymbolID} onChancedId={this.emotionChangedHandler} />
+                    <HorizontalLineWithText color={themeColor} text={LanguageManager.getInstance().getText("NOTES")} />
+                    <NoteEdit color={themeColor} ref={component => this._noteEdit = component} onTextChanged={this.noteEditedHandler} />
                     <View style={{ paddingBottom: 10 }} />
                     <View style={styles.buttonContainer}>
                         <View style={styles.buttonSubContainer}>
@@ -170,8 +153,6 @@ export default class EmoteTrackerScreen extends React.Component {
                             </TouchableHighlight>
                         </View>
                     </View>
-
-
 
                     {/*Dialog for Day Change Save Dialog*/}
                     <View>
@@ -227,8 +208,6 @@ export default class EmoteTrackerScreen extends React.Component {
         this.navigateHome()
         this.setState({ cancelSaveDialogVisible: false });
     };
-
-
 }
 
 var styles = StyleSheet.create({

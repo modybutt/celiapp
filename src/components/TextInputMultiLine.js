@@ -25,6 +25,7 @@ export default class TextFieldMultiline extends React.Component {
     colorStyle = {
         borderColor: this.props.color,
         borderWidth: StyleSheet.hairlineWidth,
+        //color: '#F7F7F7',
     }
 
     render() {
@@ -35,7 +36,7 @@ export default class TextFieldMultiline extends React.Component {
                 //onChangeText={(text) => {this.setState({text}); this.onNoteEdit; }}
                 value={this.state.text}
                 onChangeText={(text) => {this.onNoteEdit(text)}}
-                style={{height: "100%"}}
+                style={styles.textInput}
                 editable = {true}
                 maxLength = {400}
                 multiline = {true}
@@ -50,6 +51,12 @@ const styles = StyleSheet.create({
     container: {
         backgroundColor: '#fff',
         paddingLeft:5,
+    },
+    textInput: {
+        height: "100%",
+        paddingTop:5, 
+        paddingBottom:5,color: 
+        '#707070',
     },
 });
 

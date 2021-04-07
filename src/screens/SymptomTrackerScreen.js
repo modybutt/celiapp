@@ -1,12 +1,10 @@
 import React from 'react';
-import { SafeAreaView, Keyboard, View, Button, Alert, TextInput, StyleSheet, TouchableHighlight, Text, BackHandler } from 'react-native';
-import { HeaderBackButton } from 'react-navigation-stack'
+import { SafeAreaView, Keyboard, View,  StyleSheet, TouchableHighlight, Text } from 'react-native';
 import Dialog from "react-native-dialog";
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view'
 import SymptomGroup from '../components/SymptomTracker/SymptomGroup';
 import NoteEdit from '../components/NoteEdit';
 import TextInputSingleLine from '../components/TextInputSingleLine';
-import DayChooser from '../components/DayChooser';
 import TimePicker from '../components/TimePicker';
 import DayPicker from '../components/DayPicker';
 import HeaderBanner from '../components/HeaderBanner';
@@ -14,26 +12,15 @@ import HorizontalLineWithText from '../components/HorizontalLineWithText';
 import DatabaseManager from '../manager/DatabaseManager';
 import LanguageManager from '../manager/LanguageManager';
 import GlutonManager from '../manager/GlutonManager';
-import HeaderSaveButton from '../components/HeaderSaveButton';
 import GearManager from '../manager/GearManager';
 import AchievementManager from '../manager/buddyManager/AchievementManager';
 import AchievementRecordManager from '../manager/buddyManager/AchievementRecordManager';
 import CeliLogger from '../analytics/analyticsManager';
 import Interactions from '../constants/Interactions';
 
+const themeColor = '#1DBBA0';
+
 export default class SymptomTrackerScreen extends React.Component {
-    /*static navigationOptions = ({ navigation }) => {
-        const { state } = navigation;
-        if (state.params != undefined && state.params.onSymptomsUpdated != undefined) {
-            return {
-                title: LanguageManager.getInstance().getText("ADD_SYMPTOM"),
-                headerLeft: <HeaderBackButton onPress={() => navigation.state.params.onCancelPressed()} />,
-                headerRight: <HeaderSaveButton onPress={() => navigation.state.params.onOkPressed(true)} 
-                            shareConfig={{onSymptomsUpdated: state.params.onSymptomsUpdated}} 
-                            />
-            }
-        }
-    }*/
 
     constructor(props) {
         super(props);
@@ -43,8 +30,8 @@ export default class SymptomTrackerScreen extends React.Component {
         this.symptomSelectionChangeHandler = this.symptomSelectionChangeHandler.bind(this);
         this.state = {
             symptomDescription: "",
-            symptomEntryNote: "", //works correctly \o/
-            selectedSymptoms: [], //bit buggy when deleting existing symptoms from list
+            symptomEntryNote: "",
+            selectedSymptoms: [],
             dayChangeDialogVisible: false,
             resetSymptomGroup: false,
             cancelSaveDialogVisible: false,
@@ -53,6 +40,8 @@ export default class SymptomTrackerScreen extends React.Component {
             color: '#1DBBA0',
         }
     }
+
+   
 
     UNSAFE_componentWillMount() {
         this.setState({
@@ -112,19 +101,6 @@ export default class SymptomTrackerScreen extends React.Component {
         //this.symptomsUpdated = callback;
     }
 
-    clearSymptomGroup = () => {
-        this.setState({
-            selectedSymptoms: []
-        })
-        this._symptomGroup.deleteSymptoms();
-    }
-
-    noteEditedHandler(note) {
-        this.setState({
-            selectedSymptoms: []
-        })
-        this._symptomGroup.deleteSymptoms();
-    }
 
     setBackDayChooserOneDay = () => {
         this._dayChooser.changeDay(false);
@@ -189,27 +165,27 @@ export default class SymptomTrackerScreen extends React.Component {
 
         return (
             <>
-                <SafeAreaView style={{ flex: 0, backgroundColor: this.state.color }} />
+                <SafeAreaView style={{ flex: 0, backgroundColor: themeColor }} />
                 <KeyboardAwareScrollView style={{ backgroundColor: "#fff" }}>
                     {/* <TextInput onSubmitEditing={Keyboard.dismiss} /> */}
-                    <HeaderBanner color={this.state.color} imageSource={require('../../assets/images/SymptomTracker/add_symptom_icon.png')} />
-                    <HorizontalLineWithText color={this.state.color} text={LanguageManager.getInstance().getText("DATE")} />
-                    <DayPicker ref={component => this._dayChooser = component} textString="SYMPTOM_OCCURED" onDateChanged={this.dateEditedHandler} />
-                    <HorizontalLineWithText color={this.state.color} text={LanguageManager.getInstance().getText("TIME")} />
-                    <TimePicker ref={component => this._timePicker = component} textString="SYMPTOM_OCCURED" onTimeChanged={this.timeEditedHandler} />
-                    <HorizontalLineWithText color={this.state.color} text={LanguageManager.getInstance().getText("SYMPTOMS")} />
-                    <SymptomGroup ref={component => this._symptomGroup = component} selection={this.state.selectedSymptoms} onSelectionChanged={this.symptomSelectionChangeHandler} navigation={this.props.navigation} />
-                    <HorizontalLineWithText color={this.state.color} text={LanguageManager.getInstance().getText("SHORT_DESCRIPTION")} />
+                    <HeaderBanner color={themeColor} imageSource={require('../../assets/images/SymptomTracker/add_symptom_icon.png')} />
+                    <HorizontalLineWithText color={themeColor} text={LanguageManager.getInstance().getText("DATE")} />
+                    <DayPicker textString="SYMPTOM_OCCURED" onDateChanged={this.dateEditedHandler} />
+                    <HorizontalLineWithText color={themeColor} text={LanguageManager.getInstance().getText("TIME")} />
+                    <TimePicker textString="SYMPTOM_OCCURED" onTimeChanged={this.timeEditedHandler} />
+                    <HorizontalLineWithText color={themeColor} text={LanguageManager.getInstance().getText("SYMPTOMS")} />
+                    <SymptomGroup selection={this.state.selectedSymptoms} onSelectionChanged={this.symptomSelectionChangeHandler} />
+                    <HorizontalLineWithText color={themeColor} text={LanguageManager.getInstance().getText("NAME")} />
                     <View style={styles.containerPadding}>
-                        <TextInputSingleLine color={this.state.color}
+                        <TextInputSingleLine color={themeColor}
                             ref={component => this._name = component}
                             onTextChanged={this.descriptionEditedHandler}
                             style={{ Top: 10 }}
                             placeholderText={LanguageManager.getInstance().getText("MEAL_NAME_PLACEHOLDER")}
                         />
                     </View>
-                    <HorizontalLineWithText color={this.state.color} text={LanguageManager.getInstance().getText("NOTES")} />
-                    <NoteEdit color={this.state.color} style={styles.notes} ref={component => this._noteEdit = component} note={this.state.symptomEntryNote} onTextChanged={this.noteEditedHandler} />
+                    <HorizontalLineWithText color={themeColor} text={LanguageManager.getInstance().getText("NOTES")} />
+                    <NoteEdit color={themeColor} style={styles.notes} ref={component => this._noteEdit = component} note={this.state.symptomEntryNote} onTextChanged={this.noteEditedHandler} />
                     <View style={{ paddingBottom: 10 }} />
                     <View style={styles.buttonContainer}>
                         <View style={styles.buttonSubContainer}>

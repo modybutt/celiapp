@@ -27,6 +27,8 @@ import CeliLogger from '../analytics/analyticsManager';
 import Interactions from '../constants/Interactions';
 
 
+const themeColor = '#3398DE';
+
 export default class FoodDiaryScreen extends React.Component {
     /*static navigationOptions = ({ navigation }) => ({
         title: LanguageManager.getInstance().getText("ADD_MEAL"),
@@ -51,7 +53,6 @@ export default class FoodDiaryScreen extends React.Component {
             photo: null,
             selectedMealKey: 0,
             selectedClassKey: 2,
-            color:"#3398DE",
             modified:false, 
         }
     }
@@ -268,32 +269,32 @@ export default class FoodDiaryScreen extends React.Component {
         return (
             //extraScrollHeight not supoorted out-of-the-box in android see here https://github.com/AyushAppin/react-native-keyboard-aware-scroll-view
             <>
-            <SafeAreaView style={{ flex: 0, backgroundColor: this.state.color }} />
+            <SafeAreaView style={{ flex: 0, backgroundColor: themeColor }} />
             <KeyboardAwareScrollView style={{backgroundColor: "#FFFFFF"}} extraScrollHeight={20} scrollEnabled={true} enableAutomaticScroll={true} >
-                <HeaderBanner color={this.state.color} imageSource={require('../../assets/images/FoodTracker/meal_icon.png')}/>
-                <HorizontalLineWithText color={this.state.color} text={LanguageManager.getInstance().getText("DATE")} />
+                <HeaderBanner color={themeColor} imageSource={require('../../assets/images/FoodTracker/meal_icon.png')}/>
+                <HorizontalLineWithText color={themeColor} text={LanguageManager.getInstance().getText("DATE")} />
                 <DayPicker ref={component => this._dayChooser = component} textString="SYMPTOM_OCCURED" onDateChanged={this.dateEditedHandler} />
-                <HorizontalLineWithText color={this.state.color} text={LanguageManager.getInstance().getText("TIME")} />
+                <HorizontalLineWithText color={themeColor} text={LanguageManager.getInstance().getText("TIME")} />
                 <TimePicker ref={component => this._timePicker = component} textString="EATEN_AT" onTimeChanged={this.timeEditedHandler} />
-                <HorizontalLineWithText color={this.state.color} text={LanguageManager.getInstance().getText("TYPES")} />
-                <FoodTrackerSymbolGroup color={this.state.color} selectedID={this.state.selectedMealKey}  onChancedId={this.mealChangedHandler} />
-                <HorizontalLineWithText color={this.state.color} text={LanguageManager.getInstance().getText("IMAGE")} />
+                <HorizontalLineWithText color={themeColor} text={LanguageManager.getInstance().getText("TYPES")} />
+                <FoodTrackerSymbolGroup color={themeColor} selectedID={this.state.selectedMealKey}  onChancedId={this.mealChangedHandler} />
+                <HorizontalLineWithText color={themeColor} text={LanguageManager.getInstance().getText("IMAGE")} />
                 <View style={{ alignItems: 'center' }}>
-                    <FoodDiaryImageEdit color={this.state.color} navigation={this.props.navigation} onPictureTaken={(image) => this.setState({ photo: image })} />
+                    <FoodDiaryImageEdit color={themeColor} navigation={this.props.navigation} onPictureTaken={(image) => this.setState({ photo: image })} />
                 </View>
-                <HorizontalLineWithText color={this.state.color} text={LanguageManager.getInstance().getText("MEAL_GLUTEN")} />
-                <FoodTrackerSymbolClassGroup color={this.state.color} selectedID={this.state.selectedClassKey}  onChancedId={this.classChangedHandler} />
-                <HorizontalLineWithText color={this.state.color} text={LanguageManager.getInstance().getText("MEAL_NAME")} />
+                <HorizontalLineWithText color={themeColor} text={LanguageManager.getInstance().getText("MEAL_GLUTEN")} />
+                <FoodTrackerSymbolClassGroup color={themeColor} selectedID={this.state.selectedClassKey}  onChancedId={this.classChangedHandler} />
+                <HorizontalLineWithText color={themeColor} text={LanguageManager.getInstance().getText("MEAL_NAME")} />
                 <View style={styles.containerPadding}>
-                    <TextInputSingleLine color={this.state.color}
+                    <TextInputSingleLine color={themeColor}
                         ref={component => this._name = component}
                         onTextChanged={this.nameEditedHandler}
                         style={{ Top: 10 }}
                         placeholderText={LanguageManager.getInstance().getText("MEAL_NAME_PLACEHOLDER")}
                     />
                 </View>
-                <HorizontalLineWithText color={this.state.color} text={LanguageManager.getInstance().getText("MEAL_NOTES")} style={{ Top: 10 }} />
-                <NoteEdit color={this.state.color}
+                <HorizontalLineWithText color={themeColor} text={LanguageManager.getInstance().getText("MEAL_NOTES")} style={{ Top: 10 }} />
+                <NoteEdit color={themeColor}
                     ref={component => this._noteEdit = component}
                     note={this.state.symptomEntryNote}
                     onTextChanged={this.noteEditedHandler}

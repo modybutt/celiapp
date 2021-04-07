@@ -2,10 +2,9 @@
 import React from 'react';
 import { StyleSheet, View, ActivityIndicator } from 'react-native';
 import { NavigationEvents } from 'react-navigation';
-import SymptomIconButton  from './SymptomIconButton';
-import {SYMPTOM_BUTTON_TYPES} from "./SymptomIconButtonConstants.js"
+import SymptomIconButton from './SymptomIconButton';
+import { SYMPTOM_BUTTON_TYPES } from "./SymptomIconButtonConstants.js"
 import DatabaseManager from '../../manager/DatabaseManager';
-import CREATE_SYMPTOM_ICON from '../../assets/images/SymptomTracker/addSymptom.png';
 import NO_SYMPTOM from '../../assets/images/SymptomTracker/symptom_icon.png';
 
 const NUM_BUTTONS_IN_ROW = 4;
@@ -14,20 +13,8 @@ export default class SymptomGroup extends React.Component {
 
   constructor(props) {
     super(props);
-    this.severityChooserHandler = this.severityChooserHandler.bind(this);
-    this.symptomSelected = this.symptomSelected.bind(this)
-    this.symptomDeselected = this.symptomDeselected.bind(this)
     this.state = {
-      canOpenSeverityChooser: true,
-      /*oneVisible: 0,
-      twoVisible: 0,
-      threeVisible: 0,
-      fourVisible: 0,
-      fiveVisible: 0,
-      sixVisible: 0,
-      sevenVisible: 0,
-      eigthVisible: 0,*/
-      backgroundVisible: -1,
+      severityChooserOpenID: -1,
       symptoms: null,
       loading: true,
       showMore: this.props.showMore == null ? false : this.props.showMore,
@@ -42,14 +29,7 @@ export default class SymptomGroup extends React.Component {
     icon: NO_SYMPTOM
   }
 
-  addNewSymptomButton = {
-    id: 999,
-    name: "Create Symptom",
-    type: SYMPTOM_BUTTON_TYPES.CREATE_SYMPTOM,
-    icon: CREATE_SYMPTOM_ICON
-  }
-
-  refreshSymptoms() {
+  refreshSymptoms = () => {
     this.setState({ loading: true });
 
     DatabaseManager.getInstance().fetchSymptoms(
@@ -57,38 +37,50 @@ export default class SymptomGroup extends React.Component {
       (_, { rows: { _array } }) => {
 
         _array.unshift(this.noSymptomButton)
-//        _array.push(this.addNewSymptomButton)
+        //remove self defined symptom types
+        _array = _array.filter((entry => entry.id <= 12))
 
         this.setState(
-        {
-          symptoms: _array,
-          loading: false,
-        })
+          {
+            symptoms: _array,
+            loading: false,
+          })
       }
     );
   }
 
-  severityChooserHandler(setActive, symptomID) {
-    this.setState({
-      canOpenSeverityChooser: setActive
-    });
+  severityChooserOpenHandler = (setActive, symptomID) => {
+    if (setActive == false && symptomID == this.state.severityChooserOpenID) {
+      this.setState({
+        severityChooserOpenID: -1
+      });
+    }
+    else if (setActive == true && this.state.severityChooserOpenID == -1) {
+      this.setState({
+        severityChooserOpenID: symptomID
+      });
+    }
   }
 
-  symptomSelected(symptomID, severity) { //severity: 1==yellow, 2==orange, 3==red
-    let newList = this.props.selection.concat([{ symptomID, severity }]);
-    this.props.onSelectionChanged(newList)
+  symptomSelected = (symptomID, severity) => {
+    let list = [];
+    if (symptomID != 0) {
+      list = this.props.selection.filter((entry => entry.symptomID != symptomID));
+      list = list.concat([{ symptomID, severity }]);
+    }
+    this.props.onSelectionChanged(list)
   }
 
-  symptomDeselected(symptomID, severity) {
+  symptomDeselected = (symptomID) => {
     let newList = this.props.selection.filter((entry => entry.symptomID != symptomID));
     this.props.onSelectionChanged(newList)
   }
 
   getSymptomButtonType = (symptomColumn, type) => {
-    if(!!type)
+    if (!!type)
       return type;
-    else{
-      switch (symptomColumn){
+    else {
+      switch (symptomColumn) {
         case 0:
           type = SYMPTOM_BUTTON_TYPES.SEVERITY_CHOOSER_LEFT;
           break;
@@ -105,29 +97,40 @@ export default class SymptomGroup extends React.Component {
     return type;
   }
 
+  getCurrentSeverity = (id) => {
+    let list = this.props.selection.filter((entry => entry.symptomID == id));
+    if (this.props.selection.length == 0 && id == 0) {
+      return 1;
+    } else {
+      if (list.length > 0) {
+        return list[0].severity;
+      }
+      else {
+        return 0;
+      }
+    }
+  }
+
   rowOfSymptomButtons(from, size) {
     let cluster = [];
     let symptomColumn = 0;
 
     for (k = from; k < (from + size) && k < this.state.symptoms.length; k++) {
-      symptomColumn = ((k-1) % NUM_BUTTONS_IN_ROW);
-
+      symptomColumn = ((k - 1) % NUM_BUTTONS_IN_ROW);
       let symptom = this.state.symptoms[k];
       cluster.push(
-        <SymptomIconButton 
+        <SymptomIconButton
           type={this.getSymptomButtonType(symptomColumn, symptom.type)}
           key={symptom.id}
-          defaultSeverity={!!symptom.severity ? symptom.severity : 0}
+          severity={this.getCurrentSeverity(symptom.id)}
           symptomID={symptom.id}
           symptomName={symptom.name}
           symptomIcon={symptom.icon}
-          onSymptomDeleted={() => this.refreshSymptoms()}
-          onSeverityChooserHandled={this.severityChooserHandler}
-          canOpenSeverity={this.state.canOpenSeverityChooser}
-          onSymptomSelected={this.symptomSelected}
-          onSymptomDeselected={this.symptomDeselected} 
-          navigation={this.props.navigation}
-          />
+          severityChooserOpen={symptom.id == this.state.severityChooserOpenID ? true : false}
+          symptomSelected={this.symptomSelected}
+          symptomDeselected={this.symptomDeselected}
+          severityChooserOpenHandler={this.severityChooserOpenHandler}
+        />
       );
     }
 
@@ -137,7 +140,6 @@ export default class SymptomGroup extends React.Component {
         cluster.push(<SymptomIconButton key={k} opacity={0} />);
       }
     }
-
     return cluster;
   }
 
@@ -149,7 +151,6 @@ export default class SymptomGroup extends React.Component {
       symptomRows.push(
         <View key={i} style={styles.groupContainer}>{this.rowOfSymptomButtons(i, NUM_BUTTONS_IN_ROW)}</View>)
     }
-
     return symptomRows
   }
 
@@ -159,7 +160,6 @@ export default class SymptomGroup extends React.Component {
     if (symptom != null) {
       return symptom.severity;
     }
-
     return 0;
   }
 
@@ -167,16 +167,16 @@ export default class SymptomGroup extends React.Component {
     if (this.state.loading) {
       return (
         <View>
-          <NavigationEvents onDidFocus={() => this.refreshSymptoms()} />
+          <NavigationEvents onDidFocus={this.refreshSymptoms} />
           <ActivityIndicator size='large' color='lightblue' />
         </View>
       );
     }
-    else 
+    else
       return (
         <View>
-          <NavigationEvents onDidFocus={() => this.refreshSymptoms()} />
-          <View style={{ zIndex: 0, marginBottom: 50 }}>
+          <NavigationEvents onDidFocus={this.refreshSymptoms} />
+          <View >
             {this.renderAllSymptoms()}
           </View>
         </View>
@@ -186,9 +186,11 @@ export default class SymptomGroup extends React.Component {
 
 const styles = StyleSheet.create({
   groupContainer: {
-    height: 130,
+    zIndex: 0,
     flexDirection: 'row',
     justifyContent: 'space-around',
-    paddingBottom: 20,
+    paddingBottom: 8,
+    paddingLeft: 20,
+    paddingRight: 20,
   },
 });

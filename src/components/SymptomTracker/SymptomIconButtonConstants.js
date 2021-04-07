@@ -1,43 +1,9 @@
-import { Easing } from 'react-native';
-import LanguageManager from '../../manager/LanguageManager';
-
-// // Layout constants
-// export const center = {
-// 	top: 8,
-// 	left: 30,
-// };
-
-// export const topCenter = {
-// 	top: -90,
-// 	left: 15,
-// };
-
-// export const topLeft = {
-// 	top: -60,
-// 	left: -55,
-// };
-
-// export const topRight = {
-// 	top: -60,
-//     left: 85,
-// };
-
 // Style constants
 export const bigBubbleSize = 80;
 export const smallBubbleSize = 50;
 export const bubbleColorRed = '#1DBBA0';
 export const bubbleColorOrange = '#83E2D2';
 export const bubbleColorYellow = '#D9EEEA';
-
-
-export const imageHeight = 50;
-export const imageWidth = 50;
-
-// Animate Constants
-export const animateTime = 100;
-// export const easingType = Easing.out(Easing.exp);
-export const easingType = Easing.linear
-export const delay = 0;
 
 export const SYMPTOM_BUTTON_TYPES = {
 	SEVERITY_CHOOSER_LEFT: 1,

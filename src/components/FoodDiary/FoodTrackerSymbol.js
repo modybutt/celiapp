@@ -98,8 +98,6 @@ export default class FoodTrackerSymbol extends React.Component{
     }
 }
 
-//<Text style={{textAlign: 'center', flexWrap: 'wrap'}}>{LanguageManager.getInstance().getText(this.state.imgName)}</Text>
-
 var styles = StyleSheet.create({
     container: {
       flex: 1,

@@ -27,7 +27,7 @@ export default class TextInputSingleLine extends React.Component {
                     <TextInput
                         {...this.props}
                         maxLength={60}
-                        style={{ marginRight: 20 }}
+                        style={styles.textInput}
                         onChangeText={(text) => { this.textChanged(text) }}
                         value={this.props.preText}
                         placeholder={this.props.placeholderText || ""}
@@ -42,6 +42,12 @@ const styles = StyleSheet.create({
     container: {
         backgroundColor: '#fff',
         paddingLeft:5,
+    },
+    textInput: {
+        textAlign:'center',
+        paddingTop:5, 
+        paddingBottom:5,color: 
+        '#707070',
     },
     
 });

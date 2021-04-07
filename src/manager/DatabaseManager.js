@@ -8,7 +8,6 @@ import IRRITABILITY_ICON from '../assets/images/SymptomTracker/irritability.png'
 import STOMACHACHE_ICON from '../assets/images/SymptomTracker/stomach_ache.png';
 import STOMACH_RUMBLE_ICON from '../assets/images/SymptomTracker/rumbling_stomache.png';
 import VOMITING_ICON from '../assets/images/SymptomTracker/vomiting.png';
-import WEIGHT_LOSS_ICON from '../assets/images/SymptomTracker/weightloss.png';
 import USER_SYMPTOM_ICON from '../assets/images/SymptomTracker/userDefinedSymptom.png';
 import LOSS_OF_APPETITE_ICON from '../assets/images/SymptomTracker/lossOfAppetite.png';
 import HUNGER_PAIN_ICON from '../assets/images/SymptomTracker/hunger_pains.png';
