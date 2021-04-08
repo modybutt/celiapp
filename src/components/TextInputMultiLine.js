@@ -25,7 +25,6 @@ export default class TextFieldMultiline extends React.Component {
     colorStyle = {
         borderColor: this.props.color,
         borderWidth: StyleSheet.hairlineWidth,
-        //color: '#F7F7F7',
     }
 
     render() {

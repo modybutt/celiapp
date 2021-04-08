@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
-import { TouchableOpacity, Text,Image, View, StyleSheet} from 'react-native';
+import { TouchableOpacity, Text, Image, View, StyleSheet } from 'react-native';
 import { SYMPTOM_BUTTON_TYPES } from "./SymptomIconButtonConstants.js"
+import SymptomSeverityChooser from "./SymptomSeverityChooser.js";
 
 // constants
 import {
@@ -48,21 +49,6 @@ export default class SymptomIconButton extends Component {
 		}
 	}
 
-	onPressYellow = () => {
-		this.closeSeverityChooser();
-		this.props.symptomSelected(this.props.symptomID, 1) //1 --> yellow severity
-	}
-
-	onPressOrange = () => {
-		this.closeSeverityChooser();
-		this.props.symptomSelected(this.props.symptomID, 2) //2 --> orange severity
-	}
-
-	onPressRed = () => {
-		this.closeSeverityChooser();
-		this.props.symptomSelected(this.props.symptomID, 3) //3 --> red severity
-	}
-
 	addStr(text, stringToAdd) {
 		const symbols = ".png";
 		index = text.indexOf(symbols);
@@ -70,87 +56,7 @@ export default class SymptomIconButton extends Component {
 	}
 
 	render() {
-		if (this.props.type == SYMPTOM_BUTTON_TYPES.SEVERITY_CHOOSER_LEFT) {
-			center = {
-				top: 15,
-				left: 15,
-			};
-
-			topCenter = {
-				top: -30,
-				left: 85,
-			};
-
-			topLeft = {
-				top: -60,
-				left: 15,
-			};
-
-			topRight = {
-				top: 45,
-				left: 90,
-			};
-		} else if (this.props.type == SYMPTOM_BUTTON_TYPES.SEVERITY_CHOOSER_CENTRE) {
-			center = {
-				top: 15,
-				left: 15,
-			};
-
-			topCenter = {
-				top: -60,
-				left: 15,
-			};
-
-			topLeft = {
-				top: -30,
-				left: -55,
-			};
-
-			topRight = {
-				top: -30,
-				left: 85,
-			};
-		} else if (this.props.type == SYMPTOM_BUTTON_TYPES.SEVERITY_CHOOSER_RIGHT) {
-			center = {
-				top: 15,
-				left: 15,
-			};
-
-			topCenter = {
-				top: -30,
-				left: -55,
-			};
-
-			topLeft = {
-				top: 45,
-				left: -60,
-			};
-
-			topRight = {
-				top: -60,
-				left: 15,
-			};
-		} else {
-			center = {
-				top: 15,
-				left: 15,
-			};
-
-			topCenter = {
-				top: -60,
-				left: 15,
-			};
-
-			topLeft = {
-				top: -30,
-				left: -55,
-			};
-
-			topRight = {
-				top: -30,
-				left: 85,
-			};
-		}
+		
 
 		let bigBubbleColor = DEFAULT_COLOR;
 		let textColor = DEFAULT_TEXT_COLOR;
@@ -188,73 +94,27 @@ export default class SymptomIconButton extends Component {
 		const symptomName = this.props.symptomName;
 
 		if (this.props.active == null || this.props.active == true) {
-			if (this.props.severityChooserOpen) {
-				return (
-					<View style={{ backgroundColor: bigBubbleColor, borderRadius: 3, zIndex: 1 }}>
-						<TouchableOpacity
-							style={styles.bigBubble}
-							onPress={this.closeSeverityChooserAndUpdateSeverity}>
-							<Image source={image} style={styles.iconImage} />
-							<Text style={[{ color: textColor }, styles.severityText]}>{severityText}</Text>
-							<Text style={[{ color: textColor }, styles.symptomNameText]}>{LanguageManager.getInstance().getText(symptomName)}</Text>
-						</TouchableOpacity>
-						<TouchableOpacity onPress={this.onPressYellow}
-							style={[
-								styles.smallBubbleYellow,
-								{
-									position: 'absolute',
-									left: topLeft.left,
-									top: topLeft.top,
-								}
-							]}
-						>
-						</TouchableOpacity>
-						<TouchableOpacity onPress={this.onPressOrange}
-							style={[
-								styles.smallBubbleOrange,
-								{
-									position: 'absolute',
-									left: topCenter.left,
-									top: topCenter.top,
-								}
-							]}
-						>
-						</TouchableOpacity>
-						<TouchableOpacity onPress={this.onPressRed}
-							style={[
-								styles.smallBubbleRed,
-								{
-									position: 'absolute',
-									left: topRight.left,
-									top: topRight.top,
-								}
-							]}
-						>
-						</TouchableOpacity>
-					</View>
-				)
-			}
-			else {
-				return (
-					<View style={{ backgroundColor: bigBubbleColor, borderRadius: 3, zIndex: 0 }}>
-						<TouchableOpacity
-							style={styles.bigBubble}
-							onPress={this.openSeverityChooser}>
-							<Image source={image} style={styles.iconImage} />
-							<Text style={[{ color: textColor }, styles.severityText]}>{severityText}</Text>
-							<Text style={[{ color: textColor }, styles.symptomNameText]}>{LanguageManager.getInstance().getText(symptomName)}</Text>
-						</TouchableOpacity>
-					</View>
-				)
-			}
-		
-		//for old version of event history (will be removed in the new design)
-		}else{
+
 			return (
-				<View style={[{ backgroundColor: bigBubbleColor, borderRadius: 3, zIndex: 0 },styles.bigBubble]}>
+				<View style={{ backgroundColor: bigBubbleColor, borderRadius: 3,}}>
+
+					<TouchableOpacity
+						style={styles.bigBubble}
+						onPress={this.props.severityChooserOpen ? this.closeSeverityChooserAndUpdateSeverity : this.openSeverityChooser}>
 						<Image source={image} style={styles.iconImage} />
 						<Text style={[{ color: textColor }, styles.severityText]}>{severityText}</Text>
 						<Text style={[{ color: textColor }, styles.symptomNameText]}>{LanguageManager.getInstance().getText(symptomName)}</Text>
+					</TouchableOpacity>
+				</View>
+			);
+		}
+		//for old version of event history (will be removed in the new design)
+		else {
+			return (
+				<View style={[{ backgroundColor: bigBubbleColor, borderRadius: 3 }, styles.bigBubble]}>
+					<Image source={image} style={styles.iconImage} />
+					<Text style={[{ color: textColor }, styles.severityText]}>{severityText}</Text>
+					<Text style={[{ color: textColor }, styles.symptomNameText]}>{LanguageManager.getInstance().getText(symptomName)}</Text>
 				</View>
 			)
 		}
@@ -263,43 +123,10 @@ export default class SymptomIconButton extends Component {
 
 const styles = StyleSheet.create({
 	bigBubble: {
-		zIndex: 1,
+
 		justifyContent: 'center',
 		alignItems: 'center',
 		flex: 1,
-	},
-	smallBubbleYellow: {
-		zIndex: 2,
-		justifyContent: 'center',
-		alignItems: 'center',
-		backgroundColor: bubbleColorYellow,
-		height: smallBubbleSize,
-		width: smallBubbleSize,
-		borderWidth: 1,
-		borderColor: 'grey',
-		borderRadius: smallBubbleSize / 2,
-	},
-	smallBubbleOrange: {
-		zIndex: 2,
-		justifyContent: 'center',
-		alignItems: 'center',
-		backgroundColor: bubbleColorOrange,
-		height: smallBubbleSize,
-		width: smallBubbleSize,
-		borderWidth: 1,
-		borderColor: 'grey',
-		borderRadius: smallBubbleSize / 2,
-	},
-	smallBubbleRed: {
-		zIndex: 2,
-		justifyContent: 'center',
-		alignItems: 'center',
-		backgroundColor: bubbleColorRed,
-		height: smallBubbleSize,
-		width: smallBubbleSize,
-		borderWidth: 1,
-		borderColor: 'grey',
-		borderRadius: smallBubbleSize / 2,
 	},
 	iconImage: {
 		height: '50%',
@@ -321,3 +148,52 @@ const styles = StyleSheet.create({
 		flexWrap: 'wrap',
 	},
 });
+
+/*
+<View
+						style={
+							{
+								position: 'absolute',
+								left: center.left,
+								top: center.top,
+							}
+						}
+						>
+							<TouchableOpacity onPress={this.onPressYellow}
+								style={[
+									styles.smallBubbleYellow,
+									{
+										position: 'absolute',
+										left: topLeft.left,
+										top: topLeft.top,
+									}
+								]}
+							>
+							</TouchableOpacity>
+							<TouchableOpacity onPress={this.onPressOrange}
+								style={[
+									styles.smallBubbleOrange,
+									{
+										position: 'absolute',
+										left: topCenter.left,
+										top: topCenter.top,
+									}
+								]}
+							>
+							</TouchableOpacity>
+							<TouchableOpacity onPress={this.onPressRed}
+								style={[
+									styles.smallBubbleRed,
+									{
+										position: 'absolute',
+										left: topRight.left,
+										top: topRight.top,
+									}
+								]}
+							>
+							</TouchableOpacity>
+						</View>
+
+
+						<SymptomSeverityChooser onPressYellow={this.onPressYellow} onPressOrange={this.onPressOrange} onPressRed={this.onPressRed}></SymptomSeverityChooser>
+						*/

@@ -48,10 +48,6 @@ export default class TimePicker extends React.Component {
     )
   }
 }
-/*<View style={styles.rowContainer}>
-  <Text style={styles.occuredText} onPress={this.showDateTimePicker} >{LanguageManager.getInstance().getText(this.props.textString)} {hourString + ":" + minuteString}</Text>
-  <Button title={LanguageManager.getInstance().getText("SELECT_TIME")} onPress={this.showDateTimePicker} />
-</View>*/
 
 var styles = StyleSheet.create({
   rowContainer: {
