@@ -82,15 +82,15 @@ const CircularScreenIndicator = ({itemNo}) =>
 	const blaat = [];
 	for (let i = 0; i < 5; i++)
 	{
-		blaat.push(<Indicator active={itemNo == i}/>);
+		blaat.push(<Indicator key={i} active={itemNo == i}/>);
 	}
 
 	return blaat;
 }
 
-const Indicator = ({active}) =>
+const Indicator = ({key, active}) =>
 {
-	return <View style={[styles.circularScreenIndicatorCircle, active ? 
+	return <View key={key} style={[styles.circularScreenIndicatorCircle, active ? 
 		{backgroundColor: '#707070'} : {backgroundColor: 'white'}]}></View>
 }
 
@@ -175,7 +175,8 @@ const styles = StyleSheet.create
 
 	circularScreenIndicatorContainer: 
 	{
-		marginTop: window.height * 0.45,
+		position: 'absolute',
+		bottom: window.height * 0.05,
 		display: 'flex',
 		flexDirection: 'row',
 		alignItems: 'center',
