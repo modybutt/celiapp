@@ -9,13 +9,7 @@ import emotionIcon from '../assets/images/smiley_face_white.svg';
 import gipIcon from '../assets/images/gip.svg';
 import Colors from "../constants/Colors";
 import LanguageManager from "../manager/LanguageManager";
-
-const AnimationState =
-{
-	ANIMATING: 'animating',
-	OPEN: 'open',
-	CLOSE: 'close'
-}
+import { ContainerScrollView } from "../components/Glutenbuddy/screens/WardrobeComponents/WardrobeInitTiles";
 
 export default class OnBoardingScreen extends React.Component
 {
@@ -27,14 +21,13 @@ export default class OnBoardingScreen extends React.Component
 	{
 		someValue: new Animated.Value(window.width),
 		touchStartXPos: -1,
+		currentScreenIndex: 0,
 		canAnimate: true,
-		currentAnimation: 'no-animation',
-		animationState : AnimationState.CLOSE
+		currentAnimation: 'no-animation'
 	}
 
-	startAnimation = (newAnimationState, toValue) => 
+	startAnimation = (toValue) => 
 	{
-		this.setState({animationState: AnimationState.ANIMATING});
 		this.setState({canAnimate: false});
 		Animated.timing(this.state.someValue, 
 		{			
@@ -43,90 +36,85 @@ export default class OnBoardingScreen extends React.Component
 		 	useNativeDriver: true
 	   	}).start(() =>
 		{
-			this.setState({animationState: newAnimationState});
-		});
+			const currentScreenIndex = this.state.currentScreenIndex;
+			this.setState(
+			{
+				currentScreenIndex: currentScreenIndex + 1,
+				someValue: new Animated.Value(window.width)});
+			});
 	 };
 
 	touchMove(evt)
 	{		
-		if (this.state.canAnimate && this.state.animationState !== AnimationState.ANIMATING)
-		{			
-			if (this.state.animationState === AnimationState.CLOSE &&
-				this.state.touchStartXPos - evt.nativeEvent.locationX > 2)
+		if (this.state.canAnimate)
+		{
+			console.log(evt.nativeEvent.locationX);
+			if (this.state.touchStartXPos - evt.nativeEvent.locationX > 2)
 			{
-				this.startAnimation(AnimationState.OPEN, 0);
-			} else if (this.state.animationState === AnimationState.OPEN &&
-				this.state.touchStartXPos - evt.nativeEvent.locationX < -2)
+				this.startAnimation(0);
+				// console.log('animate right!');
+											
+			} else if (this.state.touchStartXPos - evt.nativeEvent.locationX < -2)
 			{
-				this.startAnimation(AnimationState.CLOSE, window.width)
-			}
-			this.setState({touchStartXPos: evt.nativeEvent.locationX});			
-		}				
+				// this.setState({
+				// 	someValue: new Animated.Value(0)
+				// });
+				// this.startAnimation(window.width);				
+			}			
+		}
+		this.setState({touchStartXPos: evt.nativeEvent.locationX});			
 	}
 
 	touchEnd(evt)
 	{
 		this.setState({canAnimate: true});
-		this.setState({touchStartXPos: undefined});	
+		this.setState({touchStartXPos: undefined});
 	}
 
 	render()
 	{
+		const onBoardingScreens = this.obBoardingScreens();
 		return (
 			<View 
 				onTouchMove={(evt) => this.touchMove(evt)}
 				onTouchEnd={(evt) => this.touchEnd(evt)}>
 
 				<View style={{
-						position: 'absolute'						
+						position: 'absolute'					
 					}}>
-					<OnBoardingComponent itemNo={0} header={false}
-					bodyText={LanguageManager.getInstance().getText('ONBOARDING_SCREEN_ONE')} celiappIcon={true} backgroundColor={Colors.mainscreenColor}/>
+					{onBoardingScreens[this.state.currentScreenIndex]}
 				</View>
 
 				<Animated.View style={{
 						zIndex: 1,
 						position: 'absolute',
-						transform: [{translateX: this.state.someValue}]	
+						transform: [{translateX: this.state.someValue}]
 					}}>
-						<OnBoardingComponent itemNo={1} header={true} icon={symptomIcon} 
-							bodyText={LanguageManager.getInstance().getText('ONBOARDING_SCREEN_TWO')} backgroundColor={Colors.symptom}/>
-				</Animated.View>
-
-				<Animated.View style={{
-						zIndex: 2,
-						position: 'absolute',
-						transform: [{translateX: this.state.someValue}]	
-					}}>
-						<OnBoardingComponent itemNo={2} header={true} icon={mealsIcon} 
-							bodyText={LanguageManager.getInstance().getText('ONBOARDING_SCREEN_THREE')} backgroundColor={Colors.meal}/>
-				</Animated.View>
-
-				<Animated.View style={{
-						zIndex: 3,
-						position: 'absolute',
-						transform: [{translateX: this.state.someValue}]	
-					}}>
-						<OnBoardingComponent itemNo={3} header={true} icon={emotionIcon} 
-							bodyText={LanguageManager.getInstance().getText('ONBOARDING_SCREEN_FOUR')} backgroundColor={Colors.emotion}/>
-				</Animated.View>
-
-				<Animated.View style={{
-						zIndex: 4,
-						position: 'absolute',
-						transform: [{translateX: this.state.someValue}]	
-					}}>
-						<OnBoardingComponent itemNo={4} header={true} icon={gipIcon} 
-							bodyText={LanguageManager.getInstance().getText('ONBOARDING_SCREEN_FIVE')} backgroundColor={Colors.gip}/>
+					{onBoardingScreens[this.state.currentScreenIndex + 1]}
 				</Animated.View>
 			</View>
 		);
 	}
-}
 
-const obBoardingScreens = () =>
-{
-	const screens = [];
+	obBoardingScreens()
+	{
+		return [
+			<OnBoardingComponent itemNo={0} header={false}
+				bodyText={LanguageManager.getInstance().getText('ONBOARDING_SCREEN_ONE')} celiappIcon={true} backgroundColor={Colors.mainscreenColor}/>,
+
+			<OnBoardingComponent itemNo={1} header={true} icon={symptomIcon} 
+				bodyText={LanguageManager.getInstance().getText('ONBOARDING_SCREEN_TWO')} backgroundColor={Colors.symptom}/>,
+
+			<OnBoardingComponent itemNo={2} header={true} icon={mealsIcon} 
+				bodyText={LanguageManager.getInstance().getText('ONBOARDING_SCREEN_THREE')} backgroundColor={Colors.meal}/>,
+
+			<OnBoardingComponent itemNo={3} header={true} icon={emotionIcon} 
+				bodyText={LanguageManager.getInstance().getText('ONBOARDING_SCREEN_FOUR')} backgroundColor={Colors.emotion}/>,
+
+			<OnBoardingComponent itemNo={4} header={true} icon={gipIcon} 
+				bodyText={LanguageManager.getInstance().getText('ONBOARDING_SCREEN_FIVE')} backgroundColor={Colors.gip}/>
+		];
+	}
 }
 
 const window = Layout.window;
