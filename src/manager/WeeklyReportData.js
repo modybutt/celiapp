@@ -187,4 +187,19 @@ export default class WeeklyReportData {
   previousFullWeekSymptomCount = () => this.countEventsOfTypeBetweenDates(Events.Symptom, this.previousWeekStart,  this.currentWeekStart)
   previousFullWeekMoodCount = () => this.countEventsOfTypeBetweenDates(Events.Emotion, this.previousWeekStart,  this.currentWeekStart)
   previousFullWeekMealCount = () => this.countEventsOfTypeBetweenDates(Events.Food, this.previousWeekStart,  this.currentWeekStart)
+
+  thisWeekNumDaysWithNO_SYMPTOM =() => 0; //todo
+  thisWeekNumDaysWithSymptoms =() => 0; //todo
+  thisWeekNumDaysWithMeals =() => 0; //todo
+  thisWeekNumDaysWithEnergy =() => 0; //todo
+  thisWeekNumDaysWithGIP =() => 0; //todo
+
+  thisWeekNumDaysWithMildSymptoms = () => 0; //todo
+  thisWeekNumDaysWithModerateSymptoms = () => 0; //todo
+  thisWeekNumDaysWithSevereSymptoms = () => 0; //todo
+
+  previousWeekNumDaysWithMildSymptoms = () => 0; //todo
+  previousWeekNumDaysWithModerateSymptoms = () => 0; //todo
+  previousWeekNumDaysWithSevereSymptoms = () => 0; //todo
+
 };
