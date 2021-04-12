@@ -18,7 +18,8 @@ const LOW_COLOR = '#D9EEEA';
 const MEDIUM_COLOR = '#83E2D2';
 const HIGH_COLOR = '#1DBBA0';
 const DEFAULT_TEXT_COLOR = '#707070';
-const MODERATE_TEXT_COLOR = '#58978A';
+const MILD_TEXT_COLOR = '#58978A';
+const MODERATE_TEXT_COLOR = '#707070';
 const SEVERE_TEXT_COLOR = '#FFFFFF';
 
 export default class SymptomIconButton extends Component {
@@ -63,7 +64,7 @@ export default class SymptomIconButton extends Component {
 		switch (this.props.severity) {
 			case 1:
 				bigBubbleColor = LOW_COLOR;
-				textColor = MODERATE_TEXT_COLOR;
+				textColor = MILD_TEXT_COLOR;
 				break;
 			case 2:
 				bigBubbleColor = MEDIUM_COLOR;

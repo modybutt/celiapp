@@ -128,13 +128,14 @@ export default class SymptomGroup extends React.Component {
       let symptom = this.state.symptoms[k];
       let index = k;
       cluster.push(
-        <View onLayout={event => {
+        <View 
+        key={"button"+symptom.id}
+        onLayout={event => {
           const layout = event.nativeEvent.layout;
           this.addButtonLayout(index, symptom.id, layout);
         }} >
           <SymptomIconButton
-            type={this.getSymptomButtonType(symptomColumn, symptom.type)}
-            key={symptom.id}
+            type={this.getSymptomButtonType(symptomColumn, symptom.type)}          
             severity={this.getCurrentSeverity(symptom.id)}
             symptomID={symptom.id}
             symptomName={symptom.name}
@@ -148,12 +149,14 @@ export default class SymptomGroup extends React.Component {
       );
     }
 
+    
     if (k < (from + size)) {
       // fill up with spacer
       while (k++ < (from + size)) {
         cluster.push(<SymptomIconButton opacity={0} />);
       }
     }
+    
     return cluster;
   }
 
@@ -161,17 +164,19 @@ export default class SymptomGroup extends React.Component {
     let symptomRows = [];
     symptomRows.push(
       <View
+        key="row0"
         onLayout={event => {
           const layout = event.nativeEvent.layout;
           this.addGroupLayout(0, layout);
         }}
-        key={0} style={styles.groupContainer}>{this.rowOfSymptomButtons(0, 1)}
+        style={styles.groupContainer}>{this.rowOfSymptomButtons(0, 1)}
       </View>)
 
     for (i = 1; i < (this.state.symptoms.length); i += NUM_BUTTONS_IN_ROW) {
       let index = i;
       symptomRows.push(
         <View
+          key={"row"+i}
           onLayout={event => {
             const layout = event.nativeEvent.layout;
             this.addGroupLayout(index, layout);
