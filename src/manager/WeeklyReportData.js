@@ -147,8 +147,8 @@ export default class WeeklyReportData {
       }))
 
     this.bestDay = this.enrichedDays.reduce((bestDay, thisDay) => bestDay.score > thisDay.score ? bestDay : thisDay)
-    console.log("enriched days", this.enrichedDays)
-    console.log("best days", this.bestDay)
+    //console.log("enriched days", this.enrichedDays)
+    //console.log("best days", this.bestDay)
   }
 
 
