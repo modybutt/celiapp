@@ -19,8 +19,8 @@ export default class WeeklyReportData {
   init = (startOfWeek, endOfWeek, now) => {
     this.now = now || new Date()
     this.currentWeekStart = startOfWeek || DateUtil.getStartOfThisWeekBeginningMonday()
-    this.currentWeekEnd = endOfWeek || DateUtil.getEndOfThisWeekBeginningMonday()
-    this.previousWeekStart = DateUtil.getStartOfPreviousFullWeekBeginningMonday(this.now)
+    this.currentWeekEnd = endOfWeek || DateUtil.getEndOfThisFullWeekEndingSunday()
+    this.previousWeekStart = DateUtil.getStartOfPreviousFullWeekBeginningMonday(this.currentWeekStart)
     this.thisTimePreviousWeek = DateUtil.sameTimeAWeekPrevious(this.now)
 
     return this.getData(this.previousWeekStart, this.currentWeekEnd);
@@ -178,8 +178,13 @@ export default class WeeklyReportData {
   thisWeekMealCount = () => this.countEventsOfTypeBetweenDates(Events.Food, this.currentWeekStart, this.currentWeekEnd)
 
   //these only count up to the current Day/Time last week
-  previousWeekGIPCount = () => this.countEventsOfTypeBetweenDates(Events.GIP, this.previousWeekStart, this.thisTimePreviousWeek)
-  previousWeekSymptomCount = () => this.countEventsOfTypeBetweenDates(Events.Symptom, this.previousWeekStart, this.thisTimePreviousWeek)
-  previousWeekMoodCount = () => this.countEventsOfTypeBetweenDates(Events.Emotion, this.previousWeekStart, this.thisTimePreviousWeek)
-  previousWeekMealCount = () => this.countEventsOfTypeBetweenDates(Events.Food, this.previousWeekStart, this.thisTimePreviousWeek)
+  previousPartialWeekGIPCount = () => this.countEventsOfTypeBetweenDates(Events.GIP, this.previousWeekStart, this.thisTimePreviousWeek)
+  previousPartialWeekSymptomCount = () => this.countEventsOfTypeBetweenDates(Events.Symptom, this.previousWeekStart, this.thisTimePreviousWeek)
+  previousPartialWeekMoodCount = () => this.countEventsOfTypeBetweenDates(Events.Emotion, this.previousWeekStart, this.thisTimePreviousWeek)
+  previousPartialWeekMealCount = () => this.countEventsOfTypeBetweenDates(Events.Food, this.previousWeekStart, this.thisTimePreviousWeek)
+
+  previousFullWeekGIPCount = () => this.countEventsOfTypeBetweenDates(Events.GIP, this.previousWeekStart,  this.currentWeekStart)
+  previousFullWeekSymptomCount = () => this.countEventsOfTypeBetweenDates(Events.Symptom, this.previousWeekStart,  this.currentWeekStart)
+  previousFullWeekMoodCount = () => this.countEventsOfTypeBetweenDates(Events.Emotion, this.previousWeekStart,  this.currentWeekStart)
+  previousFullWeekMealCount = () => this.countEventsOfTypeBetweenDates(Events.Food, this.previousWeekStart,  this.currentWeekStart)
 };

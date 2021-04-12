@@ -84,11 +84,20 @@ test('this week count', () => {
 });
 
 test('previous week count until this time last week', () => {
-        expect(weekData.previousWeekSymptomCount()).toBe(3)
-        expect(weekData.previousWeekMoodCount()).toBe(5)
-        expect(weekData.previousWeekMealCount()).toBe(4)
+        expect(weekData.previousPartialWeekSymptomCount()).toBe(3)
+        expect(weekData.previousPartialWeekMoodCount()).toBe(5)
+        expect(weekData.previousPartialWeekMealCount()).toBe(4)
         //TODO add GIP events in DB
-        expect(weekData.previousWeekGIPCount()).toBe(0)
+        expect(weekData.previousPartialWeekGIPCount()).toBe(0)
+});
+
+
+test('previous week count until this time last week', () => {
+        expect(weekData.previousFullWeekSymptomCount()).toBe(5)
+        expect(weekData.previousFullWeekMoodCount()).toBe(6)
+        expect(weekData.previousFullWeekMealCount()).toBe(6)
+        //TODO add GIP events in DB
+        expect(weekData.previousFullWeekGIPCount()).toBe(0)
 });
 
 test.todo('add mock GIP events to fix two previous tests')
@@ -140,8 +149,8 @@ test('calculate day scores for a mix', () => {
 
 test('calc daily activity rate for this week',() =>{
         expect(weekData.activityRateForDay(0)).toEqual(0)
-        expect(weekData.activityRateForDay(2)).toEqual(9)
-        expect(weekData.activityRateForDay(5)).toEqual(3)
+        expect(weekData.activityRateForDay(2)).toEqual(1)
+        expect(weekData.activityRateForDay(5)).toBeCloseTo(0.33)
         
 })
 
