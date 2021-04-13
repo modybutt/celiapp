@@ -15,7 +15,6 @@ import FOOD_CRAVING_ICON from '../assets/images/SymptomTracker/food_craving.png'
 import TENESMUS_ICON from '../assets/images/SymptomTracker/tenesmus.png';
 import LOW_ENERGY_ICON from '../assets/images/SymptomTracker/low_energy.png';
 import Events from '../constants/Events';
-import NotificationManager from './NotificationManager';
 
 export default class DatabaseManager {
   

@@ -7,7 +7,7 @@ export default class DateUtil {
         return prevSunday;
       }
     
-      static getEndOfPreviousFullWeekBeginningMonday(now) {
+      static getEndOfPreviousFullWeekEndingSunday(now) {
         var endOfWeek = DateUtil.getPreviousSunday(now || new Date());
         endOfWeek.setHours(23, 59, 59, 999);
         return endOfWeek;
@@ -24,14 +24,16 @@ export default class DateUtil {
       }
     
       static getStartOfThisWeekBeginningMonday(now){
+        console.log("now2",now)
         var previousSunday = DateUtil.getPreviousSunday(now || new Date());
+        console.log("PS",previousSunday)
         var startOfWeek=new Date()
         startOfWeek.setDate(previousSunday.getDate() + 1);
         startOfWeek.setHours(0, 0, 0, 0);
         return startOfWeek;
       }
     
-      static getEndOfThisWeekBeginningMonday(now){
+      static getEndOfThisFullWeekEndingSunday(now){
         var previousSunday = DateUtil.getPreviousSunday(now || new Date());
         var endOfWeek=new Date()
         endOfWeek.setDate(previousSunday.getDate() + 7);

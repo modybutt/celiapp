@@ -90,8 +90,8 @@ export default class ReportManager {
   
   static weeklyReport(success) {
 
-    const startOfWeek = DateUtil.getStartOfThisWeekBeginningMonday();
-    const endOfWeek = DateUtil.getEndOfThisWeekBeginningMonday();
+    const startOfWeek = DateUtil.getStartOfPreviousFullWeekBeginningMonday();
+    const endOfWeek = DateUtil.getEndOfPreviousFullWeekEndingSunday();
 
     console.log("startofweek", startOfWeek)
     console.log("endtofweek", endOfWeek)
@@ -114,10 +114,10 @@ export default class ReportManager {
           this.reportText.bestDayBody = this.daySummaryString(weekData)
         }
         
-        this.reportText.symptomInfo.body = this.infoBoxBody(this.symptomString, weekData.thisWeekSymptomCount(), weekData.previousWeekSymptomCount())
-        this.reportText.mealInfo.body = this.infoBoxBody(this.mealString, weekData.thisWeekMealCount(), weekData.previousWeekMealCount())
-        this.reportText.emotionInfo.body = this.infoBoxBody(this.moodString, weekData.thisWeekMoodCount(), weekData.previousWeekMoodCount())
-        this.reportText.gipInfo.body = this.infoBoxBody(this.gipString, weekData.thisWeekGIPCount(), weekData.previousWeekGIPCount())
+        this.reportText.symptomInfo.body = this.infoBoxBody(this.symptomString, weekData.thisWeekSymptomCount(), weekData.previousPartialWeekSymptomCount())
+        this.reportText.mealInfo.body = this.infoBoxBody(this.mealString, weekData.thisWeekMealCount(), weekData.previousPartialWeekMealCount())
+        this.reportText.emotionInfo.body = this.infoBoxBody(this.moodString, weekData.thisWeekMoodCount(), weekData.previousPartialWeekMoodCount())
+        this.reportText.gipInfo.body = this.infoBoxBody(this.gipString, weekData.thisWeekGIPCount(), weekData.previousPartialWeekGIPCount())
 
         success(this.reportText)
       })
