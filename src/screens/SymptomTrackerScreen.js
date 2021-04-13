@@ -17,6 +17,7 @@ import AchievementManager from '../manager/buddyManager/AchievementManager';
 import AchievementRecordManager from '../manager/buddyManager/AchievementRecordManager';
 import CeliLogger from '../analytics/analyticsManager';
 import Interactions from '../constants/Interactions';
+import SymptomInformation from '../components/SymptomTracker/SymptomInformation';
 
 const themeColor = '#1DBBA0';
 
@@ -38,6 +39,13 @@ export default class SymptomTrackerScreen extends React.Component {
             selectSymptomDialogVisible: false,
             keyboardOpen: false,
             color: '#1DBBA0',
+            informationPosition: {
+                'height': 0,
+                'width': 0,
+                'x': 0,
+                'y': 0,
+            },
+            showSymptomInformation: false,
         }
     }
 
@@ -161,6 +169,10 @@ export default class SymptomTrackerScreen extends React.Component {
         });
     }
 
+    toggleShowSymptomInformation = () => {
+        this.setState({showSymptomInformation: !this.state.showSymptomInformation})
+    }
+
     render() {
 
         return (
@@ -173,8 +185,15 @@ export default class SymptomTrackerScreen extends React.Component {
                     <DayPicker textString="SYMPTOM_OCCURED" onDateChanged={this.dateEditedHandler} />
                     <HorizontalLineWithText color={themeColor} text={LanguageManager.getInstance().getText("TIME")} />
                     <TimePicker textString="SYMPTOM_OCCURED" onTimeChanged={this.timeEditedHandler} />
-                    <HorizontalLineWithText color={themeColor} text={LanguageManager.getInstance().getText("SYMPTOMS")} />
+                    <HorizontalLineWithText iconClickEvent={this.toggleShowSymptomInformation} color={themeColor} text={LanguageManager.getInstance().getText("SYMPTOMS")} />
+                    <View
+                    onLayout={event => {
+                        const layout = event.nativeEvent.layout;
+                        this.addInformationLayout(layout);
+                      }}
+                    ></View>
                     <SymptomGroup selection={this.state.selectedSymptoms} onSelectionChanged={this.symptomSelectionChangeHandler} />
+                    
                     <HorizontalLineWithText color={themeColor} text={LanguageManager.getInstance().getText("NAME")} />
                     <View style={styles.containerPadding}>
                         <TextInputSingleLine color={themeColor}
@@ -197,7 +216,9 @@ export default class SymptomTrackerScreen extends React.Component {
                             </TouchableHighlight>
                         </View>
                     </View>
-
+                    {this.state.showSymptomInformation &&
+                    <SymptomInformation color={themeColor} position={this.state.informationPosition}></SymptomInformation>
+                    }
                     {/*Dialog for Day Change Save Dialog*/}
                     <View>
                         <Dialog.Container visible={this.state.cancelSaveDialogVisible}>
@@ -257,10 +278,16 @@ export default class SymptomTrackerScreen extends React.Component {
         }
     }
 
+    addInformationLayout(layout){
+        this.setState({informationPosition:layout});
+    }
+
 }
 
 var styles = StyleSheet.create({
+    symptomInformation: {
 
+    },
     notes: {
         margin: 10,
         padding: 10

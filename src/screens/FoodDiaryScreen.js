@@ -25,16 +25,12 @@ import AchievementManager from '../manager/buddyManager/AchievementManager';
 import EntryManager from '../manager/buddyManager/EntryManager';
 import CeliLogger from '../analytics/analyticsManager';
 import Interactions from '../constants/Interactions';
+import FoodInformation from '../components/FoodDiary/FoodInformation';
 
 
 const themeColor = '#3398DE';
 
 export default class FoodDiaryScreen extends React.Component {
-    /*static navigationOptions = ({ navigation }) => ({
-        title: LanguageManager.getInstance().getText("ADD_MEAL"),
-        //headerLeft: <HeaderBackButton onPress={() => navigation.state.params.onCancelPressed()}/>,
-        //headerRight: <HeaderSaveButton onPress={() => navigation.state.params.onOkPressed(true)}/>
-    })*/
 
     constructor(props) {
         super(props);
@@ -53,7 +49,14 @@ export default class FoodDiaryScreen extends React.Component {
             photo: null,
             selectedMealKey: 0,
             selectedClassKey: 2,
-            modified:false, 
+            modified: false,
+            informationPosition: {
+                'height': 0,
+                'width': 0,
+                'x': 0,
+                'y': 0,
+            },
+            showFoodInformation: false,
         }
     }
 
@@ -258,82 +261,95 @@ export default class FoodDiaryScreen extends React.Component {
         this.navigateHome()
     };
 
-    //._this._meal doesnt make sense
-    //<FoodDiaryTagEdit ref={component => this._meal = component} all={meals} selected={this.state.selectedMealKey} isExclusive={true} onTagChanged={this.mealChangedHandler} />
-    //<FoodDiaryTagEdit ref={component => this._class = component} all={tags} selected={this.state.selectedClassKey} isExclusive={true} onTagChanged={this.classChangedHandler} />
-    render() {
 
+    toggleShowFoodInformation = () => {
+        this.setState({ showFoodInformation: !this.state.showFoodInformation })
+    }
+
+    addInformationLayout(layout){
+        this.setState({informationPosition:layout});
+    }
+
+    render() {
         const marginToUse = 0;// ((this.state.keyboardOpen) ? 300 : 0);
-        //const tags = [LanguageManager.getInstance().getText("GLUTEN"), LanguageManager.getInstance().getText("NO_GLUTEN"), LanguageManager.getInstance().getText("UNSURE")];
-        //const meals = [LanguageManager.getInstance().getText("BREAKFAST"), LanguageManager.getInstance().getText("LUNCH"), LanguageManager.getInstance().getText("DINNER"), LanguageManager.getInstance().getText("SNACK")];
         return (
             //extraScrollHeight not supoorted out-of-the-box in android see here https://github.com/AyushAppin/react-native-keyboard-aware-scroll-view
             <>
-            <SafeAreaView style={{ flex: 0, backgroundColor: themeColor }} />
-            <KeyboardAwareScrollView style={{backgroundColor: "#FFFFFF"}} extraScrollHeight={20} scrollEnabled={true} enableAutomaticScroll={true} >
-                <HeaderBanner color={themeColor} imageSource={require('../assets/images/FoodTracker/meal_icon.png')}/>
-                <HorizontalLineWithText color={themeColor} text={LanguageManager.getInstance().getText("DATE")} />
-                <DayPicker ref={component => this._dayChooser = component} textString="SYMPTOM_OCCURED" onDateChanged={this.dateEditedHandler} />
-                <HorizontalLineWithText color={themeColor} text={LanguageManager.getInstance().getText("TIME")} />
-                <TimePicker ref={component => this._timePicker = component} textString="EATEN_AT" onTimeChanged={this.timeEditedHandler} />
-                <HorizontalLineWithText color={themeColor} text={LanguageManager.getInstance().getText("TYPES")} />
-                <FoodTrackerSymbolGroup color={themeColor} selectedID={this.state.selectedMealKey}  onChancedId={this.mealChangedHandler} />
-                <HorizontalLineWithText color={themeColor} text={LanguageManager.getInstance().getText("IMAGE")} />
-                <View style={{ alignItems: 'center' }}>
-                    <FoodDiaryImageEdit color={themeColor} navigation={this.props.navigation} onPictureTaken={(image) => this.setState({ photo: image })} />
-                </View>
-                <HorizontalLineWithText color={themeColor} text={LanguageManager.getInstance().getText("MEAL_GLUTEN")} />
-                <FoodTrackerSymbolClassGroup color={themeColor} selectedID={this.state.selectedClassKey}  onChancedId={this.classChangedHandler} />
-                <HorizontalLineWithText color={themeColor} text={LanguageManager.getInstance().getText("MEAL_NAME")} />
-                <View style={styles.containerPadding}>
-                    <TextInputSingleLine color={themeColor}
-                        ref={component => this._name = component}
-                        onTextChanged={this.nameEditedHandler}
-                        style={{ Top: 10 }}
-                        placeholderText={LanguageManager.getInstance().getText("MEAL_NAME_PLACEHOLDER")}
-                    />
-                </View>
-                <HorizontalLineWithText color={themeColor} text={LanguageManager.getInstance().getText("MEAL_NOTES")} style={{ Top: 10 }} />
-                <NoteEdit color={themeColor}
-                    ref={component => this._noteEdit = component}
-                    note={this.state.symptomEntryNote}
-                    onTextChanged={this.noteEditedHandler}
-                    style={{ Top: 10 }}
-                    placeholderText={LanguageManager.getInstance().getText("MEAL_NOTES_PLACEHOLDER")}
-                />
-
-                <View style={styles.buttonContainer}>
-                    <View style={styles.buttonSubContainer}>
-                        <TouchableHighlight style={styles.buttonSaveAndCancel} onPress={this.handleCancelButton}>
-                            <Text style={{ textAlign: 'center', color:'#707070' }}>cancel</Text>
-                        </TouchableHighlight>
-                        <TouchableHighlight style={styles.buttonSaveAndCancel} onPress={() => this.saveCurrentData(true)}>
-                            <Text style={{ textAlign: 'center', color:'#707070' }}>save</Text>
-                        </TouchableHighlight>
+                <SafeAreaView style={{ flex: 0, backgroundColor: themeColor }} />
+                <KeyboardAwareScrollView style={{ backgroundColor: "#FFFFFF" }} extraScrollHeight={20} scrollEnabled={true} enableAutomaticScroll={true} >
+                    <HeaderBanner color={themeColor} imageSource={require('../assets/images/FoodTracker/meal_icon.png')} />
+                    <HorizontalLineWithText color={themeColor} text={LanguageManager.getInstance().getText("DATE")} />
+                    <DayPicker ref={component => this._dayChooser = component} textString="SYMPTOM_OCCURED" onDateChanged={this.dateEditedHandler} />
+                    <HorizontalLineWithText color={themeColor} text={LanguageManager.getInstance().getText("TIME")} />
+                    <TimePicker ref={component => this._timePicker = component} textString="EATEN_AT" onTimeChanged={this.timeEditedHandler} />
+                    <HorizontalLineWithText iconClickEvent={this.toggleShowFoodInformation} color={themeColor} text={LanguageManager.getInstance().getText("TYPES")} />
+                    <View
+                    onLayout={event => {
+                        const layout = event.nativeEvent.layout;
+                        this.addInformationLayout(layout);
+                      }}
+                    ></View>
+                    <FoodTrackerSymbolGroup color={themeColor} selectedID={this.state.selectedMealKey} onChancedId={this.mealChangedHandler} />
+                    <HorizontalLineWithText color={themeColor} text={LanguageManager.getInstance().getText("IMAGE")} />
+                    <View style={{ alignItems: 'center' }}>
+                        <FoodDiaryImageEdit color={themeColor} navigation={this.props.navigation} onPictureTaken={(image) => this.setState({ photo: image })} />
                     </View>
-                </View>
+                    <HorizontalLineWithText color={themeColor} text={LanguageManager.getInstance().getText("MEAL_GLUTEN")} />
+                    <FoodTrackerSymbolClassGroup color={themeColor} selectedID={this.state.selectedClassKey} onChancedId={this.classChangedHandler} />
+                    <HorizontalLineWithText color={themeColor} text={LanguageManager.getInstance().getText("MEAL_NAME")} />
+                    <View style={styles.containerPadding}>
+                        <TextInputSingleLine color={themeColor}
+                            ref={component => this._name = component}
+                            onTextChanged={this.nameEditedHandler}
+                            style={{ Top: 10 }}
+                            placeholderText={LanguageManager.getInstance().getText("MEAL_NAME_PLACEHOLDER")}
+                        />
+                    </View>
+                    <HorizontalLineWithText color={themeColor} text={LanguageManager.getInstance().getText("MEAL_NOTES")} style={{ Top: 10 }} />
+                    <NoteEdit color={themeColor}
+                        ref={component => this._noteEdit = component}
+                        note={this.state.symptomEntryNote}
+                        onTextChanged={this.noteEditedHandler}
+                        style={{ Top: 10 }}
+                        placeholderText={LanguageManager.getInstance().getText("MEAL_NOTES_PLACEHOLDER")}
+                    />
 
-                <View>
-                    <Dialog.Container visible={this.state.saveAsEmptyFoodDialogVisible}>
-                        <Dialog.Title>{LanguageManager.getInstance().getText("SAVE_EMPTY_FOOD")}</Dialog.Title>
-                        <Dialog.Description>
-                            {LanguageManager.getInstance().getText("WANT_TO_SAVE_EMPTY_FOOD")}
-                        </Dialog.Description>
-                        <Dialog.Button label={LanguageManager.getInstance().getText("BACK")} onPress={() => this.handleBack()} />
-                        <Dialog.Button label={LanguageManager.getInstance().getText("YES")} onPress={() => this.saveData(true)} />
-                    </Dialog.Container>
-                </View>
-                <View>
-                    <Dialog.Container visible={this.state.cancelSaveDialogVisible}>
-                        <Dialog.Title>{LanguageManager.getInstance().getText("DISCARD")}</Dialog.Title>
-                        <Dialog.Description>
-                            {LanguageManager.getInstance().getText("DO_YOU_WANT_TO_DISCARD")}
-                        </Dialog.Description>
-                        <Dialog.Button label={LanguageManager.getInstance().getText("BACK")} onPress={() => this.handleBack()} />
-                        <Dialog.Button label={LanguageManager.getInstance().getText("DISCARD")} onPress={() => this.handleDiscard()} />
-                    </Dialog.Container>
-                </View>
-            </KeyboardAwareScrollView>
+                    <View style={styles.buttonContainer}>
+                        <View style={styles.buttonSubContainer}>
+                            <TouchableHighlight style={styles.buttonSaveAndCancel} onPress={this.handleCancelButton}>
+                                <Text style={{ textAlign: 'center', color: '#707070' }}>cancel</Text>
+                            </TouchableHighlight>
+                            <TouchableHighlight style={styles.buttonSaveAndCancel} onPress={() => this.saveCurrentData(true)}>
+                                <Text style={{ textAlign: 'center', color: '#707070' }}>save</Text>
+                            </TouchableHighlight>
+                        </View>
+                    </View>
+
+                    {this.state.showFoodInformation &&
+                    <FoodInformation color={themeColor} position={this.state.informationPosition}></FoodInformation>
+                    }
+
+                    <View>
+                        <Dialog.Container visible={this.state.saveAsEmptyFoodDialogVisible}>
+                            <Dialog.Title>{LanguageManager.getInstance().getText("SAVE_EMPTY_FOOD")}</Dialog.Title>
+                            <Dialog.Description>
+                                {LanguageManager.getInstance().getText("WANT_TO_SAVE_EMPTY_FOOD")}
+                            </Dialog.Description>
+                            <Dialog.Button label={LanguageManager.getInstance().getText("BACK")} onPress={() => this.handleBack()} />
+                            <Dialog.Button label={LanguageManager.getInstance().getText("YES")} onPress={() => this.saveData(true)} />
+                        </Dialog.Container>
+                    </View>
+                    <View>
+                        <Dialog.Container visible={this.state.cancelSaveDialogVisible}>
+                            <Dialog.Title>{LanguageManager.getInstance().getText("DISCARD")}</Dialog.Title>
+                            <Dialog.Description>
+                                {LanguageManager.getInstance().getText("DO_YOU_WANT_TO_DISCARD")}
+                            </Dialog.Description>
+                            <Dialog.Button label={LanguageManager.getInstance().getText("BACK")} onPress={() => this.handleBack()} />
+                            <Dialog.Button label={LanguageManager.getInstance().getText("DISCARD")} onPress={() => this.handleDiscard()} />
+                        </Dialog.Container>
+                    </View>
+                </KeyboardAwareScrollView>
             </>
         )
     }

@@ -16,6 +16,7 @@ import GearManager from '../manager/GearManager';
 import CeliLogger from '../analytics/analyticsManager';
 import Interactions from '../constants/Interactions';
 import UploadManager from '../manager/UploadManager';
+import GipInformation from '../components/GipTracker/GipInformation'
 
 const themeColor = '#FF8D1E';
 
@@ -33,6 +34,13 @@ export default class GIPScreen extends React.Component {
             keyboardOpen: false,
             photo: null,
             gipManualResult: 2,
+            informationPosition: {
+                'height': 0,
+                'width': 0,
+                'x': 0,
+                'y': 0,
+            },
+            showSymptomInformation: false,
         }
     }
 
@@ -193,6 +201,14 @@ export default class GIPScreen extends React.Component {
         this.navigateHome()
     };
 
+    addInformationLayout(layout){
+        this.setState({informationPosition:layout});
+    }
+
+    toggleShowSymptomInformation = () => {
+        this.setState({showSymptomInformation: !this.state.showSymptomInformation})
+    }
+
     render() {
         const tags = [LanguageManager.getInstance().getText("GLUTEN"), LanguageManager.getInstance().getText("NO_GLUTEN"), LanguageManager.getInstance().getText("UNSURE")];
         const meals = [LanguageManager.getInstance().getText("BREAKFAST"), LanguageManager.getInstance().getText("LUNCH"), LanguageManager.getInstance().getText("DINNER"), LanguageManager.getInstance().getText("SNACK")];
@@ -211,7 +227,13 @@ export default class GIPScreen extends React.Component {
                     <View style={{ alignItems: 'center' }}>
                         <FoodDiaryImageEdit color={themeColor} navigation={this.props.navigation} onPictureTaken={(image) => this.setState({ photo: image, modified: true })} />
                     </View>
-                    <HorizontalLineWithText color={themeColor} text={LanguageManager.getInstance().getText("TAGS")} />
+                    <HorizontalLineWithText iconClickEvent={this.toggleShowSymptomInformation} color={themeColor} text={LanguageManager.getInstance().getText("TAGS")} />
+                    <View
+                    onLayout={event => {
+                        const layout = event.nativeEvent.layout;
+                        this.addInformationLayout(layout);
+                      }}
+                    ></View>
                     <GipTrackerSymbolClassGroup color={themeColor} selectedID={this.state.gipManualResult} onChancedId={this.gipManualResultHandler} />
                     <HorizontalLineWithText color={themeColor} text={LanguageManager.getInstance().getText("NOTES")} style={{ Top: 10 }} />
                     <NoteEdit color={themeColor} ref={component => this._noteEdit = component} note={this.state.symptomEntryNote} onTextChanged={this.noteEditedHandler} style={{ Top: 10 }} />
@@ -226,6 +248,10 @@ export default class GIPScreen extends React.Component {
                             </TouchableHighlight>
                         </View>
                     </View>
+
+                    {this.state.showSymptomInformation &&
+                    <GipInformation color={themeColor} position={this.state.informationPosition}></GipInformation>
+                    }
 
                     <View>
                         <Dialog.Container visible={this.state.saveAsEmptyGIPDialogVisible}>

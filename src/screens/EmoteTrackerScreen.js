@@ -15,6 +15,7 @@ import GearManager from '../manager/GearManager';
 import EmotionStore from '../manager/buddyManager/EmotionStore';
 import CeliLogger from '../analytics/analyticsManager';
 import Interactions from '../constants/Interactions';
+import EmotionInformation from '../components/EmoteTracker/EmotionInformation';
 
 const themeColor = '#9958B7';
 
@@ -31,6 +32,13 @@ export default class EmoteTrackerScreen extends React.Component {
             emoteNote: "",
             keyboardOpen: false,
             modified: false,
+            informationPosition: {
+                'height': 0,
+                'width': 0,
+                'x': 0,
+                'y': 0,
+            },
+            showEmotionInformation: false,
         }
     }
 
@@ -128,6 +136,14 @@ export default class EmoteTrackerScreen extends React.Component {
         })
     }
 
+    toggleShowEmotionInformation = () => {
+        this.setState({showEmotionInformation: !this.state.showEmotionInformation})
+    }
+
+    addInformationLayout(layout){
+        this.setState({informationPosition:layout});
+    }
+
     render() {
         return (
             <>
@@ -138,7 +154,13 @@ export default class EmoteTrackerScreen extends React.Component {
                     <DayPicker ref={component => this._dayChooser = component} textString="SYMPTOM_OCCURED" onDateChanged={this.dateEditedHandler} />
                     <HorizontalLineWithText color={themeColor} text={LanguageManager.getInstance().getText("TIME")} />
                     <TimePicker ref={component => this._timePicker = component} textString="SYMPTOM_OCCURED" onTimeChanged={this.timeEditedHandler} />
-                    <HorizontalLineWithText color={themeColor} text={LanguageManager.getInstance().getText("ENERGY")} />
+                    <HorizontalLineWithText iconClickEvent={this.toggleShowEmotionInformation} color={themeColor} text={LanguageManager.getInstance().getText("ENERGY")} />
+                    <View
+                    onLayout={event => {
+                        const layout = event.nativeEvent.layout;
+                        this.addInformationLayout(layout);
+                      }}
+                    ></View>
                     <EmoteTrackerSymbolGroup color={themeColor} selectedID={this.state.selectedSymbolID} onChancedId={this.emotionChangedHandler} />
                     <HorizontalLineWithText color={themeColor} text={LanguageManager.getInstance().getText("NOTES")} />
                     <NoteEdit color={themeColor} ref={component => this._noteEdit = component} onTextChanged={this.noteEditedHandler} />
@@ -165,6 +187,11 @@ export default class EmoteTrackerScreen extends React.Component {
                             <Dialog.Button label={LanguageManager.getInstance().getText("DISCARD")} onPress={this.handleDiscard} />
                         </Dialog.Container>
                     </View>
+
+                    {this.state.showEmotionInformation &&
+                    <EmotionInformation color={themeColor} position={this.state.informationPosition}></EmotionInformation>
+                    }
+
                 </KeyboardAwareScrollView>
             </>
         )

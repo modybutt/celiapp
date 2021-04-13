@@ -54,8 +54,8 @@ const styles = StyleSheet.create({
     textInput: {
         height: "100%",
         paddingTop:5, 
-        paddingBottom:5,color: 
-        '#707070',
+        paddingBottom:5,
+        color: '#707070',
     },
 });
 
