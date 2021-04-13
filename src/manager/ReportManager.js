@@ -34,39 +34,45 @@ export default class ReportManager {
 
   static symptomString = (count) => {
     if (count == 1) return "one symptom";
-    if (count >  1) return "" + count + "symptoms";
+    if (count >  1) return "" + count + " symptoms";
     return "no symptoms";
   }
 
   static mealString = (count) => {
       if (count == 1) return "one meal";
-      if (count >  1) return "" + count + "meals";
+      if (count >  1) return "" + count + " meals";
       return "no meals";
   }
 
   static moodString = (count) => {
     if (count == 1) return "one mood";
-    if (count >  1) return "" + count + "moods";
+    if (count >  1) return "" + count + " moods";
     return "no moods";
   }
 
   static gipFreeString = (count) => {
       if (count == 1) return "a gluten-free test";
-      if (count >  1) return "" + count + "gluten-free tests";
+      if (count >  1) return "" + count + " gluten-free tests";
       return "";
   }
 
   static gipPositiveString = (count) => {
     if (count == 1) return "a gluten-positive test";
-    if (count >  1) return "" + count + "gluten-positive tests";
+    if (count >  1) return "" + count + " gluten-positive tests";
     return "";
   }
 
   static gipString = (count) => {
       if (count == 1) return "a gluten test";
-      if (count >  1) return "" + count + "gluten tests";
+      if (count >  1) return "" + count + " gluten tests";
       return "no gluten tests";
   }
+
+  static dayPluralString = (count) => {
+    if (count == 1) return "one day";
+    if (count >  1) return "" + count + " days";
+    return "no day";
+}
 
   static daySummaryString = (weekData) => {
     return "You logged " +
@@ -77,11 +83,64 @@ export default class ReportManager {
   }
 
   static infoBoxBody = ( stringify , thisWeekCount, lastWeekCount) =>
-    "You logged " + stringify(thisWeekCount) + " this week. That is " + this.differenceString(thisWeekCount, lastWeekCount) +" at this time last week!"
+    "You logged " + stringify(thisWeekCount) + " this week."+
+    (lastWeekCount ? " That is " + this.differenceString(thisWeekCount, lastWeekCount) +" at this time last week!"
+                  : " This is your first week")
+
+  static symptomBox = (thisWeek, lastWeek) => {
+    //body = You logged N symptoms this week. That is x more/less than the previous week week
+    this.reportText.symptomInfo.body = this.infoBoxBody(this.symptomString, thisWeek.thisWeekSymptomCount(), lastWeek?lastWeek.thisWeekSymptomCount():null)
+
+    //Symptom free days:
+    // head = X days you entered NO SYMPTOMS. Good job!
+
+    var symptomFreeDays = thisWeek.thisWeekNumDaysWithNO_SYMPTOM();
+    if(symptomFreeDays > 0){
+      this.reportText.symptomInfo.headline =  this.dayPluralString(symptomFreeDays)+ " you recorded as SYMPTOM FREE. Good job!"
+      return;
+    }
     
+    var numberOfDaysWithSymptoms = thisWeek.thisWeekNumDaysWithSymptoms();
+
+    if(numberOfDaysWithSymptoms <= 2){
+      this.reportText.symptomInfo.headline = "Most of the week you haven’t logged any symptoms.";
+      this.reportText.symptomInfo.sub = "Did you know that you can also enter NO SYMPTOMS if you had none?";
+      return;
+    }
+
+    var numberOfDaysWithMildSymptoms = thisWeek.thisWeekNumDaysWithMildAsWorstSymptoms();
+
+    if(numberOfDaysWithMildSymptoms >= 1){
+      this.reportText.symptomInfo.headline = 
+        "" + this.dayPluralString(numberOfDaysWithSymptoms) + " you have felt symptoms, of which "+
+        "" + this.dayPluralString(numberOfDaysWithMildSymptoms) + " they were only mild.";
+        if(lastWeek){
+          this.reportText.symptomInfo.sub = "Keep it up and try to get more symptom FREE days!"
+        }
+        else{
+          this.reportText.symptomInfo.sub = "First week: Let’s try to get symptom FREE days!"
+        }
+
+        return;
+      }
+
+    // sub =  More : Let’s get try to get a symptom FREE days again!
+    //       Less:  Keep it up and try to get more symptom FREE days!
+    //       First week: Let’s try to get a symptom FREE days!
+
+    //symptoms3+days (some moderate)
+    // head = 7 days you have felt symptoms, of which 3 days they were moderate.
+	  // sub =  Let’s try to do better next week!
+
+    // symptoms3+days (only severe)
+    // 7 days you have felt symptoms, of which 7 days they were severe.
+    // Let’s try to get less symptoms next week! 
+
+
+
+
+  }
   static differenceString = (thisWeekCount, lastWeekCount) => {
-    //console.log("this week: "+thisWeekCount)
-    //console.log("prev week: "+lastWeekCount)
     
     if (thisWeekCount > lastWeekCount) return "" + (thisWeekCount - lastWeekCount) + " more than"
     if (thisWeekCount < lastWeekCount) return "" + (lastWeekCount - thisWeekCount) + " less than"
@@ -92,32 +151,26 @@ export default class ReportManager {
 
     const startOfWeek = DateUtil.getStartOfPreviousFullWeekBeginningMonday();
     const endOfWeek = DateUtil.getEndOfPreviousFullWeekEndingSunday();
-
-    //console.log("startofweek", startOfWeek)
-    //console.log("endtofweek", endOfWeek)
     
     const startOfWeekAsDaysAgo = DateUtil.dateAsDaysAgo(startOfWeek)
-    //console.log("startOfWeekAsDaysAgo", startOfWeekAsDaysAgo)
     
-    const weekData = new WeeklyReportData(DatabaseManager.getInstance());
+    const thisWeekData = new WeeklyReportData(DatabaseManager.getInstance());
 
-    var a= weekData.init(startOfWeek, endOfWeek, new Date())
-    
-    a.then( _ => {
-        //console.log("Data processed ok", weekData)
-        this.reportText.dailyActivity = [0,1,2,3,4,5,6].map(day => weekData.activityRateForDay(day))
+    thisWeekData.init(startOfWeek, endOfWeek, new Date())
+      .then( _ => {
+        this.reportText.dailyActivity = [0,1,2,3,4,5,6].map(day => thisWeekData.activityRateForDay(day))
         this.reportText.weekEndingDate = endOfWeek
 
-        if(weekData.bestDayDate()){
+        if(thisWeekData.bestDayDate()){
           var dateFormat = { weekday: 'long', month: 'long', day: 'numeric' };
-          this.reportText.bestDayHeading = weekData.bestDayDate().toLocaleDateString("en-US", dateFormat)
-          this.reportText.bestDayBody = this.daySummaryString(weekData)
+          this.reportText.bestDayHeading = thisWeekData.bestDayDate().toLocaleDateString("en-US", dateFormat)
+          this.reportText.bestDayBody = this.daySummaryString(thisWeekData)
         }
         
-        this.reportText.symptomInfo.body = this.infoBoxBody(this.symptomString, weekData.thisWeekSymptomCount(), weekData.previousPartialWeekSymptomCount())
-        this.reportText.mealInfo.body = this.infoBoxBody(this.mealString, weekData.thisWeekMealCount(), weekData.previousPartialWeekMealCount())
-        this.reportText.emotionInfo.body = this.infoBoxBody(this.moodString, weekData.thisWeekMoodCount(), weekData.previousPartialWeekMoodCount())
-        this.reportText.gipInfo.body = this.infoBoxBody(this.gipString, weekData.thisWeekGIPCount(), weekData.previousPartialWeekGIPCount())
+        this.symptomBox(thisWeekData);
+        this.reportText.mealInfo.body = this.infoBoxBody(this.mealString, thisWeekData.thisWeekMealCount(), thisWeekData.previousPartialWeekMealCount())
+        this.reportText.emotionInfo.body = this.infoBoxBody(this.moodString, thisWeekData.thisWeekMoodCount(), thisWeekData.previousPartialWeekMoodCount())
+        this.reportText.gipInfo.body = this.infoBoxBody(this.gipString, thisWeekData.thisWeekGIPCount(), thisWeekData.previousPartialWeekGIPCount())
 
         success(this.reportText)
       })

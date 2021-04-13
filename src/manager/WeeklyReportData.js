@@ -1,7 +1,7 @@
 import DateUtil from '../utils/dateUtils';
 import Events, { Emotion, Gluten, Severity, Symptoms } from '../constants/Events';
 
-log = (e) => { console.log(e); return e }
+log = (msg, e) => { console.log(msg, " : ", e); return e }
 
 export default class WeeklyReportData {
 
@@ -146,6 +146,9 @@ export default class WeeklyReportData {
           symptomCount: this.countEventsOfTypeOnADay(Events.Symptom, day.date),
           gipTests: this.countEventsOfTypeOnADay(Events.GIP, day.date),
           noSymptomCount: this.countSymptomsOfTypeOnADay(Symptoms.NO_SYMPTOMS, day.date),
+          mildSymptomCount: this.countSymptomsOfTypeOnADay(null, day.date, Severity.LOW),
+          moderateSymptomCount: this.countSymptomsOfTypeOnADay(null, day.date, Severity.MODERATE),
+          severeSymptomCount: this.countSymptomsOfTypeOnADay(null, day.date, Severity.SEVERE),
         }))
       .map(day => ({
         ...day,
@@ -163,7 +166,7 @@ export default class WeeklyReportData {
     return this.events
       .filter(event => event.created > start && event.created < end)
       .filter(event => event.eventType == Events.Symptom)
-      .filter(event => event.objData.symptomID == symptom.id)
+      .filter(event => symptom ? event.objData.symptomID == symptom.id : event.objData.symptomID != Symptoms.NO_SYMPTOMS.id)
       .filter(event => severity ? event.objData.severity == severity : true)
       .length
   }
@@ -211,8 +214,8 @@ export default class WeeklyReportData {
   thisWeekNumDaysWithEnergy = () => this.enrichedDays.filter(day => day.emotionCount > 0).length;
   thisWeekNumDaysWithGIP = () => 0; //todo
 
-  thisWeekNumDaysWithMildSymptoms = () => 0; //todo
-  thisWeekNumDaysWithModerateSymptoms = () => 0; //todo
-  thisWeekNumDaysWithSevereSymptoms = () => 0; //todo
+  thisWeekNumDaysWithMildAsWorstSymptoms = () => this.enrichedDays.filter(day => day.mildSymptomCount > 0 && day.moderateSymptomCount == 0 && day.severeSymptomCount == 0 ).length;
+  thisWeekNumDaysWithModerateAsWorstSymptoms = () => this.enrichedDays.filter(day => day.moderateSymptomCount > 0 && day.severeSymptomCount == 0).length;
+  thisWeekNumDaysWithSevereAsWorstSymptoms = () => this.enrichedDays.filter(day => day.severeSymptomCount > 0).length;
 
 };
