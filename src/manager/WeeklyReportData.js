@@ -78,14 +78,17 @@ export default class WeeklyReportData {
   }
 
   getData = (startOfPeriod, endOfPeriod) => {
-    return this.getEventsBetweenDatesInclusive(startOfPeriod, endOfPeriod)
-      .then(data => {
-        this.events = data
-          .filter(event => event.eventType !== Events.LogEvent)
-          .map(this.jsonifyEvent)
-        this.calcBestDay()
-      })
-      .catch(err => console.log("Report data access error:", err.message));
+    return new Promise((resolve, reject) => {
+      this.getEventsBetweenDatesInclusive(startOfPeriod, endOfPeriod)
+        .then(data => {
+          this.events = data
+            .filter(event => event.eventType !== Events.LogEvent)
+            .map(this.jsonifyEvent)
+          this.calcBestDay()
+          resolve("done")
+        })
+        .catch(err => console.log("Report data access error:", err.message, err));
+    });
   }
 
   getEventsBetweenDatesInclusive = (start, end) =>
