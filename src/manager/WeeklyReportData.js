@@ -145,17 +145,28 @@ export default class WeeklyReportData {
           emotionCount: this.countEventsOfTypeOnADay(Events.Emotion, day.date),
           symptomCount: this.countEventsOfTypeOnADay(Events.Symptom, day.date),
           gipTests: this.countEventsOfTypeOnADay(Events.GIP, day.date),
+          noSymptomCount: this.countSymptomsOfTypeOnADay(Symptoms.NO_SYMPTOMS, day.date),
         }))
       .map(day => ({
         ...day,
-        activity: this.targetActivityCounter(day)/this.TARGET_DAILY_SCORE
+        activity: this.targetActivityCounter(day) / this.TARGET_DAILY_SCORE
       }))
 
     this.bestDay = this.enrichedDays.reduce((bestDay, thisDay) => bestDay.score > thisDay.score ? bestDay : thisDay)
-    //console.log("enriched days", this.enrichedDays)
-    //console.log("best days", this.bestDay)
   }
 
+  countSymptomsOfTypeOnADay = (symptom, date, severity) => {
+    start = new Date(date)
+    start.setHours(0, 0, 0, 0);
+    end = new Date(date)
+    end.setHours(23, 59, 59, 999);
+    return this.events
+      .filter(event => event.created > start && event.created < end)
+      .filter(event => event.eventType == Events.Symptom)
+      .filter(event => event.objData.symptomID == symptom.id)
+      .filter(event => severity ? event.objData.severity == severity : true)
+      .length
+  }
 
   countEventsOfTypeOnADay = (type, date) => {
     start = new Date(date)
@@ -183,28 +194,25 @@ export default class WeeklyReportData {
   thisWeekMealCount = () => this.countEventsOfTypeBetweenDates(Events.Food, this.currentWeekStart, this.currentWeekEnd)
 
   //these only count up to the current Day/Time last week
+  //deprecate these
   previousPartialWeekGIPCount = () => this.countEventsOfTypeBetweenDates(Events.GIP, this.previousWeekStart, this.thisTimePreviousWeek)
   previousPartialWeekSymptomCount = () => this.countEventsOfTypeBetweenDates(Events.Symptom, this.previousWeekStart, this.thisTimePreviousWeek)
   previousPartialWeekMoodCount = () => this.countEventsOfTypeBetweenDates(Events.Emotion, this.previousWeekStart, this.thisTimePreviousWeek)
   previousPartialWeekMealCount = () => this.countEventsOfTypeBetweenDates(Events.Food, this.previousWeekStart, this.thisTimePreviousWeek)
 
-  previousFullWeekGIPCount = () => this.countEventsOfTypeBetweenDates(Events.GIP, this.previousWeekStart,  this.currentWeekStart)
-  previousFullWeekSymptomCount = () => this.countEventsOfTypeBetweenDates(Events.Symptom, this.previousWeekStart,  this.currentWeekStart)
-  previousFullWeekMoodCount = () => this.countEventsOfTypeBetweenDates(Events.Emotion, this.previousWeekStart,  this.currentWeekStart)
-  previousFullWeekMealCount = () => this.countEventsOfTypeBetweenDates(Events.Food, this.previousWeekStart,  this.currentWeekStart)
+  previousFullWeekGIPCount = () => this.countEventsOfTypeBetweenDates(Events.GIP, this.previousWeekStart, this.currentWeekStart)
+  previousFullWeekSymptomCount = () => this.countEventsOfTypeBetweenDates(Events.Symptom, this.previousWeekStart, this.currentWeekStart)
+  previousFullWeekMoodCount = () => this.countEventsOfTypeBetweenDates(Events.Emotion, this.previousWeekStart, this.currentWeekStart)
+  previousFullWeekMealCount = () => this.countEventsOfTypeBetweenDates(Events.Food, this.previousWeekStart, this.currentWeekStart)
 
-  thisWeekNumDaysWithNO_SYMPTOM =() => 0; //todo
-  thisWeekNumDaysWithSymptoms =() => 0; //todo
-  thisWeekNumDaysWithMeals =() => 0; //todo
-  thisWeekNumDaysWithEnergy =() => 0; //todo
-  thisWeekNumDaysWithGIP =() => 0; //todo
+  thisWeekNumDaysWithNO_SYMPTOM = () => this.enrichedDays.filter(day => day.noSymptomCount > 0).length;
+  thisWeekNumDaysWithSymptoms = () => this.enrichedDays.filter(day => day.symptomCount > 0).length;
+  thisWeekNumDaysWithMeals = () => this.enrichedDays.filter(day => day.mealCount > 0).length;
+  thisWeekNumDaysWithEnergy = () => this.enrichedDays.filter(day => day.emotionCount > 0).length;
+  thisWeekNumDaysWithGIP = () => 0; //todo
 
   thisWeekNumDaysWithMildSymptoms = () => 0; //todo
   thisWeekNumDaysWithModerateSymptoms = () => 0; //todo
   thisWeekNumDaysWithSevereSymptoms = () => 0; //todo
-
-  previousWeekNumDaysWithMildSymptoms = () => 0; //todo
-  previousWeekNumDaysWithModerateSymptoms = () => 0; //todo
-  previousWeekNumDaysWithSevereSymptoms = () => 0; //todo
 
 };

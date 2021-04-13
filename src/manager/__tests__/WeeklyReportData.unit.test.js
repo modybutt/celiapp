@@ -182,17 +182,69 @@ describe('calculate day score ', () => {
 })
 
 
-test('calc best day',() =>{
-        expect(weekData.bestDayDate().toDateString()).toEqual("Sat Apr 03 2021")
-})
+getEvents2 = () => {
+        events = []
+        events.push(MockDB.emotion("28 Mar 2021 19:07:20.05", Emotion.UNHAPPY))
+        events.push(MockDB.symptom("28 Mar 2021 19:07:20.05", Symptoms.NO_SYMPTOMS, 1, ""))
+        events.push(MockDB.emotion("29 Mar 2021 19:07:20.05", Emotion.UNHAPPY))
+        events.push(MockDB.emotion("30 Mar 2021 19:07:20.05", Emotion.UNHAPPY))
+        events.push(MockDB.symptom("31 Mar 2021 19:07:20.05", Symptoms.NO_SYMPTOMS, 1, ""))
+        events.push(MockDB.meal("31 Mar 2021 19:07:20.05", Meals.DINNER, Gluten.UNKNOWN))
+        events.push(MockDB.emotion("31 Mar 2021 19:07:20.05", Emotion.UNHAPPY))
+        events.push(MockDB.symptom("31 Mar 2021 19:07:20.05", Symptoms.NO_SYMPTOMS, 1, ""))
+        events.push(MockDB.meal("31 Mar 2021 19:07:20.05", Meals.DINNER, Gluten.UNKNOWN))
+        events.push(MockDB.emotion("31 Mar 2021 19:07:20.05", Emotion.UNHAPPY))
+        events.push(MockDB.symptom("31 Mar 2021 19:07:20.05", Symptoms.LOSS_OF_APPETITE, 1, ""))
+        events.push(MockDB.meal("31 Mar 2021 19:07:20.05", Meals.DINNER, Gluten.UNKNOWN))
+        events.push(MockDB.emotion("31 Mar 2021 19:07:20.05", Emotion.UNHAPPY))
+        events.push(MockDB.symptom("01 Apr 2021 19:07:20.05", Symptoms.LOSS_OF_APPETITE, 1, ""))
+        events.push(MockDB.meal("01 Apr 2021 19:07:20.05", Meals.DINNER, Gluten.UNKNOWN))
+        events.push(MockDB.emotion("01 Apr 2021 19:07:20.05", Emotion.UNHAPPY))
+        events.push(MockDB.interaction("01 Apr 2021 19:07:20.05"))
+        events.push(MockDB.symptom("02 Apr 2021 19:07:20.05", Symptoms.LOW_ENERGY, Severity.MODERATE, ""))
+        events.push(MockDB.meal("02 Apr 2021 19:07:20.05", Meals.DINNER, Gluten.UNKNOWN))
+        events.push(MockDB.emotion("02 Apr 2021 19:07:20.05", Emotion.NEUTRAL))
+        events.push(MockDB.interaction("02 Apr 2021 19:07:20.05"))
+        events.push(MockDB.symptom("03 Apr 2021 19:07:20.05", Symptoms.BLOATING, Severity.SEVERE, ""))
+        events.push(MockDB.meal("03 Apr 2021 19:07:20.05", Meals.DINNER, Gluten.UNKNOWN))
+        events.push(MockDB.emotion("03 Apr 2021 19:07:20.05", Emotion.HAPPY))
+        events.push(MockDB.interaction("03 Apr 2021 19:07:20.05"))
+        events.push(MockDB.symptom("04 Apr 2021 19:07:20.05", Symptoms.NO_SYMPTOMS, 1, ""))
+        events.push(MockDB.symptom("04 Apr 2021 19:07:20.05", Symptoms.LOSS_OF_APPETITE, 1, ""))
+        events.push(MockDB.symptom("05 Apr 2021 19:07:20.05", Symptoms.NO_SYMPTOMS, 1, ""))
+        events.push(MockDB.emotion("05 Apr 2021 19:07:20.05", Emotion.HAPPY))
 
-test('calc best day counts',() =>{
-        expect(weekData.bestDaySymptomCount()).toEqual(1)
-        expect(weekData.bestDayMoodCount()).toEqual(1)
-        expect(weekData.bestDayMealCount()).toEqual(1)
-        expect(weekData.bestDayGipTests()).toEqual(0)
-})
+        return events;
+}
 
+describe('count  days with ', () => {
 
+        var weekData = {};
+        beforeAll((done) =>
+                initData(getEvents2(), startOfCurrentWeek, endOfCurrentWeek, thurs_1_april)
+                        .then(wd => { weekData = wd; done() })
+        );
+
+        test('symptom NO_SYMPTOM recorded', () => {
+                expect(weekData.thisWeekNumDaysWithNO_SYMPTOM()).toEqual(2);
+        })
+
+        test('symptoms recorded', () => {
+                expect(weekData.thisWeekNumDaysWithSymptoms()).toEqual(5);
+        })
+
+        test('meals recorded', () => {
+                expect(weekData.thisWeekNumDaysWithMeals()).toEqual(4);
+        })
+
+        test('energy recorded', () => {
+                expect(weekData.thisWeekNumDaysWithEnergy()).toEqual(6);
+        })
+
+        test.todo('GIP recorded')
+        // , () =>{
+        //         expect(weekData.thisWeekNumDaysWithGIP()).toEqual(6);
+        // })
+});
 
 
