@@ -45,8 +45,3 @@ test('days between two days without time', () => {
     days = du.daysBetween(sun18_Apr_2021, mon19_Apr_2021)
     expect(days).toEqual([sun18_Apr_2021,mon19_Apr_2021]);
 });
-
-test.skip('days between two days with time', () => {
-    days = du.daysBetween(sun18_Apr_2021_midnight, tue20_Apr_2021_1pm)
-    expect(days).toEqual([sun18_Apr_2021,mon19_Apr_2021, tue20_Apr_2021]);
-});

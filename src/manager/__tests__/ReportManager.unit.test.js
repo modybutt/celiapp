@@ -74,7 +74,7 @@ test('should get best day', done => {
     ReportManager.weeklyReport(callback)
 });
 
-test('should report days with no symptoms', done => {
+test.skip('should report days with no symptoms', done => {
     function callback(report){
             //console.log("XXXXXXXXXXXXXX", report)
             try{
