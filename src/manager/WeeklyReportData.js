@@ -1,5 +1,7 @@
 import DateUtil from '../utils/dateUtils';
-import Events, { Emotion, Gluten, Severity } from '../constants/Events';
+import Events, { Emotion, Gluten, Severity, Symptoms } from '../constants/Events';
+
+log = (e) => { console.log(e); return e }
 
 export default class WeeklyReportData {
 
@@ -14,7 +16,7 @@ export default class WeeklyReportData {
     this.thisTimePreviousWeek = {}
     this.dataBase = dataBase
     this.enrichedDays = []
-  }
+  };
 
   init = (startOfWeek, endOfWeek, now) => {
     this.now = now || new Date()
@@ -107,7 +109,7 @@ export default class WeeklyReportData {
     Math.min(day.symptomCount, this.TARGET_SYMPTOMS_PER_DAY)
 
   activityRateForDay = (dayOfWeek) => this.enrichedDays[dayOfWeek].activity
-  
+
   eventInCurrentWeek = (event) => event.created > this.currentWeekStart && event.created < this.currentWeekEnd
 
   scoreDay = (dayEvents) => dayEvents.reduce(
@@ -117,7 +119,7 @@ export default class WeeklyReportData {
 
   calcBestDay = () => {
 
-    var dayEvents = new Array(7).fill(null).map(()=> ({ date: "", events: [] }))
+    var dayEvents = new Array(7).fill(null).map(() => ({ date: "", events: [] }))
 
     eventsGroupedIntoDays =
       this.events

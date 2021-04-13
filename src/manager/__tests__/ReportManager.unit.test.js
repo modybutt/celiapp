@@ -76,7 +76,7 @@ test('should get best day', done => {
 
 test('should report days with no symptoms', done => {
     function callback(report){
-            console.log("XXXXXXXXXXXXXX", report)
+            //console.log("XXXXXXXXXXXXXX", report)
             try{
                 expect(report.bestDayHeading).toEqual("3 days you entered NO SYMPTOMS");
                 done();
@@ -87,6 +87,6 @@ test('should report days with no symptoms', done => {
     }
 
     reportData.bestDayDate.mockReturnValue(new Date("2021-03-29T13:00:00"))
-    console.log(reportData.bestDayDate())
+    //console.log(reportData.bestDayDate())
     ReportManager.weeklyReport(callback)
 });

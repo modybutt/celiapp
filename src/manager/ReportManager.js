@@ -80,8 +80,8 @@ export default class ReportManager {
     "You logged " + stringify(thisWeekCount) + " this week. That is " + this.differenceString(thisWeekCount, lastWeekCount) +" at this time last week!"
     
   static differenceString = (thisWeekCount, lastWeekCount) => {
-    console.log("this week: "+thisWeekCount)
-    console.log("prev week: "+lastWeekCount)
+    //console.log("this week: "+thisWeekCount)
+    //console.log("prev week: "+lastWeekCount)
     
     if (thisWeekCount > lastWeekCount) return "" + (thisWeekCount - lastWeekCount) + " more than"
     if (thisWeekCount < lastWeekCount) return "" + (lastWeekCount - thisWeekCount) + " less than"
@@ -93,18 +93,18 @@ export default class ReportManager {
     const startOfWeek = DateUtil.getStartOfPreviousFullWeekBeginningMonday();
     const endOfWeek = DateUtil.getEndOfPreviousFullWeekEndingSunday();
 
-    console.log("startofweek", startOfWeek)
-    console.log("endtofweek", endOfWeek)
+    //console.log("startofweek", startOfWeek)
+    //console.log("endtofweek", endOfWeek)
     
     const startOfWeekAsDaysAgo = DateUtil.dateAsDaysAgo(startOfWeek)
-    console.log("startOfWeekAsDaysAgo", startOfWeekAsDaysAgo)
+    //console.log("startOfWeekAsDaysAgo", startOfWeekAsDaysAgo)
     
     const weekData = new WeeklyReportData(DatabaseManager.getInstance());
 
     var a= weekData.init(startOfWeek, endOfWeek, new Date())
     
     a.then( _ => {
-        console.log("Data processed ok", weekData)
+        //console.log("Data processed ok", weekData)
         this.reportText.dailyActivity = [0,1,2,3,4,5,6].map(day => weekData.activityRateForDay(day))
         this.reportText.weekEndingDate = endOfWeek
 
