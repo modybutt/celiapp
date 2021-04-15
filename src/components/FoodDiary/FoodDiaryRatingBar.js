@@ -6,7 +6,7 @@ import {
 } from 'react-native';
 import * as Icon from '@expo/vector-icons';
 
-
+//deprecated
 export default class FoodDiaryRatingBar extends React.Component {
     
     state = {

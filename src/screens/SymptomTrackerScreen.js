@@ -1,36 +1,27 @@
 import React from 'react';
-import { Keyboard, View, Button, Alert, TextInput, StyleSheet, BackHandler } from 'react-native';
-import { HeaderBackButton } from 'react-navigation-stack'
+import { SafeAreaView, Keyboard, View,  StyleSheet, TouchableHighlight, Text } from 'react-native';
 import Dialog from "react-native-dialog";
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view'
 import SymptomGroup from '../components/SymptomTracker/SymptomGroup';
 import NoteEdit from '../components/NoteEdit';
-import DayChooser from '../components/DayChooser';
+import TextInputSingleLine from '../components/TextInputSingleLine';
 import TimePicker from '../components/TimePicker';
+import DayPicker from '../components/DayPicker';
+import HeaderBanner from '../components/HeaderBanner';
 import HorizontalLineWithText from '../components/HorizontalLineWithText';
 import DatabaseManager from '../manager/DatabaseManager';
 import LanguageManager from '../manager/LanguageManager';
 import GlutonManager from '../manager/GlutonManager';
-import HeaderSaveButton from '../components/HeaderSaveButton';
 import GearManager from '../manager/GearManager';
 import AchievementManager from '../manager/buddyManager/AchievementManager';
 import AchievementRecordManager from '../manager/buddyManager/AchievementRecordManager';
 import CeliLogger from '../analytics/analyticsManager';
 import Interactions from '../constants/Interactions';
+import SymptomInformation from '../components/SymptomTracker/SymptomInformation';
 
-export default class SymptomTrackerScreen extends React.Component{
-    static navigationOptions = ({navigation}) => {
-        const {state} = navigation;
-        if(state.params != undefined && state.params.onSymptomsUpdated != undefined) {
-            return {
-                title: LanguageManager.getInstance().getText("ADD_SYMPTOM"),
-                headerLeft: <HeaderBackButton onPress={() => navigation.state.params.onCancelPressed()} />,
-                headerRight: <HeaderSaveButton onPress={() => navigation.state.params.onOkPressed(true)} shareConfig={{
-                    onSymptomsUpdated: state.params.onSymptomsUpdated
-                }} />
-            }
-        }
-    }
+const themeColor = '#1DBBA0';
+
+export default class SymptomTrackerScreen extends React.Component {
 
     constructor(props) {
         super(props);
@@ -39,15 +30,26 @@ export default class SymptomTrackerScreen extends React.Component{
         this.timeEditedHandler = this.timeEditedHandler.bind(this);
         this.symptomSelectionChangeHandler = this.symptomSelectionChangeHandler.bind(this);
         this.state = {
-            symptomEntryNote: "", //works correctly \o/
-            selectedSymptoms: [], //bit buggy when deleting existing symptoms from list
+            symptomDescription: "",
+            symptomEntryNote: "",
+            selectedSymptoms: [],
             dayChangeDialogVisible: false,
             resetSymptomGroup: false,
             cancelSaveDialogVisible: false,
             selectSymptomDialogVisible: false,
-            keyboardOpen: false
+            keyboardOpen: false,
+            color: '#1DBBA0',
+            informationPosition: {
+                'height': 0,
+                'width': 0,
+                'x': 0,
+                'y': 0,
+            },
+            showSymptomInformation: false,
         }
     }
+
+   
 
     UNSAFE_componentWillMount() {
         this.setState({
@@ -57,11 +59,11 @@ export default class SymptomTrackerScreen extends React.Component{
     }
 
     componentDidMount() {
-    //     this._willBlurSubscription = this.props.navigation.addListener('willBlur', payload =>
-    //         BackHandler.removeEventListener('hardwareBackPress', this.onBackButtonPressAndroid)
-    //     );
-        
-        this.props.navigation.setParams({ 
+        //     this._willBlurSubscription = this.props.navigation.addListener('willBlur', payload =>
+        //         BackHandler.removeEventListener('hardwareBackPress', this.onBackButtonPressAndroid)
+        //     );
+
+        this.props.navigation.setParams({
             onOkPressed: this.saveCurrentData.bind(this),
             onCancelPressed: this.handleCancelButton.bind(this),
             onSymptomsUpdated: this.onSymptomsUpdated.bind(this)
@@ -104,21 +106,7 @@ export default class SymptomTrackerScreen extends React.Component{
     }
 
     onSymptomsUpdated = (callback) => {
-        this.symptomsUpdated = callback;
-    }
-
-    clearSymptomGroup = () => {
-        this.setState({
-            selectedSymptoms: []
-        })
-        this._symptomGroup.deleteSymptoms();
-    }
-
-    noteEditedHandler(note) {
-        this.setState({
-            selectedSymptoms: []
-        })
-        this._symptomGroup.deleteSymptoms();
+        //this.symptomsUpdated = callback;
     }
 
 
@@ -168,46 +156,86 @@ export default class SymptomTrackerScreen extends React.Component{
         })
     }
 
+    descriptionEditedHandler = (text) => {
+        this.setState({
+            symptomDescription: text,
+        });
+    }
+
     symptomSelectionChangeHandler = (sympIDsAndSeverity) => {
-        this.symptomsUpdated(sympIDsAndSeverity.length > 0);
+        //this.symptomsUpdated(sympIDsAndSeverity.length > 0);
         this.setState({
             selectedSymptoms: sympIDsAndSeverity,
         });
     }
 
+    toggleShowSymptomInformation = () => {
+        this.setState({showSymptomInformation: !this.state.showSymptomInformation})
+    }
+
     render() {
 
-            return(
-                <View style={styles.container}>
-                  <KeyboardAwareScrollView>
-                      {/* <TextInput onSubmitEditing={Keyboard.dismiss} /> */}
-                      <HorizontalLineWithText text = {LanguageManager.getInstance().getText("DATE")}/>
-                      <DayChooser ref={component => this._dayChooser = component} date = {this.state.selectedDateAndTime} onDateChanged={this.dateEditedHandler}/>
-                      <HorizontalLineWithText text = {LanguageManager.getInstance().getText("TIME")}/>
-                      <TimePicker ref={component => this._timePicker = component} textString = "SYMPTOM_OCCURED" onTimeChanged={this.timeEditedHandler}/>
-                      <HorizontalLineWithText text = {LanguageManager.getInstance().getText("SYMPTOMS")}/>
-                      <SymptomGroup ref={component => this._symptomGroup = component} selection={this.state.selectedSymptoms} onSelectionChanged={this.symptomSelectionChangeHandler} navigation={this.props.navigation}/>
-                      <HorizontalLineWithText text = {LanguageManager.getInstance().getText("NOTES")}/>
-                      <NoteEdit style={styles.notes} ref={component => this._noteEdit = component} note={this.state.symptomEntryNote} onTextChanged={this.noteEditedHandler}/>
-                      <View style={{paddingBottom: 10}} />
-       
-                      {/*Dialog for Day Change Save Dialog*/}
-                       <View>
-                          <Dialog.Container visible={this.state.cancelSaveDialogVisible}>
-                          <Dialog.Title>{LanguageManager.getInstance().getText("DISCARD")}</Dialog.Title>
-                          <Dialog.Description>
-                          {LanguageManager.getInstance().getText("DO_YOU_WANT_TO_DISCARD")}
-                          </Dialog.Description>
-                          <Dialog.Button label={LanguageManager.getInstance().getText("BACK")} onPress={this.handleBack} />
-                          <Dialog.Button label={LanguageManager.getInstance().getText("DISCARD")} onPress={this.handleDiscard} />
-                          </Dialog.Container>
-                      </View>
-                      {/* <KeyboardListener
+        return (
+            <>
+                <SafeAreaView style={{ flex: 0, backgroundColor: themeColor }} />
+                <KeyboardAwareScrollView style={{ backgroundColor: "#fff" }}>
+                    {/* <TextInput onSubmitEditing={Keyboard.dismiss} /> */}
+                    <HeaderBanner color={themeColor} imageSource={require('../assets/images/SymptomTracker/add_symptom_icon.png')} />
+                    <HorizontalLineWithText color={themeColor} text={LanguageManager.getInstance().getText("DATE")} />
+                    <DayPicker textString="SYMPTOM_OCCURED" onDateChanged={this.dateEditedHandler} />
+                    <HorizontalLineWithText color={themeColor} text={LanguageManager.getInstance().getText("TIME")} />
+                    <TimePicker textString="SYMPTOM_OCCURED" onTimeChanged={this.timeEditedHandler} />
+                    <HorizontalLineWithText iconClickEvent={this.toggleShowSymptomInformation} color={themeColor} text={LanguageManager.getInstance().getText("SYMPTOMS")} />
+                    <View
+                    onLayout={event => {
+                        const layout = event.nativeEvent.layout;
+                        this.addInformationLayout(layout);
+                      }}
+                    ></View>
+                    <SymptomGroup selection={this.state.selectedSymptoms} onSelectionChanged={this.symptomSelectionChangeHandler} />
+                    
+                    <HorizontalLineWithText color={themeColor} text={LanguageManager.getInstance().getText("NAME")} />
+                    <View style={styles.containerPadding}>
+                        <TextInputSingleLine color={themeColor}
+                            ref={component => this._name = component}
+                            onTextChanged={this.descriptionEditedHandler}
+                            style={{ Top: 10 }}
+                            placeholderText={LanguageManager.getInstance().getText("MEAL_NAME_PLACEHOLDER")}
+                        />
+                    </View>
+                    <HorizontalLineWithText color={themeColor} text={LanguageManager.getInstance().getText("NOTES")} />
+                    <NoteEdit color={themeColor} style={styles.notes} ref={component => this._noteEdit = component} note={this.state.symptomEntryNote} onTextChanged={this.noteEditedHandler} />
+                    <View style={{ paddingBottom: 10 }} />
+                    <View style={styles.buttonContainer}>
+                        <View style={styles.buttonSubContainer}>
+                            <TouchableHighlight style={styles.buttonSaveAndCancel} onPress={this.handleCancelButton}>
+                                <Text style={{ textAlign: 'center', color: '#707070' }}>cancel</Text>
+                            </TouchableHighlight>
+                            <TouchableHighlight style={styles.buttonSaveAndCancel} onPress={this.saveCurrentData}>
+                                <Text style={{ textAlign: 'center', color: '#707070' }}>save</Text>
+                            </TouchableHighlight>
+                        </View>
+                    </View>
+                    {this.state.showSymptomInformation &&
+                    <SymptomInformation color={themeColor} position={this.state.informationPosition}></SymptomInformation>
+                    }
+                    {/*Dialog for Day Change Save Dialog*/}
+                    <View>
+                        <Dialog.Container visible={this.state.cancelSaveDialogVisible}>
+                            <Dialog.Title>{LanguageManager.getInstance().getText("DISCARD")}</Dialog.Title>
+                            <Dialog.Description>
+                                {LanguageManager.getInstance().getText("DO_YOU_WANT_TO_DISCARD")}
+                            </Dialog.Description>
+                            <Dialog.Button label={LanguageManager.getInstance().getText("BACK")} onPress={this.handleBack} />
+                            <Dialog.Button label={LanguageManager.getInstance().getText("DISCARD")} onPress={this.handleDiscard} />
+                        </Dialog.Container>
+                    </View>
+                    {/* <KeyboardListener
                           onWillShow={() => { this.setState({ keyboardOpen: true }); }}
                           onWillHide={() => { this.setState({ keyboardOpen: false }); }}
                       /> */}
                 </KeyboardAwareScrollView>
-            </View>
+            </>
         )
     }
 
@@ -221,7 +249,7 @@ export default class SymptomTrackerScreen extends React.Component{
 
         if (this.isSymptomSelected()) {
             this.state.selectedSymptoms.forEach((symptom) => {
-                DatabaseManager.getInstance().createSymptomEvent(symptom.symptomID, symptom.severity, this.state.symptomEntryNote, tmpDateTime.getTime(),
+                DatabaseManager.getInstance().createSymptomEvent(symptom.symptomID, symptom.severity,this.state.symptomDescription ,this.state.symptomEntryNote, tmpDateTime.getTime(),
                     (error) => { alert(error) },
                     () => { GlutonManager.getInstance().setMessage(2); GearManager.getInstance().sendMessage("msg 32") }
                 );
@@ -250,11 +278,15 @@ export default class SymptomTrackerScreen extends React.Component{
         }
     }
 
+    addInformationLayout(layout){
+        this.setState({informationPosition:layout});
+    }
+
 }
 
 var styles = StyleSheet.create({
-    container: {
-        margin: 10
+    symptomInformation: {
+
     },
     notes: {
         margin: 10,
@@ -264,5 +296,29 @@ var styles = StyleSheet.create({
         fontSize: 20,
         textAlign: 'center',
         margin: 10
-    }
+    },
+    buttonContainer: {
+        flexDirection: 'row',
+        justifyContent: 'center',
+        width: '100%',
+        paddingBottom: 30,
+        paddingTop: 20,
+    },
+    buttonSubContainer: {
+        flexDirection: 'row',
+        justifyContent: 'space-around',
+        width: '80%',
+    },
+    buttonSaveAndCancel: {
+        width: 90,
+        height: 50,
+        borderRadius: 3,
+        backgroundColor: '#F7F7F7',
+        justifyContent: 'center',
+        alignItems: 'center'
+    },
+    containerPadding: {
+        paddingLeft: 20,
+        paddingRight: 20,
+    },
 });

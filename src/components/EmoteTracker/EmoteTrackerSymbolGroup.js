@@ -1,70 +1,92 @@
 
 import React from 'react';
-import {View, Text, Alert} from 'react-native';
-import EmoteTrackerSymbol from './EmoteTrackerSymbol';
+import { View, Text, Alert,StyleSheet } from 'react-native';
+import ImageButton from '../ImageButton';
 
-export default class EmoteTrackerSymbolGroup extends React.Component{
+// constants
+import {
+    images
+} from './EmoteTrackerConstants';
+
+export default class EmoteTrackerSymbolGroup extends React.Component {
 
     constructor(props) {
-       super(props);
-       this.emoteSelectedHandler = this.emoteSelectedHandler.bind(this);
-       this.state = {
-           bla: true,
-           selectedSymbolID: 0,
-       } 
-    }
-
-
-    emoteSelectedHandler(emotionID){
-        
-        //shouldComponentUpdate = true
-        
-        this.setState({
-            selectedSymbolID: emotionID,
-        });
-
-        this.setState({
-            selectedSymbolID: emotionID,
-        });
-
-
-        this._emote1.setSelected(emotionID == 1)
-        this._emote2.setSelected(emotionID == 2)
-        this._emote3.setSelected(emotionID == 3)     
-        this._emote4.setSelected(emotionID == 4)
-        this._emote5.setSelected(emotionID == 5)
-
-        this.props.onEmotionChanged(emotionID)
-
-        //this.forceUpdate()
-    }
-
-
-    render(){
-        if (this.props.active == null || this.props.active == true) {
-            return(
-                <View style={{
-                    height:60,
-                    flexDirection: 'row',
-                    justifyContent: 'space-around',
-                    //alignItems: 'center',
-                    marginBottom: 140
-                }}>           
-                    <EmoteTrackerSymbol ref={component => this._emote1 = component} emoteID = {1} onEmoteSelected = {this.emoteSelectedHandler} selected = {this.state.selectedSymbolID}/>
-                    <EmoteTrackerSymbol ref={component => this._emote2 = component} emoteID = {2} onEmoteSelected = {this.emoteSelectedHandler} selected = {this.state.selectedSymbolID}/>
-                    <EmoteTrackerSymbol ref={component => this._emote3 = component} emoteID = {3} onEmoteSelected = {this.emoteSelectedHandler} selected = {3}/>
-                    <EmoteTrackerSymbol ref={component => this._emote4 = component} emoteID = {4} onEmoteSelected = {this.emoteSelectedHandler} selected = {this.state.selectedSymbolID}/> 
-                    <EmoteTrackerSymbol ref={component => this._emote5 = component} emoteID = {5} onEmoteSelected = {this.emoteSelectedHandler} selected = {this.state.selectedSymbolID}/>
-                </View>
-            )
-        } else {
-            return(
-                <View>           
-                    <EmoteTrackerSymbol active={false} emoteID={this.props.emoteID} size={this.props.size} />
-                </View>
-            )
+        super(props);
+        this.state = {
+            selectedID: props.selectedID,
         }
     }
 
+    selectedHandler = (id) => {
+        this.setState({
+            selectedID: id,
+        });
+        this.props.onChancedId(id);
+    }
 
+    getImage(id) {
+        switch (id) {
+            case 1:
+                return {
+                    imgSource: images.unhappy.uri,
+                    imgSourceActive: images.unhappy_active.uri,
+                    imgName: images.unhappy.imgName,
+                };
+            case 2:
+                return {
+                    imgSource: images.slightlyUnhappy.uri,
+                    imgSourceActive: images.slightlyUnhappy_active.uri,
+                    imgName: images.slightlyUnhappy.imgName,
+                };
+            case 3:
+                return {
+                    imgSource: images.neither.uri,
+                    imgSourceActive: images.neither_active.uri,
+                    imgName: images.neither.imgName,
+                };
+            case 4:
+                return {
+                    imgSource: images.slightlyHappy.uri,
+                    imgSourceActive: images.slightlyHappy_active.uri,
+                    imgName: images.slightlyHappy.imgName,
+                };
+            case 5:
+                return {
+                    imgSource: images.happy.uri,
+                    imgSourceActive: images.happy_active.uri,
+                    imgName: images.happy.imgName,
+                };
+
+        }
+    }
+
+    render() {
+            return (
+                <View style={styles.buttonContainer}>
+                    <View style={styles.buttonSubContainer}>
+                        <ImageButton displayText={false} color={this.props.color} id={1} image={this.getImage(1)} onPressed={this.selectedHandler} isActive={this.state.selectedID == 1} />
+                        <ImageButton displayText={false} color={this.props.color} id={2} image={this.getImage(2)} onPressed={this.selectedHandler} isActive={this.state.selectedID == 2} />
+                        <ImageButton displayText={false} color={this.props.color} id={3} image={this.getImage(3)} onPressed={this.selectedHandler} isActive={this.state.selectedID == 3} />
+                        <ImageButton displayText={false} color={this.props.color} id={4} image={this.getImage(4)} onPressed={this.selectedHandler} isActive={this.state.selectedID == 4} />
+                        <ImageButton displayText={false} color={this.props.color} id={5} image={this.getImage(5)} onPressed={this.selectedHandler} isActive={this.state.selectedID == 5} />
+                    </View>
+                </View>
+            );   
+    }
 }
+
+var styles = StyleSheet.create({
+    buttonContainer: {
+        flexDirection: 'row',
+        justifyContent: 'center',
+        width: '100%',
+        paddingLeft: 20,
+        paddingRight: 20,
+    },
+    buttonSubContainer: {
+        width: '100%',
+        flexDirection: 'row',
+        justifyContent: 'space-around',
+    },
+
+});

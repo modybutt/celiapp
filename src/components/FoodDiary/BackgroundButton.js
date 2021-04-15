@@ -1,6 +1,7 @@
 import React from 'react'
 import { TouchableOpacity, View, Text, StyleSheet, Image } from 'react-native'
 
+//deprecated
 export default class BackgroundButton extends React.Component {
 
   render() {
@@ -25,7 +26,7 @@ makeStyles() {
     return StyleSheet.create({
       view: {
         flexDirection: 'row',
-        borderRadius: 23,
+        borderRadius: 3,
         borderColor: this.props.borderColor,
         borderWidth: 2,
         backgroundColor: this.props.backgroundColor,

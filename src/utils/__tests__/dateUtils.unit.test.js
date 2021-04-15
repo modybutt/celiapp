@@ -18,8 +18,8 @@ test('get previous sunday', () => {
 });
 
 test('get end previous week', () => {
-    expect(du.getEndOfPreviousFullWeekBeginningMonday(mon19_Apr_2021)).toEqual(sun18_Apr_2021_midnight);
-    expect(du.getEndOfPreviousFullWeekBeginningMonday(sun25_Apr_2021)).toEqual(sun18_Apr_2021_midnight);
+    expect(du.getEndOfPreviousFullWeekEndingSunday(mon19_Apr_2021)).toEqual(sun18_Apr_2021_midnight);
+    expect(du.getEndOfPreviousFullWeekEndingSunday(sun25_Apr_2021)).toEqual(sun18_Apr_2021_midnight);
 });
 
 test('get start previous week', () => {
@@ -33,8 +33,8 @@ test('get start current week', () => {
 });
 
 test('get start current week', () => {
-    expect(du.getEndOfThisWeekBeginningMonday(mon12_Apr_2021)).toEqual(sun18_Apr_2021_midnight);
-    expect(du.getEndOfThisWeekBeginningMonday(sun18_Apr_2021)).toEqual(sun18_Apr_2021_midnight);
+    expect(du.getEndOfThisFullWeekEndingSunday(mon12_Apr_2021)).toEqual(sun18_Apr_2021_midnight);
+    expect(du.getEndOfThisFullWeekEndingSunday(sun18_Apr_2021)).toEqual(sun18_Apr_2021_midnight);
 });
 
 test('get start current week', () => {
@@ -44,9 +44,4 @@ test('get start current week', () => {
 test('days between two days without time', () => {
     days = du.daysBetween(sun18_Apr_2021, mon19_Apr_2021)
     expect(days).toEqual([sun18_Apr_2021,mon19_Apr_2021]);
-});
-
-test.skip('days between two days with time', () => {
-    days = du.daysBetween(sun18_Apr_2021_midnight, tue20_Apr_2021_1pm)
-    expect(days).toEqual([sun18_Apr_2021,mon19_Apr_2021, tue20_Apr_2021]);
 });
