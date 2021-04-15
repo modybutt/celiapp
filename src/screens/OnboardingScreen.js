@@ -1,8 +1,8 @@
 import React from "react";
-import { StyleSheet, View, Text, Animated } from "react-native";
+import { StyleSheet, View, Animated } from "react-native";
 import OnBoardingComponent from "../components/OnBoardingComponent";
+import OnBoardingFinalComponent from "../components/OnBoardingFinalComponent";
 import Layout from "../constants/Layout";
-import celiAppLogo from '../assets/images/celiapp-logo.svg';
 import symptomIcon from '../assets/images/stethoscope_white.svg';
 import mealsIcon from '../assets/images/cutlery_white.svg';
 import emotionIcon from '../assets/images/smiley_face_white.svg';
@@ -12,10 +12,6 @@ import LanguageManager from "../manager/LanguageManager";
 
 export default class OnBoardingScreen extends React.Component
 {
-	static navigationOptions = ({ navigation }) => ({
-		header: null
-	});
-
 	state = 
 	{
 		animateInRight: new Animated.Value(window.width),
@@ -69,7 +65,7 @@ export default class OnBoardingScreen extends React.Component
 		if (this.state.canAnimate)
 		{
 			const currentScreenIndex = this.state.currentScreenIndex;
-			if (currentScreenIndex < 4 && this.state.touchStartXPos - evt.nativeEvent.locationX > 2)
+			if (currentScreenIndex < 5 && this.state.touchStartXPos - evt.nativeEvent.locationX > 2)
 			{
 				this.startAnimationLeft();							
 			} else if (currentScreenIndex > 0 && this.state.touchStartXPos - evt.nativeEvent.locationX < -2)
@@ -135,7 +131,9 @@ export default class OnBoardingScreen extends React.Component
 				bodyText={LanguageManager.getInstance().getText('ONBOARDING_SCREEN_FOUR')} backgroundColor={Colors.emotion}/>,
 
 			<OnBoardingComponent itemNo={4} header={true} icon={gipIcon} 
-				bodyText={LanguageManager.getInstance().getText('ONBOARDING_SCREEN_FIVE')} backgroundColor={Colors.gip}/>
+				bodyText={LanguageManager.getInstance().getText('ONBOARDING_SCREEN_FIVE')} backgroundColor={Colors.gip}/>,
+
+			<OnBoardingFinalComponent getStartedPressed={this.props.getStartedPressed} />
 		];
 	}
 }

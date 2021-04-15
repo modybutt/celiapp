@@ -189,7 +189,6 @@ const styles = StyleSheet.create
 		margin: 3,
 		width: 17,
 		height: 17,
-		borderRadius: 17,
-		
+		borderRadius: 17		
 	}
 });

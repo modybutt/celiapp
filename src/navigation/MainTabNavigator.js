@@ -135,15 +135,6 @@ export default createStackNavigator({
       title: ''
     },
   },
-	OnBoardingScreen: {
-		screen: OnBoardingScreen,
-		navigationOptions: () =>
-		{
-			return {
-				tabBarVisible: false,
-			}		
-		}
-  },
   AddSymptom: {
     screen: SymptomTrackerScreen,
   },

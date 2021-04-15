@@ -199,7 +199,14 @@ export default class App extends React.Component {
         {this.state.isSplashReady == false
           ? null
           : this.state.hasUserId
-            ? this.state.didShowOnBoarding ? <AppNavigator /> : <OnBoardingScreen/>
+            ? this.state.didShowOnBoarding ? <AppNavigator /> : <OnBoardingScreen getStartedPressed={() =>
+				{
+					this.setState({didShowOnBoarding: true});
+					//store in user database.
+
+					//go to Daily Goal screen.
+					
+				}}/>
             : <UsernameDialog onLogin={this.handleUserLogin} onRegister={this.handleUserRegistration} />
         }
         <LoadingScreen hide={this.state.isAppReady} style={styles.loading} />
