@@ -7,7 +7,7 @@ export default class DateUtil {
     return prevSunday;
   }
 
-  static getStartOfPenultimateFullWeekBeginningMonday(now){
+  static getStartOfPenultimateFullWeekBeginningMonday(now) {
     var endOfWeek = DateUtil.getPreviousSunday(now || new Date());
     var endOfPenultimateWeek = DateUtil.getPreviousSunday(endOfWeek);
     var startOfWeek = new Date(endOfPenultimateWeek);

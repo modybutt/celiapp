@@ -69,7 +69,6 @@ export default class WeeklyReportData {
     }
   }
 
-
   jsonifyEvent = (event) => {
     event.objData = JSON.parse(event.objData)
     event.created = new Date(event.created)
@@ -214,7 +213,7 @@ export default class WeeklyReportData {
   thisWeekNumDaysWithEnergy = () => this.enrichedDays.filter(day => day.emotionCount > 0).length;
   thisWeekNumDaysWithGIP = () => 0; //todo
 
-  thisWeekNumDaysWithMildAsWorstSymptoms = () => this.enrichedDays.filter(day => day.mildSymptomCount > 0 && day.moderateSymptomCount == 0 && day.severeSymptomCount == 0 ).length;
+  thisWeekNumDaysWithMildAsWorstSymptoms = () => this.enrichedDays.filter(day => day.mildSymptomCount > 0 && day.moderateSymptomCount == 0 && day.severeSymptomCount == 0).length;
   thisWeekNumDaysWithModerateAsWorstSymptoms = () => this.enrichedDays.filter(day => day.moderateSymptomCount > 0 && day.severeSymptomCount == 0).length;
   thisWeekNumDaysWithSevereAsWorstSymptoms = () => this.enrichedDays.filter(day => day.severeSymptomCount > 0).length;
 
