@@ -13,7 +13,7 @@ export default class OnBoardingFinalComponent extends React.Component
 {
 	render()
 	{
-		const fontsize = 30;
+		const fontsize = window.height / 33;
 		return (
 			<View style={styles.container}>
 				<Header />
@@ -83,7 +83,7 @@ const styles = StyleSheet.create
 
 	buttonContainer:
 	{
-		marginTop: 25, 
+		marginTop: window.height / 66, 
 		display: 'flex', 
 		width: window.width,
 		alignItems: 'center'

@@ -202,9 +202,9 @@ export default class App extends React.Component {
             ? this.state.didShowOnBoarding ? <AppNavigator /> : <OnBoardingScreen getStartedPressed={() =>
 				{
 					this.setState({didShowOnBoarding: true});
-					//store in user database.
+					//TODO: store in user database.
 
-					//go to Daily Goal screen.
+					//TODO: go to Daily Goal screen.
 					
 				}}/>
             : <UsernameDialog onLogin={this.handleUserLogin} onRegister={this.handleUserRegistration} />
