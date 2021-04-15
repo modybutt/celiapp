@@ -3,78 +3,65 @@ import WeeklyReportData from '../WeeklyReportData';
 import DatabaseManager from '../DatabaseManager'
 
 
-jest.mock("../WeeklyReportData")
-jest.mock('../DatabaseManager')
+//jest.mock("../WeeklyReportData")
+//jest.mock('../DatabaseManager')
 
-const mockInit = jest.fn();
-const mockBestDayDate = jest.fn();
-const mockBestDaySymptomCount = jest.fn();
-const mockBestDayMoodCount = jest.fn();
-const mockBestDayMealCount = jest.fn();
-const mockBestDayGipTests = jest.fn();
-const mockThisWeekGIPCount = jest.fn();
-const mockThisWeekSymptomCount = jest.fn();
-const mockThisWeekMoodCount = jest.fn();
-const mockThisWeekMealCount = jest.fn();
-const mockPreviousPartialWeekGIPCount = jest.fn();
-const mockPreviousPartialWeekSymptomCount = jest.fn();
-const mockPreviousPartialWeekMoodCount = jest.fn();
-const mockPreviousPartialWeekMealCount = jest.fn();
-const mockPreviousFullWeekGIPCount = jest.fn();
-const mockPreviousFullWeekSymptomCount = jest.fn();
-const mockPreviousFullWeekMoodCount = jest.fn();
-const mockPreviousFullWeekMealCount = jest.fn();
-const mockActivityRateForDay = jest.fn();
-const mockThisWeekNumDaysWithNO_SYMPTOM = jest.fn();
-const mockThisWeekNumDaysWithSymptoms = jest.fn();
-const mockThisWeekNumDaysWithMeals = jest.fn();
-const mockThisWeekNumDaysWithEnergy = jest.fn();
-const mockThisWeekNumDaysWithGIP = jest.fn();
-const mockThisWeekNumDaysWithMildAsWorstSymptoms = jest.fn();
-const mockThisWeekNumDaysWithModerateAsWorstSymptoms = jest.fn();
-const mockThisWeekNumDaysWithSevereAsWorstSymptoms = jest.fn();
-
-var mockReportData = {
-    init: mockInit,
-    bestDayDate : mockBestDayDate,
-    bestDaySymptomCount : mockBestDaySymptomCount,
-    bestDayMoodCount : mockBestDayMoodCount,
-    bestDayMealCount : mockBestDayMealCount,
-    bestDayGipTests : mockBestDayGipTests,
-    thisWeekGIPCount : mockThisWeekGIPCount,
-    thisWeekSymptomCount : mockThisWeekSymptomCount,
-    thisWeekMoodCount : mockThisWeekMoodCount,
-    thisWeekMealCount : mockThisWeekMealCount,
-    previousPartialWeekGIPCount : mockPreviousPartialWeekGIPCount,
-    previousPartialWeekSymptomCount : mockPreviousPartialWeekSymptomCount,
-    previousPartialWeekMoodCount : mockPreviousPartialWeekMoodCount,
-    previousPartialWeekMealCount : mockPreviousPartialWeekMealCount,
-    previousFullWeekGIPCount : mockPreviousFullWeekGIPCount,
-    previousFullWeekSymptomCount : mockPreviousFullWeekSymptomCount,
-    previousFullWeekMoodCount : mockPreviousFullWeekMoodCount,
-    previousFullWeekMealCount : mockPreviousFullWeekMealCount,
-    activityRateForDay:  mockActivityRateForDay,
-    thisWeekNumDaysWithNO_SYMPTOM: mockThisWeekNumDaysWithNO_SYMPTOM,
-    thisWeekNumDaysWithSymptoms: mockThisWeekNumDaysWithSymptoms,
-    thisWeekNumDaysWithMeals: mockThisWeekNumDaysWithMeals,
-    thisWeekNumDaysWithEnergy: mockThisWeekNumDaysWithEnergy,
-    thisWeekNumDaysWithGIP: mockThisWeekNumDaysWithGIP,
-    thisWeekNumDaysWithMildAsWorstSymptoms: mockThisWeekNumDaysWithMildAsWorstSymptoms,
-    thisWeekNumDaysWithModerateAsWorstSymptoms: mockThisWeekNumDaysWithModerateAsWorstSymptoms,
-    thisWeekNumDaysWithSevereAsWorstSymptoms: mockThisWeekNumDaysWithSevereAsWorstSymptoms,
+class mockReportData  {
+    //class mockReportData  {
+    init = jest.fn();
+    bestDayDate = jest.fn();
+    bestDaySymptomCount = jest.fn();
+    bestDayMoodCount = jest.fn();
+    bestDayMealCount = jest.fn();
+    bestDayGipTests = jest.fn();
+    thisWeekGIPCount = jest.fn();
+    thisWeekSymptomCount = jest.fn();
+    thisWeekMoodCount = jest.fn();
+    thisWeekMealCount = jest.fn();
+    previousPartialWeekGIPCount = jest.fn();
+    previousPartialWeekSymptomCount = jest.fn();
+    previousPartialWeekMoodCount = jest.fn();
+    previousPartialWeekMealCount = jest.fn();
+    previousFullWeekGIPCount = jest.fn();
+    previousFullWeekSymptomCount = jest.fn();
+    previousFullWeekMoodCount = jest.fn();
+    previousFullWeekMealCount = jest.fn();
+    activityRateForDay= jest.fn();
+    thisWeekNumDaysWithNO_SYMPTOM= jest.fn();
+    thisWeekNumDaysWithSymptoms= jest.fn();
+    thisWeekNumDaysWithMeals= jest.fn();
+    thisWeekNumDaysWithEnergy= jest.fn();
+    thisWeekNumDaysWithGIP= jest.fn();
+    thisWeekNumDaysWithMildAsWorstSymptoms= jest.fn();
+    thisWeekNumDaysWithModerateAsWorstSymptoms= jest.fn();
+    thisWeekNumDaysWithSevereAsWorstSymptoms= jest.fn();
 };
 
-jest.mock('../WeeklyReportData', () =>{
-    return jest.fn().mockImplementation(()=>{
-        return mockReportData;
-    })
-});
+var mockThisWeekData = new mockReportData;
+var mockPrevWeekData = new mockReportData;
 
-beforeAll(() => {
-    mockReportData.init.mockResolvedValue("ok");
-});
+jest.mock('../WeeklyReportData') 
 
-//var db = new DatabaseManager();
+var MonApr06_2020  = new Date("2020-04-06T13:00:00")
+var SatMar28_2020  = new Date("2020-03-28T13:00:00")
+
+var mockGetDBCreatedDate = jest.fn().mockReturnValue(SatMar28_2020);
+
+DatabaseManager.getInstance = () => {
+        return {
+            getDBCreatedDate: mockGetDBCreatedDate
+        }
+    }
+
+
+beforeEach(() => {
+    mockThisWeekData.init.mockResolvedValue("ok");
+    mockGetDBCreatedDate.mockReturnValue(SatMar28_2020)
+
+    WeeklyReportData
+        .mockImplementationOnce(() => mockThisWeekData )
+        .mockImplementationOnce(() => mockPrevWeekData )
+})
 
 
 test('should get best day', done => {
@@ -88,7 +75,7 @@ test('should get best day', done => {
             }
     }
 
-    mockReportData.bestDayDate.mockReturnValue(new Date("2021-03-29T13:00:00"))
+    mockThisWeekData.bestDayDate.mockReturnValue(new Date("2021-03-29T13:00:00"))
     ReportManager.weeklyReport(callback)
 });
 
@@ -104,8 +91,8 @@ test('should report days with no symptoms', done => {
             }
     }
 
-    mockReportData.thisWeekNumDaysWithNO_SYMPTOM.mockReturnValue(3)
-    mockReportData.thisWeekSymptomCount.mockReturnValue(4)
+    mockThisWeekData.thisWeekNumDaysWithNO_SYMPTOM.mockReturnValue(3)
+    mockThisWeekData.thisWeekSymptomCount.mockReturnValue(4)
     ReportManager.weeklyReport(callback)
 });
 
@@ -121,12 +108,29 @@ test.each([0,1,2])('should remind to record symptoms if recorded only 2 or less 
             }
     }
 
-    mockReportData.thisWeekNumDaysWithNO_SYMPTOM.mockReturnValue(0)
-    mockReportData.thisWeekNumDaysWithSymptoms.mockReturnValue(days)
+    mockThisWeekData.thisWeekNumDaysWithNO_SYMPTOM.mockReturnValue(0)
+    mockThisWeekData.thisWeekNumDaysWithSymptoms.mockReturnValue(days)
     ReportManager.weeklyReport(callback)
 });
 
 test('days with mild symptoms', (done) => {
+    function callback(report){
+            try{
+                expect(report.symptomInfo.headline).toEqual("5 days you have felt symptoms, of which 2 days they were only mild.");
+                expect(report.symptomInfo.sub).toEqual("Keep it up and try to get more symptom FREE days!");
+                done();
+            }
+            catch(error){
+                done(error);
+            }
+    }
+
+    mockThisWeekData.thisWeekNumDaysWithMildAsWorstSymptoms.mockReturnValue(2);
+    mockThisWeekData.thisWeekNumDaysWithSymptoms.mockReturnValue(5);
+    ReportManager.weeklyReport(callback)
+});
+
+test('days with mild symptoms, first week', (done) => {
     function callback(report){
             try{
                 expect(report.symptomInfo.headline).toEqual("5 days you have felt symptoms, of which 2 days they were only mild.");
@@ -138,9 +142,11 @@ test('days with mild symptoms', (done) => {
             }
     }
 
-    mockReportData.thisWeekNumDaysWithMildAsWorstSymptoms.mockReturnValue(2);
-    mockReportData.thisWeekNumDaysWithSymptoms.mockReturnValue(5);
-    ReportManager.weeklyReport(callback)
+    mockGetDBCreatedDate.mockReturnValue(SatMar28_2020)
+
+    mockThisWeekData.thisWeekNumDaysWithMildAsWorstSymptoms.mockReturnValue(2);
+    mockThisWeekData.thisWeekNumDaysWithSymptoms.mockReturnValue(5);
+    ReportManager.weeklyReport(callback, MonApr06_2020)
 });
 
 test('days with moderate symptoms', (done) => {
@@ -155,9 +161,9 @@ test('days with moderate symptoms', (done) => {
             }
     }
 
-    mockReportData.thisWeekNumDaysWithMildAsWorstSymptoms.mockReturnValue(0)
-    mockReportData.thisWeekNumDaysWithModerateAsWorstSymptoms.mockReturnValue(3)
-    mockReportData.thisWeekNumDaysWithSymptoms.mockReturnValue(6)
+    mockThisWeekData.thisWeekNumDaysWithMildAsWorstSymptoms.mockReturnValue(0)
+    mockThisWeekData.thisWeekNumDaysWithModerateAsWorstSymptoms.mockReturnValue(3)
+    mockThisWeekData.thisWeekNumDaysWithSymptoms.mockReturnValue(6)
 
     ReportManager.weeklyReport(callback)
 });
@@ -174,10 +180,10 @@ test('days with severe symptoms', (done) => {
             }
     }
 
-    mockReportData.thisWeekNumDaysWithMildAsWorstSymptoms.mockReturnValue(0)
-    mockReportData.thisWeekNumDaysWithModerateAsWorstSymptoms.mockReturnValue(0)
-    mockReportData.thisWeekNumDaysWithSevereAsWorstSymptoms.mockReturnValue(4)
-    mockReportData.thisWeekNumDaysWithSymptoms.mockReturnValue(5)
+    mockThisWeekData.thisWeekNumDaysWithMildAsWorstSymptoms.mockReturnValue(0)
+    mockThisWeekData.thisWeekNumDaysWithModerateAsWorstSymptoms.mockReturnValue(0)
+    mockThisWeekData.thisWeekNumDaysWithSevereAsWorstSymptoms.mockReturnValue(4)
+    mockThisWeekData.thisWeekNumDaysWithSymptoms.mockReturnValue(5)
 
     ReportManager.weeklyReport(callback)
 });

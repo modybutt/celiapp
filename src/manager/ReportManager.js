@@ -176,30 +176,39 @@ export default class ReportManager {
     return "the same as"
   }
   
-  static weeklyReport(success) {
+  static async weeklyReport(success, now) {
+    now = now || new Date()
+    startDate =  await DatabaseManager.getInstance().getDBCreatedDate();
 
-    const startOfWeek = DateUtil.getStartOfPreviousFullWeekBeginningMonday();
-    const endOfWeek = DateUtil.getEndOfPreviousFullWeekEndingSunday();
+    const startOfWeek = DateUtil.getStartOfPreviousFullWeekBeginningMonday(now);
+    const endOfWeek = DateUtil.getEndOfPreviousFullWeekEndingSunday(now);
     
-    const startOfWeekAsDaysAgo = DateUtil.dateAsDaysAgo(startOfWeek)
-    
-    const thisWeekData = new WeeklyReportData(DatabaseManager.getInstance());
+    const startOfPenultimateWeek = DateUtil.getStartOfPenultimateFullWeekBeginningMonday(now);
+    const endOfPenultimateWeek = DateUtil.getEndOfPenultimateFullWeekEndingSunday(now);
 
-    thisWeekData.init(startOfWeek, endOfWeek, new Date())
+    var thisWeekData = new WeeklyReportData(DatabaseManager.getInstance());    
+    var penultimateWeekData = new WeeklyReportData(DatabaseManager.getInstance());
+
+    thisWeek = thisWeekData.init(startOfWeek, endOfWeek, new Date())
+    penultimateWeek = penultimateWeekData.init(startOfPenultimateWeek, endOfPenultimateWeek, new Date())
+     
+    Promise.all(thisWeek, penultimateWeek)
       .then( _ => {
+        if(startDate > startOfPenultimateWeek){penultimateWeekData = null}
+
         this.reportText.dailyActivity = [0,1,2,3,4,5,6].map(day => thisWeekData.activityRateForDay(day))
         this.reportText.weekEndingDate = endOfWeek
-
+        
         if(thisWeekData.bestDayDate()){
           var dateFormat = { weekday: 'long', month: 'long', day: 'numeric' };
           this.reportText.bestDayHeading = thisWeekData.bestDayDate().toLocaleDateString("en-US", dateFormat)
           this.reportText.bestDayBody = this.daySummaryString(thisWeekData)
         }
         
-        this.symptomBox(thisWeekData);
-        this.reportText.mealInfo.body = this.infoBoxBody(this.mealString, thisWeekData.thisWeekMealCount(), thisWeekData.previousPartialWeekMealCount())
-        this.reportText.emotionInfo.body = this.infoBoxBody(this.moodString, thisWeekData.thisWeekMoodCount(), thisWeekData.previousPartialWeekMoodCount())
-        this.reportText.gipInfo.body = this.infoBoxBody(this.gipString, thisWeekData.thisWeekGIPCount(), thisWeekData.previousPartialWeekGIPCount())
+        this.symptomBox(thisWeekData, penultimateWeekData);
+        //this.reportText.mealInfo.body = this.infoBoxBody(this.mealString, thisWeekData.thisWeekMealCount(), penultimateWeekData.thisWeekMealCount())
+        //this.reportText.emotionInfo.body = this.infoBoxBody(this.moodString, thisWeekData.thisWeekMoodCount(), penultimateWeekData.thisWeekMoodCount())
+        //this.reportText.gipInfo.body = this.infoBoxBody(this.gipString, thisWeekData.thisWeekGIPCount(), penultimateWeekData.thisWeekGIPCount())
 
         success(this.reportText)
       })
