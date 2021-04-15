@@ -135,6 +135,10 @@ export default class DatabaseManager {
               ("lastRecorded", ' + now + ')',
               (param) => alert("insert into settings: " + JSON.stringify(param)));
 
+            tx.executeSql('INSERT OR IGNORE INTO settings (name, objData) VALUES \
+              ("dbCreated", ' + now + ')',
+              (param) => alert("insert into settings: " + JSON.stringify(param)));
+
             tx.executeSql(
                 'ALTER TABLE events ADD COLUMN deleted INT;',
                 [],
@@ -472,5 +476,24 @@ export default class DatabaseManager {
       (_, error) => console.error(JSON.stringify(error)),
       (_, success) => console.log('Updated lastRecorded')
     );
+  }
+
+  getDBCreatedDate() {
+    let createdDate = {};
+  
+    p = new Promise(resolve => {
+      this.db.transaction(tx => 
+        tx.executeSql('SELECT * FROM settings WHERE name = ?',
+          ["dbCreated"],
+          (_, { rows: { _array } }) => {
+            console.log("creation date =", _array[0]);
+            resolve(_array[0].objData);
+          },
+          (err) => console.log("error:", err)
+      )
+    )
+    });
+
+  return p
   }
 }
