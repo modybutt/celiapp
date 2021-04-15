@@ -34,46 +34,48 @@ const mockThisWeekNumDaysWithMildAsWorstSymptoms = jest.fn();
 const mockThisWeekNumDaysWithModerateAsWorstSymptoms = jest.fn();
 const mockThisWeekNumDaysWithSevereAsWorstSymptoms = jest.fn();
 
+var mockReportData = {
+    init: mockInit,
+    bestDayDate : mockBestDayDate,
+    bestDaySymptomCount : mockBestDaySymptomCount,
+    bestDayMoodCount : mockBestDayMoodCount,
+    bestDayMealCount : mockBestDayMealCount,
+    bestDayGipTests : mockBestDayGipTests,
+    thisWeekGIPCount : mockThisWeekGIPCount,
+    thisWeekSymptomCount : mockThisWeekSymptomCount,
+    thisWeekMoodCount : mockThisWeekMoodCount,
+    thisWeekMealCount : mockThisWeekMealCount,
+    previousPartialWeekGIPCount : mockPreviousPartialWeekGIPCount,
+    previousPartialWeekSymptomCount : mockPreviousPartialWeekSymptomCount,
+    previousPartialWeekMoodCount : mockPreviousPartialWeekMoodCount,
+    previousPartialWeekMealCount : mockPreviousPartialWeekMealCount,
+    previousFullWeekGIPCount : mockPreviousFullWeekGIPCount,
+    previousFullWeekSymptomCount : mockPreviousFullWeekSymptomCount,
+    previousFullWeekMoodCount : mockPreviousFullWeekMoodCount,
+    previousFullWeekMealCount : mockPreviousFullWeekMealCount,
+    activityRateForDay:  mockActivityRateForDay,
+    thisWeekNumDaysWithNO_SYMPTOM: mockThisWeekNumDaysWithNO_SYMPTOM,
+    thisWeekNumDaysWithSymptoms: mockThisWeekNumDaysWithSymptoms,
+    thisWeekNumDaysWithMeals: mockThisWeekNumDaysWithMeals,
+    thisWeekNumDaysWithEnergy: mockThisWeekNumDaysWithEnergy,
+    thisWeekNumDaysWithGIP: mockThisWeekNumDaysWithGIP,
+    thisWeekNumDaysWithMildAsWorstSymptoms: mockThisWeekNumDaysWithMildAsWorstSymptoms,
+    thisWeekNumDaysWithModerateAsWorstSymptoms: mockThisWeekNumDaysWithModerateAsWorstSymptoms,
+    thisWeekNumDaysWithSevereAsWorstSymptoms: mockThisWeekNumDaysWithSevereAsWorstSymptoms,
+};
+
 jest.mock('../WeeklyReportData', () =>{
     return jest.fn().mockImplementation(()=>{
-        return {
-            init: mockInit,
-            bestDayDate : mockBestDayDate,
-            bestDaySymptomCount : mockBestDaySymptomCount,
-            bestDayMoodCount : mockBestDayMoodCount,
-            bestDayMealCount : mockBestDayMealCount,
-            bestDayGipTests : mockBestDayGipTests,
-            thisWeekGIPCount : mockThisWeekGIPCount,
-            thisWeekSymptomCount : mockThisWeekSymptomCount,
-            thisWeekMoodCount : mockThisWeekMoodCount,
-            thisWeekMealCount : mockThisWeekMealCount,
-            previousPartialWeekGIPCount : mockPreviousPartialWeekGIPCount,
-            previousPartialWeekSymptomCount : mockPreviousPartialWeekSymptomCount,
-            previousPartialWeekMoodCount : mockPreviousPartialWeekMoodCount,
-            previousPartialWeekMealCount : mockPreviousPartialWeekMealCount,
-            previousFullWeekGIPCount : mockPreviousFullWeekGIPCount,
-            previousFullWeekSymptomCount : mockPreviousFullWeekSymptomCount,
-            previousFullWeekMoodCount : mockPreviousFullWeekMoodCount,
-            previousFullWeekMealCount : mockPreviousFullWeekMealCount,
-            activityRateForDay:  mockActivityRateForDay,
-            thisWeekNumDaysWithNO_SYMPTOM: mockThisWeekNumDaysWithNO_SYMPTOM,
-            thisWeekNumDaysWithSymptoms: mockThisWeekNumDaysWithSymptoms,
-            thisWeekNumDaysWithMeals: mockThisWeekNumDaysWithMeals,
-            thisWeekNumDaysWithEnergy: mockThisWeekNumDaysWithEnergy,
-            thisWeekNumDaysWithGIP: mockThisWeekNumDaysWithGIP,
-            thisWeekNumDaysWithMildAsWorstSymptoms: mockThisWeekNumDaysWithMildAsWorstSymptoms,
-            thisWeekNumDaysWithModerateAsWorstSymptoms: mockThisWeekNumDaysWithModerateAsWorstSymptoms,
-            thisWeekNumDaysWithSevereAsWorstSymptoms: mockThisWeekNumDaysWithSevereAsWorstSymptoms,
-        }
+        return mockReportData;
     })
 });
 
 beforeAll(() => {
-    reportData.init.mockResolvedValue("ok");
+    mockReportData.init.mockResolvedValue("ok");
 });
 
-var db = new DatabaseManager();
-var reportData = new WeeklyReportData(db);
+//var db = new DatabaseManager();
+
 
 test('should get best day', done => {
     function callback(report){
@@ -86,7 +88,7 @@ test('should get best day', done => {
             }
     }
 
-    reportData.bestDayDate.mockReturnValue(new Date("2021-03-29T13:00:00"))
+    mockReportData.bestDayDate.mockReturnValue(new Date("2021-03-29T13:00:00"))
     ReportManager.weeklyReport(callback)
 });
 
@@ -102,8 +104,8 @@ test('should report days with no symptoms', done => {
             }
     }
 
-    reportData.thisWeekNumDaysWithNO_SYMPTOM.mockReturnValue(3)
-    reportData.thisWeekSymptomCount.mockReturnValue(4)
+    mockReportData.thisWeekNumDaysWithNO_SYMPTOM.mockReturnValue(3)
+    mockReportData.thisWeekSymptomCount.mockReturnValue(4)
     ReportManager.weeklyReport(callback)
 });
 
@@ -119,8 +121,8 @@ test.each([0,1,2])('should remind to record symptoms if recorded only 2 or less 
             }
     }
 
-    reportData.thisWeekNumDaysWithNO_SYMPTOM.mockReturnValue(0)
-    reportData.thisWeekNumDaysWithSymptoms.mockReturnValue(days)
+    mockReportData.thisWeekNumDaysWithNO_SYMPTOM.mockReturnValue(0)
+    mockReportData.thisWeekNumDaysWithSymptoms.mockReturnValue(days)
     ReportManager.weeklyReport(callback)
 });
 
@@ -136,7 +138,47 @@ test('days with mild symptoms', (done) => {
             }
     }
 
-    reportData.thisWeekNumDaysWithMildAsWorstSymptoms.mockReturnValue(2)
-    reportData.thisWeekNumDaysWithSymptoms.mockReturnValue(5)
+    mockReportData.thisWeekNumDaysWithMildAsWorstSymptoms.mockReturnValue(2);
+    mockReportData.thisWeekNumDaysWithSymptoms.mockReturnValue(5);
     ReportManager.weeklyReport(callback)
 });
+
+test('days with moderate symptoms', (done) => {
+    function callback(report){
+            try{
+                expect(report.symptomInfo.headline).toEqual("6 days you have felt symptoms, of which 3 days they were moderate.");
+                expect(report.symptomInfo.sub).toEqual("Let’s try to do better next week!");
+                done();
+            }
+            catch(error){
+                done(error);
+            }
+    }
+
+    mockReportData.thisWeekNumDaysWithMildAsWorstSymptoms.mockReturnValue(0)
+    mockReportData.thisWeekNumDaysWithModerateAsWorstSymptoms.mockReturnValue(3)
+    mockReportData.thisWeekNumDaysWithSymptoms.mockReturnValue(6)
+
+    ReportManager.weeklyReport(callback)
+});
+
+test('days with severe symptoms', (done) => {
+    function callback(report){
+            try{
+                expect(report.symptomInfo.headline).toEqual("5 days you have felt symptoms, of which 4 days they were severe.");
+                expect(report.symptomInfo.sub).toEqual("Let’s try to do better next week!");
+                done();
+            }
+            catch(error){
+                done(error);
+            }
+    }
+
+    mockReportData.thisWeekNumDaysWithMildAsWorstSymptoms.mockReturnValue(0)
+    mockReportData.thisWeekNumDaysWithModerateAsWorstSymptoms.mockReturnValue(0)
+    mockReportData.thisWeekNumDaysWithSevereAsWorstSymptoms.mockReturnValue(4)
+    mockReportData.thisWeekNumDaysWithSymptoms.mockReturnValue(5)
+
+    ReportManager.weeklyReport(callback)
+});
+

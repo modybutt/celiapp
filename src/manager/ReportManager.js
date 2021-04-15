@@ -128,13 +128,42 @@ export default class ReportManager {
     //       Less:  Keep it up and try to get more symptom FREE days!
     //       First week: Let’s try to get a symptom FREE days!
 
+    
     //symptoms3+days (some moderate)
     // head = 7 days you have felt symptoms, of which 3 days they were moderate.
 	  // sub =  Let’s try to do better next week!
+    var numberOfDaysWithModerateSymptoms = thisWeek.thisWeekNumDaysWithModerateAsWorstSymptoms();
+
+    if(numberOfDaysWithModerateSymptoms >= 1){
+      this.reportText.symptomInfo.headline = 
+        "" + this.dayPluralString(numberOfDaysWithSymptoms) + " you have felt symptoms, of which "+
+        "" + this.dayPluralString(numberOfDaysWithModerateSymptoms) + " they were moderate.";
+
+          this.reportText.symptomInfo.sub = "Let’s try to do better next week!"
+        
+
+        return;
+      }
 
     // symptoms3+days (only severe)
     // 7 days you have felt symptoms, of which 7 days they were severe.
     // Let’s try to get less symptoms next week! 
+      var numberOfDaysWithSevereSymptoms = thisWeek.thisWeekNumDaysWithSevereAsWorstSymptoms();
+
+      if(numberOfDaysWithSevereSymptoms >= 1){
+        this.reportText.symptomInfo.headline = 
+          "" + this.dayPluralString(numberOfDaysWithSymptoms) + " you have felt symptoms, of which "+
+          "" + this.dayPluralString(numberOfDaysWithSevereSymptoms) + " they were severe.";
+  
+            this.reportText.symptomInfo.sub = "Let’s try to do better next week!"
+          
+  
+          return;
+        }
+  
+
+
+
 
 
 

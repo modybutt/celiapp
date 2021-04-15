@@ -204,6 +204,7 @@ getEvents2 = () => {
         events.push(MockDB.meal("03 Apr 2021 19:07:20.05", Meals.DINNER, Gluten.UNKNOWN))
         events.push(MockDB.emotion("03 Apr 2021 19:07:20.05", Emotion.HAPPY))
         events.push(MockDB.interaction("03 Apr 2021 19:07:20.05"))
+        events.push(MockDB.symptom("30 Mar 2021 19:07:20.05", Symptoms.LOW_ENERGY, Severity.MODERATE, ""))
         events.push(MockDB.symptom("31 Mar 2021 19:07:20.05", Symptoms.NO_SYMPTOMS, 1, ""))
         events.push(MockDB.symptom("31 Mar 2021 19:07:20.05", Symptoms.NO_SYMPTOMS, 1, ""))
         events.push(MockDB.symptom("31 Mar 2021 19:07:20.05", Symptoms.LOSS_OF_APPETITE, Severity.SEVERE, ""))
@@ -234,7 +235,7 @@ describe('count  days with ', () => {
         })
 
         test('symptoms recorded', () => {
-                expect(weekData.thisWeekNumDaysWithSymptoms()).toEqual(5);
+                expect(weekData.thisWeekNumDaysWithSymptoms()).toEqual(6);
         })
 
         test('meals recorded', () => {
@@ -250,7 +251,7 @@ describe('count  days with ', () => {
         //         expect(weekData.thisWeekNumDaysWithGIP()).toEqual(6);
         // })
 
-        test.only('days with mild as worst symptoms', () => {
+        test('days with mild as worst symptoms', () => {
                 expect(weekData.thisWeekNumDaysWithMildAsWorstSymptoms()).toEqual(1);
         })
 
