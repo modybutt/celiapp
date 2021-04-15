@@ -264,4 +264,19 @@ describe('count  days with ', () => {
         })
 });
 
+describe.only('works with empty data ', () => {
+
+        var weekData = {};
+        beforeAll((done) =>
+                initData([], startOfCurrentWeek, endOfCurrentWeek, thurs_1_april)
+                        .then(wd => { weekData = wd; done() })
+        );
+
+        test('calc daily activity rate for this week', () => {
+                expect(weekData.activityRateForDay(0)).toEqual(0)
+                expect(weekData.activityRateForDay(2)).toEqual(0)
+                expect(weekData.activityRateForDay(5)).toEqual(0)
+        })
+});
+
 

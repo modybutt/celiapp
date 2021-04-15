@@ -185,10 +185,10 @@ export default class ReportManager {
     thisWeek = thisWeekData.init(startOfWeek, endOfWeek, new Date())
     penultimateWeek = penultimateWeekData.init(startOfPenultimateWeek, endOfPenultimateWeek, new Date())
 
-    Promise.all(thisWeek, penultimateWeek)
+    Promise.all([thisWeek, penultimateWeek]) 
       .then(_ => {
         if (startDate > startOfPenultimateWeek) { penultimateWeekData = null }
-
+        
         this.reportText.dailyActivity = [0, 1, 2, 3, 4, 5, 6].map(day => thisWeekData.activityRateForDay(day))
         this.reportText.weekEndingDate = endOfWeek
 
