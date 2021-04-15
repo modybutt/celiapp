@@ -7,6 +7,24 @@ export default class DateUtil {
     return prevSunday;
   }
 
+  static getStartOfPenultimateFullWeekBeginningMonday(now){
+    var endOfWeek = DateUtil.getPreviousSunday(now || new Date());
+    var endOfPenultimateWeek = DateUtil.getPreviousSunday(endOfWeek);
+    var startOfWeek = new Date(endOfPenultimateWeek);
+    startOfWeek.setDate(endOfPenultimateWeek.getDate() - 6);
+
+    startOfWeek.setHours(0, 0, 0, 0);
+
+    return startOfWeek;
+  }
+
+  static getEndOfPenultimateFullWeekEndingSunday(now) {
+    var endOfWeek = DateUtil.getPreviousSunday(now || new Date());
+    var endOfPenultimateWeek = DateUtil.getPreviousSunday(endOfWeek);
+    endOfPenultimateWeek.setHours(23, 59, 59, 999);
+    return endOfPenultimateWeek;
+  }
+
   static getEndOfPreviousFullWeekEndingSunday(now) {
     var endOfWeek = DateUtil.getPreviousSunday(now || new Date());
     endOfWeek.setHours(23, 59, 59, 999);
