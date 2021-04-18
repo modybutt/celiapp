@@ -202,9 +202,32 @@ export default class ReportManager {
     return "the same as"
   }
 
+  static beforeFirstWeekReport = () => {
+    this.reportText.symptomInfo.headline = ""
+    this.reportText.symptomInfo.sub = ""
+    this.reportText.symptomInfo.body = ""
+    this.reportText.mealInfo.headline = ""
+    this.reportText.mealInfo.sub = ""
+    this.reportText.mealInfo.body = ""
+    this.reportText.emotionInfo.headline = ""
+    this.reportText.emotionInfo.sub = ""
+    this.reportText.emotionInfo.body = ""
+    this.reportText.gipInfo.headline = ""
+    this.reportText.gipInfo.sub = ""
+    this.reportText.gipInfo.body = ""
+    this.reportText.bestDayHeading = "Your first weekly report will appear here on Monday"
+
+  }
+
+  static reportTitle = (endOfWeek) => {
+    var dateFormat = { weekday: 'long', month: 'long', day: 'numeric' };
+    return "Weekly report for week ending "
+      + endOfWeek.toLocaleDateString("en-US", dateFormat)
+  }
+
   static async weeklyReport(success, now) {
     now = now || new Date()
-    startDate = await DatabaseManager.getInstance().getDBCreatedDate();
+    getDbStartDate =  DatabaseManager.getInstance().getDBCreatedDate();
 
     const startOfWeek = DateUtil.getStartOfPreviousFullWeekBeginningMonday(now);
     const endOfWeek = DateUtil.getEndOfPreviousFullWeekEndingSunday(now);
@@ -218,9 +241,17 @@ export default class ReportManager {
     thisWeek = thisWeekData.init(startOfWeek, endOfWeek, new Date())
     penultimateWeek = penultimateWeekData.init(startOfPenultimateWeek, endOfPenultimateWeek, new Date())
 
-    Promise.all([thisWeek, penultimateWeek])
-      .then(_ => {
-        if (startDate > startOfPenultimateWeek) { penultimateWeekData = null }
+    Promise.all([getDbStartDate, thisWeek, penultimateWeek])
+      .then(([dbStartDate, _, __]) => {
+        console.log("got date: ", dbStartDate)
+        this.reportText.title = this.reportTitle(endOfWeek)
+
+        if (dbStartDate > startOfPenultimateWeek) { penultimateWeekData = null }
+        if(dbStartDate > endOfWeek){
+          this.beforeFirstWeekReport()
+          success(this.reportText)
+          return;
+        }
 
         this.reportText.dailyActivity = [0, 1, 2, 3, 4, 5, 6].map(day => thisWeekData.activityRateForDay(day))
         this.reportText.weekEndingDate = endOfWeek

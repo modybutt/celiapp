@@ -30,8 +30,6 @@ class mockReportData {
     thisWeekGlutenFreeMealCount = jest.fn();
     numDaysHighEnergy = jest.fn();
     numDaysMediumEnergy = jest.fn();
-    
-
 };
 
 var mockThisWeekData = new mockReportData;
@@ -41,6 +39,7 @@ jest.mock('../WeeklyReportData')
 
 var MonApr06_2020 = new Date("2020-04-06T13:00:00")
 var SatMar28_2020 = new Date("2020-03-28T13:00:00")
+var SunMar29_2020 = new Date("2020-03-29T13:00:00")
 
 var mockGetDBCreatedDate = jest.fn().mockReturnValue(SatMar28_2020);
 
@@ -184,4 +183,48 @@ test('days with severe symptoms', (done) => {
 
     ReportManager.weeklyReport(callback)
 });
+
+test('before first full week', (done) =>{
+    function callback(report) {
+        try {
+            expect(report.symptomInfo.headline).toEqual("");
+            expect(report.symptomInfo.sub).toEqual("");
+            expect(report.symptomInfo.body).toEqual("");
+            expect(report.mealInfo.headline).toEqual("");
+            expect(report.mealInfo.sub).toEqual("");
+            expect(report.mealInfo.body).toEqual("");
+            expect(report.emotionInfo.headline).toEqual("");
+            expect(report.emotionInfo.sub).toEqual("");
+            expect(report.emotionInfo.body).toEqual("");
+            expect(report.gipInfo.headline).toEqual("");
+            expect(report.gipInfo.sub).toEqual("");
+            expect(report.gipInfo.body).toEqual("");
+            expect(report.bestDayHeading).toEqual("Your first weekly report will appear here on Monday");
+            
+            done();
+        }
+        catch (error) {
+            done(error);
+        }
+    }
+
+    mockGetDBCreatedDate.mockReturnValue(SatMar28_2020)
+    ReportManager.weeklyReport(callback, SunMar29_2020)
+})
+
+test('report Title', (done) =>{
+    function callback(report) {
+        try {
+            expect(report.title).toEqual("Weekly report for week ending Sunday, March 22");
+            
+            done();
+        }
+        catch (error) {
+            done(error);
+        }
+    }
+
+
+    ReportManager.weeklyReport(callback, SunMar29_2020)
+})
 
