@@ -1,6 +1,7 @@
 import WeeklyReportData from './WeeklyReportData';
 import DateUtil from '../utils/dateUtils';
 import DatabaseManager from '../manager/DatabaseManager'
+import { Emotion } from '../constants/Events';
 
 export default class ReportManager {
 
@@ -82,14 +83,14 @@ export default class ReportManager {
       this.gipFreeString(weekData.bestDayGipTests());
   }
 
-  static infoBoxBody = (stringify, thisWeekCount, lastWeekCount) =>
+  static infoBoxDefaultBodyText = (stringify, thisWeekCount, lastWeekCount) =>
     "You logged " + stringify(thisWeekCount) + " this week." +
     (lastWeekCount ? " That is " + this.differenceString(thisWeekCount, lastWeekCount) + " at this time last week!"
       : " This is your first week")
 
   static symptomBox = (thisWeek, lastWeek) => {
     //body = You logged N symptoms this week. That is x more/less than the previous week week
-    this.reportText.symptomInfo.body = this.infoBoxBody(this.symptomString, thisWeek.thisWeekSymptomCount(), lastWeek ? lastWeek.thisWeekSymptomCount() : null)
+    this.reportText.symptomInfo.body = this.infoBoxDefaultBodyText(this.symptomString, thisWeek.thisWeekSymptomCount(), lastWeek ? lastWeek.thisWeekSymptomCount() : null)
 
     //Symptom free days:
     // head = X days you entered NO SYMPTOMS. Good job!
@@ -162,6 +163,38 @@ export default class ReportManager {
     }
 
   }
+
+  static mealBox = (thisWeek, lastWeek) => {
+    this.reportText.mealInfo.body = this.infoBoxDefaultBodyText(this.mealString, thisWeek.thisWeekMealCount(),lastWeek ? lastWeek.thisWeekMealCount() : null)
+    
+    glutenFreeCount = thisWeek.thisWeekGlutenFreeMealCount()
+
+    mealHead = "" + glutenFreeCount + "logged meals were GLUTENFREE!"
+    if(glutenFreeCount == 1)
+      mealHead = "One logged meal was GLUTENFREE!"
+    this.reportText.mealInfo.headline = mealHead
+  }
+
+  static emotionBox = (thisWeek, lastWeek) => {
+      this.reportText.emotionInfo.body = this.infoBoxDefaultBodyText(this.moodString, thisWeek.thisWeekMoodCount(), lastWeek? lastWeek.thisWeekMoodCount(): null)
+  
+      highEnergyCount = thisWeek.numDaysHighEnergy()
+      energyHead = ""+ this.dayPluralString(highEnergyCount)+ " you were had HIGH energy!"
+
+      if(highEnergyCount=0){
+        medEnergyCount = thisWeek.numDaysMediumEnergy()
+        energyHead = ""+ this.dayPluralString(medEnergyCount)+ " you were had MEDIUM energy!"
+      }
+
+      this.reportText.mealInfo.headline = energyHead
+  }
+
+  static gipBox = (thisWeek, lastWeek) => {
+        this.reportText.gipInfo.body = this.infoBoxDefaultBodyText(this.gipString, thisWeek.thisWeekGIPCount(), lastWeek ? lastWeek.thisWeekGIPCount(): null)
+  }
+
+
+
   static differenceString = (thisWeekCount, lastWeekCount) => {
 
     if (thisWeekCount > lastWeekCount) return "" + (thisWeekCount - lastWeekCount) + " more than"
@@ -185,10 +218,10 @@ export default class ReportManager {
     thisWeek = thisWeekData.init(startOfWeek, endOfWeek, new Date())
     penultimateWeek = penultimateWeekData.init(startOfPenultimateWeek, endOfPenultimateWeek, new Date())
 
-    Promise.all([thisWeek, penultimateWeek]) 
+    Promise.all([thisWeek, penultimateWeek])
       .then(_ => {
         if (startDate > startOfPenultimateWeek) { penultimateWeekData = null }
-        
+
         this.reportText.dailyActivity = [0, 1, 2, 3, 4, 5, 6].map(day => thisWeekData.activityRateForDay(day))
         this.reportText.weekEndingDate = endOfWeek
 
@@ -199,9 +232,9 @@ export default class ReportManager {
         }
 
         this.symptomBox(thisWeekData, penultimateWeekData);
-        //this.reportText.mealInfo.body = this.infoBoxBody(this.mealString, thisWeekData.thisWeekMealCount(), penultimateWeekData.thisWeekMealCount())
-        //this.reportText.emotionInfo.body = this.infoBoxBody(this.moodString, thisWeekData.thisWeekMoodCount(), penultimateWeekData.thisWeekMoodCount())
-        //this.reportText.gipInfo.body = this.infoBoxBody(this.gipString, thisWeekData.thisWeekGIPCount(), penultimateWeekData.thisWeekGIPCount())
+        this.mealBox(thisWeekData, penultimateWeekData);
+        this.emotionBox(thisWeekData, penultimateWeekData);
+        this.gipBox(thisWeekData, penultimateWeekData);
 
         success(this.reportText)
       })

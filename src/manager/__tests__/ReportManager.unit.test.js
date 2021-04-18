@@ -18,14 +18,6 @@ class mockReportData {
     thisWeekSymptomCount = jest.fn();
     thisWeekMoodCount = jest.fn();
     thisWeekMealCount = jest.fn();
-    previousPartialWeekGIPCount = jest.fn();
-    previousPartialWeekSymptomCount = jest.fn();
-    previousPartialWeekMoodCount = jest.fn();
-    previousPartialWeekMealCount = jest.fn();
-    previousFullWeekGIPCount = jest.fn();
-    previousFullWeekSymptomCount = jest.fn();
-    previousFullWeekMoodCount = jest.fn();
-    previousFullWeekMealCount = jest.fn();
     activityRateForDay = jest.fn();
     thisWeekNumDaysWithNO_SYMPTOM = jest.fn();
     thisWeekNumDaysWithSymptoms = jest.fn();
@@ -35,6 +27,11 @@ class mockReportData {
     thisWeekNumDaysWithMildAsWorstSymptoms = jest.fn();
     thisWeekNumDaysWithModerateAsWorstSymptoms = jest.fn();
     thisWeekNumDaysWithSevereAsWorstSymptoms = jest.fn();
+    thisWeekGlutenFreeMealCount = jest.fn();
+    numDaysHighEnergy = jest.fn();
+    numDaysMediumEnergy = jest.fn();
+    
+
 };
 
 var mockThisWeekData = new mockReportData;

@@ -148,6 +148,10 @@ export default class WeeklyReportData {
           mildSymptomCount: this.countSymptomsOfTypeOnADay(null, day.date, Severity.LOW),
           moderateSymptomCount: this.countSymptomsOfTypeOnADay(null, day.date, Severity.MODERATE),
           severeSymptomCount: this.countSymptomsOfTypeOnADay(null, day.date, Severity.SEVERE),
+          highEnergyCount: this.countEventsOnADay(day.date, Events.Emotion, Emotion.HAPPY, null),
+          mediumEnergyCount: this.countEventsOnADay(day.date, Events.Emotion, Emotion.SLIGHTLY_HAPPY, null)+
+                             this.countEventsOnADay(day.date, Events.Emotion, Emotion.NEUTRAL, null)
+          
         }))
       .map(day => ({
         ...day,
@@ -170,12 +174,29 @@ export default class WeeklyReportData {
       .length
   }
 
-  countEventsOfTypeOnADay = (type, date) => {
+  countEventsOnADay = (date, type, subType, tag) => {
     start = new Date(date)
     start.setHours(0, 0, 0, 0);
     end = new Date(date)
     end.setHours(23, 59, 59, 999);
-    return this.countEventsOfTypeBetweenDates(type, start, end)
+    
+    return this.events
+      .filter(event => event.created > start && event.created < end)
+      .filter(event => event.eventType == type)
+      .filter(event => event.objData)     
+      .filter(event => tag == null || event.objData.tag == tag)
+      .filter(event => subType == null || event.objData.type == subType)
+      .length
+  }
+
+  countEventsOfTypeOnADay = (type, date, tag) => {
+    start = new Date(date)
+    start.setHours(0, 0, 0, 0);
+    end = new Date(date)
+    end.setHours(23, 59, 59, 999);
+
+    return tag ? this.countEventsOfTypeAndTagBetweenDates(type, tag, start, end)
+               : this.countEventsOfTypeBetweenDates(type, start, end)
   }
 
   countEventsOfTypeBetweenDates = (type, start, end) =>
@@ -183,6 +204,15 @@ export default class WeeklyReportData {
       .filter(event => event.created > start && event.created < end)
       .filter(event => event.eventType == type)
       .length
+
+  countEventsOfTypeAndTagBetweenDates = (type, tag, start, end) =>
+    
+    this.events
+      .filter(event => event.created > start && event.created < end)
+      .filter(event => event.eventType == type)
+      .filter(event => event.objData && event.objData.tag == tag)
+      .length
+
 
   bestDayDate = () => this.bestDay.date
   bestDaySymptomCount = () => this.bestDay.symptomCount;
@@ -195,18 +225,6 @@ export default class WeeklyReportData {
   thisWeekMoodCount = () => this.countEventsOfTypeBetweenDates(Events.Emotion, this.currentWeekStart, this.currentWeekEnd)
   thisWeekMealCount = () => this.countEventsOfTypeBetweenDates(Events.Food, this.currentWeekStart, this.currentWeekEnd)
 
-  //these only count up to the current Day/Time last week
-  //deprecate these
-  // previousPartialWeekGIPCount = () => this.countEventsOfTypeBetweenDates(Events.GIP, this.previousWeekStart, this.thisTimePreviousWeek)
-  // previousPartialWeekSymptomCount = () => this.countEventsOfTypeBetweenDates(Events.Symptom, this.previousWeekStart, this.thisTimePreviousWeek)
-  // previousPartialWeekMoodCount = () => this.countEventsOfTypeBetweenDates(Events.Emotion, this.previousWeekStart, this.thisTimePreviousWeek)
-  // previousPartialWeekMealCount = () => this.countEventsOfTypeBetweenDates(Events.Food, this.previousWeekStart, this.thisTimePreviousWeek)
-
-  // previousFullWeekGIPCount = () => this.countEventsOfTypeBetweenDates(Events.GIP, this.previousWeekStart, this.currentWeekStart)
-  // previousFullWeekSymptomCount = () => this.countEventsOfTypeBetweenDates(Events.Symptom, this.previousWeekStart, this.currentWeekStart)
-  // previousFullWeekMoodCount = () => this.countEventsOfTypeBetweenDates(Events.Emotion, this.previousWeekStart, this.currentWeekStart)
-  // previousFullWeekMealCount = () => this.countEventsOfTypeBetweenDates(Events.Food, this.previousWeekStart, this.currentWeekStart)
-
   thisWeekNumDaysWithNO_SYMPTOM = () => this.enrichedDays.filter(day => day.noSymptomCount > 0).length;
   thisWeekNumDaysWithSymptoms = () => this.enrichedDays.filter(day => day.symptomCount > 0).length;
   thisWeekNumDaysWithMeals = () => this.enrichedDays.filter(day => day.mealCount > 0).length;
@@ -216,5 +234,10 @@ export default class WeeklyReportData {
   thisWeekNumDaysWithMildAsWorstSymptoms = () => this.enrichedDays.filter(day => day.mildSymptomCount > 0 && day.moderateSymptomCount == 0 && day.severeSymptomCount == 0).length;
   thisWeekNumDaysWithModerateAsWorstSymptoms = () => this.enrichedDays.filter(day => day.moderateSymptomCount > 0 && day.severeSymptomCount == 0).length;
   thisWeekNumDaysWithSevereAsWorstSymptoms = () => this.enrichedDays.filter(day => day.severeSymptomCount > 0).length;
+
+  thisWeekGlutenFreeMealCount = () => this.countEventsOfTypeAndTagBetweenDates(Events.Food, Gluten.FREE, this.currentWeekStart, this.currentWeekEnd);
+
+  numDaysHighEnergy = () => this.enrichedDays.filter(day => day.highEnergyCount > 0).length;
+  numDaysMediumEnergy = () => this.enrichedDays.filter(day => day.mediumEnergyCount > 0).length;
 
 };

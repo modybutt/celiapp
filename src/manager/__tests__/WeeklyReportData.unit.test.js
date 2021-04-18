@@ -94,23 +94,6 @@ describe('calculate weekly count score ', () => {
                 expect(weekData.thisWeekGIPCount()).toBe(0)
         });
 
-        // test('previous week count until this time last week', () => {
-        //         expect(weekData.previousPartialWeekSymptomCount()).toBe(3)
-        //         expect(weekData.previousPartialWeekMoodCount()).toBe(5)
-        //         expect(weekData.previousPartialWeekMealCount()).toBe(4)
-        //         //TODO add GIP events in DB
-        //         expect(weekData.previousPartialWeekGIPCount()).toBe(0)
-        // });
-
-
-        // test('previous week count until this time last week', () => {
-        //         expect(weekData.previousFullWeekSymptomCount()).toBe(5)
-        //         expect(weekData.previousFullWeekMoodCount()).toBe(6)
-        //         expect(weekData.previousFullWeekMealCount()).toBe(6)
-        //         //TODO add GIP events in DB
-        //         expect(weekData.previousFullWeekGIPCount()).toBe(0)
-        // });
-
         test.todo('add mock GIP events to fix two previous tests')
 
         test('calc daily activity rate for this week', () => {
@@ -187,12 +170,12 @@ getEvents2 = () => {
         events.push(MockDB.emotion("28 Mar 2021 19:07:20.05", Emotion.UNHAPPY))
         events.push(MockDB.symptom("28 Mar 2021 19:07:20.05", Symptoms.NO_SYMPTOMS, 1, ""))
         //above is before test week
-        events.push(MockDB.emotion("29 Mar 2021 19:07:20.05", Emotion.UNHAPPY))
+        events.push(MockDB.emotion("29 Mar 2021 19:07:20.05", Emotion.HAPPY))
         events.push(MockDB.emotion("30 Mar 2021 19:07:20.05", Emotion.UNHAPPY))
-        events.push(MockDB.meal("31 Mar 2021 19:07:20.05", Meals.DINNER, Gluten.UNKNOWN))
-        events.push(MockDB.emotion("31 Mar 2021 19:07:20.05", Emotion.UNHAPPY))
-        events.push(MockDB.meal("31 Mar 2021 19:07:20.05", Meals.DINNER, Gluten.UNKNOWN))
-        events.push(MockDB.emotion("31 Mar 2021 19:07:20.05", Emotion.UNHAPPY))
+        events.push(MockDB.meal("31 Mar 2021 19:07:20.05", Meals.DINNER, Gluten.FREE))
+        events.push(MockDB.emotion("31 Mar 2021 19:07:20.05", Emotion.HAPPY))
+        events.push(MockDB.meal("31 Mar 2021 19:07:20.05", Meals.DINNER, Gluten.FREE))
+        events.push(MockDB.emotion("31 Mar 2021 19:07:20.05", Emotion.SLIGHTLY_HAPPY))
         events.push(MockDB.meal("31 Mar 2021 19:07:20.05", Meals.DINNER, Gluten.UNKNOWN))
         events.push(MockDB.emotion("31 Mar 2021 19:07:20.05", Emotion.UNHAPPY))
         events.push(MockDB.meal("01 Apr 2021 19:07:20.05", Meals.DINNER, Gluten.UNKNOWN))
@@ -262,9 +245,18 @@ describe('count  days with ', () => {
         test('days with severe symptoms', () => {
                 expect(weekData.thisWeekNumDaysWithSevereAsWorstSymptoms()).toEqual(3);
         })
+
+        test('this week gluten free meal count', () => {
+                expect(weekData.thisWeekGlutenFreeMealCount()).toBe(2)
+        })
+
+        test('this weekdays with energy count', () => {
+                expect(weekData.numDaysMediumEnergy()).toBe(2)
+                expect(weekData.numDaysHighEnergy()).toBe(3)
+        })
 });
 
-describe.only('works with empty data ', () => {
+describe('works with empty data ', () => {
 
         var weekData = {};
         beforeAll((done) =>
