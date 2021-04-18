@@ -17,6 +17,7 @@ import InfoIcon from '../components/InfoIcon';
 import WeekDisplay from '../components/WeekDisplay';
 import { TouchableOpacity } from 'react-native-gesture-handler';
 import { AntDesign } from '@expo/vector-icons';  //replace IonIcon as it was impossible to centre them
+import ImageHeader from './ImageHeader';
 
 var count = 0
 var reportData = null;
@@ -24,7 +25,9 @@ var reportData = null;
 export default class ReportScreen extends React.Component {
 
   static navigationOptions = ({ navigation }) => ({
-    title: LanguageManager.getInstance().getText("WEEKREPORT")
+    headerTitle:<ImageHeader color={Colors.mainscreenColor} 
+    title={
+      navigation.state.params ? navigation.state.params.title :  "Weekly Report"}/>
   });
 
   constructor(props) {
@@ -48,6 +51,7 @@ export default class ReportScreen extends React.Component {
   receiveData = (data) => {
     this.setState({ reportData: data });
     console.log("received report data:", data);
+    this.props.navigation.setParams({ title: data.title })
   }
 
   addEvent = (name) => () => this.props.navigation.navigate(name, { 'selectedDateAndTime': new Date() })

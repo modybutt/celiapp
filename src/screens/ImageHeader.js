@@ -17,7 +17,7 @@ export default class ImageHeader extends React.Component
                     resizeMode='contain'
                 />
                 <Text style={styles.text}>
-            		Celiapp
+					{this.props.title}
                 </Text>
             </View>
         )
