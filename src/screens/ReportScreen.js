@@ -25,9 +25,14 @@ var reportData = null;
 export default class ReportScreen extends React.Component {
 
   static navigationOptions = ({ navigation }) => ({
-    headerTitle:<ImageHeader color={Colors.mainscreenColor} 
+    headerTitle:<ImageHeader color =  {"#fff"} backgroundColor={Colors.mainscreenColor} 
     title={
-      navigation.state.params ? navigation.state.params.title :  "Weekly Report"}/>
+      navigation.state.params ? navigation.state.params.title :  "Weekly Report"}
+    />,
+
+    headerStyle: {
+        backgroundColor: Colors.mainscreenColor,  
+      }
   });
 
   constructor(props) {
@@ -50,14 +55,14 @@ export default class ReportScreen extends React.Component {
 
   receiveData = (data) => {
     this.setState({ reportData: data });
-    console.log("received report data:", data);
+    console.log("==================================received report data:");
     this.props.navigation.setParams({ title: data.title })
   }
 
   addEvent = (name) => () => this.props.navigation.navigate(name, { 'selectedDateAndTime': new Date() })
 
   render() {
-    if (!this.state.reportData) return (<View></View>)
+    if (!this.state.reportData) return (<View><Text>Generating report ...</Text></View>)
     reportData = this.state.reportData;
 
 
@@ -80,13 +85,39 @@ export default class ReportScreen extends React.Component {
   }
 }
 
+
+const LeftRightButton = ({left, right}) => 
+  <View>
+    <TouchableOpacity  
+    style={[
+        {
+          justifyContent: 'center',
+          alignItems: 'center',
+          height: 40,
+          width: 40,
+          borderRadius: 40 / 2,
+          opacity:1,
+          zIndex: 100,
+          color: '#ff366b',
+        }
+    ]}>
+      <Text>
+      <AntDesign name={left ? "left": "right" } style={styles.leftRight} size={24} />
+      </Text>
+      </TouchableOpacity>
+  </View>
+
 const BestDay = () =>
   <View style={styles.bestDay}>
     <Text style={styles.bestDayCaption}>Best Day</Text>
     <View style={styles.bestDayBorder}>
-      <Text style={styles.bestDayHeading}>{reportData.bestDayHeading}</Text>
-      <Text style={styles.bestDayBody}>{reportData.bestDayBody}</Text>
-    </View>
+      <LeftRightButton left = {true}/>
+      <View style={[{display: 'flex', flexGrow : 1, flexDirection: 'column',}]}>
+        <Text style={styles.bestDayHeading}>{reportData.bestDayHeading}</Text>
+        <Text style={styles.bestDayBody}>{reportData.bestDayBody}</Text>
+      </View>   
+      <LeftRightButton right = {true}/> 
+    </View>   
   </View>
 
 import symptomImage from '../assets/images/stethoscope_white.svg';
@@ -177,7 +208,7 @@ const styles = StyleSheet.create({
     borderColor: textColor,
     padding: 8,
     display: 'flex',
-    flexDirection: 'column',
+    flexDirection: 'row',
     justifyContent: 'flex-start',
     alignItems: 'center',
   },
@@ -187,10 +218,13 @@ const styles = StyleSheet.create({
   },
   bestDayBody: {
     color: 'dimgray',
+    maxWidth: width*0.80,
   },
   bestDayHeading: {
     fontSize: 20,
     fontWeight: "bold",
+    color: '#ff366b',
+    maxWidth: width*0.80,
   },
 
   container: {
@@ -221,5 +255,9 @@ const styles = StyleSheet.create({
 
   plus: {
     color: "#FFF",
+  },
+
+  leftRight:{
+    color: '#ff366b',
   }
 });

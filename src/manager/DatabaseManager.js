@@ -508,13 +508,6 @@ export default class DatabaseManager {
       
     });
 
-    Promise.all([createdDate, earliestDate]).then(
-      ([created, earliest]) =>{
-        console.log("created, earliest", [created, earliest] )
-        if(earliest == 0 || created < earliest) return created;
-        return earliest;
-      });
-
     return new Promise((resolve, _) => {
       Promise.all([createdDate, earliestDate]).then(
         ([created, earliest]) =>{

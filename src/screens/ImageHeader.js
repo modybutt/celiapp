@@ -8,7 +8,7 @@ export default class ImageHeader extends React.Component
 {
 	render() 
 	{
-		const styles = this.getStyleSheet(this.props.color);
+		const styles = this.getStyleSheet(this.props.color, this.props.backgroundColor || "#fff");
         return (
             <View style={styles.container}>
                 <Image
@@ -23,7 +23,7 @@ export default class ImageHeader extends React.Component
         )
     }
 
-	getStyleSheet(color)
+	getStyleSheet(color, backgroundColor)
 	{
 		return StyleSheet.create({
 			container: {
@@ -31,6 +31,7 @@ export default class ImageHeader extends React.Component
 				flexDirection: 'row',
 				justifyContent: 'center',
 				alignItems: 'center',
+				backgroundColor: backgroundColor
 			},
 		
 			image: {

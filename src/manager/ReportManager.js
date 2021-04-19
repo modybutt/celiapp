@@ -221,7 +221,7 @@ export default class ReportManager {
 
   static reportTitle = (endOfWeek) => {
     var dateFormat = { weekday: 'long', month: 'long', day: 'numeric' };
-    return "Weekly report for week ending "
+    return "Report for week ending "
       + endOfWeek.toLocaleDateString("en-US", dateFormat)
   }
 
