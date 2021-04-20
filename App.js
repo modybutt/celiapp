@@ -15,6 +15,7 @@ import LoggingStore from './src/manager/buddyManager/LoggingStore';
 import { } from 'react-native-dotenv';
 import FlashMessage from 'react-native-flash-message';
 import { showMessage } from "react-native-flash-message";
+import OnBoardingScreen from './src/screens/OnboardingScreen';
 
 
 export default class App extends React.Component {
@@ -67,6 +68,7 @@ export default class App extends React.Component {
     
     this.setState({
       isSplashReady: true,
+	  didShowOnBoarding: false,
       hasUserId: !!settings.userId,
       userId: settings.userId,
       password: settings.password,
@@ -197,7 +199,14 @@ export default class App extends React.Component {
         {this.state.isSplashReady == false
           ? null
           : this.state.hasUserId
-            ? <AppNavigator />
+            ? this.state.didShowOnBoarding ? <AppNavigator /> : <OnBoardingScreen getStartedPressed={() =>
+				{
+					this.setState({didShowOnBoarding: true});
+					//TODO: store in user database.
+
+					//TODO: go to Daily Goal screen.
+					
+				}}/>
             : <UsernameDialog onLogin={this.handleUserLogin} onRegister={this.handleUserRegistration} />
         }
         <LoadingScreen hide={this.state.isAppReady} style={styles.loading} />

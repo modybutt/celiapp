@@ -1,5 +1,7 @@
 import DateUtil from '../utils/dateUtils';
-import Events, { Emotion, Gluten, Severity } from '../constants/Events';
+import Events, { Emotion, Gluten, Severity, Symptoms } from '../constants/Events';
+
+log = (msg, e) => { console.log(msg, " : ", e); return e }
 
 export default class WeeklyReportData {
 
@@ -14,7 +16,7 @@ export default class WeeklyReportData {
     this.thisTimePreviousWeek = {}
     this.dataBase = dataBase
     this.enrichedDays = []
-  }
+  };
 
   init = (startOfWeek, endOfWeek, now) => {
     this.now = now || new Date()
@@ -62,11 +64,15 @@ export default class WeeklyReportData {
       }
 
       case Events.GIP: {
-        return 1;
+        const scores = {
+          [Gluten.FREE]: 1,
+          [Gluten.UNKNOWN]: 0.5,
+          [Gluten.PRESENT]: 0,
+        }
+        return event.objData.result in scores ? scores[event.objData.result] : 0;
       }
     }
   }
-
 
   jsonifyEvent = (event) => {
     event.objData = JSON.parse(event.objData)
@@ -76,14 +82,17 @@ export default class WeeklyReportData {
   }
 
   getData = (startOfPeriod, endOfPeriod) => {
-    return this.getEventsBetweenDatesInclusive(startOfPeriod, endOfPeriod)
-      .then(data => {
-        this.events = data
-          .filter(event => event.eventType !== Events.LogEvent)
-          .map(this.jsonifyEvent)
-        this.calcBestDay()
-      })
-      .catch(err => console.log("Report data access error:", err.message));
+    return new Promise((resolve, reject) => {
+      this.getEventsBetweenDatesInclusive(startOfPeriod, endOfPeriod)
+        .then(data => {
+          this.events = data
+            .filter(event => event.eventType !== Events.LogEvent)
+            .map(this.jsonifyEvent)
+          this.calcBestDay()
+          resolve("done")
+        })
+        .catch(err => console.log("Report data access error:", err.message, err));
+    });
   }
 
   getEventsBetweenDatesInclusive = (start, end) =>
@@ -107,7 +116,7 @@ export default class WeeklyReportData {
     Math.min(day.symptomCount, this.TARGET_SYMPTOMS_PER_DAY)
 
   activityRateForDay = (dayOfWeek) => this.enrichedDays[dayOfWeek].activity
-  
+
   eventInCurrentWeek = (event) => event.created > this.currentWeekStart && event.created < this.currentWeekEnd
 
   scoreDay = (dayEvents) => dayEvents.reduce(
@@ -117,7 +126,7 @@ export default class WeeklyReportData {
 
   calcBestDay = () => {
 
-    var dayEvents = new Array(7).fill(null).map(()=> ({ date: "", events: [] }))
+    var dayEvents = new Array(7).fill(null).map(() => ({ date: "", events: [] }))
 
     eventsGroupedIntoDays =
       this.events
@@ -140,24 +149,59 @@ export default class WeeklyReportData {
           emotionCount: this.countEventsOfTypeOnADay(Events.Emotion, day.date),
           symptomCount: this.countEventsOfTypeOnADay(Events.Symptom, day.date),
           gipTests: this.countEventsOfTypeOnADay(Events.GIP, day.date),
+          noSymptomCount: this.countSymptomsOfTypeOnADay(Symptoms.NO_SYMPTOMS, day.date),
+          mildSymptomCount: this.countSymptomsOfTypeOnADay(null, day.date, Severity.LOW),
+          moderateSymptomCount: this.countSymptomsOfTypeOnADay(null, day.date, Severity.MODERATE),
+          severeSymptomCount: this.countSymptomsOfTypeOnADay(null, day.date, Severity.SEVERE),
+          highEnergyCount: this.countEventsOnADay(day.date, Events.Emotion, Emotion.HAPPY, null),
+          mediumEnergyCount: this.countEventsOnADay(day.date, Events.Emotion, Emotion.SLIGHTLY_HAPPY, null)+
+                             this.countEventsOnADay(day.date, Events.Emotion, Emotion.NEUTRAL, null)
+          
         }))
       .map(day => ({
         ...day,
-        activity: this.targetActivityCounter(day)/this.TARGET_DAILY_SCORE
+        activity: this.targetActivityCounter(day) / this.TARGET_DAILY_SCORE
       }))
 
     this.bestDay = this.enrichedDays.reduce((bestDay, thisDay) => bestDay.score > thisDay.score ? bestDay : thisDay)
-    //console.log("enriched days", this.enrichedDays)
-    //console.log("best days", this.bestDay)
   }
 
-
-  countEventsOfTypeOnADay = (type, date) => {
+  countSymptomsOfTypeOnADay = (symptom, date, severity) => {
     start = new Date(date)
     start.setHours(0, 0, 0, 0);
     end = new Date(date)
     end.setHours(23, 59, 59, 999);
-    return this.countEventsOfTypeBetweenDates(type, start, end)
+    return this.events
+      .filter(event => event.created > start && event.created < end)
+      .filter(event => event.eventType == Events.Symptom)
+      .filter(event => symptom ? event.objData.symptomID == symptom.id : event.objData.symptomID != Symptoms.NO_SYMPTOMS.id)
+      .filter(event => severity ? event.objData.severity == severity : true)
+      .length
+  }
+
+  countEventsOnADay = (date, type, subType, tag) => {
+    start = new Date(date)
+    start.setHours(0, 0, 0, 0);
+    end = new Date(date)
+    end.setHours(23, 59, 59, 999);
+    
+    return this.events
+      .filter(event => event.created > start && event.created < end)
+      .filter(event => event.eventType == type)
+      .filter(event => event.objData)     
+      .filter(event => tag == null || event.objData.tag == tag)
+      .filter(event => subType == null || event.objData.type == subType)
+      .length
+  }
+
+  countEventsOfTypeOnADay = (type, date, tag) => {
+    start = new Date(date)
+    start.setHours(0, 0, 0, 0);
+    end = new Date(date)
+    end.setHours(23, 59, 59, 999);
+
+    return tag ? this.countEventsOfTypeAndTagBetweenDates(type, tag, start, end)
+               : this.countEventsOfTypeBetweenDates(type, start, end)
   }
 
   countEventsOfTypeBetweenDates = (type, start, end) =>
@@ -165,6 +209,15 @@ export default class WeeklyReportData {
       .filter(event => event.created > start && event.created < end)
       .filter(event => event.eventType == type)
       .length
+
+  countEventsOfTypeAndTagBetweenDates = (type, tag, start, end) =>
+    
+    this.events
+      .filter(event => event.created > start && event.created < end)
+      .filter(event => event.eventType == type)
+      .filter(event => event.objData && event.objData.tag == tag)
+      .length
+
 
   bestDayDate = () => this.bestDay.date
   bestDaySymptomCount = () => this.bestDay.symptomCount;
@@ -177,29 +230,19 @@ export default class WeeklyReportData {
   thisWeekMoodCount = () => this.countEventsOfTypeBetweenDates(Events.Emotion, this.currentWeekStart, this.currentWeekEnd)
   thisWeekMealCount = () => this.countEventsOfTypeBetweenDates(Events.Food, this.currentWeekStart, this.currentWeekEnd)
 
-  //these only count up to the current Day/Time last week
-  previousPartialWeekGIPCount = () => this.countEventsOfTypeBetweenDates(Events.GIP, this.previousWeekStart, this.thisTimePreviousWeek)
-  previousPartialWeekSymptomCount = () => this.countEventsOfTypeBetweenDates(Events.Symptom, this.previousWeekStart, this.thisTimePreviousWeek)
-  previousPartialWeekMoodCount = () => this.countEventsOfTypeBetweenDates(Events.Emotion, this.previousWeekStart, this.thisTimePreviousWeek)
-  previousPartialWeekMealCount = () => this.countEventsOfTypeBetweenDates(Events.Food, this.previousWeekStart, this.thisTimePreviousWeek)
+  thisWeekNumDaysWithNO_SYMPTOM = () => this.enrichedDays.filter(day => day.noSymptomCount > 0).length;
+  thisWeekNumDaysWithSymptoms = () => this.enrichedDays.filter(day => day.symptomCount > 0).length;
+  thisWeekNumDaysWithMeals = () => this.enrichedDays.filter(day => day.mealCount > 0).length;
+  thisWeekNumDaysWithEnergy = () => this.enrichedDays.filter(day => day.emotionCount > 0).length;
+  thisWeekNumDaysWithGIP = () => this.enrichedDays.filter(day => day.gipTests > 0).length;
 
-  previousFullWeekGIPCount = () => this.countEventsOfTypeBetweenDates(Events.GIP, this.previousWeekStart,  this.currentWeekStart)
-  previousFullWeekSymptomCount = () => this.countEventsOfTypeBetweenDates(Events.Symptom, this.previousWeekStart,  this.currentWeekStart)
-  previousFullWeekMoodCount = () => this.countEventsOfTypeBetweenDates(Events.Emotion, this.previousWeekStart,  this.currentWeekStart)
-  previousFullWeekMealCount = () => this.countEventsOfTypeBetweenDates(Events.Food, this.previousWeekStart,  this.currentWeekStart)
+  thisWeekNumDaysWithMildAsWorstSymptoms = () => this.enrichedDays.filter(day => day.mildSymptomCount > 0 && day.moderateSymptomCount == 0 && day.severeSymptomCount == 0).length;
+  thisWeekNumDaysWithModerateAsWorstSymptoms = () => this.enrichedDays.filter(day => day.moderateSymptomCount > 0 && day.severeSymptomCount == 0).length;
+  thisWeekNumDaysWithSevereAsWorstSymptoms = () => this.enrichedDays.filter(day => day.severeSymptomCount > 0).length;
 
-  thisWeekNumDaysWithNO_SYMPTOM =() => 0; //todo
-  thisWeekNumDaysWithSymptoms =() => 0; //todo
-  thisWeekNumDaysWithMeals =() => 0; //todo
-  thisWeekNumDaysWithEnergy =() => 0; //todo
-  thisWeekNumDaysWithGIP =() => 0; //todo
+  thisWeekGlutenFreeMealCount = () => this.countEventsOfTypeAndTagBetweenDates(Events.Food, Gluten.FREE, this.currentWeekStart, this.currentWeekEnd);
 
-  thisWeekNumDaysWithMildSymptoms = () => 0; //todo
-  thisWeekNumDaysWithModerateSymptoms = () => 0; //todo
-  thisWeekNumDaysWithSevereSymptoms = () => 0; //todo
-
-  previousWeekNumDaysWithMildSymptoms = () => 0; //todo
-  previousWeekNumDaysWithModerateSymptoms = () => 0; //todo
-  previousWeekNumDaysWithSevereSymptoms = () => 0; //todo
+  numDaysHighEnergy = () => this.enrichedDays.filter(day => day.highEnergyCount > 0).length;
+  numDaysMediumEnergy = () => this.enrichedDays.filter(day => day.mediumEnergyCount > 0).length;
 
 };

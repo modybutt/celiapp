@@ -32,6 +32,7 @@ import Achievements from "../components/Glutenbuddy/screens/Achievements";
 import ChallengesTest from "../components/Glutenbuddy/screens/ChallengesTest";
 import Colors from '../constants/Colors';
 import MainScreen from "../screens/MainScreen";
+import OnBoardingScreen from "../screens/OnboardingScreen";
 
 const EvaluationStack = createStackNavigator({
   Evaluation: EvaluationScreen,
@@ -43,6 +44,10 @@ const CalendarStack = createStackNavigator({
 
 const MainScreenStack = createStackNavigator({
 	Mainscreen: MainScreen,
+});
+
+const OnBoardingScreenStack = createStackNavigator({
+	OnBoardingscreen: OnBoardingScreen
 });
 
 // const GlutenStack = createStackNavigator({
@@ -66,7 +71,7 @@ const TabNavStack = createMaterialTopTabNavigator(
     },
     Glutenbuddy: {
       screen: MainScreenStack,
-      navigationOptions: {
+      navigationOptions: {		  
         //tabBarLabel: 'Calendar',
         tabBarIcon: ({ focused }) => (
           <TabBarCustomIcon focused={focused} source={require("../assets/images/glutenfree.png")}/>

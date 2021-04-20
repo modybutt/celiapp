@@ -19,7 +19,7 @@ export default class MainScreen extends React.Component {
 	
 	static navigationOptions = ({ navigation }) => 
 	({
-    	headerTitle:<ImageHeader color={Colors.mainscreenColor}/>
+    	headerTitle:<ImageHeader color={Colors.mainscreenColor} title={"Celiapp"}/>
 	});
 
 	constructor(props) {

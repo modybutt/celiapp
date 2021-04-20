@@ -45,6 +45,17 @@ export default class MockDB {
     "objData": "{\"type\":" + mood + ",\"note\":\"My note \"}",
   })
 
+  static gipStick = (date, result) =>
+  ({
+    "created": Date.parse(date),
+    "deleted": null,
+    "eventType": Events.GIP,
+    "id": 1134,
+    "modified": Date.parse(date),
+    "objData": "{\"photo\":null,\"note\":\"My note \", \"result\":"+result+", \"timestamp\":1618865691195}",
+  })
+
+
   static interaction = (date) => (
     {
       "created": Date.parse(date),
