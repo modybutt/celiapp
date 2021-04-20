@@ -13,6 +13,10 @@ import {
 } from './SymptomIconButtonConstants';
 import LanguageManager from '../../manager/LanguageManager';
 
+import {
+	images
+} from './SymptomIconButtonConstants';
+
 const DEFAULT_COLOR = '#F7F7F7';
 const LOW_COLOR = '#D9EEEA';
 const MEDIUM_COLOR = '#83E2D2';
@@ -56,8 +60,64 @@ export default class SymptomIconButton extends Component {
 		return text.substring(0, index) + stringToAdd + text.substring(index, text.length);
 	}
 
+	getImage(id, severity) {
+		let image = null;
+		switch (id) {
+			case 0:
+				image = images.id0
+				break;
+			case 1:
+				image = images.id1
+				break;
+			case 2:
+				image = images.id2
+				break;
+			case 3:
+				image = images.id3
+				break;
+			case 4:
+				image = images.id4
+				break;
+			case 5:
+				image = images.id5
+				break;
+			case 6:
+				image = images.id6
+				break;
+			case 7:
+				image = images.id7
+				break;
+			case 8:
+				image = images.id8
+				break;
+			case 9:
+				image = images.id9
+				break;
+			case 10:
+				image = images.id10
+				break;
+			case 11:
+				image = images.id11
+				break;
+			case 12:
+				image = images.id12
+				break;
+		}
+		switch (severity) {
+			case 0:
+				return image.uri;
+			case 1:
+				return image.uri_mild;
+			case 2:
+				return image.uri_moderate;
+			case 3:
+				return image.uri_severe;
+		}
+		return null;
+	}
+
 	render() {
-		
+
 
 		let bigBubbleColor = DEFAULT_COLOR;
 		let textColor = DEFAULT_TEXT_COLOR;
@@ -84,20 +144,23 @@ export default class SymptomIconButton extends Component {
 				case 3: severityText = "severe"; break;
 			}
 		}
-
-		let image = Image.resolveAssetSource(this.props.symptomIcon);
+		let im = this.getImage(this.props.symptomID,this.props.severity);
+		
+		console.log(im);
+		let image = Image.resolveAssetSource(im);
+		/*let image = Image.resolveAssetSource(this.props.symptomIcon);
 		switch (this.props.severity) {
 			case 1:
 			case 2: image.uri = this.addStr(image.uri, "_moderate"); break;
 			case 3: image.uri = this.addStr(image.uri, "_severe"); break;
-		}
+		}*/
 
 		const symptomName = this.props.symptomName;
 
 		if (this.props.active == null || this.props.active == true) {
 
 			return (
-				<View style={{ backgroundColor: bigBubbleColor, borderRadius: 3,}}>
+				<View style={{ backgroundColor: bigBubbleColor, borderRadius: 3, }}>
 
 					<TouchableOpacity
 						style={styles.bigBubble}
