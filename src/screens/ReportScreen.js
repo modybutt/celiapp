@@ -25,10 +25,9 @@ var reportData = null;
 export default class ReportScreen extends React.Component {
 
   static navigationOptions = ({ navigation }) => ({
-    headerTitle:<ImageHeader color =  {"#fff"} backgroundColor={Colors.mainscreenColor} 
-    title={
-      navigation.state.params ? navigation.state.params.title :  "Weekly Report"}
-    />,
+    headerTitle: () => <ImageHeader color =  {"#fff"} backgroundColor={Colors.mainscreenColor} 
+                        title={navigation.state.params ? navigation.state.params.title :  "Weekly Report"}
+                        />,
 
     headerStyle: {
         backgroundColor: Colors.mainscreenColor,  
