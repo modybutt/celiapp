@@ -15,10 +15,17 @@ import emotionImage from '../assets/images/smiley_face_white.svg';
 import mealImage from '../assets/images/cutlery_white.svg';
 import gipImage from '../assets/images/heartbeat.svg';
 import * as Icon from '@expo/vector-icons';
+import DatabaseManager from "../manager/DatabaseManager";
 
 export default class GoalSettingScreen extends React.Component
 {
-	
+	state =
+	{
+		minNoMeals: 3,
+		minNoSymptoms: 3,
+		minNoEmotions: 3,
+		minNoGips: 1,
+	}
 
 	render()
 	{
@@ -35,51 +42,104 @@ export default class GoalSettingScreen extends React.Component
 					width: window.width * 0.95
 				}}>
 					<Avatar />
-					<Goals />
+					
+					<View style={styles.goalsContainer}>
+						<Goal color={Colors.symptom} image={symptomImage} 
+							text={<LogText 
+								text1='I want to register ' 
+								noItems={this.state.noSymptoms} 
+								text2='symptoms ' 
+								text3='each day.' 
+								color={Colors.symptom}
+								upPressed={() => {this.setState({noSymptoms: this.state.noSymptoms + 1})}}
+								downPressed={() => {this.setState({noSymptoms: Math.max(this.state.minNoSymptoms, this.state.noSymptoms - 1)})}}
+								/>}/>
+
+						<Goal color={Colors.meal} image={mealImage} 
+							text={<LogText 
+								text1='I want to register ' 
+								noItems={this.state.noMeals} 
+								text2='meals ' 
+								text3='each day, including snacks.' 
+								color={Colors.meal}
+								upPressed={() => {this.setState({noMeals: this.state.noMeals + 1})}}
+								downPressed={() => {this.setState({noMeals: Math.max(this.state.minNoMeals, this.state.noMeals - 1)})}}
+								/>}/>
+
+						<Goal color={Colors.emotion} image={emotionImage} 
+							text={<LogText 
+								text1='I want to register ' 
+								noItems={this.state.noEmotions} 
+								text2='energy levels ' 
+								text3='each day.' 
+								color={Colors.emotion}
+								upPressed={() => {this.setState({noEmotions: this.state.noEmotions + 1})}}
+								downPressed={() => {this.setState({noEmotions: Math.max(this.state.minNoEmotions, this.state.noEmotions - 1)})}}
+								/>}/>
+
+						<Goal color={Colors.gip} image={gipImage}
+							text={<LogText 
+								text1='I want to register ' 
+								noItems={this.state.noGips} 
+								text2='GIP results ' 
+								text3='each day.' 
+								color={Colors.gip}
+								upPressed={() => {this.setState({noGips: this.state.noGips + 1})}}
+								downPressed={() => {this.setState({noGips: Math.max(this.state.minNoGips, this.state.noGips - 1)})}}
+								/>}/>
+					</View>
+
 				</View>
 			
 				<View style={[styles.buttonContainer, styles.buttonDropShadow]}>
 					<TouchableOpacity style={[styles.buttonOutline]}
-						onPress={() => this.props.getStartedPressed()}>
-						<Text style={styles.buttonText}>Save</Text>
+						onPress={() =>
+						{
+							DatabaseManager.getInstance().saveSettings('noSymptoms', this.state.noSymptoms, (error) => { alert(error) }, null);
+							DatabaseManager.getInstance().saveSettings('noEmotions', this.state.noEmotions, (error) => { alert(error) }, null);
+							DatabaseManager.getInstance().saveSettings('noMeals', this.state.noMeals, (error) => { alert(error) }, null);
+							DatabaseManager.getInstance().saveSettings('noGips', this.state.noGips, (error) => { alert(error) }, null);
+						}}>
+						<Text style={styles.buttonText} >Save</Text>
 					</TouchableOpacity>
 				</View>
 		</View> ;
 	}
+
+	componentDidMount() {
+		DatabaseManager.getInstance().loadSettings(null,
+		  (_, error) => { alert("error loading settings" + JSON.stringify(error)); },
+		  (_, { rows: { _array } }) => {
+			let settings = {};		
+			for (var i in _array) {			
+			  settings[_array[i].name] = JSON.parse(_array[i].objData);
+			}		
+			this.setState({
+				noSymptoms: settings.noSymptoms || 3,
+				noEmotions: settings.noEmotions || 3,
+				noMeals: settings.noMeals || 3,
+				noGips: settings.noGips || 1
+			});
+		  }
+		);
+	  }
 }
 
-const Goals = () =>
-{
-	return <View style={styles.goalsContainer}>
-		<Goal color={Colors.symptom} image={symptomImage} 
-			text={<LogText text1='I want to register ' text2='3 symptoms ' text3='each day.' color={Colors.symptom}/>}/>
-
-		<Goal color={Colors.meal} image={mealImage} 
-			text={<LogText text1='I want to register ' text2='3 meals ' text3='each day, including snacks.' color={Colors.meal}/>}/>
-
-		<Goal color={Colors.emotion} image={emotionImage} 
-			text={<LogText text1='I want to register ' text2='3 energy levels ' text3='each day.' color={Colors.emotion}/>}/>
-
-		<Goal color={Colors.gip} image={gipImage}
-			text={<LogText text1='I want to register ' text2='3 GIP results ' text3='each day.' color={Colors.gip}/>}/>
-	</View>
-}
-
-const ChevronsAndText = ({text, color}) =>
+const ChevronsAndText = ({text, noItems, color, upPressed, downPressed}) =>
 {
 	return <View style={{alignSelf: 'flex-start', marginTop: -26}}>
-		<TouchableOpacity onPress={() => console.log('up up up')}>
+		<TouchableOpacity onPress={() => upPressed()}>
 			<Icon.EvilIcons style={{
 				textAlign: 'center',
 				marginBottom: -4
 			}} name='chevron-up' size={30} color={color}/>
 		</TouchableOpacity>
-
+		
 		<Text style={{ color: color, fontWeight: 'bold' }}>
-			{text}
+			{noItems} {text}
 		</Text>
 
-		<TouchableOpacity onPress={() => console.log('down down down')}>
+		<TouchableOpacity onPress={() => downPressed()}>
 			<Icon.EvilIcons style={{
 				textAlign: 'center'
 			}} name='chevron-down' size={30} color={color}/>
@@ -87,11 +147,12 @@ const ChevronsAndText = ({text, color}) =>
 	</View>
 }
 
-const LogText = ({text1, text2, text3, color}) =>
+const LogText = ({text1, text2, noItems, text3, color, upPressed, downPressed}) =>
 {
+	console.log('draw logText', text2, noItems);
 return <Text style={{marginLeft: 14.3, marginTop: 5, fontSize: 16, width: 270, marginTop: -18}}>
 		<Text style={{color:'#707070' }}>{text1}</Text>
-		<ChevronsAndText color={color} text={text2}/>
+		<ChevronsAndText color={color} noItems={noItems} text={text2} upPressed={upPressed} downPressed={downPressed}/>
 		<Text style={{color:'#707070' }}>{text3}</Text>
 	</Text>
 }
