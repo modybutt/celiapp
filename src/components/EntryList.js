@@ -1,8 +1,8 @@
 import React from 'react';
-import { 
-  View, 
-  Text, 
-  FlatList, 
+import {
+  View,
+  Text,
+  FlatList,
   ActivityIndicator,
   StyleSheet,
   Image,
@@ -18,6 +18,19 @@ import FoodDiaryRatingBar from '../components/FoodDiary/FoodDiaryRatingBar';
 import LanguageManager from '../manager/LanguageManager';
 import Events from '../constants/Events';
 import moment from 'moment';
+import HistoryEntry from '../components/HistoryEntry';
+
+import {
+  images as food_images
+} from '../components/FoodDiary/FoodTrackerClassConstants';
+
+import {
+  images as emotion_images
+} from '../components/EmoteTracker/EmoteTrackerConstants';
+
+import {
+  images as gip_images
+} from '../components/GipTracker/GipTrackerClassConstants';
 
 
 export default class EntryList extends React.Component {
@@ -29,24 +42,24 @@ export default class EntryList extends React.Component {
 
   updateList(timestamp) {
     this.setState({ loading: true });
-  
-    DatabaseManager.getInstance().fetchEvents(timestamp, 
-      (_, error) => { alert(error)}, 
-      (_, {rows: { _array }}) => this.setState(
-      {
-        events: _array,
-        //error: res.error || null,
-        loading: false,
-      })
+
+    DatabaseManager.getInstance().fetchEvents(timestamp,
+      (_, error) => { alert(error) },
+      (_, { rows: { _array } }) => this.setState(
+        {
+          events: _array,
+          //error: res.error || null,
+          loading: false,
+        })
     );
   }
-  
+
   onPressTouchable(item) {
     alert(item.note)
     //Alert.alert("You selected the symptom")
   }
 
-  onLongPressTouchable(){
+  onLongPressTouchable() {
     //Alert.alert("You opened the severity chooser")
   }
 
@@ -54,101 +67,122 @@ export default class EntryList extends React.Component {
     return (
       <View
         style={{
-          height: 15,
-          width: 3,
-          marginLeft: 35,
-          backgroundColor: 'grey',
+          height: 3,
         }}
       />
     );
   };
 
-  renderItem(item) {
-    let objData  = JSON.parse(item.objData);
-    let createdDate = moment(item.created); 
+  getFoodImageSource(id) {
+    switch (id) {
+      case 0:
+        return food_images.gluten.uri;
+      case 1:
+        return food_images.nogluten.uri;
+      case 2:
+        return food_images.noidea.uri;
+    }
+  }
 
-    let time = createdDate.local().format('YYYY-MM-DD  HH:mm ');
-    switch(item.eventType) {
+  getGipImageSource(id) {
+    switch (id) {
+      case 0:
+        return gip_images.gluten.uri;
+      case 1:
+        return gip_images.nogluten.uri;
+      case 2:
+        return gip_images.noidea.uri;
+    }
+  }
+
+  getEmotionImageSource(id) {
+    switch (id) {
+      case 1: return emotion_images.unhappy.uri;
+      case 2: return emotion_images.slightlyUnhappy.uri;
+      case 3: return emotion_images.neither.uri;
+      case 4: return emotion_images.slightlyHappy.uri;
+      case 5: return emotion_images.happy.uri;
+    }
+
+  }
+
+  renderItem(item) {
+    let objData = JSON.parse(item.objData);
+    let createdDate = moment(item.created);
+
+    let time = createdDate.local().format('lll');
+    switch (item.eventType) {
       case Events.Symptom: {
-        let color = 'transparent';
+        const color = '#1DBBA0';
+        let severityText = 'no symptom';
         switch (objData.severity) {
-          case 1: color = 'yellow'; break;
-          case 2: color = 'orange'; break;
-          case 3: color = 'red'; break;
+          case 1: severityText = 'Mild'; break;
+          case 2: severityText = 'Moderate'; break;
+          case 3: severityText = 'Severe'; break;
         }
         if (objData.symptomID === 0) objData.name = 'NO_SYMPTOMS'; //TODO: Temp solution. Needs to be an entry in the database
         return (
-          <TouchableOpacity onPress={() => this.props.navigation.navigate('ViewSymptom', {event: item})}>
-            <ListItem
-              title={LanguageManager.getInstance().getText(objData.name)}
-              subtitle={time}
-              leftAvatar={{
-                source: Image.resolveAssetSource(objData.icon),
-                overlayContainerStyle: {
-                  backgroundColor: color
-                }
-              }}
-              chevron={true}
-            />
+          <TouchableOpacity  onPress={() => this.props.navigation.navigate('ViewSymptom', { event: item })}>
+            <HistoryEntry
+              onAddButtonClicked={() => { }}
+              navigationName={LanguageManager.getInstance().getText(objData.name)}
+              title={time}
+              subtitle={severityText + " " + LanguageManager.getInstance().getText(objData.name)}
+              viewallText={'expand'}
+              color={color}
+              image={objData.icon} />
           </TouchableOpacity>
         )
       }
-      case Events.Food: {
-          return (
-            <TouchableOpacity onPress={() => this.props.navigation.navigate('ViewMeal', {event: item})}>
-              <ListItem
-                title={objData.name}
-                rightTitle={<FoodDiaryRatingBar active={false} rating={objData.rating} iconSize={5} />}
-                subtitle={time}
-                leftIcon={{ name: 'restaurant', containerStyle: {
-                    margin: 10
-                }}}
-                chevron={true}
-              />
-            </TouchableOpacity>
-          )
-        
-      }
-      case Events.GIP: {        
-          return (
-            <TouchableOpacity onPress={() => this.props.navigation.navigate('ViewGIP', {event: item})}>
-              <ListItem 
-                title={LanguageManager.getInstance().getText('GIP_RESULT')}
-                subtitle={time}
-                leftAvatar={{ source: Image.resolveAssetSource(require('../assets/images/GIP_icon.png')),
-                overlayContainerStyle: {
-                    flex: 1,
-                    justifyContent: 'center',
-                    backgroundColor: "rgba(255, 150, 10, 1)"
-                  } }
-                }
-                chevron={true}
-              />
-            </TouchableOpacity>
-          )        
-      }
-      
-      case Events.Emotion: {
-        let picture = null;
-        let name = '';
-        switch (objData.type) {
-          case 1: picture = images.unhappy; break;
-          case 2: picture = images.slightlyUnhappy; break;
-          case 3: picture = images.neither; break;
-          case 4: picture = images.slightlyHappy; break;
-          case 5: picture = images.happy; break;
-        }
 
+      case Events.Food: {
+        let color = '#3398DE';
+        image = this.getFoodImageSource(objData.type);
         return (
-          <TouchableOpacity onPress={() => this.props.navigation.navigate('ViewEmote', {event: item})}>
-             <ListItem
-              title={LanguageManager.getInstance().getText(picture.imgName)}
-              subtitle={time}
-              leftAvatar={{
-                source: Image.resolveAssetSource(picture.uri)
-              }}
-              chevron={true}
-            />
+          <TouchableOpacity  onPress={() => this.props.navigation.navigate('ViewMeal', { event: item })}>
+            <HistoryEntry
+              onAddButtonClicked={() => { }}
+              navigationName={LanguageManager.getInstance().getText(objData.name)}
+              title={time}
+              subtitle={LanguageManager.getInstance().getText(objData.name)}
+              viewallText={'expand'}
+              color={color}
+              image={image} />
+          </TouchableOpacity>
+        )
+
+      }
+      case Events.GIP: {
+        let color = '#FF8D1E';
+        image = this.getGipImageSource(objData.result);
+        return (
+          <TouchableOpacity  onPress={() => this.props.navigation.navigate('ViewGIP', { event: item })}>
+            < HistoryEntry
+              onAddButtonClicked={() => { }}
+              navigationName={LanguageManager.getInstance().getText(objData.name)}
+              title={time}
+              subtitle={LanguageManager.getInstance().getText(objData.note)}
+              viewallText={'expand'}
+              color={color}
+              image={image} />
+          </TouchableOpacity >
+        )
+
+      }
+
+      case Events.Emotion: {
+        let color = '#9958B7';
+        let image = this.getEmotionImageSource(objData.type);
+        return (
+          <TouchableOpacity  onPress={() => this.props.navigation.navigate('ViewEmote', { event: item })}>
+            < HistoryEntry
+              onAddButtonClicked={() => { }}
+              navigationName={LanguageManager.getInstance().getText(objData.name)}
+              title={time}
+              subtitle={LanguageManager.getInstance().getText(objData.note)}
+              viewallText={'expand'}
+              color={color}
+              image={image} />
           </TouchableOpacity>
         )
       }
@@ -158,7 +192,7 @@ export default class EntryList extends React.Component {
       }
       default: {
         return (
-          <Text>{JSON.stringify(item)}</Text>
+          <Text> { JSON.stringify(item)}</Text >
         )
       }
     }
@@ -177,10 +211,10 @@ export default class EntryList extends React.Component {
       // second ScrollView (horizontal) to avoid virtualised list warnings https://github.com/GeekyAnts/NativeBase/issues/2947
       return (
         <ScrollView horizontal={true}>
-          <FlatList     
-            data={(this.state.events).filter( x => x.eventType !== Events.LogEvent)}
+          <FlatList style={styles.items}
+            data={(this.state.events).filter(x => x.eventType !== Events.LogEvent)}
             keyExtractor={(item, index) => item.id.toString()}
-            renderItem={({item}) => this.renderItem(item)}
+            renderItem={({ item }) => this.renderItem(item)}
             ItemSeparatorComponent={this.renderSeparator}
           />
         </ScrollView>
@@ -190,7 +224,7 @@ export default class EntryList extends React.Component {
   //https://nyxo.app/fixing-virtualizedlists-should-never-be-nested-inside-plain-scrollviews
   render() {
     return (
-      <ScrollView>
+      <ScrollView style={styles.items}>
         <NavigationEvents
           onDidFocus={() => this.updateList(this.props.selectedDate)}
         />
@@ -201,16 +235,7 @@ export default class EntryList extends React.Component {
 }
 
 var styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    marginTop:60
-  },
-  outerCircle: {
-    borderRadius: 40,
-    width: 80,
-    height: 80,
-    backgroundColor: 'red',
-  },
+
 });
 
 

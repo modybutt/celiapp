@@ -48,7 +48,6 @@ export default class CalendarScreen extends React.Component {
     if (this.state.selectedDate != date) {
       this.list.updateList(date);
       this.setState({ selectedDate: d });
-      this.onDatechangesListener(d);
     }
   }
 
@@ -61,9 +60,6 @@ export default class CalendarScreen extends React.Component {
       <View style={styles.container}>
         <CeliCalendarPicker ref='celiCalendar' selectedDate={this.state.selectedDate} onDateChange={(date) => this.onDateChange(date)} />
         <EntryList navigation={this.props.navigation} selectedDate={this.state.selectedDate} ref={list => this.list = list} />
-        <MenuButton navigation={this.props.navigation} shareConfig={{
-          onDateChanged: (onDatechangesListener) => { this.onDatechangesListener = onDatechangesListener; }
-        }} />
       </View>
     );
   }
@@ -72,5 +68,6 @@ export default class CalendarScreen extends React.Component {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+    backgroundColor:'#fff',
   },
 });

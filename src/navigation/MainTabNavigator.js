@@ -34,9 +34,9 @@ import Colors from '../constants/Colors';
 import MainScreen from "../screens/MainScreen";
 import OnBoardingScreen from "../screens/OnboardingScreen";
 
-const EvaluationStack = createStackNavigator({
+/*const EvaluationStack = createStackNavigator({
   Evaluation: EvaluationScreen,
-});
+});*/
 
 const CalendarStack = createStackNavigator({
   Calendar: CalendarScreen,
@@ -60,7 +60,7 @@ const ReportStack = createStackNavigator({
 
 const TabNavStack = createMaterialTopTabNavigator(
   {
-    Evaluation: {
+    /*Evaluation: {
       screen: EvaluationStack,
       navigationOptions: {
         //tabBarLabel: 'Evaluation',
@@ -68,7 +68,7 @@ const TabNavStack = createMaterialTopTabNavigator(
           <TabBarIcon focused={focused} name={"md-pulse"} />
         ),
       },
-    },
+    },*/
     Glutenbuddy: {
       screen: MainScreenStack,
       navigationOptions: {		  
