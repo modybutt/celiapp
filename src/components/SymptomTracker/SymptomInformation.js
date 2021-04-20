@@ -26,19 +26,19 @@ export default class SymptomInformation extends React.Component {
                 ]
             } >
                 <View style={[styles.subContainer, this.colorStyle]}>
-                    <Text style={styles.text}>For each symptom button you can select the severeness in which you are experiencing the symptom</Text>
+                    <Text style={styles.text}>For each symptom, you can select the severity you are experiencing. The severity levels are:</Text>
                     <View style={styles.multipleBubbleDescriptionContainer}>
                         <View style={styles.bubbleDescriptionContainer}>
                             <View style={[styles.smallBubble,styles.smallBubbleMild]}></View>
-                            <Text style={styles.textDescription}>lightgreen means mild</Text>
+                            <Text style={styles.textDescription}>mild</Text>
                         </View>
                         <View style={styles.bubbleDescriptionContainer}>
                             <View style={[styles.smallBubble,styles.smallBubbleModerate]}></View>
-                            <Text style={styles.textDescription}>green means moderate</Text>
+                            <Text style={styles.textDescription}>moderate</Text>
                         </View>
                         <View style={styles.bubbleDescriptionContainer}>
                             <View style={[styles.smallBubble,styles.smallBubbleSevere]}></View>
-                            <Text style={styles.textDescription}>dark grenn means severe</Text>
+                            <Text style={styles.textDescription}>severe</Text>
                         </View>
                     </View>
                 </View>

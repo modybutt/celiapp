@@ -32,7 +32,7 @@ export default class SymptomTrackerScreen extends React.Component {
         this.state = {
             symptomDescription: "",
             symptomEntryNote: "",
-            selectedSymptoms: [],
+            selectedSymptoms:[{symptomID: 0,severity: 1 }], //dirty fix, if screen editable this brings trouble
             dayChangeDialogVisible: false,
             resetSymptomGroup: false,
             cancelSaveDialogVisible: false,
@@ -63,11 +63,11 @@ export default class SymptomTrackerScreen extends React.Component {
         //         BackHandler.removeEventListener('hardwareBackPress', this.onBackButtonPressAndroid)
         //     );
 
-        this.props.navigation.setParams({
+        /*this.props.navigation.setParams({
             onOkPressed: this.saveCurrentData.bind(this),
             onCancelPressed: this.handleCancelButton.bind(this),
             onSymptomsUpdated: this.onSymptomsUpdated.bind(this)
-        });
+        });*/
 
         this.keyboardDidShowListener = Keyboard.addListener(
             'keyboardDidShow',
@@ -105,9 +105,9 @@ export default class SymptomTrackerScreen extends React.Component {
         this._noteEdit.deleteNote();
     }
 
-    onSymptomsUpdated = (callback) => {
+    /*onSymptomsUpdated = (callback) => {
         //this.symptomsUpdated = callback;
-    }
+    }*/
 
 
     setBackDayChooserOneDay = () => {
@@ -193,16 +193,6 @@ export default class SymptomTrackerScreen extends React.Component {
                       }}
                     ></View>
                     <SymptomGroup selection={this.state.selectedSymptoms} onSelectionChanged={this.symptomSelectionChangeHandler} />
-                    
-                    <HorizontalLineWithText color={themeColor} text={LanguageManager.getInstance().getText("NAME")} />
-                    <View style={styles.containerPadding}>
-                        <TextInputSingleLine color={themeColor}
-                            ref={component => this._name = component}
-                            onTextChanged={this.descriptionEditedHandler}
-                            style={{ Top: 10 }}
-                            placeholderText={LanguageManager.getInstance().getText("MEAL_NAME_PLACEHOLDER")}
-                        />
-                    </View>
                     <HorizontalLineWithText color={themeColor} text={LanguageManager.getInstance().getText("NOTES")} />
                     <NoteEdit color={themeColor} style={styles.notes} ref={component => this._noteEdit = component} note={this.state.symptomEntryNote} onTextChanged={this.noteEditedHandler} />
                     <View style={{ paddingBottom: 10 }} />

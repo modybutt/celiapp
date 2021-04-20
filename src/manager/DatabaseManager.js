@@ -199,8 +199,6 @@ export default class DatabaseManager {
   createSymptomEvent(symptomID, severity,description ,note, timestamp, onError, onSuccess) {
     let objData = {
       symptomID,
-      //name: "",
-      //icon: "",
       severity,
       description,
       note
@@ -227,8 +225,6 @@ export default class DatabaseManager {
   updateSymptomEvent(eventID, symptomID, severity, note, onError, onSuccess) {
     let objData = {
       symptomID,
-      //name: "",
-      //icon: "",
       severity,
       note
     }

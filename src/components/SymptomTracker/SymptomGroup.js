@@ -33,7 +33,6 @@ export default class SymptomGroup extends React.Component {
 
   refreshSymptoms = () => {
     this.setState({ loading: true });
-
     DatabaseManager.getInstance().fetchSymptoms(
       (_, error) => { alert("Error fetching symptoms" + error) },
       (_, { rows: { _array } }) => {
@@ -41,7 +40,6 @@ export default class SymptomGroup extends React.Component {
         _array.unshift(this.noSymptomButton)
         //remove self defined symptom types
         _array = _array.filter((entry => entry.id <= 12))
-
         this.setState(
           {
             symptoms: _array,
@@ -49,6 +47,7 @@ export default class SymptomGroup extends React.Component {
           })
       }
     );
+
   }
 
   severityChooserOpenHandler = (setActive, symptomID) => {
@@ -66,8 +65,10 @@ export default class SymptomGroup extends React.Component {
 
   symptomSelected = (symptomID, severity) => {
     let list = [];
-    if (symptomID != 0) {
-      list = this.props.selection.filter((entry => entry.symptomID != symptomID));
+    if (symptomID == 0) {
+      list = list.concat([{ symptomID, severity }]);
+    } else {
+      list = this.props.selection.filter((entry => entry.symptomID != symptomID && entry.symptomID != 0));
       list = list.concat([{ symptomID, severity }]);
     }
     this.props.onSelectionChanged(list);
@@ -107,16 +108,14 @@ export default class SymptomGroup extends React.Component {
 
   getCurrentSeverity = (id) => {
     let list = this.props.selection.filter((entry => entry.symptomID == id));
-    if (this.props.selection.length == 0 && id == 0) {
-      return 1;
-    } else {
+
       if (list.length > 0) {
         return list[0].severity;
       }
       else {
         return 0;
       }
-    }
+    
   }
 
   rowOfSymptomButtons(from, size) {
@@ -128,14 +127,14 @@ export default class SymptomGroup extends React.Component {
       let symptom = this.state.symptoms[k];
       let index = k;
       cluster.push(
-        <View 
-        key={"button"+symptom.id}
-        onLayout={event => {
-          const layout = event.nativeEvent.layout;
-          this.addButtonLayout(index, symptom.id, layout);
-        }} >
+        <View
+          key={"button" + symptom.id}
+          onLayout={event => {
+            const layout = event.nativeEvent.layout;
+            this.addButtonLayout(index, symptom.id, layout);
+          }} >
           <SymptomIconButton
-            type={this.getSymptomButtonType(symptomColumn, symptom.type)}          
+            type={this.getSymptomButtonType(symptomColumn, symptom.type)}
             severity={this.getCurrentSeverity(symptom.id)}
             symptomID={symptom.id}
             symptomName={symptom.name}
@@ -149,14 +148,14 @@ export default class SymptomGroup extends React.Component {
       );
     }
 
-    
+
     if (k < (from + size)) {
       // fill up with spacer
       while (k++ < (from + size)) {
         cluster.push(<SymptomIconButton opacity={0} />);
       }
     }
-    
+
     return cluster;
   }
 
@@ -176,7 +175,7 @@ export default class SymptomGroup extends React.Component {
       let index = i;
       symptomRows.push(
         <View
-          key={"row"+i}
+          key={"row" + i}
           onLayout={event => {
             const layout = event.nativeEvent.layout;
             this.addGroupLayout(index, layout);
@@ -186,7 +185,7 @@ export default class SymptomGroup extends React.Component {
     }
     return symptomRows;
   }
-  
+
   getDefaultSeverity(id) {
     let symptom = this.props.selection.find((entry) => entry.symptomID == id);
     if (symptom != null) {
@@ -197,17 +196,17 @@ export default class SymptomGroup extends React.Component {
 
   addButtonLayout(index, id, layout) {
     if (!(id in this.state.buttonLayouts)) {
-      const tmpButtonLayouts = {...this.state.buttonLayouts};
+      const tmpButtonLayouts = { ...this.state.buttonLayouts };
       tmpButtonLayouts[id] = [index, layout];
-      this.setState({buttonLayouts:tmpButtonLayouts})
+      this.setState({ buttonLayouts: tmpButtonLayouts })
     }
   }
 
   addGroupLayout(groupindex, layout) {
     if (!(groupindex in this.state.groupLayouts)) {
-      const tmpGroupLayouts = {...this.state.groupLayouts};
+      const tmpGroupLayouts = { ...this.state.groupLayouts };
       tmpGroupLayouts[groupindex] = layout;
-      this.setState({groupLayouts:tmpGroupLayouts})
+      this.setState({ groupLayouts: tmpGroupLayouts })
     }
   }
 
@@ -228,23 +227,23 @@ export default class SymptomGroup extends React.Component {
         let groupindex = (((index - 1) / NUM_BUTTONS_IN_ROW) | 0) * NUM_BUTTONS_IN_ROW + 1;
         let groupLayout = this.state.groupLayouts[groupindex];
         let position = {
-          top: groupLayout.y + buttonLayout.y + (buttonLayout.height/2),
-          left: groupLayout.x + buttonLayout.x + (buttonLayout.width/2)
+          top: groupLayout.y + buttonLayout.y + (buttonLayout.height / 2),
+          left: groupLayout.x + buttonLayout.x + (buttonLayout.width / 2)
         }
         let orientation = SYMPTOM_BUTTON_TYPES.SEVERITY_CHOOSER_CENTRE;
-        if (index%NUM_BUTTONS_IN_ROW === 0){
+        if (index % NUM_BUTTONS_IN_ROW === 0) {
           orientation = SYMPTOM_BUTTON_TYPES.SEVERITY_CHOOSER_LEFT;
-        }else if(index%NUM_BUTTONS_IN_ROW === 1){
+        } else if (index % NUM_BUTTONS_IN_ROW === 1) {
           orientation = SYMPTOM_BUTTON_TYPES.SEVERITY_CHOOSER_RIGHT;
         }
-        
+
 
         return (
           <View>
-              <View>
+            <View>
               {this.renderAllSymptoms()}
-              </View>
-              <SymptomSeverityChooser
+            </View>
+            <SymptomSeverityChooser
               position={position}
               orientation={orientation}
               onPressLow={() => this.symptomSelected(this.state.severityChooserOpenID, 1)}
