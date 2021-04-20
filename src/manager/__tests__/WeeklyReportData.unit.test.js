@@ -31,6 +31,7 @@ getEvents1 = () => {
         events.push(MockDB.symptom("27 Mar 2021 19:07:20.05", Symptoms.LOSS_OF_APPETITE, 1, ""))
         events.push(MockDB.meal("28 Mar 2021 19:08:20.05", Meals.BREAKFAST, Gluten.FREE))
         //Current Week Mon 29th to Sun 4th
+        events.push(MockDB.gipStick("30 Mar 2021 19:07:20.05", Gluten.FREE))
         events.push(MockDB.symptom("31 Mar 2021 19:07:20.05", Symptoms.LOSS_OF_APPETITE, 1, ""))
         events.push(MockDB.meal("31 Mar 2021 19:07:20.05", Meals.DINNER, Gluten.UNKNOWN))
         events.push(MockDB.emotion("31 Mar 2021 19:07:20.05", Emotion.UNHAPPY))
@@ -51,6 +52,7 @@ getEvents1 = () => {
         events.push(MockDB.symptom("03 Apr 2021 19:07:20.05", Symptoms.BLOATING, Severity.SEVERE, ""))
         events.push(MockDB.meal("03 Apr 2021 19:07:20.05", Meals.DINNER, Gluten.UNKNOWN))
         events.push(MockDB.emotion("03 Apr 2021 19:07:20.05", Emotion.HAPPY))
+        events.push(MockDB.gipStick("03 Apr 2021 19:07:20.05", Gluten.FREE))
         events.push(MockDB.interaction("03 Apr 2021 19:07:20.05"))
         events.push(MockDB.symptom("04 Apr 2021 19:07:20.05", Symptoms.LOSS_OF_APPETITE, 1, ""))
         events.push(MockDB.symptom("04 Apr 2021 19:07:20.05", Symptoms.LOSS_OF_APPETITE, 1, ""))
@@ -90,11 +92,8 @@ describe('calculate weekly count score ', () => {
                 expect(weekData.thisWeekSymptomCount()).toBe(8)
                 expect(weekData.thisWeekMoodCount()).toBe(6)
                 expect(weekData.thisWeekMealCount()).toBe(7)
-                //TODO add GIP events in DB
-                expect(weekData.thisWeekGIPCount()).toBe(0)
+                expect(weekData.thisWeekGIPCount()).toBe(2)
         });
-
-        test.todo('add mock GIP events to fix two previous tests')
 
         test('calc daily activity rate for this week', () => {
                 expect(weekData.activityRateForDay(0)).toEqual(0)
@@ -111,7 +110,7 @@ describe('calculate weekly count score ', () => {
                 expect(weekData.bestDaySymptomCount()).toEqual(1)
                 expect(weekData.bestDayMoodCount()).toEqual(1)
                 expect(weekData.bestDayMealCount()).toEqual(1)
-                expect(weekData.bestDayGipTests()).toEqual(0)
+                expect(weekData.bestDayGipTests()).toEqual(1)
         })
 });
 
@@ -127,13 +126,16 @@ describe('calculate day score ', () => {
         severe = MockDB.symptom("01 Apr 2021 19:07:20.05", Symptoms.LOSS_OF_APPETITE, Severity.SEVERE, "")
         moderate = MockDB.symptom("01 Apr 2021 19:07:20.05", Symptoms.LOSS_OF_APPETITE, Severity.MODERATE, "")
         low = MockDB.symptom("01 Apr 2021 19:07:20.05", Symptoms.LOSS_OF_APPETITE, Severity.LOW, "")
+        gipYes = MockDB.gipStick("03 Apr 2021 19:07:20.05", Gluten.PRESENT)
+        gipNo = MockDB.gipStick("03 Apr 2021 19:07:20.05", Gluten.FREE)
+        gipUnknown = MockDB.gipStick("03 Apr 2021 19:07:20.05", Gluten.UNKNOWN)
         no_symptom = MockDB.symptom("01 Apr 2021 19:07:20.05", Symptoms.NO_SYMPTOMS, 0, "")
 
         var weekData = new WeeklyReportData(new MockDB([]));
 
         beforeAll(() => {
 
-                [glutenMaybe, glutenYes, glutenNo, severe, moderate, low, no_symptom, unhappy, slightly_unhappy, neutral, slightly_happy, happy]
+                [glutenMaybe, glutenYes, glutenNo, severe, moderate, low, no_symptom, unhappy, slightly_unhappy, neutral, slightly_happy, happy, gipYes, gipNo, gipUnknown]
                         .map(weekData.jsonifyEvent)
         });
 
@@ -154,7 +156,10 @@ describe('calculate day score ', () => {
                 expect(weekData.scoreDay([severe, moderate, low, no_symptom])).toBe(1 + 2 + 3 + 5)
         });
 
-        test.todo('calculate day scores for GIP')
+        test('calculate day scores for GIP', () => {
+                expect(weekData.scoreDay([gipYes, gipNo, gipUnknown])).toBe(1 + 0.5 + 0)
+        });
+
 
         test('calculate day scores for a mix', () => {
                 expect(weekData.scoreDay(
@@ -178,8 +183,10 @@ getEvents2 = () => {
         events.push(MockDB.emotion("31 Mar 2021 19:07:20.05", Emotion.SLIGHTLY_HAPPY))
         events.push(MockDB.meal("31 Mar 2021 19:07:20.05", Meals.DINNER, Gluten.UNKNOWN))
         events.push(MockDB.emotion("31 Mar 2021 19:07:20.05", Emotion.UNHAPPY))
+        events.push(MockDB.gipStick("31 Mar 2021 19:07:20.05", Gluten.FREE))
         events.push(MockDB.meal("01 Apr 2021 19:07:20.05", Meals.DINNER, Gluten.UNKNOWN))
         events.push(MockDB.emotion("01 Apr 2021 19:07:20.05", Emotion.UNHAPPY))
+        events.push(MockDB.gipStick("01 Apr 2021 19:07:20.05", Gluten.UNKNOWN))
         events.push(MockDB.interaction("01 Apr 2021 19:07:20.05"))
         events.push(MockDB.meal("02 Apr 2021 19:07:20.05", Meals.DINNER, Gluten.UNKNOWN))
         events.push(MockDB.emotion("02 Apr 2021 19:07:20.05", Emotion.NEUTRAL))
@@ -187,6 +194,7 @@ getEvents2 = () => {
         events.push(MockDB.meal("03 Apr 2021 19:07:20.05", Meals.DINNER, Gluten.UNKNOWN))
         events.push(MockDB.emotion("03 Apr 2021 19:07:20.05", Emotion.HAPPY))
         events.push(MockDB.interaction("03 Apr 2021 19:07:20.05"))
+        events.push(MockDB.gipStick("30 Mar 2021 19:07:20.05", Gluten.FREE))
         events.push(MockDB.symptom("30 Mar 2021 19:07:20.05", Symptoms.LOW_ENERGY, Severity.MODERATE, ""))
         events.push(MockDB.symptom("31 Mar 2021 19:07:20.05", Symptoms.NO_SYMPTOMS, 1, ""))
         events.push(MockDB.symptom("31 Mar 2021 19:07:20.05", Symptoms.NO_SYMPTOMS, 1, ""))
@@ -229,10 +237,9 @@ describe('count  days with ', () => {
                 expect(weekData.thisWeekNumDaysWithEnergy()).toEqual(6);
         })
 
-        test.todo('GIP recorded')
-        // , () =>{
-        //         expect(weekData.thisWeekNumDaysWithGIP()).toEqual(6);
-        // })
+        test('GIP recorded', () =>{
+                expect(weekData.thisWeekNumDaysWithGIP()).toEqual(3);
+        })
 
         test('days with mild as worst symptoms', () => {
                 expect(weekData.thisWeekNumDaysWithMildAsWorstSymptoms()).toEqual(1);

@@ -3,7 +3,8 @@ import React from 'react';
 import { MonoText } from '../StyledText';
 import renderer from 'react-test-renderer';
 
-test.todo('renders correctly')
+test('renders correctly', () => {//TODO 'maybe remove this test does nothing'
+})
 // test('renders correctly', () => {
 //   const tree = renderer.create(<MonoText>Snapshot test!</MonoText>).toJSON();
 

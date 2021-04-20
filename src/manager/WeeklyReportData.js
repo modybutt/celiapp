@@ -64,7 +64,12 @@ export default class WeeklyReportData {
       }
 
       case Events.GIP: {
-        return 1;
+        const scores = {
+          [Gluten.FREE]: 1,
+          [Gluten.UNKNOWN]: 0.5,
+          [Gluten.PRESENT]: 0,
+        }
+        return event.objData.result in scores ? scores[event.objData.result] : 0;
       }
     }
   }
@@ -229,7 +234,7 @@ export default class WeeklyReportData {
   thisWeekNumDaysWithSymptoms = () => this.enrichedDays.filter(day => day.symptomCount > 0).length;
   thisWeekNumDaysWithMeals = () => this.enrichedDays.filter(day => day.mealCount > 0).length;
   thisWeekNumDaysWithEnergy = () => this.enrichedDays.filter(day => day.emotionCount > 0).length;
-  thisWeekNumDaysWithGIP = () => 0; //todo
+  thisWeekNumDaysWithGIP = () => this.enrichedDays.filter(day => day.gipTests > 0).length;
 
   thisWeekNumDaysWithMildAsWorstSymptoms = () => this.enrichedDays.filter(day => day.mildSymptomCount > 0 && day.moderateSymptomCount == 0 && day.severeSymptomCount == 0).length;
   thisWeekNumDaysWithModerateAsWorstSymptoms = () => this.enrichedDays.filter(day => day.moderateSymptomCount > 0 && day.severeSymptomCount == 0).length;

@@ -215,7 +215,7 @@ test('before first full week', (done) =>{
 test('report Title', (done) =>{
     function callback(report) {
         try {
-            expect(report.title).toEqual("Weekly report for week ending Sunday, March 22");
+            expect(report.title).toEqual("Report for week ending Sunday, March 22");
             
             done();
         }
