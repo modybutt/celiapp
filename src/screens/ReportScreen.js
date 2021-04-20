@@ -47,13 +47,42 @@ export default class ReportScreen extends React.Component {
 
     this.props.navigation.addListener('willFocus', () => {
       CeliLogger.addLog("WeekReport", Interactions.OPEN);
-      ReportManager.weeklyReport(this.receiveData);
+      this.setState({ dateForReport: new Date() });
+      ReportManager.weeklyReport(this.receiveData, this.state.dateForReport);
     });
 
     console.log("component mounted")
   }
 
+  addDays = (date, days) => {
+
+    newDate = new Date(date);
+    newDate.setDate(newDate.getDate() + days);
+
+    return newDate;
+  }
+
+  showPreviousWeekReport = () => {
+    prevWeekDate = this.addDays(this.state.dateForReport, -7)
+    this.showWeekReportForDate(prevWeekDate)
+  } 
+
+  showFollowingWeekReport= () =>{
+    followingWeekDate = this.addDays(this.state.dateForReport, +7)
+    this.showWeekReportForDate(followingWeekDate)
+  } 
+
+  showWeekReportForDate= (date) =>{
+    console.log("date in ",date.toString())
+    date = date || new Date()
+    console.log("date out ",date.toString())
+    this.setState({ dateForReport: date });
+    console.log("getting next week report",date)
+    ReportManager.weeklyReport(this.receiveData, date);
+  } 
+
   receiveData = (data) => {
+    console.log("handler",this.showFollowingWeekReport)
     this.setState({ reportData: data });
     console.log("==================================received report data:");
     this.props.navigation.setParams({ title: data.title })
@@ -69,7 +98,7 @@ export default class ReportScreen extends React.Component {
     return (
       <View style={styles.container}>
         <WeekDisplay dailyActivity={this.state.reportData.dailyActivity} />
-        <BestDay />
+        <BestDay handlePressLeft = {this.showPreviousWeekReport} handlePressRight={this.showFollowingWeekReport}/>
         <View style={{ marginTop: 10 }}>
           <View style={styles.infoBoxRow}>
             <InfoBox info={reportData.symptomInfo} image={symptomImage} color={Colors.symptom} onAddClicked={this.addEvent("AddSymptom")} />
@@ -86,9 +115,10 @@ export default class ReportScreen extends React.Component {
 }
 
 
-const LeftRightButton = ({left, right}) => 
+const LeftRightButton = ({left, right, pressHandler}) => 
   <View>
-    <TouchableOpacity  
+    <TouchableOpacity
+     onPress = {() => {console.log("press",pressHandler); pressHandler() }}  
     style={[
         {
           justifyContent: 'center',
@@ -107,16 +137,16 @@ const LeftRightButton = ({left, right}) =>
       </TouchableOpacity>
   </View>
 
-const BestDay = () =>
+const BestDay = ({handlePressLeft, handlePressRight}) =>
   <View style={styles.bestDay}>
     <Text style={styles.bestDayCaption}>Best Day</Text>
     <View style={styles.bestDayBorder}>
-      <LeftRightButton left = {true}/>
-      <View style={[{display: 'flex', flexGrow : 1, flexDirection: 'column',}]}>
+      <LeftRightButton left = {true} pressHandler = {handlePressLeft}/>
+      <View style={[{display: 'flex', flexGrow : 1, flexDirection: 'column',alignItems: 'center'}]}>
         <Text style={styles.bestDayHeading}>{reportData.bestDayHeading}</Text>
         <Text style={styles.bestDayBody}>{reportData.bestDayBody}</Text>
       </View>   
-      <LeftRightButton right = {true}/> 
+      <LeftRightButton right = {true} pressHandler = {handlePressRight}/> 
     </View>   
   </View>
 
