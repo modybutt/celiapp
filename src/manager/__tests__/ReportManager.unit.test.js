@@ -30,6 +30,7 @@ class mockReportData {
     thisWeekGlutenFreeMealCount = jest.fn();
     numDaysHighEnergy = jest.fn();
     numDaysMediumEnergy = jest.fn();
+    numGIPGlutenFree = jest.fn();
 };
 
 var mockThisWeekData = new mockReportData;
@@ -52,6 +53,7 @@ DatabaseManager.getInstance = () => {
 
 beforeEach(() => {
     mockThisWeekData.init.mockResolvedValue("ok");
+    mockPrevWeekData.init.mockResolvedValue("ok");
     mockGetDBCreatedDate.mockReturnValue(SatMar28_2020)
 
     WeeklyReportData
@@ -183,6 +185,74 @@ test('days with severe symptoms', (done) => {
 
     ReportManager.weeklyReport(callback)
 });
+
+test('should remind you to log gip if you havnt any', done => {
+    function callback(report) {
+        try {
+            expect(report.gipInfo.headline).toEqual("Logging GIP sticks will help you master your diet!");
+            expect(report.gipInfo.body).toEqual("You have not logged any GIP sticks");
+            done();
+        }
+        catch (error) {
+            done(error);
+        }
+    }
+
+    mockThisWeekData.thisWeekGIPCount.mockReturnValue(0);
+    ReportManager.weeklyReport(callback)
+});
+
+test('should remind you to log gip if you havnt done many', done => {
+    function callback(report) {
+        try {
+            expect(report.gipInfo.headline).toEqual("Knowledge is power!");
+            expect(report.gipInfo.body).toEqual("Most of the week you haven't logged any GIP sticks");
+            done();
+        }
+        catch (error) {
+            done(error);
+        }
+    }
+
+    mockThisWeekData.thisWeekGIPCount.mockReturnValue(2);
+    ReportManager.weeklyReport(callback)
+});
+
+test('say how many gip sticks', done => {
+    function callback(report) {
+        try {
+            expect(report.gipInfo.headline).toEqual("Knowledge is power!");
+            expect(report.gipInfo.body).toEqual("You logged 3 gluten tests this week. This is your first week");
+            done();
+        }
+        catch (error) {
+            done(error);
+        }
+    }
+
+    mockThisWeekData.thisWeekGIPCount.mockReturnValue(3);
+    ReportManager.weeklyReport(callback)
+});
+
+test('say how many gip sticks compared to last week', done => {
+    function callback(report) {
+        try {
+            expect(report.gipInfo.headline).toEqual("All tests were GLUTENFREE!");
+            expect(report.gipInfo.body).toEqual("You logged 3 gluten tests this week. That is 2 less than at this time last week!");
+            done();
+        }
+        catch (error) {
+            done(error);
+        }
+    }
+
+    mockThisWeekData.thisWeekGIPCount.mockReturnValue(3);
+    mockPrevWeekData.thisWeekGIPCount.mockReturnValue(5);
+    mockThisWeekData.numGIPGlutenFree.mockReturnValue(3);
+    
+    ReportManager.weeklyReport(callback)
+});
+
 
 test('before first full week', (done) =>{
     function callback(report) {

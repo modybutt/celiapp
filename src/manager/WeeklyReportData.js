@@ -218,6 +218,13 @@ export default class WeeklyReportData {
       .filter(event => event.objData && event.objData.tag == tag)
       .length
 
+  countGIPEventsBetweenDates = (result, start, end) =>
+      this.events
+        .filter(event => event.created > start && event.created < end)
+        .filter(event => event.eventType == Events.GIP)
+        .filter(event => event.objData && event.objData.result == result)
+        .length
+
 
   bestDayDate = () => this.bestDay.date
   bestDaySymptomCount = () => this.bestDay.symptomCount;
@@ -244,5 +251,7 @@ export default class WeeklyReportData {
 
   numDaysHighEnergy = () => this.enrichedDays.filter(day => day.highEnergyCount > 0).length;
   numDaysMediumEnergy = () => this.enrichedDays.filter(day => day.mediumEnergyCount > 0).length;
+
+  numGIPGlutenFree = () => this.countGIPEventsBetweenDates(Gluten.Free, this.currentWeekStart, this.currentWeekEnd)
 
 };
