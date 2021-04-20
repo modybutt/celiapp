@@ -501,7 +501,7 @@ export default class DatabaseManager {
           (_, { rows: { length, _array } }) => {
             console.log("earliest record =", _array[0]);
             if(length ==0) resolve(0)
-            resolve(_array[0].created)
+			else resolve(_array[0].created) //quick fix -> don't resolve if length === 0.
           }),
           (err) => console.log("error:", err)
         )
