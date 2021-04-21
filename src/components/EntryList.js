@@ -170,16 +170,18 @@ export default class EntryList extends React.Component {
         let image = this.getSymptomImageSource(objData.symptomID);
         if (objData.symptomID === 0) objData.name = 'NO_SYMPTOMS'; //TODO: Temp solution. Needs to be an entry in the database
         return (
-          <TouchableOpacity onPress={() => this.props.navigation.navigate('ViewSymptom', { event: item })}>
-            <HistoryEntry
-              onAddButtonClicked={() => { }}
-              navigationName={LanguageManager.getInstance().getText(objData.name)}
-              title={time}
-              subtitle={severityText + " " + LanguageManager.getInstance().getText(objData.name)}
-              viewallText={'expand'}
-              color={color}
-              image={image} />
-          </TouchableOpacity>
+          //<TouchableOpacity onPress={() => this.props.navigation.navigate('ViewSymptom', { event: item })}>
+          <HistoryEntry
+            onLeftButtonClicked={() => { }}
+            onRightButtonClicked={() => this.props.navigation.navigate('DeleteScreen', { event: item })}
+            navigationName={LanguageManager.getInstance().getText(objData.name)}
+            title={time}
+            subtitle={severityText + " " + LanguageManager.getInstance().getText(objData.name)}
+            viewLeftButtonText={'edit'}
+            viewRightButtonText={'delete'}
+            color={color}
+            image={image} />
+          //</TouchableOpacity>
         )
       }
 
@@ -187,16 +189,18 @@ export default class EntryList extends React.Component {
         let color = '#3398DE';
         image = this.getFoodImageSource(objData.type);
         return (
-          <TouchableOpacity onPress={() => this.props.navigation.navigate('ViewMeal', { event: item })}>
-            <HistoryEntry
-              onAddButtonClicked={() => { }}
-              navigationName={LanguageManager.getInstance().getText(objData.name)}
-              title={time}
-              subtitle={LanguageManager.getInstance().getText(objData.name)}
-              viewallText={'expand'}
-              color={color}
-              image={image} />
-          </TouchableOpacity>
+          //<TouchableOpacity onPress={() => this.props.navigation.navigate('ViewMeal', { event: item })}>
+          <HistoryEntry
+            onLeftButtonClicked={() => { }}
+            onRightButtonClicked={() => this.props.navigation.navigate('DeleteScreen', { event: item })}
+            navigationName={LanguageManager.getInstance().getText(objData.name)}
+            title={time}
+            subtitle={LanguageManager.getInstance().getText(objData.name)}
+            viewLeftButtonText={'edit'}
+            viewRightButtonText={'delete'}
+            color={color}
+            image={image} />
+          //</TouchableOpacity>
         )
 
       }
@@ -204,16 +208,18 @@ export default class EntryList extends React.Component {
         let color = '#FF8D1E';
         image = this.getGipImageSource(objData.result);
         return (
-          <TouchableOpacity onPress={() => this.props.navigation.navigate('ViewGIP', { event: item })}>
-            < HistoryEntry
-              onAddButtonClicked={() => { }}
-              navigationName={LanguageManager.getInstance().getText(objData.name)}
-              title={time}
-              subtitle={LanguageManager.getInstance().getText(objData.note)}
-              viewallText={'expand'}
-              color={color}
-              image={image} />
-          </TouchableOpacity >
+          //<TouchableOpacity onPress={() => this.props.navigation.navigate('ViewGIP', { event: item })}>
+          < HistoryEntry
+            onLeftButtonClicked={() => { }}
+            onRightButtonClicked={() => this.props.navigation.navigate('DeleteScreen', { event: item })}
+            navigationName={LanguageManager.getInstance().getText(objData.name)}
+            title={time}
+            subtitle={LanguageManager.getInstance().getText(objData.note)}
+            viewLeftButtonText={'edit'}
+            viewRightButtonText={'delete'}
+            color={color}
+            image={image} />
+          //</TouchableOpacity >
         )
 
       }
@@ -222,16 +228,18 @@ export default class EntryList extends React.Component {
         let color = '#9958B7';
         let image = this.getEmotionImageSource(objData.type);
         return (
-          <TouchableOpacity onPress={() => this.props.navigation.navigate('ViewEmote', { event: item })}>
-            < HistoryEntry
-              onAddButtonClicked={() => { }}
-              navigationName={LanguageManager.getInstance().getText(objData.name)}
-              title={time}
-              subtitle={LanguageManager.getInstance().getText(objData.note)}
-              viewallText={'expand'}
-              color={color}
-              image={image} />
-          </TouchableOpacity>
+          //<TouchableOpacity onPress={() => this.props.navigation.navigate('ViewEmote', { event: item })}>
+          < HistoryEntry
+            onLeftButtonClicked={() => { }}
+            onRightButtonClicked={() => this.props.navigation.navigate('DeleteScreen', { event: item })}
+            navigationName={LanguageManager.getInstance().getText(objData.name)}
+            title={time}
+            subtitle={LanguageManager.getInstance().getText(objData.note)}
+            viewLeftButtonText={'edit'}
+            viewRightButtonText={'delete'}
+            color={color}
+            image={image} />
+          //</TouchableOpacity>
         )
       }
       case Events.LogEvent: {

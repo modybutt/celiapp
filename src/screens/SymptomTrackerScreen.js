@@ -30,7 +30,6 @@ export default class SymptomTrackerScreen extends React.Component {
         this.timeEditedHandler = this.timeEditedHandler.bind(this);
         this.symptomSelectionChangeHandler = this.symptomSelectionChangeHandler.bind(this);
         this.state = {
-            symptomDescription: "",
             symptomEntryNote: "",
             selectedSymptoms:[{symptomID: 0,severity: 1 }], //dirty fix, if screen editable this brings trouble
             dayChangeDialogVisible: false,
@@ -239,7 +238,7 @@ export default class SymptomTrackerScreen extends React.Component {
 
         if (this.isSymptomSelected()) {
             this.state.selectedSymptoms.forEach((symptom) => {
-                DatabaseManager.getInstance().createSymptomEvent(symptom.symptomID, symptom.severity,this.state.symptomDescription ,this.state.symptomEntryNote, tmpDateTime.getTime(),
+                DatabaseManager.getInstance().createSymptomEvent(symptom.symptomID, symptom.severity,this.state.symptomEntryNote, tmpDateTime.getTime(),
                     (error) => { alert(error) },
                     () => { GlutonManager.getInstance().setMessage(2); GearManager.getInstance().sendMessage("msg 32") }
                 );
