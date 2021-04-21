@@ -5,6 +5,7 @@ import GlutonManager from '../manager/GlutonManager';
 import HeaderBanner from '../components/HeaderBanner';
 import Layout from '../constants/Layout';
 import moment from 'moment';
+import andyPlaceholder from "../assets/images/avatar_menu/placeholder_andy.png";
 
 import {
     images as symptom_images
@@ -22,7 +23,7 @@ import {
     images as gip_images
 } from '../components/GipTracker/GipTrackerClassConstants';
 
-
+const specialColor = "#E91F64";
 
 export default class DeleteScreen extends React.Component {
 
@@ -136,25 +137,28 @@ export default class DeleteScreen extends React.Component {
 
                 return (
                     <>
-                        <SafeAreaView style={{ flex: 0, backgroundColor: 'red' }} />
-                        <ScrollView style={{ backgroundColor: "#fff" }}>
-                            <HeaderBanner color={'red'} imageSource={require('../assets/images/glutenfree.png')} />
-                            <TopPart leftButtonClicked={this.navigateHome} rightButtonClicked={() => this.deleteEntry()} />
-                            <View style={styles.container}>
-                                <View style={styles.leftWrapper}>
-                                    <Image source={Image.resolveAssetSource(image)} style={styles.iconImage}></Image>
-                                </View>
-                                <View style={styles.leftWrapper}>
-                                    <View style={styles.textInfo}>
-                                        <Text style={[styles.entryText, styles.entryTitle]}>{time}</Text>
-                                        <Border color={color} />
-                                        <Text style={[styles.entryText, styles.entrySubtitle]}>
-                                            You register {objData.severity} {objData.symptomID} at {smallTime}. You noted: "{objData.note}"
+                        <SafeAreaView style={{ flex: 0, backgroundColor: specialColor }} />
+                        <HeaderBanner color={specialColor} imageSource={require('../assets/images/glutenfree.png')} />
+                        <View style={styles.background}>
+                            <ScrollView style={{ backgroundColor: "#fff" }}>
+                                <TopPart leftButtonClicked={this.navigateHome} rightButtonClicked={() => this.deleteEntry()} />
+                                <View style={styles.container}>
+                                    <View style={styles.leftWrapper}>
+                                        <Image source={Image.resolveAssetSource(image)} style={styles.iconImage}></Image>
+                                    </View>
+                                    <View style={styles.leftWrapper}>
+                                        <View style={styles.textInfo}>
+                                            <Text style={[styles.entryText, styles.entryTitle]}>{time}</Text>
+                                            <Border color={color} />
+                                            <Text style={[styles.entryText, styles.entrySubtitle]}>
+                                                You register {objData.severity} {objData.symptomID} at {smallTime}. You noted: "{objData.note}"
                                             </Text>
+                                        </View>
                                     </View>
                                 </View>
-                            </View>
-                        </ScrollView>
+
+                            </ScrollView>
+                        </View>
                     </>
                 );
 
@@ -164,25 +168,28 @@ export default class DeleteScreen extends React.Component {
                 image = this.getFoodImageSource(objData.type);
                 return (
                     <>
-                        <SafeAreaView style={{ flex: 0, backgroundColor: 'red' }} />
-                        <ScrollView style={{ backgroundColor: "#fff" }}>
-                            <HeaderBanner color={'red'} imageSource={require('../assets/images/glutenfree.png')} />
-                            <TopPart leftButtonClicked={this.navigateHome} rightButtonClicked={() => this.deleteEntry()} />
-                            <View style={styles.container}>
-                                <View style={styles.leftWrapper}>
-                                    <Image source={Image.resolveAssetSource(image)} style={styles.iconImage}></Image>
-                                </View>
-                                <View style={styles.leftWrapper}>
-                                    <View style={styles.textInfo}>
-                                        <Text style={[styles.entryText, styles.entryTitle]}>{time}</Text>
-                                        <Border color={color} />
-                                        <Text style={[styles.entryText, styles.entrySubtitle]}>
-                                            You ate a {objData.tag} named {objData.name} at {smallTime}. You think it contained {objData.type}. You noted: "{objData.note}"
+                        <SafeAreaView style={{ flex: 0, backgroundColor: specialColor }} />
+                        <HeaderBanner color={specialColor} imageSource={require('../assets/images/glutenfree.png')} />
+                        <View style={styles.background}>
+                            <ScrollView style={{ backgroundColor: "#fff" }}>
+                                <TopPart leftButtonClicked={this.navigateHome} rightButtonClicked={() => this.deleteEntry()} />
+                                <View style={styles.container}>
+                                    <View style={styles.leftWrapper}>
+                                        <Image source={Image.resolveAssetSource(image)} style={styles.iconImage}></Image>
+                                    </View>
+                                    <View style={styles.leftWrapper}>
+                                        <View style={styles.textInfo}>
+                                            <Text style={[styles.entryText, styles.entryTitle]}>{time}</Text>
+                                            <Border color={color} />
+                                            <Text style={[styles.entryText, styles.entrySubtitle]}>
+                                                You ate a {objData.tag} named {objData.name} at {smallTime}. You think it contained {objData.type}. You noted: "{objData.note}"
                                             </Text>
+                                        </View>
                                     </View>
                                 </View>
-                            </View>
-                        </ScrollView>
+
+                            </ScrollView>
+                        </View>
                     </>
                 );
             }
@@ -191,28 +198,30 @@ export default class DeleteScreen extends React.Component {
                 image = this.getGipImageSource(objData.result);
                 return (
                     <>
-                        <SafeAreaView style={{ flex: 0, backgroundColor: 'red' }} />
-                        <ScrollView style={{ backgroundColor: "#fff" }}>
-                            <HeaderBanner color={'red'} imageSource={require('../assets/images/glutenfree.png')} />
-                            <TopPart leftButtonClicked={this.navigateHome} rightButtonClicked={() => this.deleteEntry()} />
-                            <View style={styles.container}>
-                                <View style={styles.leftWrapper}>
-                                    <Image source={Image.resolveAssetSource(image)} style={styles.iconImage}></Image>
-                                </View>
-                                <View style={styles.leftWrapper}>
-                                    <View style={styles.textInfo}>
-                                        <Text style={[styles.entryText, styles.entryTitle]}>{time}</Text>
-                                        <Border color={color} />
-                                        <Text style={[styles.entryText, styles.entrySubtitle]}>
-                                            You uploaded a photo of your GIP stick at {smallTime} and according to you it said {objData.result} found. You noted: "{objData.note}"
+                        <SafeAreaView style={{ flex: 0, backgroundColor: specialColor }} />
+                        <HeaderBanner color={specialColor} imageSource={require('../assets/images/glutenfree.png')} />
+                        <View style={styles.background}>
+                            <ScrollView style={{ backgroundColor: "#fff" }}>
+                                <TopPart leftButtonClicked={this.navigateHome} rightButtonClicked={() => this.deleteEntry()} />
+                                <View style={styles.container}>
+                                    <View style={styles.leftWrapper}>
+                                        <Image source={Image.resolveAssetSource(image)} style={styles.iconImage}></Image>
+                                    </View>
+                                    <View style={styles.leftWrapper}>
+                                        <View style={styles.textInfo}>
+                                            <Text style={[styles.entryText, styles.entryTitle]}>{time}</Text>
+                                            <Border color={color} />
+                                            <Text style={[styles.entryText, styles.entrySubtitle]}>
+                                                You uploaded a photo of your GIP stick at {smallTime} and according to you it said {objData.result} found. You noted: "{objData.note}"
                                             </Text>
+                                        </View>
                                     </View>
                                 </View>
-                            </View>
-                            <View style={styles.photoContainer}>
-                                <Image source={objData.photo} style={styles.photo}></Image>
-                            </View>
-                        </ScrollView>
+                                <View style={styles.photoContainer}>
+                                    <Image source={objData.photo} style={styles.photo}></Image>
+                                </View>
+                            </ScrollView>
+                        </View>
                     </>
                 );
             }
@@ -221,25 +230,28 @@ export default class DeleteScreen extends React.Component {
                 let image = this.getEmotionImageSource(objData.type);
                 return (
                     <>
-                        <SafeAreaView style={{ flex: 0, backgroundColor: 'red' }} />
-                        <ScrollView style={{ backgroundColor: "#fff" }}>
-                            <HeaderBanner color={'red'} imageSource={require('../assets/images/glutenfree.png')} />
-                            <TopPart leftButtonClicked={this.navigateHome} rightButtonClicked={() => this.deleteEntry()} />
-                            <View style={styles.container}>
-                                <View style={styles.leftWrapper}>
-                                    <Image source={Image.resolveAssetSource(image)} style={styles.iconImage}></Image>
-                                </View>
-                                <View style={styles.leftWrapper}>
-                                    <View style={styles.textInfo}>
-                                        <Text style={[styles.entryText, styles.entryTitle]}>{time}</Text>
-                                        <Border color={color} />
-                                        <Text style={[styles.entryText, styles.entrySubtitle]}>
-                                            You felt {objData.type} and your notes were {objData.note}.
+                        <SafeAreaView style={{ flex: 0, backgroundColor: specialColor }} />
+                        <HeaderBanner color={specialColor} imageSource={require('../assets/images/glutenfree.png')} />
+                        <View style={styles.background}>
+                            <ScrollView style={{ backgroundColor: "#fff" }}>
+                                <TopPart leftButtonClicked={this.navigateHome} rightButtonClicked={() => this.deleteEntry()} />
+                                <View style={styles.container}>
+                                    <View style={styles.leftWrapper}>
+                                        <Image source={Image.resolveAssetSource(image)} style={styles.iconImage}></Image>
+                                    </View>
+                                    <View style={styles.leftWrapper}>
+                                        <View style={styles.textInfo}>
+                                            <Text style={[styles.entryText, styles.entryTitle]}>{time}</Text>
+                                            <Border color={color} />
+                                            <Text style={[styles.entryText, styles.entrySubtitle]}>
+                                                You felt {objData.type} and your notes were {objData.note}.
                                             </Text>
+                                        </View>
                                     </View>
                                 </View>
-                            </View>
-                        </ScrollView>
+
+                            </ScrollView>
+                        </View>
                     </>
                 );
             }
@@ -247,22 +259,25 @@ export default class DeleteScreen extends React.Component {
     }
 }
 
+
 const TopPart = ({ leftButtonClicked, rightButtonClicked }) =>
     <View>
-        <View style={styles.informationContainer}>
-            <View style={styles.informationSubContainer}>
-                <Text style={styles.bigText}>Are your sure you want to delete this entry?</Text>
-                <Text style={styles.text}>This will effect your daily goals and weekly report.</Text>
+        <View style={styles.avatarAndInformationContainer}>
+            <Image style={styles.avatar} source={andyPlaceholder} />
+            <View style={styles.informationContainer}>
+                <View style={styles.informationSubContainer}>
+                    <Text style={styles.bigText}>Are your sure you want to delete this entry?</Text>
+                    <Text style={styles.text}>This will effect your daily goals and weekly report.</Text>
+                </View>
             </View>
         </View>
-
         <View style={styles.buttonContainer}>
             <View style={styles.buttonSubContainer}>
                 <TouchableHighlight style={styles.button} onPress={leftButtonClicked}>
                     <Text style={{ textAlign: 'center', color: '#707070' }}>cancel</Text>
                 </TouchableHighlight>
                 <TouchableHighlight style={styles.button} onPress={rightButtonClicked}>
-                    <Text style={{ textAlign: 'center', color: '#707070' }}>save</Text>
+                    <Text style={{ textAlign: 'center', color: '#707070' }}>delete</Text>
                 </TouchableHighlight>
             </View>
         </View>
@@ -292,11 +307,11 @@ const styles = StyleSheet.create
             width: window.width,
             height: window.height * 0.12,
             //backgroundColor: '#f7f7f7',
-            marginBottom: 5
+            marginBottom: 5,
         },
         leftWrapper:
         {
-            marginLeft: 20
+            marginLeft: 20,
         },
         textInfo:
         {
@@ -358,7 +373,7 @@ const styles = StyleSheet.create
             backgroundColor: '#AAA',
             borderWidth: 2,
             borderRadius: 3,
-            borderColor: 'red',
+            borderColor: specialColor,
         },
         bigText: {
             fontSize: 22,
@@ -372,15 +387,34 @@ const styles = StyleSheet.create
             paddingBottom: 5,
         },
         photoContainer: {
-            marginTop:20,
+            marginTop: 20,
             display: 'flex',
             flexDirection: 'row',
             justifyContent: 'center',
             alignItems: 'center',
         },
         photo: {
-            width:150,
+            width: 150,
             aspectRatio: 1,
             resizeMode: 'contain',
+        },
+        background: {
+            height: '90%',
+            padding: 10,
+            paddingBottom: 30,
+            backgroundColor: specialColor,
+        },
+        avatar: {
+            height: '20%',
+            width: '20%',
+            aspectRatio: 1,
+            resizeMode: 'contain',
+        },
+        avatarAndInformationContainer:{
+            padding: 20,
+            display: 'flex',
+            flexDirection: 'row',
+            justifyContent: 'center',
+            alignItems: 'flex-end',
         }
     });
