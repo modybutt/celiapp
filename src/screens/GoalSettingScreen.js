@@ -13,7 +13,7 @@ import InfoIcon from '../components/InfoIcon';
 import symptomImage from '../assets/images/stethoscope_white.svg';
 import emotionImage from '../assets/images/smiley_face_white.svg';
 import mealImage from '../assets/images/cutlery_white.svg';
-import gipImage from '../assets/images/heartbeat.svg';
+import gipImage from '../assets/images/gip.svg';
 import * as Icon from '@expo/vector-icons';
 import DatabaseManager from "../manager/DatabaseManager";
 
@@ -99,6 +99,10 @@ export default class GoalSettingScreen extends React.Component
 							DatabaseManager.getInstance().saveSettings('noEmotions', this.state.noEmotions, (error) => { alert(error) }, null);
 							DatabaseManager.getInstance().saveSettings('noMeals', this.state.noMeals, (error) => { alert(error) }, null);
 							DatabaseManager.getInstance().saveSettings('noGips', this.state.noGips, (error) => { alert(error) }, null);
+							if (this.props.onSaveButtonPressed)
+							{
+								this.props.onSaveButtonPressed();
+							} 
 						}}>
 						<Text style={styles.buttonText} >Save</Text>
 					</TouchableOpacity>
@@ -149,8 +153,7 @@ const ChevronsAndText = ({text, noItems, color, upPressed, downPressed}) =>
 
 const LogText = ({text1, text2, noItems, text3, color, upPressed, downPressed}) =>
 {
-	console.log('draw logText', text2, noItems);
-return <Text style={{marginLeft: 14.3, marginTop: 5, fontSize: 16, width: 270, marginTop: -18}}>
+	return <Text style={{marginLeft: 14.3, marginTop: 5, fontSize: 16, width: 270, marginTop: -18}}>
 		<Text style={{color:'#707070' }}>{text1}</Text>
 		<ChevronsAndText color={color} noItems={noItems} text={text2} upPressed={upPressed} downPressed={downPressed}/>
 		<Text style={{color:'#707070' }}>{text3}</Text>

@@ -64,11 +64,11 @@ export default class App extends React.Component {
     GearManager.getInstance().setWsHost(settings.wsHost);
     GearManager.getInstance().setGearHost(settings.gearHost);
     GearManager.getInstance().connect();
-    
+  
     this.setState({
       isSplashReady: true,
 	  didShowOnBoarding: !!settings.didShowOnBoarding,
-	  openGoalSettingPage: !!settings.didShowOnBoarding,
+	  didShowGoalSettingsPage: !!settings.didShowGoalSettingsPage,
       hasUserId: !!settings.userId,
       userId: settings.userId,
       password: settings.password,
@@ -199,8 +199,15 @@ export default class App extends React.Component {
         {this.state.isSplashReady == false
           ? null
           : this.state.hasUserId
-            ? this.state.didShowOnBoarding ? this.state.openGoalSettingPage ? <GoalSettingScreen /> :
-			<AppNavigator /> : <OnBoardingScreen getStartedPressed={() =>
+            ? this.state.didShowOnBoarding ? this.state.didShowGoalSettingsPage ? <AppNavigator /> : 
+			
+			<GoalSettingScreen onSaveButtonPressed={() =>
+				{
+					this.setState({didShowGoalSettingsPage: true});
+					DatabaseManager.getInstance().saveSettings('didShowGoalSettingsPage', true, (error) => { alert(error) }, null);
+				}} />  :
+			
+			<OnBoardingScreen getStartedPressed={() =>
 				{
 					this.setState({didShowOnBoarding: true});
 					DatabaseManager.getInstance().saveSettings('didShowOnBoarding', true, (error) => { alert(error) }, null);
