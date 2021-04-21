@@ -34,6 +34,7 @@ import ChallengesTest from "../components/Glutenbuddy/screens/ChallengesTest";
 import Colors from '../constants/Colors';
 import MainScreen from "../screens/MainScreen";
 import OnBoardingScreen from "../screens/OnboardingScreen";
+import GoalSettingScreen from "../screens/GoalSettingScreen";
 
 /*const EvaluationStack = createStackNavigator({
   Evaluation: EvaluationScreen,
@@ -190,6 +191,13 @@ export default createStackNavigator({
   },
   Camera: {
     screen: CameraScreen,
+  },
+  GoalSetting: {
+	  screen: GoalSettingScreen,
+	  navigationOptions: {
+		headerShown: false,
+		title: ''
+	  },
   },
   Gear: {
     screen: GearScreen,

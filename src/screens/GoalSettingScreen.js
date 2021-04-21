@@ -102,7 +102,7 @@ export default class GoalSettingScreen extends React.Component
 							if (this.props.onSaveButtonPressed)
 							{
 								this.props.onSaveButtonPressed();
-							} 
+							} else this.props.navigation.goBack();
 						}}>
 						<Text style={styles.buttonText} >Save</Text>
 					</TouchableOpacity>

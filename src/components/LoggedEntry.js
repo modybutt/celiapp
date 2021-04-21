@@ -23,6 +23,18 @@ export default class LoggedEntry extends React.Component
 		currentAnimation: 'no-animation',
 		animationState : AnimationState.CLOSE
 	}
+	
+	componentDidMount()
+	{
+		//this.setDefaultState();
+		this.props.navigation.addListener('willFocus', () => {this.setState({
+			transformValue: new Animated.Value(0),
+			touchStartXPos: -1,
+			canAnimate: true,
+			currentAnimation: 'no-animation',
+			animationState : AnimationState.CLOSE
+		})});
+	}
 
 	startAnimation = (newAnimationState, toValue) => 
 	{
@@ -80,12 +92,15 @@ export default class LoggedEntry extends React.Component
 					navigationName={this.props.navigationName}
 					/>
 			</Animated.View>
+			
 			<View style={[styles.viewAllContentWrapper, {backgroundColor:this.props.color}]}>
-				<Text style={{
-					fontSize: 16,
-					color: 'white',
-					textAlign: 'center'
-				}}>{this.props.viewallText}</Text>
+				<TouchableOpacity onPress={() => this.props.onGoToDailySettingsButtonClicked()}>
+					<Text style={{
+							fontSize: 16,
+							color: 'white',
+							textAlign: 'center'
+						}}>set your daily goals</Text>
+				</TouchableOpacity>				
 			</View>
 		</View>);
 	}

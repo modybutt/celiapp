@@ -36,16 +36,19 @@ export default class MainScreen extends React.Component {
 				<WeekDisplay dailyActivity={reportData.dailyActivity}/>
 				<Avatar/>
 				<LoggedEntry
+					navigation={this.props.navigation}
 					onAddButtonClicked={(navigationName) => this.props.navigation.navigate(navigationName, {'selectedDateAndTime' : new Date() })}
+					onGoToDailySettingsButtonClicked={() => this.props.navigation.navigate("GoalSetting")}
 					navigationName={'AddSymptom'}
 					title={'2 symptoms'} 
-					subtitle={'Last entry: Friday Oct 8th.'}
-					viewallText={'view all symptom logs'}
+					subtitle={'Last entry: Friday Oct 8th.'}					
 				 	color={Colors.symptom} 
 					image={symptomImage}/>
 
 				<LoggedEntry
+					navigation={this.props.navigation}
 					onAddButtonClicked={(navigationName) => this.props.navigation.navigate(navigationName, {'selectedDateAndTime' : new Date() })}
+					onGoToDailySettingsButtonClicked={() => this.props.navigation.navigate("GoalSetting")}
 					navigationName={'AddMeal'}
 					title={'7 meals'} 
 					subtitle={'Last entry: Friday Oct 8th.'}
@@ -54,7 +57,9 @@ export default class MainScreen extends React.Component {
 					image={mealImage}/>
 
 				<LoggedEntry
+					navigation={this.props.navigation}
 					onAddButtonClicked={(navigationName) => this.props.navigation.navigate(navigationName, {'selectedDateAndTime' : new Date() })}
+					onGoToDailySettingsButtonClicked={() => this.props.navigation.navigate("GoalSetting")}
 					navigationName={'AddEmote'}
 					title={'3 energy levels'} 
 					subtitle={'Last entry: Friday Oct 8th.'}
@@ -63,7 +68,9 @@ export default class MainScreen extends React.Component {
 					image={emotionImage}/>
 
 				<LoggedEntry
+					navigation={this.props.navigation}
 					onAddButtonClicked={(navigationName) => this.props.navigation.navigate(navigationName, {'selectedDateAndTime' : new Date() })}
+					onGoToDailySettingsButtonClicked={() => this.props.navigation.navigate("GoalSetting")}
 					navigationName={'AddGIP'}
 					title={'4 GIP results'} 
 					subtitle={'Last entry: Friday Oct 8th.'}
