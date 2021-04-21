@@ -16,7 +16,8 @@ import { } from 'react-native-dotenv';
 import FlashMessage from 'react-native-flash-message';
 import { showMessage } from "react-native-flash-message";
 import OnBoardingScreen from './src/screens/OnboardingScreen';
-
+import * as RootNavigation from '../celiapp/src/navigation/MainTabNavigator';
+import GoalSettingScreen from './src/screens/GoalSettingScreen';
 
 export default class App extends React.Component {
   state = {
@@ -29,12 +30,10 @@ export default class App extends React.Component {
     DatabaseManager.getInstance().loadSettings(null,
       (_, error) => { alert("error loading settings" + JSON.stringify(error)); },
       (_, { rows: { _array } }) => {
-        let settings = {};
-
-        for (var i in _array) {
+        let settings = {};		
+        for (var i in _array) {			
           settings[_array[i].name] = JSON.parse(_array[i].objData);
-        }
-
+        }		
         this.initApplication(settings);
       }
     );
@@ -65,10 +64,11 @@ export default class App extends React.Component {
     GearManager.getInstance().setWsHost(settings.wsHost);
     GearManager.getInstance().setGearHost(settings.gearHost);
     GearManager.getInstance().connect();
-    
+  
     this.setState({
       isSplashReady: true,
-	  didShowOnBoarding: false,
+	  didShowOnBoarding: !!settings.didShowOnBoarding,
+	  didShowGoalSettingsPage: !!settings.didShowGoalSettingsPage,
       hasUserId: !!settings.userId,
       userId: settings.userId,
       password: settings.password,
@@ -199,13 +199,18 @@ export default class App extends React.Component {
         {this.state.isSplashReady == false
           ? null
           : this.state.hasUserId
-            ? this.state.didShowOnBoarding ? <AppNavigator /> : <OnBoardingScreen getStartedPressed={() =>
+            ? this.state.didShowOnBoarding ? this.state.didShowGoalSettingsPage ? <AppNavigator /> : 
+			
+			<GoalSettingScreen onSaveButtonPressed={() =>
+				{
+					this.setState({didShowGoalSettingsPage: true});
+					DatabaseManager.getInstance().saveSettings('didShowGoalSettingsPage', true, (error) => { alert(error) }, null);
+				}} />  :
+			
+			<OnBoardingScreen getStartedPressed={() =>
 				{
 					this.setState({didShowOnBoarding: true});
-					//TODO: store in user database.
-
-					//TODO: go to Daily Goal screen.
-					
+					DatabaseManager.getInstance().saveSettings('didShowOnBoarding', true, (error) => { alert(error) }, null);
 				}}/>
             : <UsernameDialog onLogin={this.handleUserLogin} onRegister={this.handleUserRegistration} />
         }

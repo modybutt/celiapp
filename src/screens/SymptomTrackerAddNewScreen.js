@@ -13,8 +13,8 @@ import AchievementRecordManager from '../manager/buddyManager/AchievementRecordM
 export default class SymptomTrackerAddNewScreen extends React.Component{
     static navigationOptions = ({navigation}) => ({
         title: LanguageManager.getInstance().getText("ADD_NEW_SYMPTOM"),
-        headerLeft: <HeaderBackButton onPress={() => navigation.state.params.onCancelPressed()}/>,
-        headerRight: <HeaderSaveButton onPress={() => navigation.state.params.onOkPressed(true)}/>
+        headerLeft: () => <HeaderBackButton onPress={() => navigation.state.params.onCancelPressed()}/>,
+        headerRight: () => <HeaderSaveButton onPress={() => navigation.state.params.onOkPressed(true)}/>
     })
 
     constructor(props){

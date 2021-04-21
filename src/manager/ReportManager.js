@@ -1,7 +1,7 @@
 import WeeklyReportData from './WeeklyReportData';
 import DateUtil from '../utils/dateUtils';
 import DatabaseManager from '../manager/DatabaseManager'
-import { Emotion } from '../constants/Events';
+import { Emotion, Gluten } from '../constants/Events';
 
 export default class ReportManager {
 
@@ -22,8 +22,8 @@ export default class ReportManager {
       sub: "",
     },
     gipInfo: {
-      body: "You have You have not logged any GIP sticks. Logging GIP sticks will help you master your diet! 1 test this week. That is 1 more then last week!",
-      headline: "",
+      body: "You have not logged any GIP sticks",
+      headline: "Logging GIP sticks will help you master your diet!",
       sub: "",
     },
     dailyActivity: [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0],
@@ -88,6 +88,8 @@ export default class ReportManager {
     (lastWeekCount ? " That is " + this.differenceString(thisWeekCount, lastWeekCount) + " at this time last week!"
       : " This is your first week")
 
+  static mostOfTheWeek = 3  
+
   static symptomBox = (thisWeek, lastWeek) => {
     //body = You logged N symptoms this week. That is x more/less than the previous week week
     this.reportText.symptomInfo.body = this.infoBoxDefaultBodyText(this.symptomString, thisWeek.thisWeekSymptomCount(), lastWeek ? lastWeek.thisWeekSymptomCount() : null)
@@ -103,7 +105,7 @@ export default class ReportManager {
 
     var numberOfDaysWithSymptoms = thisWeek.thisWeekNumDaysWithSymptoms();
 
-    if (numberOfDaysWithSymptoms <= 2) {
+    if (numberOfDaysWithSymptoms < this.mostOfTheWeek) {
       this.reportText.symptomInfo.headline = "Most of the week you haven’t logged any symptoms.";
       this.reportText.symptomInfo.sub = "Did you know that you can also enter NO SYMPTOMS if you had none?";
       return;
@@ -190,8 +192,22 @@ export default class ReportManager {
   }
 
   static gipBox = (thisWeek, lastWeek) => {
-        this.reportText.gipInfo.body = this.infoBoxDefaultBodyText(this.gipString, thisWeek.thisWeekGIPCount(), lastWeek ? lastWeek.thisWeekGIPCount(): null)
-  }
+        gipCount = thisWeek.thisWeekGIPCount();
+        if(gipCount == 0){
+          this.reportText.gipInfo.body = "You have not logged any GIP sticks"
+          this.reportText.gipInfo.headline = "Logging GIP sticks will help you master your diet!"
+        }
+        else if(gipCount < this.mostOfTheWeek){
+          this.reportText.gipInfo.body = "Most of the week you haven't logged any GIP sticks"
+          this.reportText.gipInfo.headline = "Knowledge is power!";
+
+        }
+        else{
+          this.reportText.gipInfo.body = this.infoBoxDefaultBodyText(this.gipString, gipCount, lastWeek ? lastWeek.thisWeekGIPCount(): null)
+          if(thisWeek.numGIPGlutenFree() == gipCount)
+            this.reportText.gipInfo.headline = "All tests were GLUTENFREE!"
+        }
+  } 
 
 
 
