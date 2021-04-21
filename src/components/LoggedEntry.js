@@ -5,6 +5,8 @@ import InfoIcon from '../components/InfoIcon';
 import * as Icon from '@expo/vector-icons';
 import _ from "lodash";
 import { TouchableOpacity } from "react-native-gesture-handler";
+import Svg, { Circle, Rect } from 'react-native-svg';
+import { interpolate, multiply } from "react-native-reanimated";
 
 const AnimationState =
 {
@@ -90,9 +92,9 @@ export default class LoggedEntry extends React.Component
 					image={this.props.image}
 					onAddButtonClicked={this.props.onAddButtonClicked}
 					navigationName={this.props.navigationName}
+					progress={Math.random()}
 					/>
 			</Animated.View>
-			
 			<View style={[styles.viewAllContentWrapper, {backgroundColor:this.props.color}]}>
 				<TouchableOpacity onPress={() => this.props.onGoToDailySettingsButtonClicked()}>
 					<Text style={{
@@ -106,26 +108,64 @@ export default class LoggedEntry extends React.Component
 	}
 }
 
-const Entry = ({title, subtitle, image, color, onAddButtonClicked, navigationName}) =>
-<View style={styles.container}>
-	<View style={styles.leftWrapper}>
-		<InfoIcon style={styles.infoIcon} color={color} image={image} width={50}/>
-	</View>
+const Entry = ({title, subtitle, image, color, progress, onAddButtonClicked, navigationName}) =>
+{
+	const strokeWidth = 2;
+	const size = 66;
+	const radius = (size - strokeWidth) / 2;
+	const circumference = radius * Math.PI * 2;
+	progress = 1 - progress;
+	const alpha = progress * Math.PI * 2;
+	const strokeDashoffset = alpha * radius;
 
-	<View style={styles.leftWrapper}>
-		<View style={styles.textInfo}>
-			<Text style={[styles.text, styles.entryTitle]}>{title}</Text>
-			<Border color={color}/>			
-			<Text style={[styles.text, styles.entrySubtitle]}>{subtitle}</Text>
+	return <View style={styles.container}>
+		<View style={styles.leftWrapper}>
+			
+			<View position='absolute' style={{
+				left: -8,
+				top: -30
+			}} >
+				<Svg transform={[{rotate: '270deg'}]} width={90} height={90}>
+					<Circle				
+						stroke='#707070'
+						fill='none'
+						cx={size/2}
+						cy={size/2}
+						r={radius}
+						{...{strokeWidth}}
+					/>
+
+					<Circle 
+						stroke={color}
+						fill='none'
+						cx={(size + 2.5)/2}
+						cy={(size + 2.5)/2}
+						r={radius}
+						strokeWidth={5}
+						strokeDasharray={`${circumference} ${circumference}`}				
+						{...{strokeDashoffset}}
+					/>
+				</Svg>
+			</View>
+
+			<InfoIcon style={styles.infoIcon} color={color} image={image} width={50}/>
+		</View>
+
+		<View style={styles.leftWrapper}>
+			<View style={styles.textInfo}>
+				<Text style={[styles.text, styles.entryTitle]}>{title}</Text>
+				<Border color={color}/>			
+				<Text style={[styles.text, styles.entrySubtitle]}>{subtitle}</Text>
+			</View>
+		</View>
+		
+		<View style={styles.rightWrapper}>
+			<TouchableOpacity onPress={() => onAddButtonClicked(navigationName)}>
+				<Icon.Ionicons  style={styles.addIcon} color={color} size={35} name={"md-add"}/>
+			</TouchableOpacity>
 		</View>
 	</View>
-	
-	<View style={styles.rightWrapper}>
-		<TouchableOpacity onPress={() => onAddButtonClicked(navigationName)}>
-			<Icon.Ionicons  style={styles.addIcon} color={color} size={35} name={"md-add"}/>
-		</TouchableOpacity>
-	</View>
-</View>
+}
 
 const Border = ({color}) =>
 <View style=

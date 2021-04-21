@@ -6,7 +6,7 @@ import Colors from '../constants/Colors'
 import symptomImage from '../assets/images/stethoscope_white.svg';
 import emotionImage from '../assets/images/smiley_face_white.svg';
 import mealImage from '../assets/images/cutlery_white.svg';
-import gipImage from '../assets/images/heartbeat.svg';
+import gipImage from '../assets/images/gip.svg';
 import andyPlaceholder from "../assets/images/avatar_menu/placeholder_andy.png";
 
 import Layout from '../constants/Layout';
