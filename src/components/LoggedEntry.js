@@ -108,43 +108,41 @@ export default class LoggedEntry extends React.Component
 	}
 }
 
-const Entry = ({title, subtitle, image, color, progress, onAddButtonClicked, navigationName}) =>
+const SvgCircle = ({outerSize, size, strokeWidth, color, progress}) =>
 {
-	const strokeWidth = 2;
-	const size = 66;
 	const radius = (size - strokeWidth) / 2;
 	const circumference = radius * Math.PI * 2;
 	progress = 1 - progress;
 	const alpha = progress * Math.PI * 2;
 	const strokeDashoffset = alpha * radius;
 
+	return <Circle
+		x={(outerSize - size)/2}
+		y={(outerSize - size) / 2}
+		stroke={color}
+		fill='none'
+		cx={size / 2}
+		cy={size / 2}
+		r={radius}
+		strokeWidth={strokeWidth}
+		strokeDasharray={`${circumference} ${circumference}`}				
+		{...{strokeDashoffset}}
+	/>
+}
+
+const Entry = ({title, subtitle, image, color, progress, onAddButtonClicked, navigationName}) =>
+{
+	
 	return <View style={styles.container}>
 		<View style={styles.leftWrapper}>
 			
 			<View position='absolute' style={{
-				left: -8,
-				top: -30
+				left:-14,
+				top:-14
 			}} >
-				<Svg transform={[{rotate: '270deg'}]} width={90} height={90}>
-					<Circle				
-						stroke='#707070'
-						fill='none'
-						cx={size/2}
-						cy={size/2}
-						r={radius}
-						{...{strokeWidth}}
-					/>
-
-					<Circle 
-						stroke={color}
-						fill='none'
-						cx={(size + 2.5)/2}
-						cy={(size + 2.5)/2}
-						r={radius}
-						strokeWidth={5}
-						strokeDasharray={`${circumference} ${circumference}`}				
-						{...{strokeDashoffset}}
-					/>
+				<Svg transform={[{rotate: '270deg'}]}  width={80} height={80}>
+					<SvgCircle outerSize={80} size={66} strokeWidth={2} color={'#707070'} progress={1}/>
+					<SvgCircle outerSize={80} size={73} strokeWidth={7} color={color} progress={progress}/>
 				</Svg>
 			</View>
 
