@@ -8,17 +8,18 @@ import {
   Image,
   ScrollView,
   TouchableOpacity,
-  Button
 } from "react-native";
-import { ListItem, Avatar, Badge } from 'react-native-elements';
 import { NavigationEvents } from 'react-navigation';
 import DatabaseManager from '../manager/DatabaseManager';
-import { images } from '../components/EmoteTracker/EmoteTrackerConstants';
-import FoodDiaryRatingBar from '../components/FoodDiary/FoodDiaryRatingBar';
+
 import LanguageManager from '../manager/LanguageManager';
 import Events from '../constants/Events';
 import moment from 'moment';
 import HistoryEntry from '../components/HistoryEntry';
+
+import {
+  images as symptom_images
+} from '../components/SymptomTracker/SymptomIconButtonConstants';
 
 import {
   images as food_images
@@ -105,6 +106,51 @@ export default class EntryList extends React.Component {
     }
 
   }
+  getSymptomImageSource(id) {
+    let image = null;
+    switch (id) {
+      case 0:
+        image = symptom_images.id0.uri
+        break;
+      case 1:
+        image = symptom_images.id1.uri
+        break;
+      case 2:
+        image = symptom_images.id2.uri
+        break;
+      case 3:
+        image = symptom_images.id3.uri
+        break;
+      case 4:
+        image = symptom_images.id4.uri
+        break;
+      case 5:
+        image = symptom_images.id5.uri
+        break;
+      case 6:
+        image = symptom_images.id6.uri
+        break;
+      case 7:
+        image = symptom_images.id7.uri
+        break;
+      case 8:
+        image = symptom_images.id8.uri
+        break;
+      case 9:
+        image = symptom_images.id9.uri
+        break;
+      case 10:
+        image = symptom_images.id10.uri
+        break;
+      case 11:
+        image = symptom_images.id11.uri
+        break;
+      case 12:
+        image = symptom_images.id12.uri
+        break;
+    }
+    return image;
+  }
 
   renderItem(item) {
     let objData = JSON.parse(item.objData);
@@ -112,6 +158,7 @@ export default class EntryList extends React.Component {
 
     let time = createdDate.local().format('lll');
     switch (item.eventType) {
+
       case Events.Symptom: {
         const color = '#1DBBA0';
         let severityText = 'no symptom';
@@ -120,9 +167,10 @@ export default class EntryList extends React.Component {
           case 2: severityText = 'Moderate'; break;
           case 3: severityText = 'Severe'; break;
         }
+        let image = this.getSymptomImageSource(objData.symptomID);
         if (objData.symptomID === 0) objData.name = 'NO_SYMPTOMS'; //TODO: Temp solution. Needs to be an entry in the database
         return (
-          <TouchableOpacity  onPress={() => this.props.navigation.navigate('ViewSymptom', { event: item })}>
+          <TouchableOpacity onPress={() => this.props.navigation.navigate('ViewSymptom', { event: item })}>
             <HistoryEntry
               onAddButtonClicked={() => { }}
               navigationName={LanguageManager.getInstance().getText(objData.name)}
@@ -130,7 +178,7 @@ export default class EntryList extends React.Component {
               subtitle={severityText + " " + LanguageManager.getInstance().getText(objData.name)}
               viewallText={'expand'}
               color={color}
-              image={objData.icon} />
+              image={image} />
           </TouchableOpacity>
         )
       }
@@ -139,7 +187,7 @@ export default class EntryList extends React.Component {
         let color = '#3398DE';
         image = this.getFoodImageSource(objData.type);
         return (
-          <TouchableOpacity  onPress={() => this.props.navigation.navigate('ViewMeal', { event: item })}>
+          <TouchableOpacity onPress={() => this.props.navigation.navigate('ViewMeal', { event: item })}>
             <HistoryEntry
               onAddButtonClicked={() => { }}
               navigationName={LanguageManager.getInstance().getText(objData.name)}
@@ -156,7 +204,7 @@ export default class EntryList extends React.Component {
         let color = '#FF8D1E';
         image = this.getGipImageSource(objData.result);
         return (
-          <TouchableOpacity  onPress={() => this.props.navigation.navigate('ViewGIP', { event: item })}>
+          <TouchableOpacity onPress={() => this.props.navigation.navigate('ViewGIP', { event: item })}>
             < HistoryEntry
               onAddButtonClicked={() => { }}
               navigationName={LanguageManager.getInstance().getText(objData.name)}
@@ -174,7 +222,7 @@ export default class EntryList extends React.Component {
         let color = '#9958B7';
         let image = this.getEmotionImageSource(objData.type);
         return (
-          <TouchableOpacity  onPress={() => this.props.navigation.navigate('ViewEmote', { event: item })}>
+          <TouchableOpacity onPress={() => this.props.navigation.navigate('ViewEmote', { event: item })}>
             < HistoryEntry
               onAddButtonClicked={() => { }}
               navigationName={LanguageManager.getInstance().getText(objData.name)}

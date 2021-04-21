@@ -145,8 +145,6 @@ export default class SymptomIconButton extends Component {
 			}
 		}
 		let im = this.getImage(this.props.symptomID,this.props.severity);
-		
-		console.log(im);
 		let image = Image.resolveAssetSource(im);
 		/*let image = Image.resolveAssetSource(this.props.symptomIcon);
 		switch (this.props.severity) {
