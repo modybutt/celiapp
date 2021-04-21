@@ -11,8 +11,8 @@ import GearManager from '../manager/GearManager';
 export default class GearScreen extends React.Component {
   static navigationOptions = ({navigation}) => ({
     title: LanguageManager.getInstance().getText("GEAR"),
-    headerLeft: <HeaderBackButton onPress={() => navigation.state.params.onCancelPressed()}/>,
-    headerRight: <HeaderSaveButton onPress={() => navigation.state.params.onOkPressed(true)}/>
+    headerLeft: () =>  <HeaderBackButton onPress={() => navigation.state.params.onCancelPressed()}/>,
+    headerRight: () =>  <HeaderSaveButton onPress={() => navigation.state.params.onOkPressed(true)}/>
   });
 
   state = {
