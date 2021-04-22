@@ -181,7 +181,7 @@ const Header = () =>
 const Avatar = () =>
 	<View style={styles.avatarContainer}>
 		<Image style={styles.avatar} source={andyPlaceholder}/>
-		<SvgXml width='250' height='250' style={styles.goalsettingSpeechBubble} xml={goalsettingSpeechBubble}/>
+		<SvgXml width='250' height='250' xml={goalsettingSpeechBubble}/>
 		<Text style={{
 			position:'absolute',
 			width: 190,

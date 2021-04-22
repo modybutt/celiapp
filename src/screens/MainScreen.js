@@ -1,5 +1,5 @@
 import React from 'react';
-import { StyleSheet, View, Text, Image } from 'react-native';
+import { StyleSheet, View, Text, Image, AppState } from 'react-native';
 import ImageHeader from './ImageHeader';
 import Colors from '../constants/Colors'
 
@@ -8,14 +8,16 @@ import emotionImage from '../assets/images/smiley_face_white.svg';
 import mealImage from '../assets/images/cutlery_white.svg';
 import gipImage from '../assets/images/gip.svg';
 import andyPlaceholder from "../assets/images/avatar_menu/placeholder_andy.png";
+import mainscreenInfomodal from "../assets/images/mainscreen_infomodal.svg";
 
 import Layout from '../constants/Layout';
 import LoggedEntry from '../components/LoggedEntry';
 import ReportManager from '../manager/ReportManager';
 import WeekDisplay from '../components/WeekDisplay';
-import { TouchableOpacity } from 'react-native-gesture-handler';
+import { TouchableOpacity, TouchableWithoutFeedback } from 'react-native-gesture-handler';
 import DatabaseManager from '../manager/DatabaseManager';
 import Events from '../constants/Events';
+import { SvgXml } from 'react-native-svg';
 
 export default class MainScreen extends React.Component {
 	
@@ -26,8 +28,12 @@ export default class MainScreen extends React.Component {
 
 	constructor(props) {
 		super(props);
-		this.state = { reportData: null };
 	  }
+
+	  state =
+	  {
+		  showInfoModal: true
+	  };
 	
 	render() {
 		if(!this.state.reportData || !this.state.dailyEventEntries || !this.state.dailyGoals) return (<View></View>)
@@ -38,64 +44,68 @@ export default class MainScreen extends React.Component {
 
 		//TODO: set text dynamically from reportmanager.
 		return (
-			<View style={styles.container}>
-				<WeekDisplay dailyActivity={reportData.dailyActivity}/>
-				<Avatar/>
-				<LoggedEntry
-					navigation={this.props.navigation}
-					onAddButtonClicked={(navigationName) => this.props.navigation.navigate(navigationName, {'selectedDateAndTime' : new Date() })}
-					onGoToDailySettingsButtonClicked={() => this.props.navigation.navigate("GoalSetting")}
-					navigationName={'AddSymptom'}
-					title={'symptoms'} 
-					subtitle={'Last entry: Friday Oct 8th.'}					
-				 	color={Colors.symptom} 
-					image={symptomImage}
-					dailyGoal={dailyGoals.dailySymptoms}
-					actual={dailyEventEntries.noSymptoms}
-					/>
+			<View>
+					
+				<View style={styles.container}>
+					<WeekDisplay dailyActivity={reportData.dailyActivity}/>
+					<Avatar onShowModal={() => this.setState({showInfoModal: true})}/>
+					<LoggedEntry
+						navigation={this.props.navigation}
+						onAddButtonClicked={(navigationName) => this.props.navigation.navigate(navigationName, {'selectedDateAndTime' : new Date() })}
+						onGoToDailySettingsButtonClicked={() => this.props.navigation.navigate("GoalSetting")}
+						navigationName={'AddSymptom'}
+						title={'symptoms'} 
+						subtitle={'Last entry: Friday Oct 8th.'}					
+						color={Colors.symptom} 
+						image={symptomImage}
+						dailyGoal={dailyGoals.dailySymptoms}
+						actual={dailyEventEntries.noSymptoms}
+						/>
 
-				<LoggedEntry
-					navigation={this.props.navigation}
-					onAddButtonClicked={(navigationName) => this.props.navigation.navigate(navigationName, {'selectedDateAndTime' : new Date() })}
-					onGoToDailySettingsButtonClicked={() => this.props.navigation.navigate("GoalSetting")}
-					navigationName={'AddMeal'}
-					title={'meals'} 
-					subtitle={'Last entry: Friday Oct 8th.'}
-					viewallText={'view all meal logs'}
-					color={Colors.meal}
-					image={mealImage}
-					dailyGoal={dailyGoals.dailyMeals}
-					actual={dailyEventEntries.noMeals}
-					/>
+					<LoggedEntry
+						navigation={this.props.navigation}
+						onAddButtonClicked={(navigationName) => this.props.navigation.navigate(navigationName, {'selectedDateAndTime' : new Date() })}
+						onGoToDailySettingsButtonClicked={() => this.props.navigation.navigate("GoalSetting")}
+						navigationName={'AddMeal'}
+						title={'meals'} 
+						subtitle={'Last entry: Friday Oct 8th.'}
+						viewallText={'view all meal logs'}
+						color={Colors.meal}
+						image={mealImage}
+						dailyGoal={dailyGoals.dailyMeals}
+						actual={dailyEventEntries.noMeals}
+						/>
 
-				<LoggedEntry
-					navigation={this.props.navigation}
-					onAddButtonClicked={(navigationName) => this.props.navigation.navigate(navigationName, {'selectedDateAndTime' : new Date() })}
-					onGoToDailySettingsButtonClicked={() => this.props.navigation.navigate("GoalSetting")}
-					navigationName={'AddEmote'}
-					title={'energy levels'} 
-					subtitle={'Last entry: Friday Oct 8th.'}
-					viewallText={'view all energy level logs'}
-				 	color={Colors.emotion} 
-					image={emotionImage}
-					dailyGoal={dailyGoals.dailyEmotions}
-					actual={dailyEventEntries.noEmotions}
-					/>
+					<LoggedEntry
+						navigation={this.props.navigation}
+						onAddButtonClicked={(navigationName) => this.props.navigation.navigate(navigationName, {'selectedDateAndTime' : new Date() })}
+						onGoToDailySettingsButtonClicked={() => this.props.navigation.navigate("GoalSetting")}
+						navigationName={'AddEmote'}
+						title={'energy levels'} 
+						subtitle={'Last entry: Friday Oct 8th.'}
+						viewallText={'view all energy level logs'}
+						color={Colors.emotion} 
+						image={emotionImage}
+						dailyGoal={dailyGoals.dailyEmotions}
+						actual={dailyEventEntries.noEmotions}
+						/>
 
-				<LoggedEntry
-					navigation={this.props.navigation}
-					onAddButtonClicked={(navigationName) => this.props.navigation.navigate(navigationName, {'selectedDateAndTime' : new Date() })}
-					onGoToDailySettingsButtonClicked={() => this.props.navigation.navigate("GoalSetting")}
-					navigationName={'AddGIP'}
-					title={'GIP results'} 
-					subtitle={'Last entry: Friday Oct 8th.'}
-					viewallText={'view all GIP results'}
-				 	color={Colors.gip} 
-					image={gipImage}
-					dailyGoal={dailyGoals.dailyGips}
-					actual={dailyEventEntries.noGips}
-					/>			
-			</View>	
+					<LoggedEntry
+						navigation={this.props.navigation}
+						onAddButtonClicked={(navigationName) => this.props.navigation.navigate(navigationName, {'selectedDateAndTime' : new Date() })}
+						onGoToDailySettingsButtonClicked={() => this.props.navigation.navigate("GoalSetting")}
+						navigationName={'AddGIP'}
+						title={'GIP results'} 
+						subtitle={'Last entry: Friday Oct 8th.'}
+						viewallText={'view all GIP results'}
+						color={Colors.gip} 
+						image={gipImage}
+						dailyGoal={dailyGoals.dailyGips}
+						actual={dailyEventEntries.noGips}
+						/>
+				</View>
+				<MainScreenInfoModal showModal={this.state.showInfoModal} onPress={() => {console.log('pressed!')}}/>
+			</View>			
 		);
 	}
 
@@ -127,7 +137,6 @@ export default class MainScreen extends React.Component {
 			(_, error) => { alert(error) },
 			(_, { rows: { _array } }) => 
 			{
-				console.log('what I gotfrom the db', _array);
 				let noSymptoms = 0, noEmotions = 0, noMeals = 0, noGips = 0;
 				for (let event of _array)
 				{
@@ -177,14 +186,29 @@ export default class MainScreen extends React.Component {
 	}
 }
 
-const Avatar = () =>
+const MainScreenInfoModal = ({showModal, onPress}) =>
+{	
+	if (showModal)
+	{
+		return <TouchableWithoutFeedback style={{zIndex: 10}} width={window.width} height={window.height} onPress={() => {console.log('press!')}}>
+			<View style={styles.infoModal} >
+				<SvgXml width={300} height={300} xml={mainscreenInfomodal} style={{
+					alignSelf: 'center',
+					marginTop: window.height * .45
+				}}/>
+			</View>
+		</TouchableWithoutFeedback>
+	}
+	return null;
+}
+
+const Avatar = ({onShowModal}) =>
 	<View style={styles.avatarContainer}>
 		<Image style={styles.avatar} source={andyPlaceholder}/>
 		<View style={styles.loggedInfoContainer}>
-			<Text style={styles.loggedInfo}>This week you have logged</Text>
+			<Text style={styles.loggedInfo}>Your logs today</Text>
 			<View style={styles.informationBackground}>
-				<TouchableOpacity style={styles.touchableOpacityInfoButton} onPress={() => 
-				console.log('clicky!')}>
+				<TouchableOpacity style={styles.touchableOpacityInfoButton} onPress={() => onShowModal()}>
 					<Text style={styles.informationForeground}>i</Text>
 				</TouchableOpacity>
 			</View>
@@ -271,5 +295,15 @@ const styles = StyleSheet.create
 		fontSize: 25,
 		color: '#fff',
 		fontWeight: 'bold'
+	},
+
+	infoModal:
+	{
+		position: 'absolute',
+		bottom: 0,
+		width: window.width,
+		height: window.height,
+		backgroundColor: 'rgba(255,255,255,0.7)',
+		zIndex: 10
 	}
 });
