@@ -14,6 +14,8 @@ import LoggedEntry from '../components/LoggedEntry';
 import ReportManager from '../manager/ReportManager';
 import WeekDisplay from '../components/WeekDisplay';
 import { TouchableOpacity } from 'react-native-gesture-handler';
+import DatabaseManager from '../manager/DatabaseManager';
+import Events from '../constants/Events';
 
 export default class MainScreen extends React.Component {
 	
@@ -28,8 +30,12 @@ export default class MainScreen extends React.Component {
 	  }
 	
 	render() {
-		if(!this.state.reportData) return (<View></View>)
-    	reportData = this.state.reportData;
+		if(!this.state.reportData || !this.state.dailyEventEntries || !this.state.dailyGoals) return (<View></View>)
+
+    	const reportData = this.state.reportData;
+		const dailyEventEntries = this.state.dailyEventEntries;
+		const dailyGoals = this.state.dailyGoals;		
+
 		//TODO: set text dynamically from reportmanager.
 		return (
 			<View style={styles.container}>
@@ -40,69 +46,134 @@ export default class MainScreen extends React.Component {
 					onAddButtonClicked={(navigationName) => this.props.navigation.navigate(navigationName, {'selectedDateAndTime' : new Date() })}
 					onGoToDailySettingsButtonClicked={() => this.props.navigation.navigate("GoalSetting")}
 					navigationName={'AddSymptom'}
-					title={'2 symptoms'} 
+					title={'symptoms'} 
 					subtitle={'Last entry: Friday Oct 8th.'}					
 				 	color={Colors.symptom} 
-					image={symptomImage}/>
+					image={symptomImage}
+					dailyGoal={dailyGoals.dailySymptoms}
+					actual={dailyEventEntries.noSymptoms}
+					/>
 
 				<LoggedEntry
 					navigation={this.props.navigation}
 					onAddButtonClicked={(navigationName) => this.props.navigation.navigate(navigationName, {'selectedDateAndTime' : new Date() })}
 					onGoToDailySettingsButtonClicked={() => this.props.navigation.navigate("GoalSetting")}
 					navigationName={'AddMeal'}
-					title={'7 meals'} 
+					title={'meals'} 
 					subtitle={'Last entry: Friday Oct 8th.'}
 					viewallText={'view all meal logs'}
 					color={Colors.meal}
-					image={mealImage}/>
+					image={mealImage}
+					dailyGoal={dailyGoals.dailyMeals}
+					actual={dailyEventEntries.noMeals}
+					/>
 
 				<LoggedEntry
 					navigation={this.props.navigation}
 					onAddButtonClicked={(navigationName) => this.props.navigation.navigate(navigationName, {'selectedDateAndTime' : new Date() })}
 					onGoToDailySettingsButtonClicked={() => this.props.navigation.navigate("GoalSetting")}
 					navigationName={'AddEmote'}
-					title={'3 energy levels'} 
+					title={'energy levels'} 
 					subtitle={'Last entry: Friday Oct 8th.'}
 					viewallText={'view all energy level logs'}
 				 	color={Colors.emotion} 
-					image={emotionImage}/>
+					image={emotionImage}
+					dailyGoal={dailyGoals.dailyEmotions}
+					actual={dailyEventEntries.noEmotions}
+					/>
 
 				<LoggedEntry
 					navigation={this.props.navigation}
 					onAddButtonClicked={(navigationName) => this.props.navigation.navigate(navigationName, {'selectedDateAndTime' : new Date() })}
 					onGoToDailySettingsButtonClicked={() => this.props.navigation.navigate("GoalSetting")}
 					navigationName={'AddGIP'}
-					title={'4 GIP results'} 
+					title={'GIP results'} 
 					subtitle={'Last entry: Friday Oct 8th.'}
 					viewallText={'view all GIP results'}
 				 	color={Colors.gip} 
-					image={gipImage}/>			
+					image={gipImage}
+					dailyGoal={dailyGoals.dailyGips}
+					actual={dailyEventEntries.noGips}
+					/>			
 			</View>	
+		);
+	}
+
+	getDailyTrackerAndGoalInfo()
+	{
+		DatabaseManager.getInstance().loadSettings(null,
+			(_, error) => { alert("error loading settings" + JSON.stringify(error)); },
+			(_, { rows: { _array } }) => 
+			{
+				let settings = {};		
+				for (var i in _array)
+				{
+					settings[_array[i].name] = JSON.parse(_array[i].objData);
+				}		
+				this.setState
+				({
+					dailyGoals:
+					{
+						dailySymptoms: settings.noSymptoms || 3,
+						dailyEmotions: settings.noEmotions || 3,
+						dailyMeals: settings.noMeals || 3,
+						dailyGips: settings.noGips || 1
+					}					
+				});
+			}
+		);
+
+		DatabaseManager.getInstance().fetchEvents(new Date(),
+			(_, error) => { alert(error) },
+			(_, { rows: { _array } }) => 
+			{
+				console.log('what I gotfrom the db', _array);
+				let noSymptoms = 0, noEmotions = 0, noMeals = 0, noGips = 0;
+				for (let event of _array)
+				{
+					switch (event.eventType)
+					{
+						case Events.Symptom:
+							noSymptoms++;
+							break;
+						case Events.Emotion:
+							noEmotions++;
+							break;
+						case Events.Food:
+							noMeals++;
+							break;
+						case Events.GIP:
+							noGips++;
+							break;
+					}
+				}
+				this.setState(
+				{
+					dailyEventEntries:
+					{
+						noSymptoms: noSymptoms,
+						noEmotions: noEmotions,
+						noMeals: noMeals,
+						noGips: noGips
+					}
+				});
+			}			
 		);
 	}
 
 	componentDidMount() 
 	{
-		this.props.navigation.setParams({
-      
-		});
-
 		this.props.navigation.addListener('willFocus', () => 
-		{
-			//CeliLogger.addLog("WeekReport", Interactions.OPEN);
+		{			
 			ReportManager.weeklyReport(this.receiveData);
-		});
-	}
 
-	onAddButtonClicked(name)
-	{
-		console.log(`go to ${name} page.`);
+			this.getDailyTrackerAndGoalInfo();
+		});
 	}
 
 	receiveData = (data) => 
 	{ 
 		this.setState({ reportData : data });
-		console.log("received report data mainscreen:", data);
 	}
 }
 

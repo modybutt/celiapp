@@ -5,8 +5,8 @@ import InfoIcon from '../components/InfoIcon';
 import * as Icon from '@expo/vector-icons';
 import _ from "lodash";
 import { TouchableOpacity } from "react-native-gesture-handler";
-import Svg, { Circle, Rect } from 'react-native-svg';
-import { interpolate, multiply } from "react-native-reanimated";
+import Svg, { Circle } from 'react-native-svg';
+import { ContainerScrollView } from "./Glutenbuddy/screens/WardrobeComponents/WardrobeInitTiles";
 
 const AnimationState =
 {
@@ -78,6 +78,11 @@ export default class LoggedEntry extends React.Component
 
 	render()
 	{
+		const goal = this.props.dailyGoal;
+		const actual = this.props.actual;
+
+		console.log('goal', goal, 'actual', actual);
+
 		return (
 		<View style={styles.dropShadow}>
 			<Animated.View style=
@@ -86,13 +91,15 @@ export default class LoggedEntry extends React.Component
 			}}
 			onTouchMove={(evt) => this.touchMove(evt)}
 			onTouchEnd={(evt) => this.touchEnd(evt)}>
-				<Entry title={this.props.title} 
+				<Entry 
+					goal={goal}
+					actual={actual}
+					title={this.props.title} 
 					subtitle={this.props.subtitle} 
 					color={this.props.color} 
 					image={this.props.image}
 					onAddButtonClicked={this.props.onAddButtonClicked}
 					navigationName={this.props.navigationName}
-					progress={Math.random()}
 					/>
 			</Animated.View>
 			<View style={[styles.viewAllContentWrapper, {backgroundColor:this.props.color}]}>
@@ -130,9 +137,9 @@ const SvgCircle = ({outerSize, size, strokeWidth, color, progress}) =>
 	/>
 }
 
-const Entry = ({title, subtitle, image, color, progress, onAddButtonClicked, navigationName}) =>
+const Entry = ({title, subtitle, image, color, goal, actual, onAddButtonClicked, navigationName}) =>
 {
-	
+	const progress = Math.min(1, actual / goal);
 	return <View style={styles.container}>
 		<View style={styles.leftWrapper}>
 			
@@ -142,7 +149,7 @@ const Entry = ({title, subtitle, image, color, progress, onAddButtonClicked, nav
 			}} >
 				<Svg transform={[{rotate: '270deg'}]}  width={80} height={80}>
 					<SvgCircle outerSize={80} size={66} strokeWidth={2} color={'#707070'} progress={1}/>
-					<SvgCircle outerSize={80} size={73} strokeWidth={7} color={color} progress={progress}/>
+					<SvgCircle outerSize={80} size={70} strokeWidth={5} color={color} progress={progress}/>
 				</Svg>
 			</View>
 
@@ -151,7 +158,7 @@ const Entry = ({title, subtitle, image, color, progress, onAddButtonClicked, nav
 
 		<View style={styles.leftWrapper}>
 			<View style={styles.textInfo}>
-				<Text style={[styles.text, styles.entryTitle]}>{title}</Text>
+				<Text style={[styles.text, styles.entryTitle]}>{actual} / {goal} {title}</Text>
 				<Border color={color}/>			
 				<Text style={[styles.text, styles.entrySubtitle]}>{subtitle}</Text>
 			</View>
