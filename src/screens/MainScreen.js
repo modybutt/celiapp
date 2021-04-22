@@ -32,7 +32,7 @@ export default class MainScreen extends React.Component {
 
 	  state =
 	  {
-		  showInfoModal: true
+		  showInfoModal: false
 	  };
 	
 	render() {
@@ -48,7 +48,7 @@ export default class MainScreen extends React.Component {
 					
 				<View style={styles.container}>
 					<WeekDisplay dailyActivity={reportData.dailyActivity}/>
-					<Avatar onShowModal={() => this.setState({showInfoModal: true})}/>
+					<Avatar onShowModal={() => this.setState({showInfoModal: false})}/>
 					<LoggedEntry
 						navigation={this.props.navigation}
 						onAddButtonClicked={(navigationName) => this.props.navigation.navigate(navigationName, {'selectedDateAndTime' : new Date() })}
