@@ -1,11 +1,8 @@
 import React from 'react';
-import { SvgXml } from 'react-native-svg';
 import {
-  ScrollView,
   StyleSheet,
   Text,
   View,
-  Image,
   Dimensions
 } from 'react-native';
 
@@ -18,16 +15,22 @@ import WeekDisplay from '../components/WeekDisplay';
 import { TouchableOpacity } from 'react-native-gesture-handler';
 import { AntDesign } from '@expo/vector-icons';  //replace IonIcon as it was impossible to centre them
 import ImageHeader from './ImageHeader';
-
+import Colors from "../constants/Colors";
+import BestDayInformation from "../components/BestDayInformation";
 var count = 0
 var reportData = null;
+
+const themeColor = '#1DBBA0';
 
 export default class ReportScreen extends React.Component {
 
   static navigationOptions = ({ navigation }) => ({
-    headerTitle: () => <ImageHeader color =  {"#fff"} backgroundColor={Colors.mainscreenColor} 
-                        title={navigation.state.params ? navigation.state.params.title :  "Weekly Report"}
-                        />,
+    headerTitle:<ImageHeader
+        color =  {Colors.textOnMainScreenColor}
+        backgroundColor={Colors.mainscreenColor}
+    title={
+      navigation.state.params ? navigation.state.params.title :  "Weekly Report"}
+    />,
 
     headerStyle: {
         backgroundColor: Colors.mainscreenColor,  
@@ -127,7 +130,7 @@ const LeftRightButton = ({left, right, pressHandler}) =>
           borderRadius: 40 / 2,
           opacity:1,
           zIndex: 100,
-          color: '#ff366b',
+          color: Colors.mainscreenColor,
         }
     ]}>
       <Text>
@@ -152,10 +155,8 @@ const BestDay = ({handlePressLeft, handlePressRight}) =>
 import symptomImage from '../assets/images/stethoscope_white.svg';
 import emotionImage from '../assets/images/smiley_face_white.svg';
 import mealImage from '../assets/images/cutlery_white.svg';
-import gipImage from '../assets/images/heartbeat.svg';
-import Colors from '../constants/Colors';
-
-
+import gipImage from '../assets/images/gip_stick.svg';
+import HorizontalLineWithText from "../components/HorizontalLineWithText";
 
 function InfoBox({ info, image, color, onAddClicked }) {
   return (<View>
@@ -182,7 +183,7 @@ var iconWidth = width * 0.1;
 var addButtonWidth = width * 0.08;
 var infoBoxWidth = (WIDTH / 2) - 14;
 
-var textColor = '#ff366b'
+var textColor = Colors.mainscreenColor
 
 const styles = StyleSheet.create({
   //https://medium.com/@0saurabhgour/react-native-percentage-based-progress-circle-no-external-library-e25b43e83888
@@ -196,7 +197,7 @@ const styles = StyleSheet.create({
   infoBox: {
     maxWidth: infoBoxWidth,
     height: infoBoxWidth,
-    backgroundColor: '#F7F7F7',
+    backgroundColor: Colors.infoBoxBackground,
     margin: 4,
     fontWeight: "normal",
     fontSize: 8,
@@ -243,7 +244,7 @@ const styles = StyleSheet.create({
   },
 
   bestDayCaption: {
-    color: '#ff366b',
+    color: textColor,
   },
   bestDayBody: {
     color: 'dimgray',
@@ -252,7 +253,7 @@ const styles = StyleSheet.create({
   bestDayHeading: {
     fontSize: 20,
     fontWeight: "bold",
-    color: '#ff366b',
+    color: textColor,
     maxWidth: width*0.80,
   },
 
@@ -287,6 +288,6 @@ const styles = StyleSheet.create({
   },
 
   leftRight:{
-    color: '#ff366b',
+    color:textColor,
   }
 });

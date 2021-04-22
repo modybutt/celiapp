@@ -13,6 +13,9 @@ export default {
 	noticeText: '#fff',
 
 	mainscreenColor: '#e91f64',
+	textOnMainScreenColor: '#fff',
+
+	infoBoxBackground: '#F7F7F7',
 	symptom: '#1DBBA0',
 	meal: '#3398DE',
 	emotion: '#9958B7',

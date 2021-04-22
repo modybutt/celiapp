@@ -16,8 +16,6 @@ import { } from 'react-native-dotenv';
 import FlashMessage from 'react-native-flash-message';
 import { showMessage } from "react-native-flash-message";
 import OnBoardingScreen from './src/screens/OnboardingScreen';
-import * as RootNavigation from '../celiapp/src/navigation/MainTabNavigator';
-import GoalSettingScreen from './src/screens/GoalSettingScreen';
 
 export default class App extends React.Component {
   state = {
