@@ -18,6 +18,7 @@ import WeekDisplay from '../components/WeekDisplay';
 import { TouchableOpacity } from 'react-native-gesture-handler';
 import { AntDesign } from '@expo/vector-icons';  //replace IonIcon as it was impossible to centre them
 import ImageHeader from './ImageHeader';
+import ReportInformation from '../components/ReportInformation';
 
 var count = 0
 var reportData = null;
@@ -36,7 +37,15 @@ export default class ReportScreen extends React.Component {
 
   constructor(props) {
     super(props);
-    this.state = { reportData: null };
+    this.state = { reportData: null,
+      showInformation: false,
+      informationPosition: {
+        'height': 0,
+        'width': 0,
+        'x': 0,
+        'y': 0,
+    },
+    };
   }
 
   componentDidMount() {
@@ -89,6 +98,14 @@ export default class ReportScreen extends React.Component {
 
   addEvent = (name) => () => this.props.navigation.navigate(name, { 'selectedDateAndTime': new Date() })
 
+  toggleShowInformation = () => {
+    this.setState({ showInformation: !this.state.showInformation })
+}
+
+addInformationLayout(layout){
+    this.setState({informationPosition:layout});
+}
+
   render() {
     if (!this.state.reportData) return (<View><Text>Generating report ...</Text></View>)
     reportData = this.state.reportData;
@@ -97,7 +114,13 @@ export default class ReportScreen extends React.Component {
     return (
       <View style={styles.container}>
         <WeekDisplay dailyActivity={this.state.reportData.dailyActivity} />
-        <BestDay handlePressLeft = {this.showPreviousWeekReport} handlePressRight={this.showFollowingWeekReport}/>
+        <BestDay iconClickEvent={this.toggleShowInformation} handlePressLeft = {this.showPreviousWeekReport} handlePressRight={this.showFollowingWeekReport}/>
+        <View style={{width:'100%'}}
+                    onLayout={event => {
+                        const layout = event.nativeEvent.layout;
+                        this.addInformationLayout(layout);
+                      }}
+        ></View>
         <View style={{ marginTop: 10 }}>
           <View style={styles.infoBoxRow}>
             <InfoBox info={reportData.symptomInfo} image={symptomImage} color={Colors.symptom} onAddClicked={this.addEvent("AddSymptom")} />
@@ -108,13 +131,16 @@ export default class ReportScreen extends React.Component {
             <InfoBox info={reportData.gipInfo} image={gipImage} color={Colors.gip} onAddClicked={this.addEvent("AddGIP")} />
           </View>
         </View>
+        {this.state.showInformation &&
+                    <ReportInformation color={'red'} position={this.state.informationPosition}></ReportInformation>
+        }
       </View>
     );
   }
 }
 
 
-const LeftRightButton = ({left, right, pressHandler}) => 
+const LeftRightButton = ({left, right, pressHandler,iconClickEvent}) => 
   <View>
     <TouchableOpacity
      onPress = {() => {console.log("press",pressHandler); pressHandler() }}  
@@ -136,7 +162,7 @@ const LeftRightButton = ({left, right, pressHandler}) =>
       </TouchableOpacity>
   </View>
 
-const BestDay = ({handlePressLeft, handlePressRight}) =>
+const BestDay = ({handlePressLeft, handlePressRight,iconClickEvent}) =>
   <View style={styles.bestDay}>
     <Text style={styles.bestDayCaption}>Best Day</Text>
     <View style={styles.bestDayBorder}>
@@ -147,6 +173,13 @@ const BestDay = ({handlePressLeft, handlePressRight}) =>
       </View>   
       <LeftRightButton right = {true} pressHandler = {handlePressRight}/> 
     </View>   
+    <View style={ styles.informationBackground}>
+                        <TouchableOpacity onPress={iconClickEvent}
+                            hitSlop={{ top: 20, bottom: 20, left: 20, right: 20 }}
+                                >
+                                <Text style={styles.informationForeground}>i</Text>
+                        </TouchableOpacity>
+    </View>
   </View>
 
 import symptomImage from '../assets/images/stethoscope_white.svg';
@@ -154,6 +187,7 @@ import emotionImage from '../assets/images/smiley_face_white.svg';
 import mealImage from '../assets/images/cutlery_white.svg';
 import gipImage from '../assets/images/heartbeat.svg';
 import Colors from '../constants/Colors';
+
 
 
 
@@ -288,5 +322,23 @@ const styles = StyleSheet.create({
 
   leftRight:{
     color: '#ff366b',
-  }
+  },
+
+  informationBackground:
+    {
+        right: 5,
+        bottom: 5,
+        position: 'absolute',
+        width: 20,
+        height: 20,
+        borderRadius: 10,
+        backgroundColor: 'red',
+    },
+    informationForeground:
+    {
+        textAlign: 'center',
+        fontSize: 17,
+        color: '#fff',
+        fontWeight: 'bold'
+    }
 });
