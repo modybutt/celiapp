@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import {
   StyleSheet,
   Text,
@@ -39,7 +39,16 @@ export default class ReportScreen extends React.Component {
 
   constructor(props) {
     super(props);
-    this.state = { reportData: null };
+    this.state = {
+      reportData: null,
+      informationPosition: {
+        'height': 0,
+        'width': 0,
+        'x': 0,
+        'y': 0,
+      },
+      showBestDayInformation: false,
+    };
   }
 
   componentDidMount() {
@@ -58,19 +67,19 @@ export default class ReportScreen extends React.Component {
 
   addDays = (date, days) => {
 
-    newDate = new Date(date);
+    let newDate = new Date(date);
     newDate.setDate(newDate.getDate() + days);
 
     return newDate;
   }
 
   showPreviousWeekReport = () => {
-    prevWeekDate = this.addDays(this.state.dateForReport, -7)
+    const prevWeekDate = this.addDays(this.state.dateForReport, -7)
     this.showWeekReportForDate(prevWeekDate)
   } 
 
   showFollowingWeekReport= () =>{
-    followingWeekDate = this.addDays(this.state.dateForReport, +7)
+    const followingWeekDate = this.addDays(this.state.dateForReport, +7)
     this.showWeekReportForDate(followingWeekDate)
   } 
 
@@ -125,32 +134,61 @@ const LeftRightButton = ({left, right, pressHandler}) =>
         {
           justifyContent: 'center',
           alignItems: 'center',
-          height: 40,
-          width: 40,
-          borderRadius: 40 / 2,
           opacity:1,
           zIndex: 100,
           color: Colors.mainscreenColor,
         }
     ]}>
       <Text>
-      <AntDesign name={left ? "left": "right" } style={styles.leftRight} size={24} />
+      <AntDesign name={left ? "left": "right" } style={styles.leftRight} size={28} />
       </Text>
       </TouchableOpacity>
   </View>
 
-const BestDay = ({handlePressLeft, handlePressRight}) =>
-  <View style={styles.bestDay}>
-    <Text style={styles.bestDayCaption}>Best Day</Text>
+const BestDay = ({handlePressLeft, handlePressRight}) => {
+
+  const [showBestDayInformation, setShowBestDayInformation] = React.useState(false);
+
+  let toggleShowBestDayInformation = () => {console.log("press",showBestDayInformation);setShowBestDayInformation(!showBestDayInformation);}
+
+  const [informationPosition, setInformationPosition] = React.useState({});
+
+  let addInformationLayout = (layout) => setInformationPosition(layout);
+
+   return(
+    <View style={[styles.bestDay,{width:'100%'}]}
+        onLayout={event => {
+          const layout = event.nativeEvent.layout;
+          addInformationLayout(layout);
+          console.log("layout:", layout)
+          }}
+    >
+    <Text style={styles.bestDayCaption}>{LanguageManager.getInstance().getText("BESTDAY")}</Text>
+    <View style={styles.infoButton}>
+      <TouchableOpacity onPress={toggleShowBestDayInformation}
+                        hitSlop={{ top: 20, bottom: 20, left: 20, right: 20 }}
+      >
+        <Text style={[styles.infoForeground]}>i</Text>
+      </TouchableOpacity>
+    </View>
+
     <View style={styles.bestDayBorder}>
-      <LeftRightButton left = {true} pressHandler = {handlePressLeft}/>
-      <View style={[{display: 'flex', flexGrow : 1, flexDirection: 'column',alignItems: 'center'}]}>
+      <LeftRightButton left={true} pressHandler={handlePressLeft}/>
+      <View style={[{display: 'flex', flexGrow: 1, flexDirection: 'column', alignItems: 'center'}]}>
         <Text style={styles.bestDayHeading}>{reportData.bestDayHeading}</Text>
         <Text style={styles.bestDayBody}>{reportData.bestDayBody}</Text>
-      </View>   
-      <LeftRightButton right = {true} pressHandler = {handlePressRight}/> 
-    </View>   
+      </View>
+      <LeftRightButton right={true} pressHandler={handlePressRight}/>
+    </View>
+    {showBestDayInformation && <BestDayInformation
+        color={themeColor}
+        position={informationPosition}
+        touchHandler={toggleShowBestDayInformation}/>
+    }
+
   </View>
+  );
+}
 
 import symptomImage from '../assets/images/stethoscope_white.svg';
 import emotionImage from '../assets/images/smiley_face_white.svg';
@@ -186,13 +224,32 @@ var infoBoxWidth = (WIDTH / 2) - 14;
 var textColor = Colors.mainscreenColor
 
 const styles = StyleSheet.create({
-  //https://medium.com/@0saurabhgour/react-native-percentage-based-progress-circle-no-external-library-e25b43e83888
   bestDay: {
     display: 'flex',
     flexDirection: 'column',
     justifyContent: 'flex-start',
     alignItems: 'center',
+    zIndex: 100,
   },
+
+  infoButton:{
+    right: 5,
+    bottom: 5,
+    position: 'absolute',
+    width: 20,
+    height: 20,
+    borderRadius: 10,
+    color: '#fff',
+    backgroundColor: Colors.mainscreenColor,
+    zIndex: 200,
+  },
+  infoForeground:
+      {
+        textAlign: 'center',
+        fontSize: 17,
+        color: '#fff',
+        fontWeight: 'bold'
+      },
 
   infoBox: {
     maxWidth: infoBoxWidth,
@@ -240,7 +297,7 @@ const styles = StyleSheet.create({
     display: 'flex',
     flexDirection: 'row',
     justifyContent: 'flex-start',
-    alignItems: 'center',
+    alignItems: 'flex-start',
   },
 
   bestDayCaption: {
