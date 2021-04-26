@@ -51,10 +51,13 @@ DatabaseManager.getInstance = () => {
 }
 
 
+const realDateNow = Date.now.bind(global.Date);
+
 beforeEach(() => {
     mockThisWeekData.init.mockResolvedValue("ok");
     mockPrevWeekData.init.mockResolvedValue("ok");
     mockGetDBCreatedDate.mockReturnValue(SatMar28_2020)
+    global.Date.now = realDateNow;
 
     WeeklyReportData
         .mockImplementationOnce(() => mockThisWeekData)
@@ -298,3 +301,77 @@ test('report Title', (done) =>{
     ReportManager.weeklyReport(callback, SunMar29_2020)
 })
 
+var SunMar2_2020 = new Date("2020-03-02T13:00:00")
+
+
+test('following week report available if next full week is before current date', (done) =>{
+    function callback(report) {
+        try {
+            expect(report.followingReportExists).toBeTruthy()
+            done();
+        }
+        catch (error) {
+            done(error);
+        }
+    }
+
+    const dateNowStub = jest.fn(() => MonApr06_2020);
+    global.Date.now = dateNowStub;
+    
+    mockGetDBCreatedDate.mockReturnValue(SunMar2_2020)
+
+    ReportManager.weeklyReport(callback, SunMar29_2020)
+})
+
+var MonMar30_2020 = new Date("2020-03-30T13:00:00")
+var MonApr05_2020 = new Date("2020-04-05T13:00:00")
+test('following week report not available if next full week  contains or is after current date', (done) =>{
+    function callback(report) {
+        try {
+            expect(report.followingReportExists).toBeFalsy()
+            done();
+        }
+        catch (error) {
+            done(error);
+        }
+    }
+
+    const dateNowStub = jest.fn(() => MonApr05_2020);
+    global.Date.now = dateNowStub;
+    
+    mockGetDBCreatedDate.mockReturnValue(SunMar2_2020)
+    
+    ReportManager.weeklyReport(callback, MonMar30_2020)
+})
+
+test('previous week report available if previous full week is after dbstart', (done) =>{
+    function callback(report) {
+        try {
+            expect(report.previousReportExists).toBeTruthy()
+            done();
+        }
+        catch (error) {
+            done(error);
+        }
+    }
+    
+    mockGetDBCreatedDate.mockReturnValue(MonMar30_2020)
+
+    ReportManager.weeklyReport(callback, MonApr06_2020)
+})
+
+test('previous week report not available if end of previous full week before dbstart', (done) =>{
+    function callback(report) {
+        try {
+            expect(report.previousReportExists).toBeFalsy()
+            done();
+        }
+        catch (error) {
+            done(error);
+        }
+    }
+
+    mockGetDBCreatedDate.mockReturnValue(MonMar30_2020)
+
+    ReportManager.weeklyReport(callback, MonApr05_2020, "test1")
+})

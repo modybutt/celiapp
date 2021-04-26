@@ -109,7 +109,10 @@ export default class ReportScreen extends React.Component {
     return (
       <View style={styles.container}>
         <WeekDisplay dailyActivity={this.state.reportData.dailyActivity} />
-        <BestDay handlePressLeft = {this.showPreviousWeekReport} handlePressRight={this.showFollowingWeekReport}/>
+        <BestDay 
+          handlePressLeft = {this.showPreviousWeekReport} handlePressRight={this.showFollowingWeekReport}
+          showPreviousReportButton = {reportData.previousReportExists}  showNextReportButton = {reportData.followingReportExists}
+          />
         <View style={{ marginTop: 10 }}>
           <View style={styles.infoBoxRow}>
             <InfoBox info={reportData.symptomInfo} image={symptomImage} color={Colors.symptom} onAddClicked={this.addEvent("AddSymptom")} />
@@ -145,7 +148,7 @@ const LeftRightButton = ({left, right, pressHandler}) =>
       </TouchableOpacity>
   </View>
 
-const BestDay = ({handlePressLeft, handlePressRight}) => {
+const BestDay = ({handlePressLeft, handlePressRight, showPreviousReportButton, showNextReportButton}) => {
 
   const [showBestDayInformation, setShowBestDayInformation] = React.useState(false);
 
@@ -173,12 +176,12 @@ const BestDay = ({handlePressLeft, handlePressRight}) => {
     </View>
 
     <View style={styles.bestDayBorder}>
-      <LeftRightButton left={true} pressHandler={handlePressLeft}/>
+      {showPreviousReportButton && <LeftRightButton left={true} pressHandler={handlePressLeft}/>}
       <View style={[{display: 'flex', flexGrow: 1, flexDirection: 'column', alignItems: 'center'}]}>
         <Text style={styles.bestDayHeading}>{reportData.bestDayHeading}</Text>
         <Text style={styles.bestDayBody}>{reportData.bestDayBody}</Text>
       </View>
-      <LeftRightButton right={true} pressHandler={handlePressRight}/>
+      {showNextReportButton &&<LeftRightButton right={true} pressHandler={handlePressRight}/>}
     </View>
     {showBestDayInformation && <BestDayInformation
         color={themeColor}

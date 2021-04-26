@@ -241,8 +241,8 @@ export default class ReportManager {
       + endOfWeek.toLocaleDateString("en-US", dateFormat)
   }
 
-  static async weeklyReport(success, now) {
-    now = now || new Date()
+  static async weeklyReport(success, now, str) {
+    now = now || new Date(Date.now())
     getDbStartDate =  DatabaseManager.getInstance().getDBCreatedDate();
 
     const startOfWeek = DateUtil.getStartOfPreviousFullWeekBeginningMonday(now);
@@ -263,11 +263,21 @@ export default class ReportManager {
         this.reportText.title = this.reportTitle(endOfWeek)
 
         if (dbStartDate > startOfPenultimateWeek) { penultimateWeekData = null }
+
+        this.reportText.previousReportExists = true
         if(dbStartDate > endOfWeek){
           this.beforeFirstWeekReport()
+          this.reportText.previousReportExists = false
           success(this.reportText)
           return;
         }
+
+
+        var endOfFollowingWeek = new Date(endOfWeek)
+        endOfFollowingWeek.setDate(endOfFollowingWeek.getDate()+7)
+        
+        this.reportText.followingReportExists = endOfFollowingWeek < new Date(Date.now())
+
 
         this.reportText.dailyActivity = [0, 1, 2, 3, 4, 5, 6].map(day => thisWeekData.activityRateForDay(day))
         this.reportText.weekEndingDate = endOfWeek
