@@ -176,6 +176,7 @@ getEvents2 = () => {
         events.push(MockDB.symptom("28 Mar 2021 19:07:20.05", Symptoms.NO_SYMPTOMS, 1, ""))
         //above is before test week
         events.push(MockDB.emotion("29 Mar 2021 19:07:20.05", Emotion.HAPPY))
+        events.push(MockDB.gipStick("29 Mar 2021 19:07:20.05", Gluten.FREE))
         events.push(MockDB.emotion("30 Mar 2021 19:07:20.05", Emotion.UNHAPPY))
         events.push(MockDB.meal("31 Mar 2021 19:07:20.05", Meals.DINNER, Gluten.FREE))
         events.push(MockDB.emotion("31 Mar 2021 19:07:20.05", Emotion.HAPPY))
@@ -185,9 +186,11 @@ getEvents2 = () => {
         events.push(MockDB.emotion("31 Mar 2021 19:07:20.05", Emotion.UNHAPPY))
         events.push(MockDB.gipStick("31 Mar 2021 19:07:20.05", Gluten.FREE))
         events.push(MockDB.meal("01 Apr 2021 19:07:20.05", Meals.DINNER, Gluten.UNKNOWN))
+        events.push(MockDB.meal("01 Apr 2021 19:07:20.05", Meals.DINNER, Gluten.UNKNOWN))
         events.push(MockDB.emotion("01 Apr 2021 19:07:20.05", Emotion.UNHAPPY))
         events.push(MockDB.gipStick("01 Apr 2021 19:07:20.05", Gluten.UNKNOWN))
         events.push(MockDB.interaction("01 Apr 2021 19:07:20.05"))
+        events.push(MockDB.meal("02 Apr 2021 19:07:20.05", Meals.DINNER, Gluten.UNKNOWN))
         events.push(MockDB.meal("02 Apr 2021 19:07:20.05", Meals.DINNER, Gluten.UNKNOWN))
         events.push(MockDB.emotion("02 Apr 2021 19:07:20.05", Emotion.NEUTRAL))
         events.push(MockDB.interaction("02 Apr 2021 19:07:20.05"))
@@ -199,11 +202,14 @@ getEvents2 = () => {
         events.push(MockDB.symptom("31 Mar 2021 19:07:20.05", Symptoms.NO_SYMPTOMS, 1, ""))
         events.push(MockDB.symptom("31 Mar 2021 19:07:20.05", Symptoms.NO_SYMPTOMS, 1, ""))
         events.push(MockDB.symptom("31 Mar 2021 19:07:20.05", Symptoms.LOSS_OF_APPETITE, Severity.SEVERE, ""))
+        events.push(MockDB.symptom("31 Mar 2021 19:07:20.05", Symptoms.LOSS_OF_APPETITE, Severity.SEVERE, ""))
         events.push(MockDB.symptom("01 Apr 2021 19:07:20.05", Symptoms.LOSS_OF_APPETITE, Severity.LOW, ""))
         events.push(MockDB.symptom("02 Apr 2021 19:07:20.05", Symptoms.LOW_ENERGY, Severity.MODERATE, ""))
         events.push(MockDB.symptom("02 Apr 2021 19:07:20.05", Symptoms.LOW_ENERGY, Severity.SEVERE, ""))
         events.push(MockDB.symptom("03 Apr 2021 19:07:20.05", Symptoms.BLOATING, Severity.SEVERE, ""))
         events.push(MockDB.symptom("04 Apr 2021 19:42:20.05", Symptoms.NO_SYMPTOMS, 1, ""))
+        events.push(MockDB.symptom("04 Apr 2021 19:07:20.05", Symptoms.LOSS_OF_APPETITE, Severity.MODERATE, ""))
+        events.push(MockDB.symptom("04 Apr 2021 19:07:20.05", Symptoms.LOSS_OF_APPETITE, Severity.MODERATE, ""))
         events.push(MockDB.symptom("04 Apr 2021 19:07:20.05", Symptoms.LOSS_OF_APPETITE, Severity.MODERATE, ""))
         //below is after test week
         events.push(MockDB.symptom("05 Apr 2021 19:07:20.05", Symptoms.NO_SYMPTOMS,  Severity.MODERATE, ""))
@@ -238,7 +244,7 @@ describe('count  days with ', () => {
         })
 
         test('GIP recorded', () =>{
-                expect(weekData.thisWeekNumDaysWithGIP()).toEqual(3);
+                expect(weekData.thisWeekNumDaysWithGIP()).toEqual(4);
         })
 
         test('days with mild as worst symptoms', () => {
@@ -260,6 +266,26 @@ describe('count  days with ', () => {
         test('this weekdays with energy count', () => {
                 expect(weekData.numDaysMediumEnergy()).toBe(2)
                 expect(weekData.numDaysHighEnergy()).toBe(3)
+        })
+
+        test('days reaching symptom goal', () => {
+                expect(weekData.numDaysReachingSymptomGoal()).toBe(2)
+
+        })
+
+        test('days reaching meal goal', () => {
+                expect(weekData.numDaysReachingMealGoal()).toBe(3)
+
+        })
+
+        test('days reaching emotion goal', () => {
+                expect(weekData.numDaysReachingEmotionGoal()).toBe(1)
+
+        })
+
+        test('days reaching gip goal', () => {
+                expect(weekData.numDaysReachingGIPGoal()).toBe(4)
+
         })
 });
 

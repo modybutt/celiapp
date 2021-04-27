@@ -15,6 +15,19 @@ export default class MockDB {
     success(0, data);
   }
 
+  getDailyGoals(){
+    return new Promise((resolve, reject) =>
+      resolve({dailyGoals:
+        {
+          dailySymptoms: 4,
+          dailyEmotions: 3,
+          dailyMeals: 2,
+          dailyGips:1
+        }
+      })
+    );
+  }
+
   static symptom = (date, symptom, severity, note) =>
   ({
     "created": Date.parse(date),

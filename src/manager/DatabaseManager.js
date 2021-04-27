@@ -415,6 +415,33 @@ export default class DatabaseManager {
    *                       Settings Database
    ********************************************************************/
 
+   getDailyGoals(){
+      return new Promise((resolve, reject)=>
+      
+        this.loadSettings(null,
+          (_, error) => { alert("error loading settings" + JSON.stringify(error)); reject(error)},
+          (_, { rows: { _array } }) => 
+          {
+            let settings = {};		
+            for (var i in _array)
+            {
+              settings[_array[i].name] = JSON.parse(_array[i].objData);
+            }		
+            resolve({
+              dailyGoals:
+              {
+                dailySymptoms: settings.noSymptoms || 3,
+                dailyEmotions: settings.noEmotions || 3,
+                dailyMeals: settings.noMeals || 3,
+                dailyGips: settings.noGips || 1
+              }
+            })					
+          }
+        )
+      )
+   }
+
+
   loadSettings(name, onError, onSuccess) {
     if (name == null) {
       this.db.transaction(tx => {

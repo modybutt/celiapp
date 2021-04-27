@@ -31,6 +31,11 @@ class mockReportData {
     numDaysHighEnergy = jest.fn();
     numDaysMediumEnergy = jest.fn();
     numGIPGlutenFree = jest.fn();
+    numDaysReachingSymptomGoal = jest.fn();
+    numDaysReachingMealGoal = jest.fn();
+    numDaysReachingGIPGoal = jest.fn();
+    numDaysReachingEmotionGoal = jest.fn();
+
 };
 
 var mockThisWeekData = new mockReportData;
@@ -46,7 +51,7 @@ var mockGetDBCreatedDate = jest.fn().mockReturnValue(SatMar28_2020);
 
 DatabaseManager.getInstance = () => {
     return {
-        getDBCreatedDate: mockGetDBCreatedDate
+        getDBCreatedDate: mockGetDBCreatedDate,
     }
 }
 
@@ -84,7 +89,7 @@ test('should report days with no symptoms', done => {
     function callback(report) {
         try {
             expect(report.symptomInfo.headline).toEqual("3 days you recorded as SYMPTOM FREE. Good job!");
-            expect(report.symptomInfo.body).toEqual("You logged 4 symptoms this week. This is your first week");
+            expect(report.symptomInfo.body).toContain("You logged 4 symptoms this week. This is your first week");
             done();
         }
         catch (error) {
@@ -189,6 +194,36 @@ test('days with severe symptoms', (done) => {
     ReportManager.weeklyReport(callback)
 });
 
+test('should say if reached daily goal', done => {
+    function callback(report) {
+        try {
+            expect(report.symptomInfo.body).toContain("On 3 days you reached your daily goal.");
+            done();
+        }
+        catch (error) {
+            done(error);
+        }
+    }
+
+    mockThisWeekData.numDaysReachingSymptomGoal.mockReturnValue(3)
+    ReportManager.weeklyReport(callback)
+});
+
+test('should say if not reached daily goal', done => {
+    function callback(report) {
+        try {
+            expect(report.symptomInfo.body).toContain("Alas, no day did you reach your daily goal");
+            done();
+        }
+        catch (error) {
+            done(error);
+        }
+    }
+
+    mockThisWeekData.numDaysReachingSymptomGoal.mockReturnValue(0)
+    ReportManager.weeklyReport(callback)
+});
+
 test('should remind you to log gip if you havnt any', done => {
     function callback(report) {
         try {
@@ -255,6 +290,37 @@ test('say how many gip sticks compared to last week', done => {
     
     ReportManager.weeklyReport(callback)
 });
+
+test('should say if reached daily meal goal', done => {
+    function callback(report) {
+        try {
+            expect(report.mealInfo.body).toContain("On 3 days you reached your daily goal.");
+            done();
+        }
+        catch (error) {
+            done(error);
+        }
+    }
+
+    mockThisWeekData.numDaysReachingMealGoal.mockReturnValue(3)
+    ReportManager.weeklyReport(callback)
+});
+
+test('should say if not reached daily meal goal', done => {
+    function callback(report) {
+        try {
+            expect(report.mealInfo.body).toContain("Alas, no day did you reach your daily goal");
+            done();
+        }
+        catch (error) {
+            done(error);
+        }
+    }
+
+    mockThisWeekData.numDaysReachingMealGoal.mockReturnValue(0)
+    ReportManager.weeklyReport(callback)
+});
+
 
 
 test('before first full week', (done) =>{

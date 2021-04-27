@@ -25,8 +25,58 @@ export default class WeeklyReportData {
     this.previousWeekStart = DateUtil.getStartOfPreviousFullWeekBeginningMonday(this.currentWeekStart)
     this.thisTimePreviousWeek = DateUtil.sameTimeAWeekPrevious(this.now)
 
-    return this.getData(this.previousWeekStart, this.currentWeekEnd);
+    return Promise.all([
+      this.getData(this.previousWeekStart, this.currentWeekEnd),
+      this.getGoals()
+    ]);
   }
+
+  getGoals = () => this.dataBase.getDailyGoals().then((goals) => this.goals=goals.dailyGoals)
+
+  jsonifyEvent = (event) => {
+    event.objData = JSON.parse(event.objData)
+    event.created = new Date(event.created)
+    event.modified = new Date(event.modified)
+    return event
+  }
+
+  getData = (startOfPeriod, endOfPeriod) => {
+    return new Promise((resolve, reject) => {
+      this.getEventsBetweenDatesInclusive(startOfPeriod, endOfPeriod)
+        .then(data => {
+          this.events = data
+            .filter(event => event.eventType !== Events.LogEvent)
+            .map(this.jsonifyEvent)
+          this.calcBestDay()
+          resolve("done")
+        })
+        .catch(err => console.log("Report data access error:", err.message, err));
+    });
+  }
+
+  getEventsBetweenDatesInclusive = (start, end) =>
+    new Promise((resolve, reject) => {
+      this.dataBase.fetchEventsBetween(
+        start,
+        end,
+        () => reject("Error fetching events for previous 7 days"),
+        (_, { rows: { _array } }) => resolve(_array),
+      );
+    })
+
+  TARGET_DAILY_SCORE = 9
+  TARGET_MEALS_PER_DAY = 3
+  TARGET_SYMPTOMS_PER_DAY = 3
+  TARGET_EMOTIONS_PER_DAY = 3
+
+  targetActivityCounter = (day) =>
+    Math.min(day.mealCount, this.TARGET_MEALS_PER_DAY) +
+    Math.min(day.emotionCount, this.TARGET_EMOTIONS_PER_DAY) +
+    Math.min(day.symptomCount, this.TARGET_SYMPTOMS_PER_DAY)
+
+  activityRateForDay = (dayOfWeek) => this.enrichedDays[dayOfWeek].activity
+
+  eventInCurrentWeek = (event) => event.created > this.currentWeekStart && event.created < this.currentWeekEnd
 
   scoreEvent = (event) => {
 
@@ -73,51 +123,6 @@ export default class WeeklyReportData {
       }
     }
   }
-
-  jsonifyEvent = (event) => {
-    event.objData = JSON.parse(event.objData)
-    event.created = new Date(event.created)
-    event.modified = new Date(event.modified)
-    return event
-  }
-
-  getData = (startOfPeriod, endOfPeriod) => {
-    return new Promise((resolve, reject) => {
-      this.getEventsBetweenDatesInclusive(startOfPeriod, endOfPeriod)
-        .then(data => {
-          this.events = data
-            .filter(event => event.eventType !== Events.LogEvent)
-            .map(this.jsonifyEvent)
-          this.calcBestDay()
-          resolve("done")
-        })
-        .catch(err => console.log("Report data access error:", err.message, err));
-    });
-  }
-
-  getEventsBetweenDatesInclusive = (start, end) =>
-    new Promise((resolve, reject) => {
-      this.dataBase.fetchEventsBetween(
-        start,
-        end,
-        () => reject("Error fetching events for previous 7 days"),
-        (_, { rows: { _array } }) => resolve(_array),
-      );
-    })
-
-  TARGET_DAILY_SCORE = 9
-  TARGET_MEALS_PER_DAY = 3
-  TARGET_SYMPTOMS_PER_DAY = 3
-  TARGET_EMOTIONS_PER_DAY = 3
-
-  targetActivityCounter = (day) =>
-    Math.min(day.mealCount, this.TARGET_MEALS_PER_DAY) +
-    Math.min(day.emotionCount, this.TARGET_EMOTIONS_PER_DAY) +
-    Math.min(day.symptomCount, this.TARGET_SYMPTOMS_PER_DAY)
-
-  activityRateForDay = (dayOfWeek) => this.enrichedDays[dayOfWeek].activity
-
-  eventInCurrentWeek = (event) => event.created > this.currentWeekStart && event.created < this.currentWeekEnd
 
   scoreDay = (dayEvents) => dayEvents.reduce(
     (sum, event) => this.scoreEvent(event) + sum,
@@ -253,5 +258,10 @@ export default class WeeklyReportData {
   numDaysMediumEnergy = () => this.enrichedDays.filter(day => day.mediumEnergyCount > 0).length;
 
   numGIPGlutenFree = () => this.countGIPEventsBetweenDates(Gluten.Free, this.currentWeekStart, this.currentWeekEnd)
+
+  numDaysReachingSymptomGoal = () =>  this.enrichedDays.filter(day => day.symptomCount >= this.goals.dailySymptoms).length;     
+  numDaysReachingEmotionGoal = () =>  this.enrichedDays.filter(day => day.emotionCount >= this.goals.dailyEmotions).length;              
+  numDaysReachingMealGoal = () =>     this.enrichedDays.filter(day => day.mealCount    >= this.goals.dailyMeals).length;              
+  numDaysReachingGIPGoal = () =>      this.enrichedDays.filter(day => day.gipTests     >= this.goals.dailyGips).length;              
 
 };

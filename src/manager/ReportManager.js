@@ -83,6 +83,19 @@ export default class ReportManager {
       this.gipFreeString(weekData.bestDayGipTests());
   }
 
+  static reachedGoalString = (numDaysGoalReached) => {
+
+    goalString = ""
+    
+    if(numDaysGoalReached !=null){  //no goal defined
+      goalString += numDaysGoalReached > 0 
+        ? " On " + this.dayPluralString(numDaysGoalReached) + " you reached your daily goal." 
+        : " Alas, no day did you reach your daily goal"
+    }
+
+    return goalString
+  }
+
   static infoBoxDefaultBodyText = (stringify, thisWeekCount, lastWeekCount) =>
     "You logged " + stringify(thisWeekCount) + " this week." +
     (lastWeekCount ? " That is " + this.differenceString(thisWeekCount, lastWeekCount) + " at this time last week!"
@@ -93,6 +106,8 @@ export default class ReportManager {
   static symptomBox = (thisWeek, lastWeek) => {
     //body = You logged N symptoms this week. That is x more/less than the previous week week
     this.reportText.symptomInfo.body = this.infoBoxDefaultBodyText(this.symptomString, thisWeek.thisWeekSymptomCount(), lastWeek ? lastWeek.thisWeekSymptomCount() : null)
+
+    this.reportText.symptomInfo.body += this.reachedGoalString(thisWeek.numDaysReachingSymptomGoal());
 
     //Symptom free days:
     // head = X days you entered NO SYMPTOMS. Good job!
@@ -167,8 +182,10 @@ export default class ReportManager {
   }
 
   static mealBox = (thisWeek, lastWeek) => {
-    this.reportText.mealInfo.body = this.infoBoxDefaultBodyText(this.mealString, thisWeek.thisWeekMealCount(),lastWeek ? lastWeek.thisWeekMealCount() : null)
-    
+    this.reportText.mealInfo.body = 
+        this.infoBoxDefaultBodyText(this.mealString, thisWeek.thisWeekMealCount(),lastWeek ? lastWeek.thisWeekMealCount() : null)
+      + this.reachedGoalString(thisWeek.numDaysReachingMealGoal());
+
     glutenFreeCount = thisWeek.thisWeekGlutenFreeMealCount()
 
     mealHead = "" + glutenFreeCount + "logged meals were GLUTENFREE!"
@@ -178,8 +195,10 @@ export default class ReportManager {
   }
 
   static emotionBox = (thisWeek, lastWeek) => {
-      this.reportText.emotionInfo.body = this.infoBoxDefaultBodyText(this.moodString, thisWeek.thisWeekMoodCount(), lastWeek? lastWeek.thisWeekMoodCount(): null)
-  
+      this.reportText.emotionInfo.body = 
+        this.infoBoxDefaultBodyText(this.moodString, thisWeek.thisWeekMoodCount(), lastWeek? lastWeek.thisWeekMoodCount(): null)
+        + this.reachedGoalString(thisWeek.numDaysReachingEmotionGoal());
+
       highEnergyCount = thisWeek.numDaysHighEnergy()
       energyHead = ""+ this.dayPluralString(highEnergyCount)+ " you were had HIGH energy!"
 
@@ -203,7 +222,10 @@ export default class ReportManager {
 
         }
         else{
-          this.reportText.gipInfo.body = this.infoBoxDefaultBodyText(this.gipString, gipCount, lastWeek ? lastWeek.thisWeekGIPCount(): null)
+          this.reportText.gipInfo.body = 
+            this.infoBoxDefaultBodyText(this.gipString, gipCount, lastWeek ? lastWeek.thisWeekGIPCount(): null)
+            + this.reachedGoalString(thisWeek.numDaysReachingGIPGoal());
+
           if(thisWeek.numGIPGlutenFree() == gipCount)
             this.reportText.gipInfo.headline = "All tests were GLUTENFREE!"
         }
@@ -259,7 +281,6 @@ export default class ReportManager {
 
     Promise.all([getDbStartDate, thisWeek, penultimateWeek])
       .then(([dbStartDate, _, __]) => {
-        console.log("got date: ", dbStartDate)
         this.reportText.title = this.reportTitle(endOfWeek)
 
         if (dbStartDate > startOfPenultimateWeek) { penultimateWeekData = null }
