@@ -111,3 +111,14 @@ git push			push local repo to master
 ```bash
 npm install
 ```
+
+
+npm i react-devtools@2.5.2
+
+run  react_native_debugger-0.10.13-setup.exe  // in downloads
+
+run app in simulator
+
+turn on remote debugging
+
+in RNDebugger <cntrl>-R to listing on 19001

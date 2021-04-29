@@ -93,7 +93,6 @@ export default class ReportScreen extends React.Component {
   } 
 
   receiveData = (data) => {
-    console.log("handler",this.showFollowingWeekReport)
     this.setState({ reportData: data });
     console.log("==================================received report data:");
     this.props.navigation.setParams({ title: data.title })
@@ -152,7 +151,7 @@ const BestDay = ({handlePressLeft, handlePressRight, showPreviousReportButton, s
 
   const [showBestDayInformation, setShowBestDayInformation] = React.useState(false);
 
-  let toggleShowBestDayInformation = () => {console.log("press",showBestDayInformation);setShowBestDayInformation(!showBestDayInformation);}
+  let toggleShowBestDayInformation = () => {console.log("press modal", showBestDayInformation);setShowBestDayInformation(!showBestDayInformation);}
 
   const [informationPosition, setInformationPosition] = React.useState({});
 

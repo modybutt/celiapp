@@ -279,8 +279,10 @@ export default class ReportManager {
     thisWeek = thisWeekData.init(startOfWeek, endOfWeek, new Date())
     penultimateWeek = penultimateWeekData.init(startOfPenultimateWeek, endOfPenultimateWeek, new Date())
 
+    console.log("before promise")
     Promise.all([getDbStartDate, thisWeek, penultimateWeek])
       .then(([dbStartDate, _, __]) => {
+        console.log("after promise")
         this.reportText.title = this.reportTitle(endOfWeek)
 
         if (dbStartDate > startOfPenultimateWeek) { penultimateWeekData = null }
@@ -314,6 +316,7 @@ export default class ReportManager {
         this.emotionBox(thisWeekData, penultimateWeekData);
         this.gipBox(thisWeekData, penultimateWeekData);
 
+        console.log("before success")
         success(this.reportText)
       })
       .catch(err => console.log("Report error:", err.message));
