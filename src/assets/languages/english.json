@@ -128,6 +128,10 @@
 		"ONBOARDING_SCREEN_TWO": "Register symptoms, whenever you feel your body protests.",
 		"ONBOARDING_SCREEN_THREE": "Add meals, to be able to analyse your eating habits.",
 		"ONBOARDING_SCREEN_FOUR": "Log your energy level, to become aware of how food influences it.",
-		"ONBOARDING_SCREEN_FIVE": "Upload your GIP, to track whether your diet contained gluten."
+		"ONBOARDING_SCREEN_FIVE": "Upload your GIP, to track whether your diet contained gluten.",
+		"MAINSCREEN_INFOMODAL_1": "Here you can start logging your diet. The more you log, the better you will master your Gluten Free Diet!",
+		"MAINSCREEN_INFOMODAL_2": "The circles on top show how well you are doing, considering your daily logging goals.",
+		"MAINSCREEN_INFOMODAL_3": "means you are half way accomplishing your daily goals.",
+		"MAINSCREEN_INFOMODAL_4": "You can go to your logs per feature by swiping the button."
 	}
 }
