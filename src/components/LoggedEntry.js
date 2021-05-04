@@ -147,7 +147,7 @@ const Entry = ({title, subtitle, image, color, goal, actual, onAddButtonClicked,
 				left:-14,
 				top:-14
 			}} >
-				<Svg transform={[{rotate: '270deg'}]}  width={80} height={80}>
+				<Svg transform={[{rotate: '270deg'}]} width={80} height={80}>
 					<SvgCircle outerSize={80} size={66} strokeWidth={2} color={'#707070'} progress={1}/>
 					<SvgCircle outerSize={80} size={70} strokeWidth={5} color={color} progress={progress}/>
 				</Svg>

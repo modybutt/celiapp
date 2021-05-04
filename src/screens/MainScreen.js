@@ -1,5 +1,5 @@
 import React from 'react';
-import { StyleSheet, View, Text, Image, AppState } from 'react-native';
+import { StyleSheet, View, Text, Image, Pressable, Modal } from 'react-native';
 import ImageHeader from './ImageHeader';
 import Colors from '../constants/Colors'
 
@@ -9,15 +9,17 @@ import mealImage from '../assets/images/cutlery_white.svg';
 import gipImage from '../assets/images/gip.svg';
 import andyPlaceholder from "../assets/images/avatar_menu/placeholder_andy.png";
 import mainscreenInfomodal from "../assets/images/mainscreen_infomodal.svg";
+import halfwayprogress from "../assets/images/halfwayprogress.svg";
 
 import Layout from '../constants/Layout';
 import LoggedEntry from '../components/LoggedEntry';
 import ReportManager from '../manager/ReportManager';
 import WeekDisplay from '../components/WeekDisplay';
-import { TouchableOpacity, TouchableWithoutFeedback } from 'react-native-gesture-handler';
+import { TouchableOpacity } from 'react-native-gesture-handler';
 import DatabaseManager from '../manager/DatabaseManager';
 import Events from '../constants/Events';
 import { SvgXml } from 'react-native-svg';
+import LanguageManager from '../manager/LanguageManager';
 
 export default class MainScreen extends React.Component {
 	
@@ -48,7 +50,7 @@ export default class MainScreen extends React.Component {
 					
 				<View style={styles.container}>
 					<WeekDisplay dailyActivity={reportData.dailyActivity}/>
-					<Avatar onShowModal={() => this.setState({showInfoModal: false})}/>
+					<Avatar showModal={this.state.showInfoModal} onShowModal={() => this.setState({showInfoModal: true})}/>
 					<LoggedEntry
 						navigation={this.props.navigation}
 						onAddButtonClicked={(navigationName) => this.props.navigation.navigate(navigationName, {'selectedDateAndTime' : new Date() })}
@@ -103,8 +105,8 @@ export default class MainScreen extends React.Component {
 						dailyGoal={dailyGoals.dailyGips}
 						actual={dailyEventEntries.noGips}
 						/>
-				</View>
-				<MainScreenInfoModal showModal={this.state.showInfoModal} onPress={() => {console.log('pressed!')}}/>
+					<MainScreenInfoModal showModal={this.state.showInfoModal} onModalPressed={() => this.setState({showInfoModal: false})}/>
+				</View>				
 			</View>			
 		);
 	}
@@ -186,27 +188,44 @@ export default class MainScreen extends React.Component {
 	}
 }
 
-const MainScreenInfoModal = ({showModal, onPress}) =>
+const modalText1 = LanguageManager.getInstance().getText('MAINSCREEN_INFOMODAL_1');
+const modalText2 = LanguageManager.getInstance().getText('MAINSCREEN_INFOMODAL_2');
+const modalText3 = LanguageManager.getInstance().getText('MAINSCREEN_INFOMODAL_3');
+const modalText4 = LanguageManager.getInstance().getText('MAINSCREEN_INFOMODAL_4');
+const MainScreenInfoModal = ({showModal, onModalPressed}) =>
 {	
 	if (showModal)
-	{
-		return <TouchableWithoutFeedback style={{zIndex: 10}} width={window.width} height={window.height} onPress={() => {console.log('press!')}}>
-			<View style={styles.infoModal} >
-				<SvgXml width={300} height={300} xml={mainscreenInfomodal} style={{
-					alignSelf: 'center',
-					marginTop: window.height * .45
-				}}/>
-			</View>
-		</TouchableWithoutFeedback>
+	{		
+		return (
+			<Modal transparent={true}>			
+				<Pressable onPress={() => onModalPressed()}>
+					<View style={styles.infoModal} >					
+						<SvgXml width={window.width * 0.8} height={window.width * 0.8} xml={mainscreenInfomodal} style={{
+							position: 'absolute',
+							left: window.width * 0.05,
+							top: window.height * 0.38,
+						}}/>
+						<Text style={styles.infoModalText}>
+							{modalText1}{'\n\n'}
+							{modalText2}{'\n\n'}
+							<SvgXml width={50} heighht={50} xml={halfwayprogress}/> 
+							{modalText3}{'\n\n'}
+							{modalText4}
+						</Text>
+					</View>
+				</Pressable>
+			</Modal>);
 	}
 	return null;
 }
 
-const Avatar = ({onShowModal}) =>
-	<View style={styles.avatarContainer}>
-		<Image style={styles.avatar} source={andyPlaceholder}/>
-		<View style={styles.loggedInfoContainer}>
-			<Text style={styles.loggedInfo}>Your logs today</Text>
+const Avatar = ({showModal, onShowModal}) =>
+{
+	const loggedEntriesTextColor = showModal ? '#707070' : '#7f7f7f';
+	return <View style={styles.avatarContainer}>
+			<Image style={styles.avatar} source={andyPlaceholder}/>
+			<View style={styles.loggedInfoContainer}>
+			<Text style={{fontSize: 25, color: loggedEntriesTextColor}}>Your logs today</Text>
 			<View style={styles.informationBackground}>
 				<TouchableOpacity style={styles.touchableOpacityInfoButton} onPress={() => onShowModal()}>
 					<Text style={styles.informationForeground}>i</Text>
@@ -214,6 +233,7 @@ const Avatar = ({onShowModal}) =>
 			</View>
 		</View>
 	</View>
+}
 
 const window = Layout.window;
 //TODO: make this scale with image width/height
@@ -221,6 +241,16 @@ const andyScheenHeight = 0.22;
 const ratio = (window.height * andyScheenHeight) / 1086;
 const styles = StyleSheet.create
 ({
+	fullscreenContainer: {        
+        width: window.width,
+        height: window.height,
+        backgroundColor: 'rgba(100,100,100,0.5)',
+        flex:1,
+        justifyContent: 'center',
+        alignItems: 'center',
+        zIndex: 200,
+    },
+
 	container: 
 	{
 		fontSize: 26,
@@ -268,12 +298,6 @@ const styles = StyleSheet.create
 		height: window.height * andyScheenHeight
 	},
 
-	loggedInfo:
-	{
-		color: '#707070',
-		fontSize: 20
-	},
-
 	touchableOpacityInfoButton:
 	{
 		width: 30,
@@ -301,9 +325,22 @@ const styles = StyleSheet.create
 	{
 		position: 'absolute',
 		bottom: 0,
+		left: 0,
+		top: 0,
 		width: window.width,
 		height: window.height,
 		backgroundColor: 'rgba(255,255,255,0.7)',
 		zIndex: 10
+	},
+
+	infoModalText:
+	{
+		width: window.width * 0.55,
+		left: window.width * 0.1,
+		top: window.height * 0.45,
+		alignSelf: 'center',
+		position: 'absolute', 
+		color: 'white',
+		fontSize: 14
 	}
 });
