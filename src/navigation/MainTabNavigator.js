@@ -8,6 +8,7 @@ import TabBarIcon from "../components/TabBarIcon";
 import TabBarCustomIcon from "../components/TabBarCustomIcon";
 import { SvgXml } from 'react-native-svg';
 import ReportIcon from '../Assets/Images/heartbeat.svg';
+import MainScreenIcon from '../Assets/Images/glutenfree.svg';
 import EvaluationScreen from "../screens/EvaluationScreen";
 import CalendarScreen from "../screens/CalendarScreen";
 import ReportScreen from "../screens/ReportScreen";
@@ -71,25 +72,26 @@ const TabNavStack = createMaterialTopTabNavigator(
         ),
       },
     },*/
-    Glutenbuddy: {
-      screen: MainScreenStack,
-      navigationOptions: {		  
-        //tabBarLabel: 'Calendar',
-        tabBarIcon: ({ focused }) => (
-          <TabBarCustomIcon focused={focused} source={require("../assets/images/glutenfree.png")}/>
-        ),
-      },
-    },
     Calendar: {
       screen: CalendarStack,
       navigationOptions: {
         //tabBarLabel: 'Calendar',
         tabBarIcon: ({ focused }) => (
-          <TabBarIcon focused={focused} name={"md-calendar"} />
+            <TabBarIcon focused={focused} name={"md-calendar"} />
         ),
       },
     },
-    
+
+    Glutenbuddy: {
+      screen: MainScreenStack,
+      navigationOptions: {		  
+        //tabBarLabel: 'Calendar',
+        tabBarIcon: ({ focused }) => (
+            <SvgXml width="26" height="26" fill= {focused? Colors.tabIconSelected : Colors.tabIconDefault} xml={MainScreenIcon} />
+        ),
+      },
+    },
+
     Report: {
       screen: ReportStack,
       navigationOptions: {
