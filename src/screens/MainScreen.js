@@ -322,7 +322,7 @@ const styles = StyleSheet.create
 		position: 'absolute',
 		bottom: 0,
 		left: 0,
-		top: 0,
+		top: 20,
 		width: window.width,
 		height: window.height,
 		backgroundColor: 'rgba(255,255,255,0.7)',
@@ -333,7 +333,7 @@ const styles = StyleSheet.create
 	{
 		width: window.width * 0.55,
 		left: window.width * 0.1,
-		top: window.height * 0.45,
+		top: window.height * 0.42,
 		alignSelf: 'center',
 		position: 'absolute', 
 		color: 'white',

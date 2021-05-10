@@ -15,7 +15,7 @@ export default class InfoIcon extends React.Component {
 		const styles = this.getIconStyle(this.props.width);
 		return <View style={[styles.infoIcon, {backgroundColor: this.props.color}]}>
 			<SvgXml width={this.props.width * .8} height={this.props.width * .8} xml={this.props.image} style={{
-				marginLeft: 1.5
+				marginLeft: 0
 			}}/>
 		</View>;
 	}

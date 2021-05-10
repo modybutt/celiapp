@@ -123,7 +123,8 @@ const Entry = ({title, subtitle, image, color, goal, actual, onAddButtonClicked,
 	const outerSize = size * .875;
 	const iconSize = size * 0.63;
 	const circularProgressBarMargin = -size * 0.2;
-	const iconMargin = -size * 0.03;
+	const iconMarginLeft = -size * 0.03;
+	const iconMarginTop = -size * 0.038;
 
 	return <View style={styles.container}>
 		<View style={styles.leftWrapper}>
@@ -137,8 +138,8 @@ const Entry = ({title, subtitle, image, color, goal, actual, onAddButtonClicked,
 			</View>
 
 			<View style={{				
-				marginLeft: iconMargin,
-				marginTop: iconMargin,
+				marginLeft: iconMarginLeft,
+				marginTop: iconMarginTop,
 			}} >
 				<InfoIcon color={color} image={image} width={iconSize}/>
 			</View>
