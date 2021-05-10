@@ -81,7 +81,7 @@ export default class GoalSettingScreen extends React.Component
 							text={<LogText 
 								text1='I want to register ' 
 								noItems={this.state.noGips} 
-								text2='GIP results ' 
+								text2={this.state.noGips === 1 ? 'GIP result ' : 'GIP results '}
 								text3='each day.' 
 								color={Colors.gip}
 								upPressed={() => {this.setState({noGips: this.state.noGips + 1})}}
@@ -131,31 +131,34 @@ export default class GoalSettingScreen extends React.Component
 
 const ChevronsAndText = ({text, noItems, color, upPressed, downPressed}) =>
 {
-	return <View style={{alignSelf: 'flex-start', marginTop: -26}}>
-		<TouchableOpacity onPress={() => upPressed()}>
-			<Icon.EvilIcons style={{
-				textAlign: 'center',
-				marginBottom: -4
-			}} name='chevron-up' size={30} color={color}/>
-		</TouchableOpacity>
+	return <View style={{flexDirection: 'column'}}>
 		
-		<Text style={{ color: color, fontWeight: 'bold' }}>
-			{noItems} {text}
-		</Text>
+			<TouchableOpacity onPress={() => upPressed()}>
+				<Icon.EvilIcons style={{
+					textAlign: 'center',
+					marginBottom: -4
+				}} name='chevron-up' size={30} color={color}/>
+			</TouchableOpacity>
+			
+			<Text style={{ color: color, fontWeight: 'bold' }}>
+				{noItems} {text}
+			</Text>
 
-		<TouchableOpacity onPress={() => downPressed()}>
-			<Icon.EvilIcons style={{
-				textAlign: 'center'
-			}} name='chevron-down' size={30} color={color}/>
-		</TouchableOpacity>
-	</View>
+			<TouchableOpacity onPress={() => downPressed()}>
+				<Icon.EvilIcons style={{
+					textAlign: 'center'
+				}} name='chevron-down' size={30} color={color}/>
+			</TouchableOpacity>
+		</View>
 }
 
 const LogText = ({text1, text2, noItems, text3, color, upPressed, downPressed}) =>
 {
-	return <Text style={{marginLeft: 14.3, marginTop: 5, fontSize: 16, width: 270, marginTop: -18}}>
+	return <Text style={{marginLeft: 14.3, marginTop: 5, fontSize: 16, width: window.width * 0.7, marginTop: -18}}>
 		<Text style={{color:'#707070' }}>{text1}</Text>
-		<ChevronsAndText color={color} noItems={noItems} text={text2} upPressed={upPressed} downPressed={downPressed}/>
+		<View style={{display: 'flex', marginTop: -26}} >
+			<ChevronsAndText color={color} noItems={noItems} text={text2} upPressed={upPressed} downPressed={downPressed}/>
+		</View>
 		<Text style={{color:'#707070' }}>{text3}</Text>
 	</Text>
 }
@@ -163,7 +166,7 @@ const LogText = ({text1, text2, noItems, text3, color, upPressed, downPressed}) 
 const Goal = ({color, image, text}) =>
 {
 	return <View style={styles.goalContainer}>
-		<InfoIcon style={styles.infoIcon} color={color} image={image} width={50}/>
+		<InfoIcon color={color} image={image} width={40}/>
 		{text}
 	</View>
 }
@@ -181,12 +184,12 @@ const Header = () =>
 const Avatar = () =>
 	<View style={styles.avatarContainer}>
 		<Image style={styles.avatar} source={avatarLincy}/>
-		<SvgXml width='250' height='250' xml={goalsettingSpeechBubble}/>
+		<SvgXml width={window.width * 0.65} height={window.width * 0.46} style={styles.speechBubble} xml={goalsettingSpeechBubble}/>
 		<Text style={{
 			position:'absolute',
 			width: 190,
-			left: 150,
-			top: 75,
+			left: 130,
+			top: 50,
 			textAlign: 'center',
 			fontWeight: 'bold',
 			fontSize: 20,
@@ -216,9 +219,14 @@ const styles = StyleSheet.create
 		height: window.height
 	},
 
+	speechBubble:
+	{
+		marginTop: 10
+	},
+
 	buttonContainer:
 	{
-		marginTop: window.height / 66, 
+		marginTop: window.height / 35, 
 		display: 'flex', 
 		width: window.width,
 		alignItems: 'center'
@@ -227,9 +235,9 @@ const styles = StyleSheet.create
 	buttonOutline:
 	{
 		backgroundColor: '#f7f7f7',
-		width: 130,
-		height: 60,
-		borderRadius: 10		
+		width: 89,
+		height: 42,
+		borderRadius: 10
 	},
 
 	buttonText: 
@@ -238,7 +246,7 @@ const styles = StyleSheet.create
 		textAlign: 'center',
 		marginTop: 'auto',
 		marginBottom: 'auto',
-		fontSize: 20,
+		fontSize: 16,
 		fontWeight: 'bold'
 	},
 
@@ -246,9 +254,9 @@ const styles = StyleSheet.create
 	{
 		shadowColor: '#000',
 		shadowOffset: { width: 0, height: 5 },
-		shadowOpacity: 0.15,
+		shadowOpacity: 0.5,
 		shadowRadius: 5,
-		elevation: 5
+		elevation: 50
 	},
 
 	goalsContainer:
@@ -268,8 +276,8 @@ const styles = StyleSheet.create
 	{
 		display: 'flex',
 		flexDirection: 'row',
-		marginLeft: 20,
-		marginRight: 10,
+		marginLeft: 5,
+		marginRight: 20,
 	},
 
 	headerContainer: 
@@ -285,8 +293,9 @@ const styles = StyleSheet.create
 	headerText:
 	{
 		color: 'white',
-		fontSize: 18,
-		marginLeft: 10
+		fontSize: 14,
+		marginLeft: 7,
+		marginTop: 3
 	},
 
 	avatarContainer:
