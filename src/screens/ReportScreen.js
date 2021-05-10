@@ -58,8 +58,9 @@ export default class ReportScreen extends React.Component {
 
     this.props.navigation.addListener('willFocus', () => {
       CeliLogger.addLog("WeekReport", Interactions.OPEN);
-      this.setState({ dateForReport: new Date() });
-      ReportManager.weeklyReport(this.receiveData, this.state.dateForReport);
+      let thisTimeLastWeek = this.addDays(new Date(), -7);
+      this.setState({ dateForReport: thisTimeLastWeek});
+      ReportManager.weeklyReport(this.receiveData, thisTimeLastWeek, "report screen");
     });
 
     console.log("component mounted")

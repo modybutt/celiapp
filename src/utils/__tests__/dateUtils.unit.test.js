@@ -39,7 +39,7 @@ test('get start current week', () => {
     expect(du.getEndOfThisFullWeekEndingSunday(sun18_Apr_2021)).toEqual(sun18_Apr_2021_midnight);
 });
 
-test('get start current week', () => {
+test('get same time previous week', () => {
     expect(du.sameTimeAWeekPrevious(tue20_Apr_2021_1pm)).toEqual(tue13_Apr_2021);
 });
 

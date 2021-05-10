@@ -43,11 +43,16 @@ var mockPrevWeekData = new mockReportData;
 
 jest.mock('../WeeklyReportData')
 
-var MonApr06_2020 = new Date("2020-04-06T13:00:00")
-var SatMar28_2020 = new Date("2020-03-28T13:00:00")
-var SunMar29_2020 = new Date("2020-03-29T13:00:00")
+const MonMar02_2020 = new Date("2020-03-02T13:00:00")
+const SunMar05_2020 = new Date("2020-03-05T13:00:00")
+const SunMar22_2020 = new Date("2020-03-22T13:00:00")
+const SatMar28_2020 = new Date("2020-03-28T13:00:00")
+const SunMar29_2020 = new Date("2020-03-29T13:00:00")
+const MonMar30_2020 = new Date("2020-03-30T13:00:00")
+const SunApr05_2020 = new Date("2020-04-05T13:00:00")
+const MonApr06_2020 = new Date("2020-04-06T13:00:00")
 
-var mockGetDBCreatedDate = jest.fn().mockReturnValue(SatMar28_2020);
+const mockGetDBCreatedDate = jest.fn().mockReturnValue(SatMar28_2020);
 
 DatabaseManager.getInstance = () => {
     return {
@@ -152,7 +157,7 @@ test('days with mild symptoms, first week', (done) => {
 
     mockThisWeekData.thisWeekNumDaysWithMildAsWorstSymptoms.mockReturnValue(2);
     mockThisWeekData.thisWeekNumDaysWithSymptoms.mockReturnValue(5);
-    ReportManager.weeklyReport(callback, MonApr06_2020)
+    ReportManager.weeklyReport(callback, SunMar29_2020)
 });
 
 test('days with moderate symptoms', (done) => {
@@ -348,7 +353,7 @@ test('before first full week', (done) =>{
     }
 
     mockGetDBCreatedDate.mockReturnValue(SatMar28_2020)
-    ReportManager.weeklyReport(callback, SunMar29_2020)
+    ReportManager.weeklyReport(callback, SunMar22_2020)
 })
 
 test('report Title', (done) =>{
@@ -364,10 +369,8 @@ test('report Title', (done) =>{
     }
 
 
-    ReportManager.weeklyReport(callback, SunMar29_2020)
+    ReportManager.weeklyReport(callback, SunMar22_2020)
 })
-
-var SunMar2_2020 = new Date("2020-03-02T13:00:00")
 
 
 test('following week report available if next full week is before current date', (done) =>{
@@ -384,13 +387,11 @@ test('following week report available if next full week is before current date',
     const dateNowStub = jest.fn(() => MonApr06_2020);
     global.Date.now = dateNowStub;
     
-    mockGetDBCreatedDate.mockReturnValue(SunMar2_2020)
+    mockGetDBCreatedDate.mockReturnValue(MonMar02_2020)
 
     ReportManager.weeklyReport(callback, SunMar29_2020)
 })
 
-var MonMar30_2020 = new Date("2020-03-30T13:00:00")
-var MonApr05_2020 = new Date("2020-04-05T13:00:00")
 test('following week report not available if next full week  contains or is after current date', (done) =>{
     function callback(report) {
         try {
@@ -402,10 +403,10 @@ test('following week report not available if next full week  contains or is afte
         }
     }
 
-    const dateNowStub = jest.fn(() => MonApr05_2020);
+    const dateNowStub = jest.fn(() => SunApr05_2020);
     global.Date.now = dateNowStub;
     
-    mockGetDBCreatedDate.mockReturnValue(SunMar2_2020)
+    mockGetDBCreatedDate.mockReturnValue(MonMar02_2020)
     
     ReportManager.weeklyReport(callback, MonMar30_2020)
 })
@@ -439,5 +440,5 @@ test('previous week report not available if end of previous full week before dbs
 
     mockGetDBCreatedDate.mockReturnValue(MonMar30_2020)
 
-    ReportManager.weeklyReport(callback, MonApr05_2020, "test1")
+    ReportManager.weeklyReport(callback, SunMar05_2020)
 })
