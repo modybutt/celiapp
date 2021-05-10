@@ -264,20 +264,27 @@ export default class ReportManager {
   }
 
   static async weeklyReport(success, now, str) {
-    now = now || new Date(Date.now())
-    getDbStartDate =  DatabaseManager.getInstance().getDBCreatedDate();
+    console.log("generating report for ", str, now && now.toDateString())
+    now = now || new Date()
+    const getDbStartDate =  DatabaseManager.getInstance().getDBCreatedDate();
 
-    const startOfWeek = DateUtil.getStartOfPreviousFullWeekBeginningMonday(now);
-    const endOfWeek = DateUtil.getEndOfPreviousFullWeekEndingSunday(now);
+    // const startOfWeek = DateUtil.getStartOfPreviousFullWeekBeginningMonday(now);
+    // const endOfWeek = DateUtil.getEndOfPreviousFullWeekEndingSunday(now);
+    //
+    // const startOfPenultimateWeek = DateUtil.getStartOfPenultimateFullWeekBeginningMonday(now);
+    // const endOfPenultimateWeek = DateUtil.getEndOfPenultimateFullWeekEndingSunday(now);
 
-    const startOfPenultimateWeek = DateUtil.getStartOfPenultimateFullWeekBeginningMonday(now);
-    const endOfPenultimateWeek = DateUtil.getEndOfPenultimateFullWeekEndingSunday(now);
+    const startOfWeek = DateUtil.getStartOfThisWeekBeginningMonday(now);
+    const endOfWeek = DateUtil.getEndOfThisFullWeekEndingSunday(now);
 
-    var thisWeekData = new WeeklyReportData(DatabaseManager.getInstance());
-    var penultimateWeekData = new WeeklyReportData(DatabaseManager.getInstance());
+    const startOfPenultimateWeek = DateUtil.getStartOfPreviousFullWeekBeginningMonday(now);
+    const endOfPenultimateWeek = DateUtil.getEndOfPreviousFullWeekEndingSunday(now);
 
-    thisWeek = thisWeekData.init(startOfWeek, endOfWeek, new Date())
-    penultimateWeek = penultimateWeekData.init(startOfPenultimateWeek, endOfPenultimateWeek, new Date())
+    let thisWeekData = new WeeklyReportData(DatabaseManager.getInstance());
+    let penultimateWeekData = new WeeklyReportData(DatabaseManager.getInstance());
+
+    let thisWeek = thisWeekData.init(startOfWeek, endOfWeek, new Date())
+    let penultimateWeek = penultimateWeekData.init(startOfPenultimateWeek, endOfPenultimateWeek, new Date())
 
     console.log("before promise")
     Promise.all([getDbStartDate, thisWeek, penultimateWeek])
@@ -296,7 +303,7 @@ export default class ReportManager {
         }
 
 
-        var endOfFollowingWeek = new Date(endOfWeek)
+        let endOfFollowingWeek = new Date(endOfWeek)
         endOfFollowingWeek.setDate(endOfFollowingWeek.getDate()+7)
         
         this.reportText.followingReportExists = endOfFollowingWeek < new Date(Date.now())

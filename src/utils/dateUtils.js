@@ -42,16 +42,18 @@ export default class DateUtil {
   }
 
   static getStartOfThisWeekBeginningMonday(now) {
-    var previousSunday = DateUtil.getPreviousSunday(now || new Date());
-    var startOfWeek = new Date()
+    now = now || new Date()
+    var previousSunday = DateUtil.getPreviousSunday(now);
+    var startOfWeek = new Date(now)
     startOfWeek.setDate(previousSunday.getDate() + 1);
     startOfWeek.setHours(0, 0, 0, 0);
     return startOfWeek;
   }
 
   static getEndOfThisFullWeekEndingSunday(now) {
-    var previousSunday = DateUtil.getPreviousSunday(now || new Date());
-    var endOfWeek = new Date()
+    now = now || new Date()
+    var previousSunday = DateUtil.getPreviousSunday(now);
+    var endOfWeek = new Date(now)
     endOfWeek.setDate(previousSunday.getDate() + 7);
     endOfWeek.setHours(23, 59, 59, 999);
     return endOfWeek;
