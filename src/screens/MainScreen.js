@@ -221,7 +221,7 @@ const Avatar = ({showModal, onShowModal}) =>
 	return <View style={styles.avatarContainer}>
 			<Image style={styles.avatar} source={andyPlaceholder}/>
 			<View style={styles.loggedInfoContainer}>
-			<Text style={{fontSize: 25, color: loggedEntriesTextColor}}>Your logs today</Text>
+			<Text style={{fontSize: window.height * .03, color: loggedEntriesTextColor}}>Your logs today</Text>
 			<View style={styles.informationBackground}>
 				<TouchableOpacity style={styles.touchableOpacityInfoButton} onPress={() => onShowModal()}>
 					<Text style={styles.informationForeground}>i</Text>
@@ -233,7 +233,7 @@ const Avatar = ({showModal, onShowModal}) =>
 
 const window = Layout.window;
 //TODO: make this scale with image width/height
-const andyScheenHeight = 0.22;
+const andyScheenHeight = 0.2;
 const ratio = (window.height * andyScheenHeight) / 1086;
 const styles = StyleSheet.create
 ({
@@ -266,7 +266,7 @@ const styles = StyleSheet.create
 		flexDirection: 'row',
 		justifyContent: 'center',
 		width: window.width,
-		height: window.height * 0.08
+		height: window.height * 0.05
 	},
 
 	avatarContainer:

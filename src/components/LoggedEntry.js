@@ -114,21 +114,34 @@ export default class LoggedEntry extends React.Component
 	}
 }
 
+const window = Layout.window;
 const Entry = ({title, subtitle, image, color, goal, actual, onAddButtonClicked, navigationName}) =>
 {
-	const progress = Math.min(1, actual / goal);
+	const progress = Math.min(1, actual / goal);	
+	const size = window.height * 0.1;
+	const innerSize = size * .825;
+	const outerSize = size * .875;
+	const iconSize = size * 0.63;
+	const circularProgressBarMargin = -size * 0.2;
+	const iconMargin = -size * 0.03;
+
 	return <View style={styles.container}>
 		<View style={styles.leftWrapper}>
 			
 			<View position='absolute' style={{
-				left:-14,
-				top:-14
+				left: circularProgressBarMargin,
+				top: circularProgressBarMargin
 			}} >
 				<CircularProgressBar color={color} progress={progress}
-				innerSize={66} outerSize={70} size={80}/>
+				innerSize={innerSize} outerSize={outerSize} size={size}/>
 			</View>
 
-			<InfoIcon style={styles.infoIcon} color={color} image={image} width={50}/>
+			<View style={{				
+				marginLeft: iconMargin,
+				marginTop: iconMargin,
+			}} >
+				<InfoIcon color={color} image={image} width={iconSize}/>
+			</View>
 		</View>
 
 		<View style={styles.leftWrapper}>
@@ -150,7 +163,7 @@ const Entry = ({title, subtitle, image, color, goal, actual, onAddButtonClicked,
 const Border = ({color}) =>
 <View style=
 	{{
-		marginTop: 8,
+		marginTop: 5,
 		marginBottom: 8,
 		borderBottomWidth: 2,
 		alignSelf: 'stretch',
@@ -158,7 +171,6 @@ const Border = ({color}) =>
 	}}>
 </View>
 
-const window = Layout.window;
 const styles = StyleSheet.create
 ({
 	container:
@@ -168,9 +180,9 @@ const styles = StyleSheet.create
 		justifyContent: 'center',
 		alignItems: 'center',
 		width: window.width,
-		height: window.height * 0.12,
+		height: window.height * 0.11,
 		backgroundColor: '#f7f7f7',
-		marginBottom: 5				
+		marginBottom: 5
 	},
 
 	dropShadow: 
@@ -203,7 +215,7 @@ const styles = StyleSheet.create
 		justifyContent: 'center',
 		position: 'absolute',
 		width: 120,
-		height: window.height * 0.12
+		height: window.height * 0.11
 	},
 
 	textInfo:
@@ -222,7 +234,7 @@ const styles = StyleSheet.create
 
 	entryTitle:
 	{
-		fontSize: 22
+		fontSize: window.height * 0.024
 	},
 
 	entrySubtitle:
