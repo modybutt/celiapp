@@ -49,7 +49,7 @@ export default class MainScreen extends React.Component {
 			<View>
 					
 				<View style={styles.container}>
-					<WeekDisplay dailyActivity={reportData.dailyActivity}/>
+					<WeekDisplay showToday={true} dailyActivity={reportData.dailyActivity}/>
 					<Avatar showModal={this.state.showInfoModal} onShowModal={() => this.setState({showInfoModal: true})}/>
 					<LoggedEntry
 						navigation={this.props.navigation}
@@ -57,7 +57,6 @@ export default class MainScreen extends React.Component {
 						onGoToDailySettingsButtonClicked={() => this.props.navigation.navigate("GoalSetting")}
 						navigationName={'AddSymptom'}
 						title={'symptoms'} 
-						subtitle={'Last entry: Friday Oct 8th.'}					
 						color={Colors.symptom} 
 						image={symptomImage}
 						dailyGoal={dailyGoals.dailySymptoms}
@@ -69,8 +68,7 @@ export default class MainScreen extends React.Component {
 						onAddButtonClicked={(navigationName) => this.props.navigation.navigate(navigationName, {'selectedDateAndTime' : new Date() })}
 						onGoToDailySettingsButtonClicked={() => this.props.navigation.navigate("GoalSetting")}
 						navigationName={'AddMeal'}
-						title={'meals'} 
-						subtitle={'Last entry: Friday Oct 8th.'}
+						title={'meals'} 						
 						viewallText={'view all meal logs'}
 						color={Colors.meal}
 						image={mealImage}
@@ -83,8 +81,7 @@ export default class MainScreen extends React.Component {
 						onAddButtonClicked={(navigationName) => this.props.navigation.navigate(navigationName, {'selectedDateAndTime' : new Date() })}
 						onGoToDailySettingsButtonClicked={() => this.props.navigation.navigate("GoalSetting")}
 						navigationName={'AddEmote'}
-						title={'energy levels'} 
-						subtitle={'Last entry: Friday Oct 8th.'}
+						title={'energy levels'}
 						viewallText={'view all energy level logs'}
 						color={Colors.emotion} 
 						image={emotionImage}
@@ -97,8 +94,7 @@ export default class MainScreen extends React.Component {
 						onAddButtonClicked={(navigationName) => this.props.navigation.navigate(navigationName, {'selectedDateAndTime' : new Date() })}
 						onGoToDailySettingsButtonClicked={() => this.props.navigation.navigate("GoalSetting")}
 						navigationName={'AddGIP'}
-						title={'GIP results'} 
-						subtitle={'Last entry: Friday Oct 8th.'}
+						title={'GIP results'} 						
 						viewallText={'view all GIP results'}
 						color={Colors.gip} 
 						image={gipImage}

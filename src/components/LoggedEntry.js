@@ -5,8 +5,7 @@ import InfoIcon from '../components/InfoIcon';
 import * as Icon from '@expo/vector-icons';
 import _ from "lodash";
 import { TouchableOpacity } from "react-native-gesture-handler";
-import Svg, { Circle } from 'react-native-svg';
-import { ContainerScrollView } from "./Glutenbuddy/screens/WardrobeComponents/WardrobeInitTiles";
+import CircularProgressBar from './CircularProgressBar';
 
 const AnimationState =
 {
@@ -115,28 +114,6 @@ export default class LoggedEntry extends React.Component
 	}
 }
 
-const SvgCircle = ({outerSize, size, strokeWidth, color, progress}) =>
-{
-	const radius = (size - strokeWidth) / 2;
-	const circumference = radius * Math.PI * 2;
-	progress = 1 - progress;
-	const alpha = progress * Math.PI * 2;
-	const strokeDashoffset = alpha * radius;
-
-	return <Circle
-		x={(outerSize - size)/2}
-		y={(outerSize - size) / 2}
-		stroke={color}
-		fill='none'
-		cx={size / 2}
-		cy={size / 2}
-		r={radius}
-		strokeWidth={strokeWidth}
-		strokeDasharray={`${circumference} ${circumference}`}				
-		{...{strokeDashoffset}}
-	/>
-}
-
 const Entry = ({title, subtitle, image, color, goal, actual, onAddButtonClicked, navigationName}) =>
 {
 	const progress = Math.min(1, actual / goal);
@@ -147,10 +124,8 @@ const Entry = ({title, subtitle, image, color, goal, actual, onAddButtonClicked,
 				left:-14,
 				top:-14
 			}} >
-				<Svg transform={[{rotate: '270deg'}]} width={80} height={80}>
-					<SvgCircle outerSize={80} size={66} strokeWidth={2} color={'#707070'} progress={1}/>
-					<SvgCircle outerSize={80} size={70} strokeWidth={5} color={color} progress={progress}/>
-				</Svg>
+				<CircularProgressBar color={color} progress={progress}
+				innerSize={66} outerSize={70} size={80}/>
 			</View>
 
 			<InfoIcon style={styles.infoIcon} color={color} image={image} width={50}/>
