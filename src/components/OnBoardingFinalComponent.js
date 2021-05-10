@@ -5,7 +5,7 @@ import celiAppLogo from '../assets/images/celiapp-logo.svg';
 import WeekDisplay from '../components/WeekDisplay';
 import Colors from "../constants/Colors";
 import * as Icon from '@expo/vector-icons';
-import andyPlaceholder from "../assets/images/avatar_menu/placeholder_andy.png";
+import avatarLincy from "../assets/images/avatar_menu/avatar_lincy.png";
 import { TouchableOpacity } from "react-native-gesture-handler";
 import Layout from "../constants/Layout";
 
@@ -26,7 +26,7 @@ export default class OnBoardingFinalComponent extends React.Component
 					<WeekDisplay dailyActivity={{}} />
 					<Avatar />
 					<Text style={{marginLeft: 25, fontSize: fontsize, lineHeight: fontsize * 1.8, color: '#707070'}} >
-						Meet Gluten Andy, {"\n"}
+						Meet Gluten Lincy, {"\n"}
 						Get weekly stats   <Icon.Ionicons size={fontsize * 1.1} color={Colors.mainscreenColor} name={'md-pulse'}></Icon.Ionicons> {"\n"}
 						Daily Views   <Icon.Feather size={fontsize * 1.1} color={Colors.mainscreenColor} name={'calendar'}></Icon.Feather> {"\n"}
 						and updates while {"\n"}
@@ -58,7 +58,7 @@ const Header = () =>
 
 const Avatar = () =>
 	<View style={styles.avatarContainer}>
-		<Image style={styles.avatar} source={andyPlaceholder}/>
+		<Image style={styles.avatar} source={avatarLincy}/>
 	</View>
 
 const window = Layout.window;

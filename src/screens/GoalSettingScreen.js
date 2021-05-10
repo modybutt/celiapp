@@ -5,7 +5,7 @@ import celiAppLogo from '../assets/images/celiapp-logo.svg';
 import goalsettingSpeechBubble from '../assets/images/goalsetting_speechbubble.svg';
 import Colors from "../constants/Colors";
 import Layout from "../constants/Layout";
-import andyPlaceholder from "../assets/images/avatar_menu/placeholder_andy.png";
+import avatarLincy from "../assets/images/avatar_menu/avatar_lincy.png";
 import { TouchableOpacity } from "react-native-gesture-handler";
 
 import InfoIcon from '../components/InfoIcon';
@@ -180,7 +180,7 @@ const Header = () =>
 
 const Avatar = () =>
 	<View style={styles.avatarContainer}>
-		<Image style={styles.avatar} source={andyPlaceholder}/>
+		<Image style={styles.avatar} source={avatarLincy}/>
 		<SvgXml width='250' height='250' xml={goalsettingSpeechBubble}/>
 		<Text style={{
 			position:'absolute',

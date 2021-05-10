@@ -5,7 +5,7 @@ import GlutonManager from '../manager/GlutonManager';
 import HeaderBanner from '../components/HeaderBanner';
 import Layout from '../constants/Layout';
 import moment from 'moment';
-import andyPlaceholder from "../assets/images/avatar_menu/placeholder_andy.png";
+import avatarLincy from "../assets/images/avatar_menu/avatar_lincy.png";
 
 import {
     images as symptom_images
@@ -263,7 +263,7 @@ export default class DeleteScreen extends React.Component {
 const TopPart = ({ leftButtonClicked, rightButtonClicked }) =>
     <View>
         <View style={styles.avatarAndInformationContainer}>
-            <Image style={styles.avatar} source={andyPlaceholder} />
+            <Image style={styles.avatar} source={avatarLincy} />
             <View style={styles.informationContainer}>
                 <View style={styles.informationSubContainer}>
                     <Text style={styles.bigText}>Are your sure you want to delete this entry?</Text>
