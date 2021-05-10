@@ -1,0 +1,19 @@
+{
+    "entries": [{
+        "id": "GLUTENFREEBREAKFAST",
+        "type": "MEAL"
+    },{
+        "id": "GLUTENFREELUNCH",
+        "type": "MEAL"
+    },{
+        "id": "GLUTENFREEDINNER",
+        "type": "MEAL"
+    },{
+        "id": "GLUTENBREAKFAST",
+        "type": "GLUTENMEAL"
+    },{
+        "id": "UNSUREBREAKFAST",
+        "type": "MEAL"
+    }
+]
+}

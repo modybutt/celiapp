@@ -1,538 +1,261 @@
 import React, { Component } from 'react';
-import { TouchableOpacity, Text, Alert, Animated, Image, Easing, View, StyleSheet } from 'react-native';
-import Dialog from "react-native-dialog";
+import { TouchableOpacity, Text, Image, View, StyleSheet } from 'react-native';
+import { SYMPTOM_BUTTON_TYPES } from "./SymptomIconButtonConstants.js"
+import SymptomSeverityChooser from "./SymptomSeverityChooser.js";
 
 // constants
 import {
-	// center,
-	// topCenter,
-	// topLeft,
-	// topRight,
 	bigBubbleSize,
 	smallBubbleSize,
-  bubbleColorOrange,
-  bubbleColorYellow,
+	bubbleColorOrange,
+	bubbleColorYellow,
 	bubbleColorRed,
-	imageHeight,
-	imageWidth,
-	animateTime,
-	easingType,
-	delay,
-	images,
 } from './SymptomIconButtonConstants';
 import LanguageManager from '../../manager/LanguageManager';
-import DatabaseManager from '../../manager/DatabaseManager';
 
+import {
+	images
+} from './SymptomIconButtonConstants';
 
+const DEFAULT_COLOR = '#F7F7F7';
+const LOW_COLOR = '#D9EEEA';
+const MEDIUM_COLOR = '#83E2D2';
+const HIGH_COLOR = '#1DBBA0';
+const DEFAULT_TEXT_COLOR = '#707070';
+const MILD_TEXT_COLOR = '#58978A';
+const MODERATE_TEXT_COLOR = '#707070';
+const SEVERE_TEXT_COLOR = '#FFFFFF';
 
-const AnimatedTouchable = Animated.createAnimatedComponent(TouchableOpacity);
-
-const DEFAULT_COLOR = 'rgb(180, 180, 180)';
-const LOW_COLOR = 'rgb(255, 215, 0)';
-const MEDIUM_COLOR = 'rgb(255, 165, 0)';
-const HIGH_COLOR = 'rgb(255, 0, 0)';
-
-// This is the add button that appears in the middle along with
-// other buttons and their animations
 export default class SymptomIconButton extends Component {
 
-	//Prop: type -->  1 == left icon, 2 == normal 3 == right icon. -- Changes the placement of the severity chooser icons around the symptom icon
-	//Prop: type -->  4 == MoreSymptomsButton, 5 CreateSymptomButton
-	//Prop: symptomID --> 1 - 7 --> systemIcons. 0 --> more symptoms button. All IDs higher than that show the userDefinedIcon.
-	
-	constructor(props) {
-		super(props);			
-	
-		this.animatedValue = new Animated.Value(0);
-		this.topLeftValue = new Animated.Value(0);
-		this.topCenterValue = new Animated.Value(0);
-		this.topRightValue = new Animated.Value(0);	
-	}
-
-	state = {
-		selected: false,
-		zIndexNumber: -1,
-		selectedSeverity: this.props.defaultSeverity == null ? 0 : this.props.defaultSeverity,
-		showDeleteConfirmDialog: false
-	}
-
-	handleBack() {
-		this.setState({ showDeleteConfirmDialog: false });
-	};
-
-	handleDelete() {
-		if (this.state.selectedSeverity != 0) {
-			this.props.onSymptomDeselected(this.props.symptomID, this.state.selectedSeverity);
-		}
-
-		DatabaseManager.getInstance().deleteSymptom(this.props.symptomID, 
-			(error) => {alert(error)}, 
-			() => {this.props.onSymptomDeleted()}
-		);
-	};
-	
-	handleAddButtonPress = () => {
-		if(this.props.type == 4){
-			this.props.navigation.navigate("MoreSymptoms", this.props.moreSymptomsParams)
-		}else if (this.props.type == 5) {
-			this.props.navigation.navigate("AddNewSymptom")
-		}else{
-			if (this.state.selectedSeverity == 0) {
-				this.callAnimation(false);
-			} else {
-				this.setState({selectedSeverity: 0});
-				this.props.onSymptomDeselected(this.props.symptomID, this.state.selectedSeverity);
-			}
+	openSeverityChooser = () => {
+		if (this.props.type == SYMPTOM_BUTTON_TYPES.NO_SYMPTOM) {
+			this.onPressNoSymptoms();
+		} else {
+			this.props.severityChooserOpenHandler(true, this.props.symptomID);
 		}
 	}
 
-	callAnimation(setEnabled){
-			let { selected } = this.state;
-			if(selected) {
-				this.animateReverse(0);
-				this.setState({zIndexNumber: -1})
-				this.setState({selected: !selected});
-				this.props.onSeverityChooserHandled(true, this.props.symptomID);
-			}
-			else {
-				if(this.props.canOpenSeverity){
-					this.animate(1);
-					this.setState({zIndexNumber: 1})					
-					this.props.onSeverityChooserHandled(false, this.props.symptomID);
-					this.setState({selected: !selected});
-				}else{
-					if(setEnabled){
-						//Alert.alert("hallo");
-						this.props.onSeverityChooserHandled(true, this.props.symptomID);
-					}
-				}
-			}	
+	closeSeverityChooserAndUpdateSeverity = () => {
+		if (this.props.symptomID > 0) {
+			this.props.symptomDeselected(this.props.symptomID);
+		}
+		this.closeSeverityChooser();
+	}
+	closeSeverityChooser = () => {
+		this.props.severityChooserOpenHandler(false, this.props.symptomID);
 	}
 
-
-	onPressYellow = () => {
-		this.setState({selectedSeverity: 1})
-		this.callAnimation(true);
-		this.props.onSeverityChooserHandled(true);
-		this.props.onSymptomSelected(this.props.symptomID, 1) //1 --> yellow severity
+	onPressNoSymptoms() {
+		if (this.props.symptomID > 0) {
+			this.props.symptomDeselected(this.props.symptomID);
+		} else {
+			this.props.symptomSelected(this.props.symptomID, 1);
+		}
 	}
 
-	onPressOrange = () => {
-		this.setState({selectedSeverity: 2})
-		this.callAnimation(true);
-		this.props.onSeverityChooserHandled(true);
-		this.props.onSymptomSelected(this.props.symptomID, 2) //2 --> orange severity
+	addStr(text, stringToAdd) {
+		const symbols = ".png";
+		index = text.indexOf(symbols);
+		return text.substring(0, index) + stringToAdd + text.substring(index, text.length);
 	}
 
-	onPressRed = () => {
-		this.setState({selectedSeverity: 3})
-		this.callAnimation(true);
-		this.props.onSeverityChooserHandled(true);
-		this.props.onSymptomSelected(this.props.symptomID, 3) //3 --> red severity
-	}
-
-	animate = (toValue) => {
-		Animated.stagger(delay,[
-			Animated.parallel([
-				Animated.timing(
-					this.animatedValue,
-					{
-						toValue,
-						duration: animateTime,
-						//easing: easingType
-						easing: Easing.exp,
-					}
-				),
-				Animated.timing(
-					this.topLeftValue,
-					{
-						toValue,
-						duration: animateTime,
-						easing: easingType,
-					}
-				),
-			]),
-			Animated.timing(
-				this.topCenterValue,
-				{
-					toValue,
-					duration: animateTime,
-					easing: easingType,
-				}
-			),
-			Animated.timing(
-				this.topRightValue,
-				{
-					toValue,
-					duration: animateTime,
-					easing: easingType,
-				}
-			),
-		]).start();
-	}
-
-	animateReverse = (toValue) => {
-		Animated.stagger(delay,[
-			Animated.timing(
-				this.topRightValue,
-				{
-					toValue,
-					duration: animateTime,
-					easing: easingType,
-				}
-			),
-			Animated.timing(
-				this.topCenterValue,
-				{
-					toValue,
-					duration: animateTime,
-					easing: easingType,
-				}
-			),
-			Animated.parallel([
-				Animated.timing(
-					this.animatedValue,
-					{
-						toValue,
-						duration: animateTime,
-						easing: easingType,
-					}
-				),
-				Animated.timing(
-					this.topLeftValue,
-					{
-						toValue,
-						duration: animateTime,
-						easing: easingType,
-					}
-				),
-			]),
-		]).start();
+	getImage(id, severity) {
+		let image = null;
+		switch (id) {
+			case 0:
+				image = images.id0
+				break;
+			case 1:
+				image = images.id1
+				break;
+			case 2:
+				image = images.id2
+				break;
+			case 3:
+				image = images.id3
+				break;
+			case 4:
+				image = images.id4
+				break;
+			case 5:
+				image = images.id5
+				break;
+			case 6:
+				image = images.id6
+				break;
+			case 7:
+				image = images.id7
+				break;
+			case 8:
+				image = images.id8
+				break;
+			case 9:
+				image = images.id9
+				break;
+			case 10:
+				image = images.id10
+				break;
+			case 11:
+				image = images.id11
+				break;
+			case 12:
+				image = images.id12
+				break;
+		}
+		switch (severity) {
+			case 0:
+				return image.uri;
+			case 1:
+				return image.uri_mild;
+			case 2:
+				return image.uri_moderate;
+			case 3:
+				return image.uri_severe;
+		}
+		return null;
 	}
 
 	render() {
 
-		let springValue = Animated.add(Animated.add(this.topLeftValue, this.topRightValue), this.topCenterValue);
-
-		if(this.props.type == 1){
-			center = {
-				top: 15,
-				left: 15,
-			};
-			
-			topCenter = {
-				top: -30,
-				left: 85,
-			};
-			
-			topLeft = {
-				top: -60,
-				left: 15,
-			};
-			
-			topRight = {
-				top: 45,
-				left: 90,
-			};
-		}else if(this.props.type == 2){
-			center = {
-				top: 15,
-				left: 15,
-			};
-			
-			topCenter = {
-				top: -60,
-				left: 15,
-			};
-			
-			topLeft = {
-				top: -30,
-				left: -55,
-			};
-			
-			topRight = {
-				top: -30,
-				left: 85,
-			};
-	
-		}else if(this.props.type == 3){
-			center = {
-				top: 15,
-				left: 15,
-			};
-			
-			topCenter = {
-				top: -30,
-				left: -55,
-			};
-			
-			topLeft = {
-				top: 45,
-				left: -60,
-			};
-			
-			topRight = {
-				top: -60,
-				left: 15,
-			};
-		}else{
-			center = {
-				top: 15,
-				left: 15,
-			};
-			
-			topCenter = {
-				top: -60,
-				left: 15,
-			};
-			
-			topLeft = {
-				top: -30,
-				left: -55,
-			};
-			
-			topRight = {
-				top: -30,
-				left: 85,
-			};
-		}
 
 		let bigBubbleColor = DEFAULT_COLOR;
-		switch (this.state.selectedSeverity) {
-			case 1: bigBubbleColor= LOW_COLOR; break;
-			case 2: bigBubbleColor= MEDIUM_COLOR; break;
-			case 3: bigBubbleColor= HIGH_COLOR; break;
+		let textColor = DEFAULT_TEXT_COLOR;
+		switch (this.props.severity) {
+			case 1:
+				bigBubbleColor = LOW_COLOR;
+				textColor = MILD_TEXT_COLOR;
+				break;
+			case 2:
+				bigBubbleColor = MEDIUM_COLOR;
+				textColor = MODERATE_TEXT_COLOR;
+				break;
+			case 3:
+				bigBubbleColor = HIGH_COLOR;
+				textColor = SEVERE_TEXT_COLOR;
+				break;
 		}
 
-		if (this.props.active == null || this.props.active == true) {
-			return (
-				<View style={{marginTop: 60, opacity: this.props.opacity}}>
-					<Animated.View
-						style={[
-							style.bigBubble,
-							{
-								transform: [
-									{
-										scaleY: springValue.interpolate({
-											inputRange: [0, 0.65, 1, 1.65, 2, 2.65, 3],
-											outputRange: [1, 1.1, 1, 1.1, 1, 1.1, 1],
-										}),
-									},
-								],
-								backgroundColor: bigBubbleColor,
-							},
-						]}
-					>
-						<TouchableOpacity
-							hitSlop={{
-								left: 20,
-								right: 20,
-								top: 20,
-								bottom: 20,
-							}}
-							onPress={this.handleAddButtonPress}
-							onLongPress={() => this.props.symptomID > 7 ? this.setState({ showDeleteConfirmDialog: true }) : null}
-						>
-							<Animated.View>
-								<Image source = {Image.resolveAssetSource(this.props.symptomIcon)} style={style.iconImage}/>
-							</Animated.View>
-						</TouchableOpacity>
-					</Animated.View>
-					<Text style={style.symptomNameText}>{LanguageManager.getInstance().getText(this.props.symptomName)}</Text>
-					<AnimatedTouchable onPress={this.onPressYellow}
-						style={[
-							style.smallBubbleYellow,
-							{
-								position: 'absolute',
-								transform: [
-									{
-										translateX: this.topLeftValue.interpolate({
-											inputRange: [0, 1],
-											outputRange: [center.left, topLeft.left],
-										}),
-									},
-									{
-										translateY: this.topLeftValue.interpolate({
-											inputRange: [0, 1],
-											outputRange: [center.top, topLeft.top],
-										}),
-									},
-									{
-										scaleY: this.topLeftValue.interpolate({
-											inputRange: [0, 0.8, 0.9, 1],
-											outputRange: [1, 1.5, 1.5, 1],
-										}),
-									},
-								],
-								opacity: this.topLeftValue,
-								zIndex: this.state.zIndexNumber,
-							},
-						]}
-					>
-					</AnimatedTouchable>
-					<AnimatedTouchable onPress={this.onPressOrange}
-						style={[
-							style.smallBubbleOrange,
-							{
-								position: 'absolute',
-								transform: [
-									{
-										translateX: this.topCenterValue.interpolate({
-											inputRange: [0, 1],
-											outputRange: [center.left, topCenter.left],
-										}),
-									},
-									{
-										translateY: this.topCenterValue.interpolate({
-											inputRange: [0, 1],
-											outputRange: [center.top, topCenter.top],
-										}),
-									},
-									{
-										scaleY: this.topCenterValue.interpolate({
-											inputRange: [0, 0.8, 0.9, 1],
-											outputRange: [1, 1.5, 1.5, 1],
-										}),
-									},
-								],
-								opacity: this.topCenterValue,
-								zIndex: this.state.zIndexNumber,
-							},
-						]}
-					>
-					</AnimatedTouchable>
-					<AnimatedTouchable onPress={this.onPressRed}
-						style={[
-							style.smallBubbleRed,
-							{
-								position: 'absolute',
-								transform: [
-									{
-										translateX: this.topRightValue.interpolate({
-											inputRange: [0, 1],
-											outputRange: [center.left, topRight.left],
-										}),
-									},
-									{
-										translateY: this.topRightValue.interpolate({
-											inputRange: [0, 1],
-											outputRange: [center.top, topRight.top],
-										}),
-									},
-									{
-										scaleY: this.topRightValue.interpolate({
-											inputRange: [0, 0.8, 0.9, 1],
-											outputRange: [1, 1.5, 1.5, 1],
-										}),
-									},
-								],
-								opacity: this.topRightValue,
-								zIndex: this.state.zIndexNumber,
-							},
-						]}
-					>
-					</AnimatedTouchable>
-					
+		let severityText = " ";
+		if (this.props.symptomID != 0) {
+			switch (this.props.severity) {
+				case 1: severityText = "mild"; break;
+				case 2: severityText = "moderate"; break;
+				case 3: severityText = "severe"; break;
+			}
+		}
+		let im = this.getImage(this.props.symptomID,this.props.severity);
+		let image = Image.resolveAssetSource(im);
+		/*let image = Image.resolveAssetSource(this.props.symptomIcon);
+		switch (this.props.severity) {
+			case 1:
+			case 2: image.uri = this.addStr(image.uri, "_moderate"); break;
+			case 3: image.uri = this.addStr(image.uri, "_severe"); break;
+		}*/
 
-					<View>
-						<Dialog.Container visible={this.state.showDeleteConfirmDialog}>
-							<Dialog.Title>{LanguageManager.getInstance().getText("DELETE")}</Dialog.Title>
-							<Dialog.Description>
-							{LanguageManager.getInstance().getText("DO_YOU_WANT_TO_DELETE")}
-							</Dialog.Description>
-							<Dialog.Button label={LanguageManager.getInstance().getText("BACK")} onPress={() => this.handleBack()} />
-							<Dialog.Button label={LanguageManager.getInstance().getText("DISCARD")} onPress={() => this.handleDelete()} />
-						</Dialog.Container>
-					</View>
+		const symptomName = this.props.symptomName;
+
+		if (this.props.active == null || this.props.active == true) {
+
+			return (
+				<View style={{ backgroundColor: bigBubbleColor, borderRadius: 3, }}>
+
+					<TouchableOpacity
+						style={styles.bigBubble}
+						onPress={this.props.severityChooserOpen ? this.closeSeverityChooserAndUpdateSeverity : this.openSeverityChooser}>
+						<Image source={image} style={styles.iconImage} />
+						<Text style={[{ color: textColor }, styles.severityText]}>{severityText}</Text>
+						<Text style={[{ color: textColor }, styles.symptomNameText]}>{LanguageManager.getInstance().getText(symptomName)}</Text>
+					</TouchableOpacity>
 				</View>
 			);
-		} else {
-			if (this.props.size === 'big') {
-				return (
-					<View style={{marginTop: 60, opacity: this.props.opacity, alignItems: 'center'}}>
-						<View style={[style.bigBubbleBig, { backgroundColor: bigBubbleColor } ]}>
-							<Image source={Image.resolveAssetSource(this.props.symptomIcon)} style={style.iconImageBig}/>
-						</View>
-						<Text style={style.symptomNameTextBig}>{LanguageManager.getInstance().getText(this.props.symptomName)}</Text>
-					</View>
-				);
-			} else {
-				return (
-					<View style={{marginTop: 60, opacity: this.props.opacity}}>
-						<View style={[style.bigBubble, { backgroundColor: bigBubbleColor } ]}>
-							<Image source={Image.resolveAssetSource(this.props.symptomIcon)} style={style.iconImage}/>
-						</View>
-						<Text style={style.symptomNameText}>{LanguageManager.getInstance().getText(this.props.symptomName)}</Text>
-					</View>
-				);
-			}
+		}
+		//for old version of event history (will be removed in the new design)
+		else {
+			return (
+				<View style={[{ backgroundColor: bigBubbleColor, borderRadius: 3 }, styles.bigBubble]}>
+					<Image source={image} style={styles.iconImage} />
+					<Text style={[{ color: textColor }, styles.severityText]}>{severityText}</Text>
+					<Text style={[{ color: textColor }, styles.symptomNameText]}>{LanguageManager.getInstance().getText(symptomName)}</Text>
+				</View>
+			)
 		}
 	}
 }
 
-const style = StyleSheet.create({
+const styles = StyleSheet.create({
 	bigBubble: {
+
 		justifyContent: 'center',
 		alignItems: 'center',
-		height: bigBubbleSize,
-		width: bigBubbleSize,
-		borderRadius: bigBubbleSize / 2,
-  	},
-	smallBubbleYellow: {
-		justifyContent: 'center',
-		alignItems: 'center',
-		backgroundColor: bubbleColorYellow,
-		height: smallBubbleSize,
-		width: smallBubbleSize,
-		borderWidth: 1,
-		borderColor: 'grey',
-		borderRadius: smallBubbleSize / 2,
-	},
-	smallBubbleOrange: {
-		justifyContent: 'center',
-		alignItems: 'center',
-		backgroundColor: bubbleColorOrange,
-		height: smallBubbleSize,
-		width: smallBubbleSize,		
-		borderWidth: 1,
-		borderColor: 'grey',
-		borderRadius: smallBubbleSize / 2,
-	},
-	smallBubbleRed: {
-		justifyContent: 'center',
-		alignItems: 'center',
-		backgroundColor: bubbleColorRed,
-		height: smallBubbleSize,
-		width: smallBubbleSize,
-		borderWidth: 1,
-		borderColor: 'grey',
-		borderRadius: smallBubbleSize / 2,
+		flex: 1,
 	},
 	iconImage: {
-		height: imageHeight,
-		width: imageWidth,
+		height: '50%',
+		width: '50%',
+		aspectRatio: 1,
+		resizeMode: 'contain',
 	},
-	symptomNameText:{
-	  fontSize: 15,
-	  textAlign: 'center',
-	  width: bigBubbleSize,
-	  flexWrap: 'wrap',
-	},
-	bigBubbleBig: {
-		justifyContent: 'center',
-		alignItems: 'center',
-		height: imageHeight * 2,
-		width: imageHeight * 2,
-		borderRadius: bigBubbleSize,
-  	},
-	iconImageBig: {
-		height: imageHeight * 1.5,
-		width: imageWidth  * 1.5,
-	},
-	symptomNameTextBig:{
-		fontSize: 15,
+	symptomNameText: {
+		fontSize: 10,
 		textAlign: 'center',
-		width: bigBubbleSize * 2,
+		width: bigBubbleSize,
 		flexWrap: 'wrap',
-	  },
+	},
+	severityText: {
+		paddingTop: 5,
+		fontSize: 8,
+		textAlign: 'center',
+		width: bigBubbleSize,
+		flexWrap: 'wrap',
+	},
 });
+
+/*
+<View
+						style={
+							{
+								position: 'absolute',
+								left: center.left,
+								top: center.top,
+							}
+						}
+						>
+							<TouchableOpacity onPress={this.onPressYellow}
+								style={[
+									styles.smallBubbleYellow,
+									{
+										position: 'absolute',
+										left: topLeft.left,
+										top: topLeft.top,
+									}
+								]}
+							>
+							</TouchableOpacity>
+							<TouchableOpacity onPress={this.onPressOrange}
+								style={[
+									styles.smallBubbleOrange,
+									{
+										position: 'absolute',
+										left: topCenter.left,
+										top: topCenter.top,
+									}
+								]}
+							>
+							</TouchableOpacity>
+							<TouchableOpacity onPress={this.onPressRed}
+								style={[
+									styles.smallBubbleRed,
+									{
+										position: 'absolute',
+										left: topRight.left,
+										top: topRight.top,
+									}
+								]}
+							>
+							</TouchableOpacity>
+						</View>
+
+
+						<SymptomSeverityChooser onPressYellow={this.onPressYellow} onPressOrange={this.onPressOrange} onPressRed={this.onPressRed}></SymptomSeverityChooser>
+						*/

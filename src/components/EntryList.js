@@ -1,22 +1,37 @@
 import React from 'react';
-import { 
-  View, 
-  Text, 
-  FlatList, 
+import {
+  View,
+  Text,
+  FlatList,
   ActivityIndicator,
   StyleSheet,
   Image,
   ScrollView,
   TouchableOpacity,
-  Button
 } from "react-native";
-import { ListItem, Avatar, Badge } from 'react-native-elements';
 import { NavigationEvents } from 'react-navigation';
 import DatabaseManager from '../manager/DatabaseManager';
-import { images } from '../components/EmoteTracker/EmoteTrackerConstants';
-import FoodDiaryRatingBar from '../components/FoodDiary/FoodDiaryRatingBar';
-import LanguageManager from '../manager/LanguageManager';
 
+import LanguageManager from '../manager/LanguageManager';
+import Events from '../constants/Events';
+import moment from 'moment';
+import HistoryEntry from '../components/HistoryEntry';
+
+import {
+  images as symptom_images
+} from '../components/SymptomTracker/SymptomIconButtonConstants';
+
+import {
+  images as food_images
+} from '../components/FoodDiary/FoodTrackerClassConstants';
+
+import {
+  images as emotion_images
+} from '../components/EmoteTracker/EmoteTrackerConstants';
+
+import {
+  images as gip_images
+} from '../components/GipTracker/GipTrackerClassConstants';
 
 
 export default class EntryList extends React.Component {
@@ -28,24 +43,24 @@ export default class EntryList extends React.Component {
 
   updateList(timestamp) {
     this.setState({ loading: true });
-  
-    DatabaseManager.getInstance().fetchEvents(timestamp, 
-      (_, error) => { alert(error)}, 
-      (_, {rows: { _array }}) => this.setState(
-      {
-        events: _array,
-        //error: res.error || null,
-        loading: false,
-      })
+
+    DatabaseManager.getInstance().fetchEvents(timestamp,
+      (_, error) => { alert(error) },
+      (_, { rows: { _array } }) => this.setState(
+        {
+          events: _array,
+          //error: res.error || null,
+          loading: false,
+        })
     );
   }
-  
+
   onPressTouchable(item) {
     alert(item.note)
     //Alert.alert("You selected the symptom")
   }
 
-  onLongPressTouchable(){
+  onLongPressTouchable() {
     //Alert.alert("You opened the severity chooser")
   }
 
@@ -53,97 +68,187 @@ export default class EntryList extends React.Component {
     return (
       <View
         style={{
-          height: 15,
-          width: 3,
-          marginLeft: 35,
-          backgroundColor: 'grey',
+          height: 3,
         }}
       />
     );
   };
 
-  renderItem(item) {
-    let objData  = JSON.parse(item.objData);
-    
-    switch(item.eventType) {
-      case 0: {
-        let color = 'transparent';
-        switch (objData.severity) {
-          case 1: color = 'yellow'; break;
-          case 2: color = 'orange'; break;
-          case 3: color = 'red'; break;
-        }
-        
-        return (
-          <TouchableOpacity onPress={() => this.props.navigation.navigate('ViewSymptom', {event: item})}>
-            <ListItem
-              title={LanguageManager.getInstance().getText(objData.name)}
-              subtitle={LanguageManager.getInstance().getDateAsText(item.created)}
-              leftAvatar={{
-                source: Image.resolveAssetSource(objData.icon),
-                overlayContainerStyle: {
-                  backgroundColor: color
-                }
-              }}
-              chevron={true}
-            />
-          </TouchableOpacity>
-        )
-      }
-      case 1: {
-        if (objData.icon != null) {
-          return (
-            <TouchableOpacity onPress={() => this.props.navigation.navigate('ViewMeal', {event: item})}>
-              <ListItem
-                title={objData.name}
-                rightTitle={<FoodDiaryRatingBar active={false} rating={objData.rating} iconSize={5} />}
-                subtitle={LanguageManager.getInstance().getDateAsText(item.created)}
-                leftAvatar={{ source: Image.resolveAssetSource(objData.icon) }}
-                chevron={true}
-              />
-            </TouchableOpacity>
-          )
-        } else {
-          return (
-            <TouchableOpacity onPress={() => this.props.navigation.navigate('ViewMeal', {event: item})}>
-              <ListItem
-                title={objData.name}
-                rightTitle={<FoodDiaryRatingBar active={false} rating={objData.rating} iconSize={5} />}
-                subtitle={LanguageManager.getInstance().getDateAsText(item.created)}
-                leftAvatar={{ icon: {name: 'camera'} }}
-                chevron={true}
-              />
-            </TouchableOpacity>
-          )
-        }
-      }
-      case 2: {
-        let picture = null;
-        let name = '';
-        switch (objData.type) {
-          case 1: picture = images.unhappy; break;
-          case 2: picture = images.slightlyUnhappy; break;
-          case 3: picture = images.neither; break;
-          case 4: picture = images.slightlyHappy; break;
-          case 5: picture = images.happy; break;
-        }
+  getFoodImageSource(id) {
+    switch (id) {
+      case 0:
+        return food_images.gluten.uri;
+      case 1:
+        return food_images.nogluten.uri;
+      case 2:
+        return food_images.noidea.uri;
+    }
+  }
 
+  getGipImageSource(id) {
+    switch (id) {
+      case 0:
+        return gip_images.gluten.uri;
+      case 1:
+        return gip_images.nogluten.uri;
+      case 2:
+        return gip_images.noidea.uri;
+    }
+  }
+
+  getEmotionImageSource(id) {
+    switch (id) {
+      case 1: return emotion_images.unhappy.uri;
+      case 2: return emotion_images.slightlyUnhappy.uri;
+      case 3: return emotion_images.neither.uri;
+      case 4: return emotion_images.slightlyHappy.uri;
+      case 5: return emotion_images.happy.uri;
+    }
+
+  }
+  getSymptomImageSource(id) {
+    let image = null;
+    switch (id) {
+      case 0:
+        image = symptom_images.id0.uri
+        break;
+      case 1:
+        image = symptom_images.id1.uri
+        break;
+      case 2:
+        image = symptom_images.id2.uri
+        break;
+      case 3:
+        image = symptom_images.id3.uri
+        break;
+      case 4:
+        image = symptom_images.id4.uri
+        break;
+      case 5:
+        image = symptom_images.id5.uri
+        break;
+      case 6:
+        image = symptom_images.id6.uri
+        break;
+      case 7:
+        image = symptom_images.id7.uri
+        break;
+      case 8:
+        image = symptom_images.id8.uri
+        break;
+      case 9:
+        image = symptom_images.id9.uri
+        break;
+      case 10:
+        image = symptom_images.id10.uri
+        break;
+      case 11:
+        image = symptom_images.id11.uri
+        break;
+      case 12:
+        image = symptom_images.id12.uri
+        break;
+    }
+    return image;
+  }
+
+  renderItem(item) {
+    let objData = JSON.parse(item.objData);
+    let createdDate = moment(item.created);
+
+    let time = createdDate.local().format('lll');
+    switch (item.eventType) {
+
+      case Events.Symptom: {
+        const color = '#1DBBA0';
+        let severityText = 'no symptom';
+        switch (objData.severity) {
+          case 1: severityText = 'Mild'; break;
+          case 2: severityText = 'Moderate'; break;
+          case 3: severityText = 'Severe'; break;
+        }
+        let image = this.getSymptomImageSource(objData.symptomID);
+        if (objData.symptomID === 0) objData.name = 'NO_SYMPTOMS'; //TODO: Temp solution. Needs to be an entry in the database
         return (
-          <TouchableOpacity onPress={() => this.props.navigation.navigate('ViewEmote', {event: item})}>
-             <ListItem
-              title={LanguageManager.getInstance().getText(picture.imgName)}
-              subtitle={LanguageManager.getInstance().getDateAsText(item.created)}
-              leftAvatar={{
-                source: Image.resolveAssetSource(picture.uri)
-              }}
-              chevron={true}
-            />
-          </TouchableOpacity>
+          //<TouchableOpacity onPress={() => this.props.navigation.navigate('ViewSymptom', { event: item })}>
+          <HistoryEntry
+            onLeftButtonClicked={() => { }}
+            onRightButtonClicked={() => this.props.navigation.navigate('DeleteScreen', { event: item })}
+            navigationName={LanguageManager.getInstance().getText(objData.name)}
+            title={time}
+            subtitle={severityText + " " + LanguageManager.getInstance().getText(objData.name)}
+            viewLeftButtonText={'edit'}
+            viewRightButtonText={'delete'}
+            color={color}
+            image={image} />
+          //</TouchableOpacity>
         )
+      }
+
+      case Events.Food: {
+        let color = '#3398DE';
+        image = this.getFoodImageSource(objData.type);
+        return (
+          //<TouchableOpacity onPress={() => this.props.navigation.navigate('ViewMeal', { event: item })}>
+          <HistoryEntry
+            onLeftButtonClicked={() => { }}
+            onRightButtonClicked={() => this.props.navigation.navigate('DeleteScreen', { event: item })}
+            navigationName={LanguageManager.getInstance().getText(objData.name)}
+            title={time}
+            subtitle={LanguageManager.getInstance().getText(objData.name)}
+            viewLeftButtonText={'edit'}
+            viewRightButtonText={'delete'}
+            color={color}
+            image={image} />
+          //</TouchableOpacity>
+        )
+
+      }
+      case Events.GIP: {
+        let color = '#FF8D1E';
+        image = this.getGipImageSource(objData.result);
+        return (
+          //<TouchableOpacity onPress={() => this.props.navigation.navigate('ViewGIP', { event: item })}>
+          < HistoryEntry
+            onLeftButtonClicked={() => { }}
+            onRightButtonClicked={() => this.props.navigation.navigate('DeleteScreen', { event: item })}
+            navigationName={LanguageManager.getInstance().getText(objData.name)}
+            title={time}
+            subtitle={LanguageManager.getInstance().getText(objData.note)}
+            viewLeftButtonText={'edit'}
+            viewRightButtonText={'delete'}
+            color={color}
+            image={image} />
+          //</TouchableOpacity >
+        )
+
+      }
+
+      case Events.Emotion: {
+        let color = '#9958B7';
+        let image = this.getEmotionImageSource(objData.type);
+        return (
+          //<TouchableOpacity onPress={() => this.props.navigation.navigate('ViewEmote', { event: item })}>
+          < HistoryEntry
+            onLeftButtonClicked={() => { }}
+            onRightButtonClicked={() => this.props.navigation.navigate('DeleteScreen', { event: item })}
+            navigationName={LanguageManager.getInstance().getText(objData.name)}
+            title={time}
+            subtitle={LanguageManager.getInstance().getText(objData.note)}
+            viewLeftButtonText={'edit'}
+            viewRightButtonText={'delete'}
+            color={color}
+            image={image} />
+          //</TouchableOpacity>
+        )
+      }
+      case Events.LogEvent: {
+        // eaten up!
+        break;
       }
       default: {
         return (
-          <Text>{JSON.stringify(item)}</Text>
+          <Text> { JSON.stringify(item)}</Text >
         )
       }
     }
@@ -159,20 +264,23 @@ export default class EntryList extends React.Component {
         <Image source={require('../assets/images/nothing.gif')} />
       );
     } else {
+      // second ScrollView (horizontal) to avoid virtualised list warnings https://github.com/GeekyAnts/NativeBase/issues/2947
       return (
-        <FlatList
-          data={this.state.events}
-          keyExtractor={(item, index) => item.id.toString()}
-          renderItem={({item}) => this.renderItem(item)}
-          ItemSeparatorComponent={this.renderSeparator}
-        />
+        <ScrollView horizontal={true}>
+          <FlatList style={styles.items}
+            data={(this.state.events).filter(x => x.eventType !== Events.LogEvent)}
+            keyExtractor={(item, index) => item.id.toString()}
+            renderItem={({ item }) => this.renderItem(item)}
+            ItemSeparatorComponent={this.renderSeparator}
+          />
+        </ScrollView>
       );
     }
   }
-
+  //https://nyxo.app/fixing-virtualizedlists-should-never-be-nested-inside-plain-scrollviews
   render() {
     return (
-      <ScrollView>
+      <ScrollView style={styles.items}>
         <NavigationEvents
           onDidFocus={() => this.updateList(this.props.selectedDate)}
         />
@@ -183,16 +291,7 @@ export default class EntryList extends React.Component {
 }
 
 var styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    marginTop:60
-  },
-  outerCircle: {
-    borderRadius: 40,
-    width: 80,
-    height: 80,
-    backgroundColor: 'red',
-  },
+
 });
 
 

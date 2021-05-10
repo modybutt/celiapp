@@ -34,6 +34,7 @@ export default class Gluton extends React.Component {
                     {
                         toValue: 1,                   // Animate to opacity: 1 (opaque)
                         duration: 1000,              // Make it take a while
+                        useNativeDriver: true
                     }
                 ),
                 Animated.timing(                  // Animate over time
@@ -41,6 +42,7 @@ export default class Gluton extends React.Component {
                     {
                         toValue: 0,                   // Animate to opacity: 1 (opaque)
                         duration: 5000,              // Make it take a while
+                        useNativeDriver: true
                     }
                 )
             ]).start();                        // Starts the animation
@@ -66,9 +68,17 @@ export default class Gluton extends React.Component {
                 <NavigationEvents onDidFocus={() => this.refreshState()} />
                 {this.state.message == null ? 
                     null : 
-                    <View style={styles.messageContainer}>
-                        <Text style={styles.message}>{LanguageManager.getInstance().getText(this.state.message, [GlutonManager.getInstance().getBuddy()])}</Text>
-                        <View style={styles.bubbleSeparator} />
+                    <View>
+                      <View style={styles.messageContainer}>
+                          <Text style={styles.message}>
+                            {
+                              LanguageManager.getInstance().getText(
+                              this.state.message,
+                              [GlutonManager.getInstance().getBuddy()])
+                            }
+                          </Text>
+                      </View>
+                      <View style={styles.bubbleSeparator} />
                     </View>
                 }
                 
@@ -77,8 +87,7 @@ export default class Gluton extends React.Component {
                         <Image style={
                             {
                                 width: 284 * this.state.trust, 
-                                height: 360 * this.state.trust,
-                                borderWidth: 1,
+                                height: 360 * this.state.trust
                             }} source={this.state.happy ? Gluton_HAPPY : Gluton_SAD} />
                     </TouchableOpacity>   
                     <Animated.Image source={Gluton_LOVE} style={
@@ -113,12 +122,12 @@ const styles = StyleSheet.create({
         transform: [{ rotate: '45deg'}]
     },
     messageContainer: {
-        width: '80%'
+        width: '80%',
+        backgroundColor: '#fff',
+        borderWidth: 5,
+        borderRadius: 33,
     },
     message: {
-        backgroundColor: '#fff',
-        borderWidth: 5, 
-        borderRadius: 33, 
         textAlignVertical: 'center',
         padding: 10,
         textAlign: 'center',

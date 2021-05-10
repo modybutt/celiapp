@@ -1,19 +1,31 @@
 {
   "expo": {
     "name": "CeliApp",
-    "icon": "./src/assets/images/celiapp_icon_trans.png",
-    "version": "0.1.0",
+    "icon": "./src/assets/images/web_hi_res_512.png",
+    "version": "0.2.15",
     "slug": "CeliApp",
-    "sdkVersion": "35.0.0",
+    "orientation": "portrait",
     "ios": {
-      "bundleIdentifier": "com.fhv.celiapp"
+      "buildNumber": "123",
+      "bundleIdentifier": "ie.itcarlow.CeliApp"
     },
     "android": {
-      "package": "com.fhv.celiapp"
+      "versionCode": 123,
+      "package": "ie.itcarlow.CeliApp",
+      "adaptiveIcon": {
+        "backgroundColor": "#E91F64"
+      },
+      "useNextNotificationsApi": true
+
     },
     "platforms": [
       "android",
       "ios"
-    ]
+    ],
+    "notification": {
+      "icon": "./src/assets/images/notification_icon.png",
+      "iosDisplayInForeground": true,
+      "color": "#E91F64"
+    }
   }
 }

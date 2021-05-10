@@ -1,0 +1,75 @@
+[
+  {
+    "sectionId": 3,
+    "title": "Lvl 1",
+    "minLevel": 1,
+    "section": "accessories",
+    "items": [
+      {
+        "id": 30048,
+        "glassesId": "Blank",
+        "minScore": 20,
+        "imgSubtitle": "No Glasses",
+        "imgDescription": ""
+      },
+      {
+        "id": 30049,
+        "glassesId": "Kurt",
+        "minScore": 40,
+        "imgSubtitle": "Kurt",
+        "imgDescription": ""
+      },
+      {
+        "id": 30050,
+        "glassesId": "Prescription01",
+        "minScore": 60,
+        "imgSubtitle": "Prescription",
+        "imgDescription": ""
+      }
+    ]
+  },
+  {
+    "sectionId": 3,
+    "minLevel": 2,
+    "title": "Lvl 2",
+    "section": "accessories",
+    "items": [
+      {
+        "id": 30051,
+        "glassesId": "Prescription02",
+        "minScore": 100,
+        "imgSubtitle": "Prescription",
+        "imgDescription": ""
+      },
+      {
+        "id": 30052,
+        "glassesId": "Round",
+        "minScore": 160,
+        "imgSubtitle": "Prescription",
+        "imgDescription": ""
+      },
+      {
+        "id": 30053,
+        "glassesId": "Sunglasses",
+        "minScore": 260,
+        "imgSubtitle": "Sunglasses",
+        "imgDescription": ""
+      }
+    ]
+  },
+  {
+    "sectionId": 3,
+    "minLevel": 3,
+    "title": "Lvl 3",
+    "section": "accessories",
+    "items": [
+      {
+        "id": 30054,
+        "glassesId": "Wayfarers",
+        "minScore": 300,
+        "imgSubtitle": "Wayfarers",
+        "imgDescription": ""
+      }
+    ]
+  }
+]

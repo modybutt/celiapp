@@ -8,7 +8,7 @@ import {
     images
 } from './EmoteTrackerConstants';
 
-
+//deprecated
 export default class EmoteTrackerSymbol extends React.Component{
 
     constructor(props) {
@@ -74,19 +74,17 @@ export default class EmoteTrackerSymbol extends React.Component{
             if(!this.state.selected){
                 return(
                     <View style={styles.container}>
-                        <TouchableHighlight style={{height: 80, borderRadius: 40, backgroundColor: 'rgb(255,255,255)', justifyContent: 'center', alignItems: 'center'}} onPress={this.selectEmotion}>
+                        <TouchableHighlight style={{borderRadius: 3, backgroundColor: 'rgb(255,255,255)', justifyContent: 'center', alignItems: 'center'}} onPress={this.selectEmotion}>
                             <Image source={this.state.imgSource} style={styles.small} />
                         </TouchableHighlight> 
-                        <Text style={{textAlign: 'center', flexWrap: 'wrap'}}>{LanguageManager.getInstance().getText(this.state.imgName)}</Text>
                     </View>                
                 )
             }else{
                 return(
                     <View style={styles.container}>
-                        <TouchableHighlight style={{height: 80, borderRadius: 40, backgroundColor: 'rgb(33,150,243)', justifyContent: 'center', alignItems: 'center'}} onPress={this.selectEmotion}>
+                        <TouchableHighlight style={{borderRadius: 3, backgroundColor: 'rgb(33,150,243)', justifyContent: 'center', alignItems: 'center'}} onPress={this.selectEmotion}>
                             <Image source={this.state.imgSource} style={styles.small} />
                         </TouchableHighlight> 
-                        <Text style={{textAlign: 'center', flexWrap: 'wrap'}}>{LanguageManager.getInstance().getText(this.state.imgName)}</Text>
                     </View>                
                 )
             }
@@ -95,42 +93,43 @@ export default class EmoteTrackerSymbol extends React.Component{
                 return(
                     <View style={styles.containerInactive}>
                         <Image source={this.state.imgSource} style={styles[this.props.size] == null ? styles.small : styles[this.props.size]} />
-                        <Text style={{textAlign: 'center', flexWrap: 'wrap'}}>{LanguageManager.getInstance().getText(this.state.imgName)}</Text>
                     </View>                
                 )
             }else{
                 return(
                     <View style={styles.containerInactive}>
                         <Image source={this.state.imgSource} style={styles[this.props.size] == null ? styles.small : styles[this.props.size]} />
-                        <Text style={{textAlign: 'center', flexWrap: 'wrap'}}>{LanguageManager.getInstance().getText(this.state.imgName)}</Text>
                     </View>                
                 )
             }
         }
     }
-
-
 }
 
+//<Text style={{textAlign: 'center', flexWrap: 'wrap'}}>{LanguageManager.getInstance().getText(this.state.imgName)}</Text>
 
 var styles = StyleSheet.create({
     container: {
       flex: 1,
-      marginTop:60,
+      paddingLeft: 5,
+      paddingRight: 5,
+      aspectRatio: 1,
     },
     containerInactive: {
         flex: 1,
-        marginTop:60,
-        alignItems: 'center'
+        aspectRatio: 1,
     },
     small: {
-        width: 75, 
-        height: 75, 
-        borderRadius:40
+        //backgroundColor: 'rgb(255,255,255)',
+        width: '80%',
+        height: '80%',
+        aspectRatio: 1,
+        resizeMode: 'contain',
     },
     big: {
-        width: 150, 
-        height: 150, 
-        borderRadius:40
-    }
+        width: '80%',
+        height: '80%',
+        aspectRatio: 1,
+        resizeMode: 'contain',
+    },
   });

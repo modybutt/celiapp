@@ -4,15 +4,15 @@ import LanguageManager from '../manager/LanguageManager';
 import HorizontalLineWithText from '../components/HorizontalLineWithText';
 import TextInputSingleLine from '../components/TextInputSingleLine';
 import DatabaseManager from '../manager/DatabaseManager';
-import { HeaderBackButton } from 'react-navigation'
+import { HeaderBackButton } from 'react-navigation-stack'
 import HeaderSaveButton from '../components/HeaderSaveButton';
 import GearManager from '../manager/GearManager';
 
 export default class GearScreen extends React.Component {
   static navigationOptions = ({navigation}) => ({
     title: LanguageManager.getInstance().getText("GEAR"),
-    headerLeft: <HeaderBackButton onPress={() => navigation.state.params.onCancelPressed()}/>,
-    headerRight: <HeaderSaveButton onPress={() => navigation.state.params.onOkPressed(true)}/>
+    headerLeft: () =>  <HeaderBackButton onPress={() => navigation.state.params.onCancelPressed()}/>,
+    headerRight: () =>  <HeaderSaveButton onPress={() => navigation.state.params.onOkPressed(true)}/>
   });
 
   state = {
@@ -107,10 +107,10 @@ export default class GearScreen extends React.Component {
   }
 
   render() {
-    const marginToUse = ((this.state.keyboardOpen) ? 300 : 0);
+
         
     return (
-      <ScrollView style={{marginBottom: marginToUse}}>
+      <ScrollView >
         <HorizontalLineWithText text={LanguageManager.getInstance().getText("WEB_SERVICE")}/>
         <Text>{this.state.wsConnected ? "Connected" : "Disconnected"}</Text>
         <TextInputSingleLine ref={component => this._name = component} defaultValue={this.state.wsHost} onTextChanged={(host) => this.setState({wsHost: host})} />

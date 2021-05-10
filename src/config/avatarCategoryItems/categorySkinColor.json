@@ -1,0 +1,67 @@
+[
+  {
+    "sectionId": 4,
+    "minLevel": 1,
+    "title": "Lvl 1",
+    "section": "skin",
+    "items": [
+      {
+        "id": 40055,
+        "skinId": "Tanned",
+        "minScore": 10,
+        "imgSubtitle": "Tanned",
+        "imgDescription": ""
+      },
+      {
+        "id": 40056,
+        "skinId": "Yellow",
+        "minScore": 10,
+        "imgSubtitle": "Yellow",
+        "imgDescription": ""
+      },
+      {
+        "id": 40057,
+        "skinId": "Pale",
+        "minScore": 10,
+        "imgSubtitle": "Pale",
+        "imgDescription": ""
+      }
+    ]
+  },
+  {
+    "sectionId": 4,
+    "minLevel": 1,
+    "title": "",
+    "section": "skin",
+    "items": [
+      {
+        "id": 40058,
+        "skinId": "Light",
+        "minScore": 10,
+        "imgSubtitle": "Light",
+        "imgDescription": ""
+      },
+      {
+        "id": 40059,
+        "skinId": "Brown",
+        "minScore": 10,
+        "imgSubtitle": "Brown",
+        "imgDescription": ""
+      },
+      {
+        "id": 40060,
+        "skinId": "DarkBrown",
+        "minScore": 10,
+        "imgSubtitle": "Dark Brown",
+        "imgDescription": ""
+      },
+      {
+        "id": 40061,
+        "skinId": "Black",
+        "minScore": 10,
+        "imgSubtitle": "Black",
+        "imgDescription": ""
+      }
+    ]
+  }
+]

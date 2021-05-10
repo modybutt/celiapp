@@ -20,12 +20,14 @@ export default class FoodDiaryImageEdit extends React.Component {
         }
     }
 
+    
+
     render() {
         if (this.props.active == null || this.props.active == true) {
             if (this.state.snapshot == null) {
                 return (
                     <TouchableOpacity style={styles.container} onPress={() => this.props.navigation.navigate('Camera', {cb: (pic) => this.onPictureTaken(pic)})}>
-                        <Icon.Ionicons name='md-camera' color={this.props.focused ? Colors.tabIconSelected : Colors.tabIconDefault} size={80} />
+                        <Icon.Ionicons name='md-camera' color={this.props.focused ? Colors.tabIconSelected : (this.props.color ? this.props.color:Colors.tabIconDefault)} size={80} />
                     </TouchableOpacity> 
                 );
             }
@@ -37,7 +39,7 @@ export default class FoodDiaryImageEdit extends React.Component {
             );
         } else {
             if (this.state.snapshot == null) {
-                return <Icon.Ionicons name='md-camera' color={this.props.focused ? Colors.tabIconSelected : Colors.tabIconDefault} size={80} />
+                return <Icon.Ionicons name='md-camera' color={this.props.focused ? Colors.tabIconSelected : (this.props.color ? this.props.color:Colors.tabIconDefault)} size={80} />
             }
 
             return <Image source={Image.resolveAssetSource(this.state.snapshot)} style={styles[this.props.size] == null ? styles.small : styles[this.props.size]} />

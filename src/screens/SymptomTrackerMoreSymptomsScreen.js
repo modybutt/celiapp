@@ -1,6 +1,6 @@
 import React from 'react';
 import { View, ScrollView } from 'react-native';
-import { HeaderBackButton } from 'react-navigation'
+import { HeaderBackButton } from 'react-navigation-stack'
 import SymptomGroup from '../components/SymptomTracker/SymptomGroup';
 import MenuButton from '../components/MenuButton';
 import LanguageManager from '../manager/LanguageManager';
@@ -19,7 +19,6 @@ export default class SymptomTrackerMoreSymptomsScreen extends React.Component{
         super(props)
         this.symptomSelectionChangeHandler = this.symptomSelectionChangeHandler.bind(this);
         this.state={
-            tempDate: new Date(), //used to temporarliy save date and then set it to selectedDateAndTime after corresponding checks
             selectedSymptoms: this.props.navigation.getParam("symptoms"),
         }
 

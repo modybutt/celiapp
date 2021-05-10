@@ -3,50 +3,51 @@ import { StyleSheet, Text, View, Alert, TextInput } from 'react-native';
 
 export default class TextInputSingleLine extends React.Component {
 
-
     constructor(props) {
         super(props);
-        this.state = {text: ''};
-      }
+        this.state = { text: '' };
+    }
 
-      textChanged = (t) =>{
-          this.setState({
-              text: t
-          })
-          this.props.onTextChanged(t)
-      }
+    textChanged = (t) => {
+        this.setState({
+            text: t
+        })
+        this.props.onTextChanged(t)
+    }
 
+    colorStyle = {
+        borderColor: this.props.color,
+        borderWidth: StyleSheet.hairlineWidth,
+    }
 
- render() {
-      return (
-        <View style={{top:10, bottom: 15}}>
-            <View style={styles.Text}>
-                <TextInput
-                {...this.props}
-                maxLength = {30}
-                style={{marginRight: 20}}
-                onChangeText={(text) => {this.textChanged(text)}}
-                value={this.props.preText}
-                />
-            </View>
-        </View>
+    render() {
+        return (
+            
+                <View style = {this.props.color ? [styles.container, this.colorStyle] : [styles.container]}>
+                    <TextInput
+                        {...this.props}
+                        maxLength={60}
+                        style={styles.textInput}
+                        onChangeText={(text) => { this.textChanged(text) }}
+                        value={this.props.preText}
+                        placeholder={this.props.placeholderText || ""}
+                    />
+                </View>
+        
         );
     }
 }
 
 const styles = StyleSheet.create({
     container: {
-        flex: 1,
         backgroundColor: '#fff',
-        alignItems: 'center',
-        justifyContent: 'center',
+        paddingLeft:5,
     },
-    Text:{
-            borderWidth: 2,
-            borderColor: 'grey',
-            borderRadius: 20,
-            marginLeft: 10,
-            marginRight: 10,
-            alignContent: 'space-around'
-        }
+    textInput: {
+        textAlign:'center',
+        paddingTop:5, 
+        paddingBottom:5,color: 
+        '#707070',
+    },
+    
 });

@@ -1,0 +1,13 @@
+{
+    "achievementrecords": [ {
+        "id": "MEALADDED",
+        "name": "Meals added",
+        "icon": "restaurant",
+        "recordtype": "MEAL"
+    },{
+        "id": "SYMPTOMADDED",
+        "name": "Symptoms added",
+        "icon": "healing",
+        "recordtype": "SYMPTOM"
+    }]
+}

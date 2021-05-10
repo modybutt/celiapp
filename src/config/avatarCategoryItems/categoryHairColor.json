@@ -1,0 +1,89 @@
+[
+  {
+    "sectionId": 5,
+    "minLevel": 1,
+    "title": "Lvl 1",
+    "section": "top",
+    "items": [
+      {
+        "id": 50062,
+        "hairColor": "Red",
+        "minScore": 20,
+        "imgSubtitle": "Red",
+        "imgDescription": ""
+      },
+      {
+        "id": 50063,
+        "hairColor": "Black",
+        "minScore": 50,
+        "imgSubtitle": "Black",
+        "imgDescription": ""
+      },
+      {
+        "id": 50064,
+        "hairColor": "Blonde",
+        "minScore": 70,
+        "imgSubtitle": "Blonde",
+        "imgDescription": ""
+      },
+      {
+        "id": 50065,
+        "hairColor": "BlondeGolden",
+        "minScore": 130,
+        "imgSubtitle": "Blonde Golden",
+        "imgDescription": ""
+      }
+    ]
+  },
+  {
+    "sectionId": 5,
+    "minLevel": 2,
+    "title": "Lvl 2",
+    "section": "top",
+    "items": [
+      {
+        "id": 50066,
+        "hairColor": "Brown",
+        "minScore": 180,
+        "imgSubtitle": "Brown",
+        "imgDescription": ""
+      },
+      {
+        "id": 50067,
+        "hairColor": "BrownDark",
+        "minScore": 200,
+        "imgSubtitle": "Brown Dark",
+        "imgDescription": ""
+      },
+      {
+        "id": 50068,
+        "hairColor": "PastelPink",
+        "minScore": 320,
+        "imgSubtitle": "Pastel Pink",
+        "imgDescription": "but why?"
+      },
+      {
+        "id": 50069,
+        "hairColor": "Platinum",
+        "minScore": 400,
+        "imgSubtitle": "Platinum",
+        "imgDescription": ""
+      }
+    ]
+  },
+  {
+    "sectionId": 5,
+    "minLevel": 3,
+    "title": "Lvl 3",
+    "section": "top",
+    "items": [
+      {
+        "id": 50071,
+        "hairColor": "SilverGray",
+        "minScore": 500,
+        "imgSubtitle": "SilverGray",
+        "imgDescription": ""
+      }
+    ]
+  }
+]
