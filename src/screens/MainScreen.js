@@ -194,8 +194,8 @@ const MainScreenInfoModal = ({showModal, onModalPressed}) =>
 	{		
 		return (
 			<Modal transparent={true}>			
-				<Pressable onPress={() => onModalPressed()}>
-					<View style={styles.infoModal} >					
+				<Pressable sttyle={styles.fullscreenContainer} onPress={() => onModalPressed()}>
+					<View style={styles.infoModal} >
 						<SvgXml width={window.width * 0.8} height={window.width * 0.8} xml={mainscreenInfomodal} style={{
 							position: 'absolute',
 							left: window.width * 0.05,
@@ -223,7 +223,9 @@ const Avatar = ({showModal, onShowModal}) =>
 			<View style={styles.loggedInfoContainer}>
 			<Text style={{fontSize: window.height * .03, color: loggedEntriesTextColor}}>Your logs today</Text>
 			<View style={styles.informationBackground}>
-				<TouchableOpacity style={styles.touchableOpacityInfoButton} onPress={() => onShowModal()}>
+				<TouchableOpacity
+				hitSlop={{ top: 20, bottom: 20, left: 20, right: 20 }}
+				onPress={() => onShowModal()}>
 					<Text style={styles.informationForeground}>i</Text>
 				</TouchableOpacity>
 			</View>
@@ -294,19 +296,17 @@ const styles = StyleSheet.create
 		height: window.height * andyScheenHeight
 	},
 
-	touchableOpacityInfoButton:
+	informationBackground:
 	{
+		right: 15,
+		bottom: 5,
+		position: 'absolute',
 		width: 30,
 		height: 30,
 		borderRadius: 15,
+		color: '#fff',
+		zIndex: 200,	
 		backgroundColor: '#e92065',
-	},
-
-	informationBackground:
-	{		
-		right: 20,
-		bottom: 10,
-		position: 'absolute',		
 	},
 
 	informationForeground:
@@ -319,14 +319,11 @@ const styles = StyleSheet.create
 
 	infoModal:
 	{
-		position: 'absolute',
-		bottom: 0,
-		left: 0,
-		top: 20,
 		width: window.width,
 		height: window.height,
-		backgroundColor: 'rgba(255,255,255,0.7)',
-		zIndex: 10
+        backgroundColor: 'rgba(255,255,255,0.7)',
+        justifyContent: 'center',
+        alignItems: 'center',
 	},
 
 	infoModalText:
