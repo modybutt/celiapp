@@ -45,6 +45,16 @@ dependency as per this article: https://stackoverflow.com/a/58122821/488802
 IOS: point camera app at QR code
 Android: In Expo client app, open QR code
 
+### Android emulator
+
+Make sure the clock on the emulation device is in sync with dev machine, otherwise emulator will
+run glacially slowly. The two devices can become out of sync quickly:
+
+```
+$ adb root
+$ adb shell "date `date +%m%d%H%M%Y.%S`"
+```
+
 ## Testing
 
 To run all unit tests:

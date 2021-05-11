@@ -20,13 +20,13 @@ export default class WeeklyReportData {
 
   init = (startOfWeek, endOfWeek, now) => {
     this.now = now || new Date()
-    this.currentWeekStart = startOfWeek || DateUtil.getStartOfThisWeekBeginningMonday()
-    this.currentWeekEnd = endOfWeek || DateUtil.getEndOfThisFullWeekEndingSunday()
-    this.previousWeekStart = DateUtil.getStartOfPreviousFullWeekBeginningMonday(this.currentWeekStart)
-    this.thisTimePreviousWeek = DateUtil.sameTimeAWeekPrevious(this.now)
+    this.currentWeekStart = startOfWeek || DateUtil.getStartOfThisWeekBeginningMonday(this.now)
+    this.currentWeekEnd = endOfWeek || DateUtil.getEndOfThisFullWeekEndingSunday(this.now)
+    //this.previousWeekStart = DateUtil.getStartOfPreviousFullWeekBeginningMonday(this.currentWeekStart)
+    //this.thisTimePreviousWeek = DateUtil.sameTimeAWeekPrevious(this.now)
 
     return Promise.all([
-      this.getData(this.previousWeekStart, this.currentWeekEnd),
+      this.getData(this.currentWeekStart, this.currentWeekEnd),
       this.getGoals()
     ]);
   }
