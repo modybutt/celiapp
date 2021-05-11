@@ -60,7 +60,7 @@ export default class GoalSettingScreen extends React.Component
 								text1='I want to register ' 
 								noItems={this.state.noMeals} 
 								text2='meals ' 
-								text3='each day, including snacks.' 
+								text3='each day.' 
 								color={Colors.meal}
 								upPressed={() => {this.setState({noMeals: this.state.noMeals + 1})}}
 								downPressed={() => {this.setState({noMeals: Math.max(this.state.minNoMeals, this.state.noMeals - 1)})}}
@@ -131,8 +131,7 @@ export default class GoalSettingScreen extends React.Component
 
 const ChevronsAndText = ({text, noItems, color, upPressed, downPressed}) =>
 {
-	return <View style={{flexDirection: 'column'}}>
-		
+	return <View style={[{flexDirection: 'column'}, Platform.OS === 'android' ? styles.chevronsAndroid : '']}>
 			<TouchableOpacity onPress={() => upPressed()}>
 				<Icon.EvilIcons style={{
 					textAlign: 'center',
@@ -154,13 +153,16 @@ const ChevronsAndText = ({text, noItems, color, upPressed, downPressed}) =>
 
 const LogText = ({text1, text2, noItems, text3, color, upPressed, downPressed}) =>
 {
-	return <Text style={{marginLeft: 14.3, marginTop: 5, fontSize: 16, width: window.width * 0.7, marginTop: -18}}>
-		<Text style={{color:'#707070' }}>{text1}</Text>
-		<View style={{display: 'flex', marginTop: -26}} >
-			<ChevronsAndText color={color} noItems={noItems} text={text2} upPressed={upPressed} downPressed={downPressed}/>
-		</View>
-		<Text style={{color:'#707070' }}>{text3}</Text>
-	</Text>
+	return <View style={{marginTop: Platform.OS === 'android' ? 0 : -18, marginLeft: window.width * .05}}> 
+			<Text style={{fontSize: 16, width: window.width * 0.7}}>
+			<Text style={{color:'#707070' }}>{text1}</Text>
+			<View style={{display: 'flex', marginTop: -26}} >
+				<ChevronsAndText color={color} noItems={noItems} text={text2} upPressed={upPressed} downPressed={downPressed}/>
+			</View>
+			{'\n'}
+			<Text style={{color:'#707070'}}>{text3}</Text>
+		</Text>
+	</View>
 }
 
 const Goal = ({color, image, text}) =>
@@ -187,8 +189,8 @@ const Avatar = () =>
 		<SvgXml width={window.width * 0.65} height={window.width * 0.46} style={styles.speechBubble} xml={goalsettingSpeechBubble}/>
 		<Text style={{
 			position:'absolute',
-			width: 190,
-			left: 130,
+			width: window.width * 0.5,
+			left: window.width * 0.4,
 			top: 50,
 			textAlign: 'center',
 			fontWeight: 'bold',
@@ -230,6 +232,12 @@ const styles = StyleSheet.create
 		display: 'flex', 
 		width: window.width,
 		alignItems: 'center'
+	},
+
+	chevronsAndroid:
+	{
+		position: 'absolute',
+		top: -window.height * 0.05
 	},
 
 	buttonOutline:
@@ -276,7 +284,7 @@ const styles = StyleSheet.create
 	{
 		display: 'flex',
 		flexDirection: 'row',
-		marginLeft: 5,
+		marginLeft: 15,
 		marginRight: 20,
 	},
 

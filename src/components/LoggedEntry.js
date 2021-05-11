@@ -80,8 +80,6 @@ export default class LoggedEntry extends React.Component
 		const goal = this.props.dailyGoal;
 		const actual = this.props.actual;
 
-		console.log('goal', goal, 'actual', actual);
-
 		return (
 		<View style={styles.dropShadow}>
 			<Animated.View style=
