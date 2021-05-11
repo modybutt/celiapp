@@ -29,3 +29,6 @@ yarn-error.log*
 
 ios
 .vscode/settings.json
+
+# android
+google-services.json
