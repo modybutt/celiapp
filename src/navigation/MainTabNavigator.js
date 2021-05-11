@@ -18,6 +18,7 @@ import FoodDiaryScreen from "../screens/FoodDiaryScreen";
 import GIPScreen from "../screens/GIPScreen";
 import EmoteTrackerScreen from "../screens/EmoteTrackerScreen";
 import DeleteScreen from "../screens/DeleteScreen";
+import QuizScreen from "../screens/QuizScreen";
 import SymptomViewScreen from "../screens/SymptomViewScreen";
 import FoodViewScreen from "../screens/FoodViewScreen";
 import GIPViewScreen from "../screens/GIPViewScreen";
@@ -218,4 +219,11 @@ export default createStackNavigator({
       title: ''
     },
   },
+  QuizScreen: {
+    screen: QuizScreen,
+    navigationOptions: {
+      headerShown: false,
+      title: ''
+    },
+  }
 });

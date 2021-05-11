@@ -96,16 +96,17 @@ export default class NotificationManager {
 
     listenForNotifications = () =>
     {
-        Notifications.addListener(notification => 
+      if (global.listener == undefined) {
+        const subscription = Notifications.addNotificationReceivedListener(notification => 
         {
-            if (notification.origin === 'received' && Platform.OS === 'ios') 
-            {
-                if (notification.data)
-                {
-                    Alert.alert(notification.data.title, notification.data.body);
-                }
-            }
+          console.log('notification: ' + JSON.stringify(notification));
+          const data = notification.request.content.data;
+          if (data.screen == 'QUIZ') {
+            global.navigation.navigate('QuizScreen', data);
+          }
         });
+        global.listener = true;
+      }
     };
 
     initialize() 
@@ -113,6 +114,6 @@ export default class NotificationManager {
       console.log('Initialising notifications...');
       registerForPushNotificationsAsync();
       //getiOSNotificationPermission();
-      //this.listenForNotifications();
+      this.listenForNotifications();
     }
 }

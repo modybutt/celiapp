@@ -64,6 +64,8 @@ export default class ReportScreen extends React.Component {
     });
 
     console.log("component mounted")
+
+    global.navigation = this.props.navigation; // TODO: This is a shortcut. Contact Martin.
   }
 
   addDays = (date, days) => {
