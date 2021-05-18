@@ -9,7 +9,7 @@ import UploadManager from './UploadManager';
 if (global.listener == undefined) {
   Notifications.addNotificationReceivedListener(notification =>
   {
-    console.warn("hello");
+    console.warn("addNotificationReceivedListener");
     console.warn('notification: ' + JSON.stringify(notification));
     const data = notification.request.content.data;
     if (data.screen == 'QUIZ') {
@@ -23,7 +23,7 @@ if (global.listener == undefined) {
 // Listeners registered by this method will be called whenever a user interacts with a notification (eg. taps on it).
 const subscription = Notifications.addNotificationResponseReceivedListener(notification =>
   {
-    console.warn("hello2");
+  console.warn("addNotificationResponseReceivedListener");
   console.warn('notification: ' + JSON.stringify(notification));
 
   //NB: notification.notification (different to in addNotificationReceivedListener)
@@ -31,7 +31,7 @@ const subscription = Notifications.addNotificationResponseReceivedListener(notif
     if (data.screen == 'QUIZ') {
       setTimeout(() => {
         global.navigation.navigate('QuizScreen', data);
-      }, 10000);
+      }, 3000);
     }
 });
 
