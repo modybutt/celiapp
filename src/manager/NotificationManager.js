@@ -7,10 +7,10 @@ import UploadManager from './UploadManager';
 
 //Listeners registered by this method will be called whenever a notification is received while the app is running.
 if (global.listener == undefined) {
-  Notifications.addNotificationReceivedListener(notification => 
+  Notifications.addNotificationReceivedListener(notification =>
   {
-    // console.warn("hello");
-    // console.warn('notification: ' + JSON.stringify(notification));
+    console.warn("hello");
+    console.warn('notification: ' + JSON.stringify(notification));
     const data = notification.request.content.data;
     if (data.screen == 'QUIZ') {
       global.navigation.navigate('QuizScreen', data);
@@ -19,17 +19,19 @@ if (global.listener == undefined) {
   global.listener = true;
 }
 
-//TODO: refactor this and addNotificationReceivedListener - does it actually need to be outside the component in SDK 40?
-//Listeners registered by this method will be called whenever a user interacts with a notification (eg. taps on it).
-const subscription = Notifications.addNotificationResponseReceivedListener(notification => 
+// TODO: refactor this and addNotificationReceivedListener - does it actually need to be outside the component in SDK 40?
+// Listeners registered by this method will be called whenever a user interacts with a notification (eg. taps on it).
+const subscription = Notifications.addNotificationResponseReceivedListener(notification =>
   {
-    console.warn("hello2"); 
+    console.warn("hello2");
   console.warn('notification: ' + JSON.stringify(notification));
-  
+
   //NB: notification.notification (different to in addNotificationReceivedListener)
     const data = notification.notification.request.content.data;
     if (data.screen == 'QUIZ') {
-      global.navigation.navigate('QuizScreen', data);
+      setTimeout(() => {
+        global.navigation.navigate('QuizScreen', data);
+      }, 10000);
     }
 });
 
