@@ -82,7 +82,7 @@ export default class WeeklyReportData {
         Math.min(day.emotionCount, this.TARGET_EMOTIONS_PER_DAY) +
         Math.min(day.symptomCount, this.TARGET_SYMPTOMS_PER_DAY)
 
-  activityRateForDay = (dayOfWeek) => this.enrichedDays[dayOfWeek].activity
+    activityRateForDay = (dayOfWeek) => !!this.enrichedDays[dayOfWeek]  ? this.enrichedDays[dayOfWeek].activity : 0
 
     eventInCurrentWeek = (event) => event.created > this.currentWeekStart && event.created < this.currentWeekEnd
 

@@ -304,8 +304,10 @@ export default class ReportManager {
         this.reportText.dailyActivity = [0, 1, 2, 3, 4, 5, 6].map(day => thisWeekData.activityRateForDay(day))
         this.reportText.weekEndingDate = endOfWeek
 
+        this.reportText.bestDayHeading = "Unknown"
+        this.reportText.bestDayBody = "Too little activity to calculate"
         if (thisWeekData.bestDayDate()) {
-          var dateFormat = { weekday: 'long', month: 'long', day: 'numeric' };
+          const dateFormat = { weekday: 'long', month: 'long', day: 'numeric' };
           this.reportText.bestDayHeading = thisWeekData.bestDayDate().toLocaleDateString("en-US", dateFormat)
           this.reportText.bestDayBody = this.daySummaryString(thisWeekData)
         }
