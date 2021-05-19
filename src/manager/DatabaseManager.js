@@ -502,7 +502,7 @@ export default class DatabaseManager {
 
   getDBCreatedDate() {
 
-    createdDate = new Promise((resolve, _) => {
+    const createdDate = new Promise((resolve, _) => {
       this.db.transaction(tx =>
         tx.executeSql('SELECT * FROM settings WHERE name = ?',
           ["dbCreated"],
@@ -515,7 +515,7 @@ export default class DatabaseManager {
       )
     });
 
-    earliestDate = new Promise((resolve, _) => {
+    const earliestDate = new Promise((resolve, _) => {
       console.log("getting earliest record =");
       this.db.transaction(tx =>
         tx.executeSql('SELECT * FROM events ORDER BY created ASC LIMIT 1;',
@@ -532,13 +532,11 @@ export default class DatabaseManager {
       
     });
 
-    return new Promise((resolve, _) => {
-      Promise.all([createdDate, earliestDate]).then(
-        ([created, earliest]) =>{
+    return Promise.all([createdDate, earliestDate])
+        .then(([created, earliest]) =>{
           console.log("created, earliest", [created, earliest] )
-          if(earliest == 0 || created < earliest) resolve(created);
-          resolve(earliest);
+          if(earliest === 0 || created < earliest) return (created);
+          return (earliest);
         });
-    })
   }
 }

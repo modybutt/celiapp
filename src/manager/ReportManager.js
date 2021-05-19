@@ -1,7 +1,6 @@
 import WeeklyReportData from './WeeklyReportData';
 import DateUtil from '../utils/dateUtils';
 import DatabaseManager from '../manager/DatabaseManager'
-import { Emotion, Gluten } from '../constants/Events';
 
 export default class ReportManager {
 
@@ -34,43 +33,43 @@ export default class ReportManager {
   }
 
   static symptomString = (count) => {
-    if (count == 1) return "one symptom";
+    if (count === 1) return "one symptom";
     if (count > 1) return "" + count + " symptoms";
     return "no symptoms";
   }
 
   static mealString = (count) => {
-    if (count == 1) return "one meal";
+    if (count === 1) return "one meal";
     if (count > 1) return "" + count + " meals";
     return "no meals";
   }
 
   static moodString = (count) => {
-    if (count == 1) return "one mood";
+    if (count === 1) return "one mood";
     if (count > 1) return "" + count + " moods";
     return "no moods";
   }
 
   static gipFreeString = (count) => {
-    if (count == 1) return "a gluten-free test";
+    if (count === 1) return "a gluten-free test";
     if (count > 1) return "" + count + " gluten-free tests";
     return "";
   }
 
   static gipPositiveString = (count) => {
-    if (count == 1) return "a gluten-positive test";
+    if (count === 1) return "a gluten-positive test";
     if (count > 1) return "" + count + " gluten-positive tests";
     return "";
   }
 
   static gipString = (count) => {
-    if (count == 1) return "a gluten test";
+    if (count === 1) return "a gluten test";
     if (count > 1) return "" + count + " gluten tests";
     return "no gluten tests";
   }
 
   static dayPluralString = (count) => {
-    if (count == 1) return "one day";
+    if (count === 1) return "one day";
     if (count > 1) return "" + count + " days";
     return "no day";
   }
@@ -83,9 +82,10 @@ export default class ReportManager {
       this.gipFreeString(weekData.bestDayGipTests());
   }
 
+
   static reachedGoalString = (numDaysGoalReached) => {
 
-    goalString = ""
+    let goalString = ""
     
     if(numDaysGoalReached !=null){  //no goal defined
       goalString += numDaysGoalReached > 0 
@@ -112,13 +112,13 @@ export default class ReportManager {
     //Symptom free days:
     // head = X days you entered NO SYMPTOMS. Good job!
 
-    var symptomFreeDays = thisWeek.thisWeekNumDaysWithNO_SYMPTOM();
+    const symptomFreeDays = thisWeek.thisWeekNumDaysWithNO_SYMPTOM();
     if (symptomFreeDays > 0) {
       this.reportText.symptomInfo.headline = this.dayPluralString(symptomFreeDays) + " you recorded as SYMPTOM FREE. Good job!"
       return;
     }
 
-    var numberOfDaysWithSymptoms = thisWeek.thisWeekNumDaysWithSymptoms();
+    const numberOfDaysWithSymptoms = thisWeek.thisWeekNumDaysWithSymptoms();
 
     if (numberOfDaysWithSymptoms < this.mostOfTheWeek) {
       this.reportText.symptomInfo.headline = "Most of the week you haven’t logged any symptoms.";
@@ -126,7 +126,7 @@ export default class ReportManager {
       return;
     }
 
-    var numberOfDaysWithMildSymptoms = thisWeek.thisWeekNumDaysWithMildAsWorstSymptoms();
+    const numberOfDaysWithMildSymptoms = thisWeek.thisWeekNumDaysWithMildAsWorstSymptoms();
 
     if (numberOfDaysWithMildSymptoms >= 1) {
       this.reportText.symptomInfo.headline =
@@ -150,7 +150,7 @@ export default class ReportManager {
     //symptoms3+days (some moderate)
     // head = 7 days you have felt symptoms, of which 3 days they were moderate.
     // sub =  Let’s try to do better next week!
-    var numberOfDaysWithModerateSymptoms = thisWeek.thisWeekNumDaysWithModerateAsWorstSymptoms();
+    const numberOfDaysWithModerateSymptoms = thisWeek.thisWeekNumDaysWithModerateAsWorstSymptoms();
 
     if (numberOfDaysWithModerateSymptoms >= 1) {
       this.reportText.symptomInfo.headline =
@@ -166,7 +166,7 @@ export default class ReportManager {
     // symptoms3+days (only severe)
     // 7 days you have felt symptoms, of which 7 days they were severe.
     // Let’s try to get less symptoms next week! 
-    var numberOfDaysWithSevereSymptoms = thisWeek.thisWeekNumDaysWithSevereAsWorstSymptoms();
+    const numberOfDaysWithSevereSymptoms = thisWeek.thisWeekNumDaysWithSevereAsWorstSymptoms();
 
     if (numberOfDaysWithSevereSymptoms >= 1) {
       this.reportText.symptomInfo.headline =
@@ -175,8 +175,6 @@ export default class ReportManager {
 
       this.reportText.symptomInfo.sub = "Let’s try to do better next week!"
 
-
-      return;
     }
 
   }
@@ -186,10 +184,10 @@ export default class ReportManager {
         this.infoBoxDefaultBodyText(this.mealString, thisWeek.thisWeekMealCount(),lastWeek ? lastWeek.thisWeekMealCount() : null)
       + this.reachedGoalString(thisWeek.numDaysReachingMealGoal());
 
-    glutenFreeCount = thisWeek.thisWeekGlutenFreeMealCount()
+    const glutenFreeCount = thisWeek.thisWeekGlutenFreeMealCount()
 
-    mealHead = "" + glutenFreeCount + "logged meals were GLUTENFREE!"
-    if(glutenFreeCount == 1)
+    let mealHead = "" + glutenFreeCount + "logged meals were GLUTENFREE!"
+    if(glutenFreeCount === 1)
       mealHead = "One logged meal was GLUTENFREE!"
     this.reportText.mealInfo.headline = mealHead
   }
@@ -199,11 +197,11 @@ export default class ReportManager {
         this.infoBoxDefaultBodyText(this.moodString, thisWeek.thisWeekMoodCount(), lastWeek? lastWeek.thisWeekMoodCount(): null)
         + this.reachedGoalString(thisWeek.numDaysReachingEmotionGoal());
 
-      highEnergyCount = thisWeek.numDaysHighEnergy()
-      energyHead = ""+ this.dayPluralString(highEnergyCount)+ " you were had HIGH energy!"
+      const highEnergyCount = thisWeek.numDaysHighEnergy()
+      let energyHead = ""+ this.dayPluralString(highEnergyCount)+ " you were had HIGH energy!"
 
-      if(highEnergyCount=0){
-        medEnergyCount = thisWeek.numDaysMediumEnergy()
+      if(highEnergyCount === 0){
+        const medEnergyCount = thisWeek.numDaysMediumEnergy()
         energyHead = ""+ this.dayPluralString(medEnergyCount)+ " you were had MEDIUM energy!"
       }
 
@@ -211,8 +209,8 @@ export default class ReportManager {
   }
 
   static gipBox = (thisWeek, lastWeek) => {
-        gipCount = thisWeek.thisWeekGIPCount();
-        if(gipCount == 0){
+        const gipCount = thisWeek.thisWeekGIPCount();
+        if(gipCount === 0){
           this.reportText.gipInfo.body = "You have not logged any GIP sticks"
           this.reportText.gipInfo.headline = "Logging GIP sticks will help you master your diet!"
         }
@@ -226,7 +224,7 @@ export default class ReportManager {
             this.infoBoxDefaultBodyText(this.gipString, gipCount, lastWeek ? lastWeek.thisWeekGIPCount(): null)
             + this.reachedGoalString(thisWeek.numDaysReachingGIPGoal());
 
-          if(thisWeek.numGIPGlutenFree() == gipCount)
+          if(thisWeek.numGIPGlutenFree() === gipCount)
             this.reportText.gipInfo.headline = "All tests were GLUTENFREE!"
         }
   } 
@@ -258,7 +256,7 @@ export default class ReportManager {
   }
 
   static reportTitle = (endOfWeek) => {
-    var dateFormat = { weekday: 'long', month: 'long', day: 'numeric' };
+    const dateFormat = { weekday: 'long', month: 'long', day: 'numeric' };
     return "Report for week ending "
       + endOfWeek.toLocaleDateString("en-US", dateFormat)
   }
@@ -267,12 +265,6 @@ export default class ReportManager {
     console.log("generating report for ", str, now && now.toDateString())
     now = now || new Date()
     const getDbStartDate =  DatabaseManager.getInstance().getDBCreatedDate();
-
-    // const startOfWeek = DateUtil.getStartOfPreviousFullWeekBeginningMonday(now);
-    // const endOfWeek = DateUtil.getEndOfPreviousFullWeekEndingSunday(now);
-    //
-    // const startOfPenultimateWeek = DateUtil.getStartOfPenultimateFullWeekBeginningMonday(now);
-    // const endOfPenultimateWeek = DateUtil.getEndOfPenultimateFullWeekEndingSunday(now);
 
     const startOfWeek = DateUtil.getStartOfThisWeekBeginningMonday(now);
     const endOfWeek = DateUtil.getEndOfThisFullWeekEndingSunday(now);
@@ -303,7 +295,7 @@ export default class ReportManager {
         }
 
 
-        let endOfFollowingWeek = new Date(endOfWeek)
+        let endOfFollowingWeek = new Date(endOfWeek.getTime())
         endOfFollowingWeek.setDate(endOfFollowingWeek.getDate()+7)
         
         this.reportText.followingReportExists = endOfFollowingWeek < new Date(Date.now())

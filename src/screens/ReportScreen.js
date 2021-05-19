@@ -78,11 +78,13 @@ export default class ReportScreen extends React.Component {
 
   showPreviousWeekReport = () => {
     const prevWeekDate = this.addDays(this.state.dateForReport, -7)
+    console.log("Show previous week");
     this.showWeekReportForDate(prevWeekDate)
   } 
 
   showFollowingWeekReport= () =>{
     const followingWeekDate = this.addDays(this.state.dateForReport, +7)
+    console.log("Show following week");
     this.showWeekReportForDate(followingWeekDate)
   } 
 
