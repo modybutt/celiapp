@@ -130,13 +130,6 @@ export default class App extends React.Component {
     if (data.gamify !== LoggingStore.gamificationFlag) {
       LoggingStore.setGamificationFlag(data.gamify);
     }
-    if (showMsg) {
-      showMessage({
-        message: "Welcome to CeliApp",
-        description: "... and the 21-day challenge!",
-        type: "success",
-      });
-    }
   }
 
   onLoginFailed = (res, userData) => {
