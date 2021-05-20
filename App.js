@@ -84,8 +84,8 @@ export default class App extends React.Component {
     
     NotificationManager.getInstance(); //just to show the user the notification permission screen.
 
-
-    setTimeout(() => this.setState({ isAppReady: true }), 3000);
+    //TODO: need to show for a short period so the data for the main screen can be collated, but should replace fixed time with "main screen ready 'event'"
+    setTimeout(() => this.setState({ isAppReady: true }), 1000);
   }
 
   handleUserLogin = (userName, password) => {
@@ -188,7 +188,7 @@ export default class App extends React.Component {
   render() {
     return (
       <View style={styles.container}>
-
+        <LoadingScreen hide={this.state.isAppReady} style={styles.loading} />
         {this.state.isSplashReady == false
           ? null
           : this.state.hasUserId
@@ -207,7 +207,7 @@ export default class App extends React.Component {
 				}}/>
             : <UsernameDialog onLogin={this.handleUserLogin} onRegister={this.handleUserRegistration} />
         }
-        <LoadingScreen hide={this.state.isAppReady} style={styles.loading} />
+
         <FlashMessage position="bottom" duration={6000} />
       </View>
     );
