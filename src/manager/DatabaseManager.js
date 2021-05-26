@@ -367,14 +367,24 @@ export default class DatabaseManager {
   }
 
   fetchEventsCount(onError, onSuccess) {
-    this.db.transaction(tx => {
+    this.db.transaction(tx => { //ignore log events (eventtype=4)
       tx.executeSql(`SELECT COUNT(*) as noEvents,
             strftime('%d', created / 1000, 'unixepoch') as day,
             strftime('%m', created / 1000, 'unixepoch') as month,
             strftime('%Y', created / 1000, 'unixepoch') as year
-            FROM events WHERE deleted IS NULL
+            FROM events WHERE deleted IS NULL AND eventType <> 4
             GROUP BY year, month, day;`,
         [], onSuccess, onError);
+    });
+  }
+
+  fetchEventsCountAfterDate(timestamp, onError, onSuccess){
+    let end = new Date(timestamp);
+    end.setHours(23, 59, 59);
+    this.db.transaction(tx => { //ignore log events (eventtype=4)
+      tx.executeSql(`SELECT COUNT(*) as noEvents
+            FROM events WHERE deleted IS NULL AND eventType <> 4 AND created > ?`,
+          [end.getTime()], onSuccess, onError);
     });
   }
 

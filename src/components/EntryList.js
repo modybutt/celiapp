@@ -7,7 +7,6 @@ import {
   StyleSheet,
   Image,
   ScrollView,
-  TouchableOpacity,
 } from "react-native";
 import { NavigationEvents } from 'react-navigation';
 import DatabaseManager from '../manager/DatabaseManager';
@@ -37,21 +36,49 @@ import {
 export default class EntryList extends React.Component {
   state = {
     loading: true,
-    events: null,
-    //error: null,
+    events: []
   }
+
+  itemHeights = [];
+  flatListRef = null;
 
   updateList(timestamp) {
     this.setState({ loading: true });
 
-    DatabaseManager.getInstance().fetchEvents(timestamp,
+    DatabaseManager.getInstance().fetchEventsCountAfterDate(
+        timestamp,
+          (_, error) => { alert(error) },
+        (_, { rows: { _array } }) => {
+          console.log("get num events():",_array);
+          this.setState(
+              {
+                initialScrollIndex: _array[0].noEvents,
+                //error: res.error || null,
+                loading: false,
+              });
+          const numEventsToScrollPast = Math.min(_array[0].noEvents, this.state.events.length-1)
+          if(this.flatListRef) {
+            console.log("skip:", numEventsToScrollPast)
+            this.flatListRef.scrollToIndex({
+              animated: true,
+              index: numEventsToScrollPast,
+              viewOffset: 0,
+              viewPosition: 0
+            })
+          }
+        }
+    );
+
+    DatabaseManager.getInstance().fetchEvents(null,
       (_, error) => { alert(error) },
-      (_, { rows: { _array } }) => this.setState(
-        {
-          events: _array,
-          //error: res.error || null,
-          loading: false,
-        })
+      (_, { rows: { _array } }) => { //console.log("update list():",_array);
+        this.setState(
+            {
+              events: _array.filter(x => x.eventType !== Events.LogEvent),
+              //error: res.error || null,
+              loading: false,
+            })
+      }
     );
   }
 
@@ -152,7 +179,7 @@ export default class EntryList extends React.Component {
     return image;
   }
 
-  renderItem(item) {
+  renderItem(item, index) {
     let objData = JSON.parse(item.objData);
     let createdDate = moment(item.created);
 
@@ -180,14 +207,16 @@ export default class EntryList extends React.Component {
             viewLeftButtonText={'edit'}
             viewRightButtonText={'delete'}
             color={color}
-            image={image} />
+            image={image}
+            onLayout={object => this.itemHeights[index] = object.nativeEvent.layout.height}
+          />
           //</TouchableOpacity>
         )
       }
 
       case Events.Food: {
         let color = '#3398DE';
-        image = this.getFoodImageSource(objData.type);
+        const image = this.getFoodImageSource(objData.type);
         return (
           //<TouchableOpacity onPress={() => this.props.navigation.navigate('ViewMeal', { event: item })}>
           <HistoryEntry
@@ -199,14 +228,16 @@ export default class EntryList extends React.Component {
             viewLeftButtonText={'edit'}
             viewRightButtonText={'delete'}
             color={color}
-            image={image} />
+            image={image}
+            onLayout={object => this.itemHeights[index] = object.nativeEvent.layout.height}
+          />
           //</TouchableOpacity>
         )
 
       }
       case Events.GIP: {
         let color = '#FF8D1E';
-        image = this.getGipImageSource(objData.result);
+        const image = this.getGipImageSource(objData.result);
         return (
           //<TouchableOpacity onPress={() => this.props.navigation.navigate('ViewGIP', { event: item })}>
           < HistoryEntry
@@ -218,7 +249,9 @@ export default class EntryList extends React.Component {
             viewLeftButtonText={'edit'}
             viewRightButtonText={'delete'}
             color={color}
-            image={image} />
+            image={image}
+            onLayout={object => this.itemHeights[index] = object.nativeEvent.layout.height}
+          />
           //</TouchableOpacity >
         )
 
@@ -238,7 +271,9 @@ export default class EntryList extends React.Component {
             viewLeftButtonText={'edit'}
             viewRightButtonText={'delete'}
             color={color}
-            image={image} />
+            image={image}
+            onLayout={object => this.itemHeights[index] = object.nativeEvent.layout.height}
+          />
           //</TouchableOpacity>
         )
       }
@@ -254,43 +289,57 @@ export default class EntryList extends React.Component {
     }
   }
 
+  getItemLayout = (data, index) => {
+    const item_height = 100;
+    //const length = this.itemHeights[index];
+    const length = item_height;
+    //const offset = this.itemHeights.slice(0,index).reduce((a, c) => a + c, 0)
+    const offset = item_height * index;
+    //console.log("layout:",{length, offset, index})
+    return {length, offset, index}
+  }
+
   renderEventList() {
     if (this.state.loading) {
       return (
         <ActivityIndicator size='large' color='lightblue' />
       );
-    } else if (this.state.events == null || this.state.events.length == 0) {
+    } else if (this.state.events == null || this.state.events.length === 0) {
       return (
         <Image source={require('../assets/images/nothing.gif')} />
       );
     } else {
       // second ScrollView (horizontal) to avoid virtualised list warnings https://github.com/GeekyAnts/NativeBase/issues/2947
       return (
-        <ScrollView horizontal={true}>
-          <FlatList style={styles.items}
-            data={(this.state.events).filter(x => x.eventType !== Events.LogEvent)}
+
+          <FlatList
+            contentContainerStyle={{ flexGrow: 1, paddingBottom: 5 }}
+            data={this.state.events}
             keyExtractor={(item, index) => item.id.toString()}
             renderItem={({ item }) => this.renderItem(item)}
             ItemSeparatorComponent={this.renderSeparator}
+            getItemLayout={this.getItemLayout}
+            initialScrollIndex = {this.initialScrollIndex}
+            ref={(ref) => { this.flatListRef = ref; }}
           />
-        </ScrollView>
+
       );
     }
   }
   //https://nyxo.app/fixing-virtualizedlists-should-never-be-nested-inside-plain-scrollviews
   render() {
     return (
-      <ScrollView style={styles.items}>
+      <View  horizontal={true}>
         <NavigationEvents
           onDidFocus={() => this.updateList(this.props.selectedDate)}
         />
         {this.renderEventList()}
-      </ScrollView>
+      </View>
     );
   }
 }
 
-var styles = StyleSheet.create({
+const styles = StyleSheet.create({
 
 });
 
