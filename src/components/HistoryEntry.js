@@ -40,7 +40,7 @@ export default class HistoryEntry extends React.Component {
 	touchMove(evt) {
 		if (this.state.canAnimate && this.state.animationState !== AnimationState.ANIMATING) {
 			if (this.state.animationState === AnimationState.CLOSE &&
-				this.state.touchStartXPos - evt.nativeEvent.locationX > 2) {
+				this.state.touchStartXPos - evt.nativeEvent.locationX > 10) {
 				this.startAnimation(AnimationState.OPEN, -120);
 			} else if (this.state.animationState === AnimationState.OPEN &&
 				this.state.touchStartXPos - evt.nativeEvent.locationX < -2) {
