@@ -45,39 +45,42 @@ export default class EntryList extends React.Component {
   updateList(timestamp) {
     this.setState({ loading: true });
 
-    DatabaseManager.getInstance().fetchEventsCountAfterDate(
-        timestamp,
-          (_, error) => { alert(error) },
-        (_, { rows: { _array } }) => {
-          console.log("get num events():",_array);
-          this.setState(
-              {
-                initialScrollIndex: _array[0].noEvents,
-                //error: res.error || null,
-                loading: false,
-              });
-          const numEventsToScrollPast = Math.min(_array[0].noEvents, this.state.events.length-1)
-          if(this.flatListRef) {
-            console.log("skip:", numEventsToScrollPast)
-            this.flatListRef.scrollToIndex({
-              animated: true,
-              index: numEventsToScrollPast,
-              viewOffset: 0,
-              viewPosition: 0
-            })
-          }
-        }
-    );
+    //use this when we can get flatlist scrolltoindex working
+    // DatabaseManager.getInstance().fetchEventsCountAfterDate(
+    //     timestamp,
+    //       (_, error) => { alert(error) },
+    //     (_, { rows: { _array } }) => {
+    //       console.log("get num events():",_array);
+    //       this.setState(
+    //           {
+    //             initialScrollIndex: _array[0].noEvents,
+    //             //error: res.error || null,
+    //             loading: false,
+    //           });
+    //       const numEventsToScrollPast = Math.min(_array[0].noEvents, this.state.events.length-1)
+    //       if(this.flatListRef) {
+    //         console.log("skip:", numEventsToScrollPast)
+    //         this.flatListRef.scrollToIndex({
+    //           animated: true,
+    //           index: numEventsToScrollPast,
+    //           viewOffset: 0,
+    //           viewPosition: 0
+    //         })
+    //       }
+    //     }
+    // );
 
-    DatabaseManager.getInstance().fetchEvents(null,
+    DatabaseManager.getInstance().fetchEventsBeforeDate(timestamp,
       (_, error) => { alert(error) },
-      (_, { rows: { _array } }) => { //console.log("update list():",_array);
+      (_, { rows: { _array } }) => {
+        console.log("update list():",_array.length);
         this.setState(
             {
               events: _array.filter(x => x.eventType !== Events.LogEvent),
               //error: res.error || null,
               loading: false,
             })
+        console.log("received: ", this.state.events.length)
       }
     );
   }
@@ -321,6 +324,9 @@ export default class EntryList extends React.Component {
             getItemLayout={this.getItemLayout}
             initialScrollIndex = {this.initialScrollIndex}
             ref={(ref) => { this.flatListRef = ref; }}
+            ListFooterComponent = {() => (<View><Text>End of data</Text></View>)}
+            ListFooterComponentStyle = {{height: 600, flexGrow: 1}}
+
           />
 
       );

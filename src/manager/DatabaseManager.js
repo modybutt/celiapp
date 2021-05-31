@@ -405,6 +405,18 @@ export default class DatabaseManager {
     }
   }
 
+  fetchEventsBeforeDate(timestamp, onError, onSuccess) {
+    const cutOffTime = timestamp === null ?  new Date(): new Date(timestamp);
+    cutOffTime.setHours(23, 59, 59);
+    console.log("getting evets before", cutOffTime.getTime())
+    this.db.transaction(tx => {
+      tx.executeSql('SELECT * FROM events '
+          + 'WHERE deleted IS NULL AND created < ?'
+          + 'ORDER BY created DESC',
+          [cutOffTime.getTime()], onSuccess, onError);
+    });
+  }
+
   fetchEventsBetween(start, end, onError, onSuccess) {
     this.db.transaction(tx => {
       tx.executeSql('SELECT * FROM events '
