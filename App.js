@@ -73,8 +73,11 @@ export default class App extends React.Component {
       userId: settings.userId,
       password: settings.password,
       loggedIn: false,
-      gamify: settings.gamify
+      gamify: settings.gamify,
+      usingGIP: settings.usingGIP,
     });
+
+    console.log("Using GIP setting", settings.usingGIP)
     
     if (this.state.hasUserId) {
       TokenManager.getInstance().refreshToken(this.state.userId, this.state.password, this.loginFailedExternally, this.onLoginFailed, this.onLoginSuccess);
@@ -115,16 +118,21 @@ export default class App extends React.Component {
 
     let showMsg = !this.state.hasUserId;
 
+    const defaultUsingGIPFlag = true;
+    const usingGIP = data.usingGIP===undefined ? defaultUsingGIPFlag : data.usingGIP
+
     this.setState({
       hasUserId: true,
       userId: username,
       password: pw,
-      gamify: data.gamify
+      gamify: data.gamify,
+      usingGIP: usingGIP
     });
 
     DatabaseManager.getInstance().saveSettings('userId', username, (error) => { alert(error) }, null);
     DatabaseManager.getInstance().saveSettings('password', pw, (error) => { alert(error) }, null);
     DatabaseManager.getInstance().saveSettings('gamify', data.gamify === true ? 1 : -1, (error) => { alert(error) }, null);
+    DatabaseManager.getInstance().saveSettings('usingGIP', usingGIP === true ? 1 : -1, (error) => { alert(error) }, null);
 
     // set gamification flag in Store:
     if (data.gamify !== LoggingStore.gamificationFlag) {
@@ -175,7 +183,7 @@ export default class App extends React.Component {
   getUploadServiceAuthToken = () => this.state.userId
 
   uploadFreshData() {
-    token = this.getUploadServiceAuthToken()
+    const token = this.getUploadServiceAuthToken()
     //TODO get new auth token
     if (token) {
       UploadManager.getInstance().setToken(token);
@@ -192,7 +200,7 @@ export default class App extends React.Component {
         {this.state.isSplashReady == false
           ? null
           : this.state.hasUserId
-            ? this.state.didShowOnBoarding ? this.state.didShowGoalSettingsPage ? <AppNavigator /> : 
+            ? this.state.didShowOnBoarding ? this.state.didShowGoalSettingsPage ? <AppNavigator  screenProps={{usingGIP : this.state.usingGIP}} /> :
 			
 			<GoalSettingScreen onSaveButtonPressed={() =>
 				{

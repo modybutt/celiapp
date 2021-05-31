@@ -89,6 +89,7 @@ export default class MainScreen extends React.Component {
 						actual={dailyEventEntries.noEmotions}
 						/>
 
+					{this.props.screenProps.usingGIP ?
 					<LoggedEntry
 						navigation={this.props.navigation}
 						onAddButtonClicked={(navigationName) => this.props.navigation.navigate(navigationName, {'selectedDateAndTime' : new Date() })}
@@ -101,6 +102,7 @@ export default class MainScreen extends React.Component {
 						dailyGoal={dailyGoals.dailyGips}
 						actual={dailyEventEntries.noGips}
 						/>
+						:null}
 					<MainScreenInfoModal showModal={this.state.showInfoModal} onModalPressed={() => this.setState({showInfoModal: false})}/>
 				</View>				
 			</View>			

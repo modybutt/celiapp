@@ -109,6 +109,8 @@ export default class ReportScreen extends React.Component {
     if (!this.state.reportData) return (<View><Text>Generating report ...</Text></View>)
     reportData = this.state.reportData;
 
+    console.log("GIP flag", this.props.screenProps.usingGIP)
+    console.log("screen props", this.props.screenProps)
 
     return (
       <View style={styles.container}>
@@ -124,7 +126,7 @@ export default class ReportScreen extends React.Component {
           </View>
           <View style={styles.infoBoxRow}>
             <InfoBox info={reportData.emotionInfo} image={emotionImage} color={Colors.emotion} onAddClicked={this.addEvent("AddEmote")} />
-            <InfoBox info={reportData.gipInfo} image={gipImage} color={Colors.gip} onAddClicked={this.addEvent("AddGIP")} />
+            {this.props.screenProps.usingGIP ? <InfoBox info={reportData.gipInfo} image={gipImage} color={Colors.gip} onAddClicked={this.addEvent("AddGIP")} /> : null}
           </View>
         </View>
       </View>
