@@ -259,6 +259,8 @@ export default class DatabaseManager {
       icon,
       note
     }
+    
+    objData['culprit'] = false;
 
     //every time a meal is added, it will trigger a notification to be scheduled 24 hours later.
     //All previously added notifications will be removed.
@@ -279,6 +281,17 @@ export default class DatabaseManager {
     }
 
     this.updateEvent(eventID, objData, onError, onSuccess);
+  }
+  
+  toggleCulpritOnMealEvent(item, onError, onSuccess) {
+    let objData = JSON.parse(item.objData);    
+    if (objData.culprit == true) {
+      objData.culprit = false;
+    } else {
+      objData.culprit = true;
+    }
+    
+    this.updateEvent(item.id, objData, onError, onSuccess);
   }
 
   /******************************************************************* 
@@ -354,8 +367,8 @@ export default class DatabaseManager {
 
   updateEvent(eventID, objData, onError, onSuccess) {
     this.db.transaction(tx => {
-      tx.executeSql('UPDATE events SET (modified, objData) VALUES (?, ?) WHERE id = ?',
-        [Date.now(), objData, eventID]);
+      tx.executeSql('UPDATE events SET modified = ?, objData = ? WHERE id = ?',
+        [Date.now(), JSON.stringify(objData), eventID]);
     }, onError, onSuccess);
   }
 

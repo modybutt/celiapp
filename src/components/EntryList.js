@@ -84,6 +84,13 @@ export default class EntryList extends React.Component {
       }
     );
   }
+  
+  toggleCulprit(item) {
+      DatabaseManager.getInstance().toggleCulpritOnMealEvent(item,
+          (error) => { alert(error) },
+          () => {}
+      );
+  }
 
   onPressTouchable(item) {
     alert(item.note)
@@ -202,12 +209,12 @@ export default class EntryList extends React.Component {
         return (
           //<TouchableOpacity onPress={() => this.props.navigation.navigate('ViewSymptom', { event: item })}>
           <HistoryEntry
-            onLeftButtonClicked={() => { }}
+            onMiddleButtonClicked={() => { }}
             onRightButtonClicked={() => this.props.navigation.navigate('DeleteScreen', { event: item })}
             navigationName={LanguageManager.getInstance().getText(objData.name)}
             title={time}
             subtitle={severityText + " " + LanguageManager.getInstance().getText(objData.name)}
-            viewLeftButtonText={'edit'}
+            viewMiddleButtonText={'edit'}
             viewRightButtonText={'delete'}
             color={color}
             image={image}
@@ -223,12 +230,14 @@ export default class EntryList extends React.Component {
         return (
           //<TouchableOpacity onPress={() => this.props.navigation.navigate('ViewMeal', { event: item })}>
           <HistoryEntry
-            onLeftButtonClicked={() => { }}
+            onLeftButtonClicked={() => { this.toggleCulprit(item); }}
+            onMiddleButtonClicked={() => { }}
             onRightButtonClicked={() => this.props.navigation.navigate('DeleteScreen', { event: item })}
             navigationName={LanguageManager.getInstance().getText(objData.name)}
             title={time}
             subtitle={LanguageManager.getInstance().getText(objData.name)}
-            viewLeftButtonText={'edit'}
+            viewLeftButtonText={'culprit'}
+            viewMiddleButtonText={'edit'}
             viewRightButtonText={'delete'}
             color={color}
             image={image}
@@ -243,13 +252,13 @@ export default class EntryList extends React.Component {
         const image = this.getGipImageSource(objData.result);
         return (
           //<TouchableOpacity onPress={() => this.props.navigation.navigate('ViewGIP', { event: item })}>
-          < HistoryEntry
-            onLeftButtonClicked={() => { }}
+          <HistoryEntry
+            onMiddleButtonClicked={() => { }}
             onRightButtonClicked={() => this.props.navigation.navigate('DeleteScreen', { event: item })}
             navigationName={LanguageManager.getInstance().getText(objData.name)}
             title={time}
             subtitle={LanguageManager.getInstance().getText(objData.note)}
-            viewLeftButtonText={'edit'}
+            viewMiddleButtonText={'edit'}
             viewRightButtonText={'delete'}
             color={color}
             image={image}
@@ -265,13 +274,13 @@ export default class EntryList extends React.Component {
         let image = this.getEmotionImageSource(objData.type);
         return (
           //<TouchableOpacity onPress={() => this.props.navigation.navigate('ViewEmote', { event: item })}>
-          < HistoryEntry
-            onLeftButtonClicked={() => { }}
+          <HistoryEntry
+            onMiddleButtonClicked={() => { }}
             onRightButtonClicked={() => this.props.navigation.navigate('DeleteScreen', { event: item })}
             navigationName={LanguageManager.getInstance().getText(objData.name)}
             title={time}
             subtitle={LanguageManager.getInstance().getText(objData.note)}
-            viewLeftButtonText={'edit'}
+            viewMiddleButtonText={'edit'}
             viewRightButtonText={'delete'}
             color={color}
             image={image}
@@ -282,8 +291,7 @@ export default class EntryList extends React.Component {
       }
       case Events.LogEvent: {
         // eaten up!
-        break;
-      }
+        brwMiddle      }
       default: {
         return (
           <Text> { JSON.stringify(item)}</Text >
@@ -324,7 +332,7 @@ export default class EntryList extends React.Component {
             getItemLayout={this.getItemLayout}
             initialScrollIndex = {this.initialScrollIndex}
             ref={(ref) => { this.flatListRef = ref; }}
-            ListFooterComponent = {() => (<View><Text>End of data</Text></View>)}
+            ListFooterComponent = {() => (<View><Text></Text></View>)}
             ListFooterComponentStyle = {{height: 600, flexGrow: 1}}
 
           />

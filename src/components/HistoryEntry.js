@@ -41,7 +41,11 @@ export default class HistoryEntry extends React.Component {
 		if (this.state.canAnimate && this.state.animationState !== AnimationState.ANIMATING) {
 			if (this.state.animationState === AnimationState.CLOSE &&
 				this.state.touchStartXPos - evt.nativeEvent.locationX > 20) {
-				this.startAnimation(AnimationState.OPEN, -120);
+          if (this.props.viewLeftButtonText) {
+            this.startAnimation(AnimationState.OPEN, -170);
+          } else {
+            this.startAnimation(AnimationState.OPEN, -120);
+          }
 			} else if (this.state.animationState === AnimationState.OPEN &&
 				this.state.touchStartXPos - evt.nativeEvent.locationX < -2) {
 				this.startAnimation(AnimationState.CLOSE, 0)
@@ -69,18 +73,36 @@ export default class HistoryEntry extends React.Component {
 						color={this.props.color}
 						image={this.props.image}
 						onLeftButtonClicked={this.props.onLeftButtonClicked}
+						onMiddleButtonClicked={this.props.onMiddleButtonClicked}
 						onRightButtonClicked={this.props.onRightButtonClicked}
 						navigationName={this.props.navigationName}
 					/>
 				</Animated.View>
-				<View style={styles.viewAllContentWrapper}>
-					<TouchableOpacity onPress={this.props.onLeftButtonClicked}>
+				<View style={this.props.viewLeftButtonText ? styles.viewAllContentWrapper3Button : styles.viewAllContentWrapper2Button}>
+          { this.props.viewLeftButtonText ?
+    				<TouchableOpacity onPress={
+              () => {
+                this.props.onLeftButtonClicked();
+                this.startAnimation(AnimationState.CLOSE, 0);
+              }
+            }>
+    					<View style={[styles.button, { backgroundColor: this.props.color }]}>
+    						<Text style={{
+    							fontSize: 16,
+    							color: 'white',
+    							textAlign: 'center'
+    						}}>{this.props.viewLeftButtonText}</Text>
+    					</View>
+    				</TouchableOpacity>
+            : <View />}
+					<View style={{width:5}}></View>
+					<TouchableOpacity onPress={this.props.onMiddleButtonClicked}>
 						<View style={[styles.button, { backgroundColor: this.props.color }]}>
 							<Text style={{
 								fontSize: 16,
 								color: 'white',
-								textAlign: 'center'
-							}}>{this.props.viewLeftButtonText}</Text>
+								textAlign: 'center',
+							}}>{this.props.viewMiddleButtonText}</Text>
 						</View>
 					</TouchableOpacity>
 					<View style={{width:5}}></View>
@@ -98,7 +120,7 @@ export default class HistoryEntry extends React.Component {
 	}
 }
 
-const Entry = ({ title, subtitle, image, color, onLeftButtonClicked, onRightButtonClicked, navigationName }) =>
+const Entry = ({ title, subtitle, image, color, onLeftButtonClicked, onMiddleButtonClicked, onRightButtonClicked, navigationName }) =>
 	<View style={styles.container}>
 		<View style={styles.leftWrapper}>
 			<Image source={Image.resolveAssetSource(image)} style={styles.iconImage}></Image>
@@ -160,7 +182,7 @@ const styles = StyleSheet.create
 			marginRight: 20
 		},
 
-		viewAllContentWrapper:
+		viewAllContentWrapper2Button:
 		{
 			display: 'flex',
 			flexDirection: 'row',
@@ -170,6 +192,19 @@ const styles = StyleSheet.create
 			justifyContent: 'center',
 			position: 'absolute',
 			width: 120,
+			height: window.height * 0.12
+		},
+    
+		viewAllContentWrapper3Button:
+		{
+			display: 'flex',
+			flexDirection: 'row',
+			zIndex: -1,
+			right: 0,
+			alignItems: 'center',
+			justifyContent: 'center',
+			position: 'absolute',
+			width: 170,
 			height: window.height * 0.12
 		},
 
