@@ -1,5 +1,5 @@
 import React from 'react';
-import { StyleSheet, View, Text } from 'react-native';
+import { Linking, StyleSheet, View, Text } from 'react-native';
 
 export default class GipInformation extends React.Component {
 
@@ -26,6 +26,10 @@ export default class GipInformation extends React.Component {
                 ]
             } >
                 <View style={[styles.subContainer, this.colorStyle]}>
+                    <Text style={{color: 'blue'}}
+                          onPress={() => Linking.openURL('https://www.youtube.com/watch?v=ECmJeHnxVaI')}>
+                      Click for instructions to use the GIP kit.
+                    </Text>
                     <Text style={styles.text}>Uploading your GIP test is the only way to be sure of the fact whether your diet contained Gluten or not in an easy way.</Text>
                     <Text style={styles.text}>By uploading a photo of your test, it will save you time and effort of making appointments with your practicician in the future.</Text>
                     <Text style={styles.text}>You can indicate your interpretation of the outcome of the test. This will give the doctors insight into your understanding of this innoative tool!</Text>
