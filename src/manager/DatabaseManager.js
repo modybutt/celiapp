@@ -225,7 +225,7 @@ export default class DatabaseManager {
 
 
   //unused
-  updateSymptomEvent(eventID, symptomID, severity, note, onError, onSuccess) {
+  updateSymptomEvent(eventID, symptomID, severity, note, dateTime, onError, onSuccess) {
     let objData = {
       symptomID,
       severity,
@@ -239,7 +239,9 @@ export default class DatabaseManager {
           objData.name = _array[0].name;
           objData.icon = _array[0].icon;
 
-          this.updateEvent(eventID, objData, onError, onSuccess);
+          console.log("saving event:",eventID, objData, dateTime)
+
+          this.updateEventWithTime(eventID, objData, dateTime, onError, onSuccess);
         },
         (_, param) => alert("create events: " + JSON.stringify(param)));
     });
@@ -369,6 +371,13 @@ export default class DatabaseManager {
     this.db.transaction(tx => {
       tx.executeSql('UPDATE events SET modified = ?, objData = ? WHERE id = ?',
         [Date.now(), JSON.stringify(objData), eventID]);
+    }, onError, onSuccess);
+  }
+
+  updateEventWithTime(eventID, objData, newCreatedDate, onError, onSuccess) {
+    this.db.transaction(tx => {
+      tx.executeSql('UPDATE events SET created = ?, modified = ?, objData = ? WHERE id = ?',
+          [newCreatedDate, Date.now(), JSON.stringify(objData), eventID]);
     }, onError, onSuccess);
   }
 

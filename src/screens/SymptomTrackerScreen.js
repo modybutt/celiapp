@@ -45,6 +45,7 @@ export default class SymptomTrackerScreen extends React.Component {
                 'y': 0,
             },
             showSymptomInformation: false,
+            selectedDateAndTime: new Date()
         }
     }
 
@@ -57,6 +58,7 @@ export default class SymptomTrackerScreen extends React.Component {
                 symptomEntryNote : objData.note,
                 selectedDateAndTime: new Date(eventData.created),
                 edit : true,
+                originalEventData: eventData
             })
         }
     }
@@ -190,6 +192,7 @@ export default class SymptomTrackerScreen extends React.Component {
     }
 
     render() {
+        console.log("Symptom tracker state:", this.state)
         return (
             <>
                 <SafeAreaView style={{ flex: 0, backgroundColor: themeColor }} />
@@ -206,7 +209,7 @@ export default class SymptomTrackerScreen extends React.Component {
                         const layout = event.nativeEvent.layout;
                         this.addInformationLayout(layout);
                       }}
-                    ></View>
+                    />
                     <SymptomGroup selection={this.state.selectedSymptoms} onSelectionChanged={this.symptomSelectionChangeHandler} />
                     <HorizontalLineWithText color={themeColor} text={LanguageManager.getInstance().getText("NOTES")} />
                     <NoteEdit color={themeColor} style={styles.notes} ref={component => this._noteEdit = component} note={this.state.symptomEntryNote} onTextChanged={this.noteEditedHandler} />
@@ -222,7 +225,7 @@ export default class SymptomTrackerScreen extends React.Component {
                         </View>
                     </View>
                     {this.state.showSymptomInformation &&
-                    <SymptomInformation color={themeColor} position={this.state.informationPosition}></SymptomInformation>
+                    <SymptomInformation color={themeColor} position={this.state.informationPosition}/>
                     }
                     {/*Dialog for Day Change Save Dialog*/}
                     <View>
@@ -248,21 +251,38 @@ export default class SymptomTrackerScreen extends React.Component {
         return Array.isArray(this.state.selectedSymptoms) && this.state.selectedSymptoms.length > 0;
     }
 
+    updateEvent = () => { //updateSymptomEvent(eventID, symptomID, severity, note, onError, onSuccess)
+        const symptom = this.state.selectedSymptoms[0];
+        console.log("update event:", this.state.originalEventData, this.state.originalEventData.id, symptom.symptomID, symptom.severity,this.state.symptomEntryNote, this.state.selectedDateAndTime.getTime());
+        DatabaseManager.getInstance().updateSymptomEvent(this.state.originalEventData.id, symptom.symptomID, symptom.severity,this.state.symptomEntryNote, this.state.selectedDateAndTime.getTime(),
+            (error) => { alert(error) },
+            () => { GlutonManager.getInstance().setMessage(2); GearManager.getInstance().sendMessage("msg 32") })
+    }
+
     saveCurrentData = (goHome) => {
         let added = 1;
         let tmpDateTime = this.state.selectedDateAndTime;
 
         if (this.isSymptomSelected()) {
-            this.state.selectedSymptoms.forEach((symptom) => {
-                DatabaseManager.getInstance().createSymptomEvent(symptom.symptomID, symptom.severity,this.state.symptomEntryNote, tmpDateTime.getTime(),
-                    (error) => { alert(error) },
-                    () => { GlutonManager.getInstance().setMessage(2); GearManager.getInstance().sendMessage("msg 32") }
-                );
-                //Achievement Addition
-                AchievementManager.triggerAchievement("SYMPTOMADDED");
-                AchievementRecordManager.increaseCountForAchievementRecord('SYMPTOMADDED');
-            });
-
+            if(this.state.edit){
+                this.updateEvent();
+            }
+            else {
+                this.state.selectedSymptoms.forEach((symptom) => {
+                    DatabaseManager.getInstance().createSymptomEvent(symptom.symptomID, symptom.severity, this.state.symptomEntryNote, tmpDateTime.getTime(),
+                        (error) => {
+                            alert(error)
+                        },
+                        () => {
+                            GlutonManager.getInstance().setMessage(2);
+                            GearManager.getInstance().sendMessage("msg 32")
+                        }
+                    );
+                    //Achievement Addition
+                    AchievementManager.triggerAchievement("SYMPTOMADDED");
+                    AchievementRecordManager.increaseCountForAchievementRecord('SYMPTOMADDED');
+                });
+            }
             if (goHome) {
                 setTimeout(() => this.navigateHome(), 100);
             }
