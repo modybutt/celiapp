@@ -10,7 +10,7 @@ export default class DayPicker extends React.Component {
     super(props);
     this.state = {
       isDateTimePickerVisible: false,
-      selectedDate: new Date()
+      selectedDate: props.dateAndTime || new Date()
     }
   }
 
@@ -28,8 +28,13 @@ export default class DayPicker extends React.Component {
     this.props.onDateChanged(choosenDate);
   };
 
-  render() {
+  componentDidUpdate(prevProps) {
+    if(this.props.dateAndTime !== prevProps.dateAndTime ) {
+      this.setState({selectedDate: this.props.dateAndTime});
+    }
+  }
 
+  render() {
     const hourString = (new Date(this.state.selectedDate).getHours() > 9) ? new Date(this.state.selectedDate).getHours() : "0" + new Date(this.state.selectedDate).getHours()
     const minuteString = (new Date(this.state.selectedDate).getMinutes() > 9) ? new Date(this.state.selectedDate).getMinutes() : "0" + new Date(this.state.selectedDate).getMinutes()
     const newDateString = new Date(this.state.selectedDate).getDate() + "." + (new Date(this.state.selectedDate).getMonth()+1) + "." + new Date(this.state.selectedDate).getFullYear()

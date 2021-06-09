@@ -27,6 +27,12 @@ export default class NoteEdit extends React.Component {
         })
     }
 
+    componentDidUpdate(prevProps) {
+        if(this.props.note !== prevProps.note ) {
+            this.setState({note: this.props.note});
+        }
+    }
+
     render() {
         return (
 

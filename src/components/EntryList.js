@@ -209,7 +209,7 @@ export default class EntryList extends React.Component {
         return (
           //<TouchableOpacity onPress={() => this.props.navigation.navigate('ViewSymptom', { event: item })}>
           <HistoryEntry
-            onMiddleButtonClicked={() => { }}
+            onEditButtonClicked={() => this.props.navigation.navigate('AddSymptom', { event: item, edit: true })}
             onRightButtonClicked={() => this.props.navigation.navigate('DeleteScreen', { event: item })}
             navigationName={LanguageManager.getInstance().getText(objData.name)}
             title={time}

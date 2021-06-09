@@ -27,6 +27,12 @@ export default class TextFieldMultiline extends React.Component {
         borderWidth: StyleSheet.hairlineWidth,
     }
 
+    componentDidUpdate(prevProps) {
+        if(this.props.text !== prevProps.text ) {
+            this.setState({text: this.props.text});
+        }
+    }
+
     render() {
         return (
         <View style = {this.props.color ? [styles.container, this.colorStyle] : [styles.container]}>

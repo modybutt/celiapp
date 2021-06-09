@@ -48,6 +48,18 @@ export default class SymptomTrackerScreen extends React.Component {
         }
     }
 
+    receiveFocus = () => {
+        const eventData = this.props.navigation.getParam("event", false)
+        if(this.props.navigation.getParam("edit", false) && eventData){
+            const objData = JSON.parse(eventData.objData);
+            this.setState({
+                selectedSymptoms : [{symptomID: objData.symptomID,severity: objData.severity }],
+                symptomEntryNote : objData.note,
+                selectedDateAndTime: new Date(eventData.created),
+                edit : true,
+            })
+        }
+    }
    
 
     UNSAFE_componentWillMount() {
@@ -75,6 +87,11 @@ export default class SymptomTrackerScreen extends React.Component {
         this.keyboardDidHideListener = Keyboard.addListener(
             'keyboardDidHide',
             this._keyboardDidHide,
+        );
+
+        this.props.navigation.addListener('willFocus', () =>  {
+            this.receiveFocus();
+            }
         );
 
     }
@@ -173,7 +190,6 @@ export default class SymptomTrackerScreen extends React.Component {
     }
 
     render() {
-
         return (
             <>
                 <SafeAreaView style={{ flex: 0, backgroundColor: themeColor }} />
@@ -181,9 +197,9 @@ export default class SymptomTrackerScreen extends React.Component {
                     {/* <TextInput onSubmitEditing={Keyboard.dismiss} /> */}
                     <HeaderBanner color={themeColor} imageSource={require('../assets/images/SymptomTracker/add_symptom_icon.png')} />
                     <HorizontalLineWithText color={themeColor} text={LanguageManager.getInstance().getText("DATE")} />
-                    <DayPicker textString="SYMPTOM_OCCURED" onDateChanged={this.dateEditedHandler} />
+                    <DayPicker textString="SYMPTOM_OCCURED" dateAndTime = {this.state.selectedDateAndTime} onDateChanged={this.dateEditedHandler} />
                     <HorizontalLineWithText color={themeColor} text={LanguageManager.getInstance().getText("TIME")} />
-                    <TimePicker textString="SYMPTOM_OCCURED" onTimeChanged={this.timeEditedHandler} />
+                    <TimePicker textString="SYMPTOM_OCCURED" dateAndTime = {this.state.selectedDateAndTime} onTimeChanged={this.timeEditedHandler} />
                     <HorizontalLineWithText iconClickEvent={this.toggleShowSymptomInformation} color={themeColor} text={LanguageManager.getInstance().getText("SYMPTOMS")} />
                     <View
                     onLayout={event => {
@@ -201,7 +217,7 @@ export default class SymptomTrackerScreen extends React.Component {
                                 <Text style={{ textAlign: 'center', color: '#707070' }}>cancel</Text>
                             </TouchableHighlight>
                             <TouchableHighlight style={styles.buttonSaveAndCancel} onPress={this.saveCurrentData}>
-                                <Text style={{ textAlign: 'center', color: '#707070' }}>save</Text>
+                                <Text style={{ textAlign: 'center', color: '#707070' }}>{this.state.edit? "Update":"Save"}</Text>
                             </TouchableHighlight>
                         </View>
                     </View>

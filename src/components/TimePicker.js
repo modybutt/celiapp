@@ -10,7 +10,7 @@ export default class TimePicker extends React.Component {
     super(props);
     this.state = {
       isDateTimePickerVisible: false,
-      selectedTime: new Date()
+      selectedTime: props.dateAndTime || new Date()
     }
   }
 
@@ -28,8 +28,13 @@ export default class TimePicker extends React.Component {
     this.props.onTimeChanged(choosenDate);
   };
 
-  render() {
+  componentDidUpdate(prevProps) {
+    if(this.props.dateAndTime !== prevProps.dateAndTime ) {
+      this.setState({selectedTime: this.props.dateAndTime});
+    }
+  }
 
+  render() {
     const hourString = (new Date(this.state.selectedTime).getHours() > 9) ? new Date(this.state.selectedTime).getHours() : "0" + new Date(this.state.selectedTime).getHours()
     const minuteString = (new Date(this.state.selectedTime).getMinutes() > 9) ? new Date(this.state.selectedTime).getMinutes() : "0" + new Date(this.state.selectedTime).getMinutes()
 

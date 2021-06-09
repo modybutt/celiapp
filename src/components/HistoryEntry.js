@@ -73,7 +73,7 @@ export default class HistoryEntry extends React.Component {
 						color={this.props.color}
 						image={this.props.image}
 						onLeftButtonClicked={this.props.onLeftButtonClicked}
-						onMiddleButtonClicked={this.props.onMiddleButtonClicked}
+						onEditButtonClicked={this.props.onEditButtonClicked}
 						onRightButtonClicked={this.props.onRightButtonClicked}
 						navigationName={this.props.navigationName}
 					/>
@@ -96,7 +96,7 @@ export default class HistoryEntry extends React.Component {
     				</TouchableOpacity>
             : <View />}
 					<View style={{width:5}}></View>
-					<TouchableOpacity onPress={this.props.onMiddleButtonClicked}>
+					<TouchableOpacity onPress={this.props.onEditButtonClicked}>
 						<View style={[styles.button, { backgroundColor: this.props.color }]}>
 							<Text style={{
 								fontSize: 16,
@@ -120,7 +120,7 @@ export default class HistoryEntry extends React.Component {
 	}
 }
 
-const Entry = ({ title, subtitle, image, color, onLeftButtonClicked, onMiddleButtonClicked, onRightButtonClicked, navigationName }) =>
+const Entry = ({ title, subtitle, image, color}) =>
 	<View style={styles.container}>
 		<View style={styles.leftWrapper}>
 			<Image source={Image.resolveAssetSource(image)} style={styles.iconImage}></Image>
