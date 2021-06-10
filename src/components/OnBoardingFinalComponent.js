@@ -100,7 +100,7 @@ const styles = StyleSheet.create
 
 	buttonText: 
 	{
-		color: '#b7b7b7',
+		color: '#707070',
 		textAlign: 'center',
 		marginTop: 'auto',
 		marginBottom: 'auto',

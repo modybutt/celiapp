@@ -104,7 +104,7 @@ export default class GoalSettingScreen extends React.Component
 								this.props.onSaveButtonPressed();
 							} else this.props.navigation.goBack();
 						}}>
-						<Text style={styles.buttonText} >Save</Text>
+						<Text style={styles.buttonText}>Save</Text>
 					</TouchableOpacity>
 				</View>
 		</View> ;
@@ -250,7 +250,7 @@ const styles = StyleSheet.create
 
 	buttonText: 
 	{
-		color: '#b7b7b7',
+		color: '#707070',
 		textAlign: 'center',
 		marginTop: 'auto',
 		marginBottom: 'auto',

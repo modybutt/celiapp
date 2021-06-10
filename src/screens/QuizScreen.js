@@ -147,7 +147,12 @@ export default class QuizScreen extends React.Component {
             <Answer answerLetter='D' answer={D} selectAnswer={(x) => this.selectAnswer(x)}
               correctAnswer={correct} selectedAnswer={selected} />
           </View>
-          <Button onPress={() => this.props.navigation.goBack()} title="Close" />
+  				<View style={[styles.buttonContainer, styles.buttonDropShadow]}>
+  					<TouchableOpacity style={[styles.buttonOutline]}
+  						onPress={() => this.props.navigation.goBack()}>
+  						<Text style={styles.cancelButtonText}>Close</Text>
+  					</TouchableOpacity>
+  				</View>
         </View>
       </View>
     }
@@ -257,4 +262,35 @@ const styles = StyleSheet.create({
     color: 'lightgray',
     marginVertical: 4,
   },
+	buttonContainer:
+	{
+		marginTop: window.height / 35, 
+		display: 'flex', 
+		width: window.width,
+		alignItems: 'center'
+	},
+	buttonDropShadow: 
+	{
+		shadowColor: '#000',
+		shadowOffset: { width: 0, height: 5 },
+		shadowOpacity: 0.5,
+		shadowRadius: 5,
+		elevation: 50
+	},
+	buttonOutline:
+	{
+		backgroundColor: '#f7f7f7',
+		width: 89,
+		height: 42,
+		borderRadius: 10
+	},
+	cancelButtonText: 
+	{
+		color: '#707070',
+		textAlign: 'center',
+		marginTop: 'auto',
+		marginBottom: 'auto',
+		fontSize: 16,
+		fontWeight: 'bold'
+	},
 });
