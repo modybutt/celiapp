@@ -236,7 +236,7 @@ export default class EntryList extends React.Component {
             navigationName={LanguageManager.getInstance().getText(objData.name)}
             title={time}
             subtitle={LanguageManager.getInstance().getText(objData.name)}
-            viewLeftButtonText={'culprit'}
+            //viewLeftButtonText={'culprit'}
             viewMiddleButtonText={'edit'}
             viewRightButtonText={'delete'}
             color={color}
