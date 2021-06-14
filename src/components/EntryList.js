@@ -317,7 +317,7 @@ export default class EntryList extends React.Component {
       );
     } else if (this.state.events == null || this.state.events.length === 0) {
       return (
-        <Image source={require('../assets/images/nothing.gif')} />
+        <View />
       );
     } else {
       // second ScrollView (horizontal) to avoid virtualised list warnings https://github.com/GeekyAnts/NativeBase/issues/2947
