@@ -7,11 +7,11 @@ import LanguageManager from '../manager/LanguageManager';
 import HeaderMenuButton from '../components/HeaderMenuButton';
 import Dialog from "react-native-dialog";
 import goalsettingSpeechBubble from '../assets/images/goalsetting_speechbubble.svg';
-import avatarLincy from "../assets/images/avatar_menu/avatar_lincy.png";
+import avatarAndy from "../assets/images/avatar_menu/avatar_lincy.png";
 
 const Avatar = (props) =>
 	<View style={styles.avatarContainer}>
-		<Image style={styles.avatar} source={avatarLincy}/>
+		<Image style={styles.avatar} source={avatarAndy}/>
 		<SvgXml width={window.width * 0.65} height={window.width * 0.46} style={styles.speechBubble} xml={goalsettingSpeechBubble}/>
 		<Text style={{
 			position:'absolute',

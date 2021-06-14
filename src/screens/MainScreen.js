@@ -7,7 +7,7 @@ import symptomImage from '../assets/images/stethoscope_white.svg';
 import emotionImage from '../assets/images/smiley_face_white.svg';
 import mealImage from '../assets/images/cutlery_white.svg';
 import gipImage from '../assets/images/gip.svg';
-import avatarLincy from "../assets/images/avatar_menu/avatar_lincy.png";
+import avatarAndy from "../assets/images/avatar_menu/avatar_lincy.png";
 import mainscreenInfomodal from "../assets/images/mainscreen_infomodal.svg";
 import halfwayprogress from "../assets/images/halfwayprogress.svg";
 
@@ -221,7 +221,7 @@ const Avatar = ({showModal, onShowModal}) =>
 {
 	const loggedEntriesTextColor = showModal ? '#707070' : '#7f7f7f';
 	return <View style={styles.avatarContainer}>
-			<Image style={styles.avatar} source={avatarLincy}/>
+			<Image style={styles.avatar} source={avatarAndy}/>
 			<View style={styles.loggedInfoContainer}>
 			<Text style={{fontSize: window.height * .03, color: loggedEntriesTextColor}}>Your logs today</Text>
 			<View style={styles.informationBackground}>
