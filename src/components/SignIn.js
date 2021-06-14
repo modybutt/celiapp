@@ -44,8 +44,9 @@ export default class SignIn extends React.Component {
           <Text style={styles.title}>CeliApp</Text>
           <Image style={styles.logo} source={LOGO} />
           <View style={styles.container}>
-            <Text>Welcome the 21-day challenge!</Text>
-            <Text>Please provide your email address to get started:</Text>
+            <Text>Welcome to the 21-day challenge!</Text>
+            <Text>Please provide your email address and</Text>
+            <Text>your password to get started:</Text>
             <TextInput
               placeholder="some@email.com"
               ref={(input) => { this.emailInput = input; }}
@@ -64,23 +65,24 @@ export default class SignIn extends React.Component {
           </View>
           <View style={styles.buttonViewContainer}>
             <View style={styles.buttonContainer}>
-
               <Button
                 buttonStyle={styles.button}
                 titleStyle={{ color: 'black' }}
-                title=" Sign In "
+                title="Sign In"
                 type="outline"
                 onPress={() => (this.props.onLogin(this.state.username, this.state.password))}
                 style={this.buttonDisabled() ? styles.buttonDisabled : this.button}
                 disabled={this.buttonDisabled()}
               />
-
             </View>
+            <Text>&nbsp;</Text>
+            <Text>&nbsp;</Text>
+            <Text>&nbsp;</Text>
             <View style={styles.buttonContainer}>
               <Button
                 buttonStyle={styles.button}
                 titleStyle={{ color: 'black' }}
-                title=" Sign Up "
+                title="Do you need to create an account?"
                 type="outline"
                 onPress={() => (this.props.switchGui())}
                 style={this.buttonDisabled() ? styles.buttonDisabled : ''}
