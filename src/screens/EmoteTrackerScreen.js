@@ -70,9 +70,33 @@ export default class EmoteTrackerScreen extends React.Component {
             'keyboardDidHide',
             this._keyboardDidHide,
         );
+        this.props.navigation.addListener('willFocus', () =>  {
+                this.receiveFocus();
+            }
+        );
     }
 
-    componentWillUnmount() {
+    receiveFocus = () => {
+        const eventData = this.props.navigation.getParam("event", false)
+        if(this.props.navigation.getParam("edit", false) && eventData){
+            const objData = JSON.parse(eventData.objData);
+            console.log(objData)
+            // Object {
+            //     "note": "my notes",
+            //         "type": 4,
+            // }
+            this.setState({
+                //     selectedSymptoms : [{symptomID: objData.symptomID,severity: objData.severity }],
+                //     symptomEntryNote : objData.note,
+                selectedSymbolID: objData.type,
+                emoteNote: objData.note,
+                selectedDateAndTime: new Date(eventData.created),
+                edit : true,
+            })
+        }
+    }
+
+    UNSAFE_componentWillUnmount() {
         this.keyboardDidShowListener.remove();
         this.keyboardDidHideListener.remove();
         CeliLogger.addLog("EmoteTrackerScreen", Interactions.CLOSE);
@@ -151,19 +175,26 @@ export default class EmoteTrackerScreen extends React.Component {
                 <KeyboardAwareScrollView style={{backgroundColor: "#fff"}}>
                     <HeaderBanner color={themeColor} imageSource={require('../assets/images/EmoteTracker/mood_icon.png')} />
                     <HorizontalLineWithText color={themeColor} text={LanguageManager.getInstance().getText("DATE")} />
-                    <DayPicker ref={component => this._dayChooser = component} textString="SYMPTOM_OCCURED" onDateChanged={this.dateEditedHandler} />
+                    <DayPicker ref={component => this._dayChooser = component} textString="SYMPTOM_OCCURED"
+                               dateAndTime = {this.state.selectedDateAndTime} onDateChanged={this.dateEditedHandler} />
                     <HorizontalLineWithText color={themeColor} text={LanguageManager.getInstance().getText("TIME")} />
-                    <TimePicker ref={component => this._timePicker = component} textString="SYMPTOM_OCCURED" onTimeChanged={this.timeEditedHandler} />
+                    <TimePicker ref={component => this._timePicker = component} textString="SYMPTOM_OCCURED"
+                                dateAndTime = {this.state.selectedDateAndTime} onTimeChanged={this.timeEditedHandler} />
                     <HorizontalLineWithText iconClickEvent={this.toggleShowEmotionInformation} color={themeColor} text={LanguageManager.getInstance().getText("ENERGY")} />
                     <View
                     onLayout={event => {
                         const layout = event.nativeEvent.layout;
                         this.addInformationLayout(layout);
                       }}
-                    ></View>
-                    <EmoteTrackerSymbolGroup color={themeColor} selectedID={this.state.selectedSymbolID} onChancedId={this.emotionChangedHandler} />
+                    />
+                    <EmoteTrackerSymbolGroup color={themeColor}
+                                             selectedID={this.state.selectedSymbolID}
+                                             onChancedId={this.emotionChangedHandler} />
                     <HorizontalLineWithText color={themeColor} text={LanguageManager.getInstance().getText("NOTES")} />
-                    <NoteEdit color={themeColor} ref={component => this._noteEdit = component} onTextChanged={this.noteEditedHandler} />
+                    <NoteEdit color={themeColor}
+                              ref={component => this._noteEdit = component}
+                              onTextChanged={this.noteEditedHandler}
+                              note={this.state.emoteNote}/>
                     <View style={{ paddingBottom: 10 }} />
                     <View style={styles.buttonContainer}>
                         <View style={styles.buttonSubContainer}>
@@ -171,7 +202,7 @@ export default class EmoteTrackerScreen extends React.Component {
                                 <Text style={{ textAlign: 'center', color: '#707070' }}>cancel</Text>
                             </TouchableHighlight>
                             <TouchableHighlight style={styles.buttonSaveAndCancel} onPress={this.saveCurrentData}>
-                                <Text style={{ textAlign: 'center', color: '#707070' }}>save</Text>
+                                <Text style={{ textAlign: 'center', color: '#707070' }}>{this.state.edit? "Update":"Save"}</Text>
                             </TouchableHighlight>
                         </View>
                     </View>
@@ -200,7 +231,10 @@ export default class EmoteTrackerScreen extends React.Component {
 
     saveCurrentData = (goHome) => {
         let tmpDateTime = this.state.selectedDateAndTime
-        DatabaseManager.getInstance().createEmotionEvent(this.state.selectedSymbolID, this.state.emoteNote, tmpDateTime.getTime(),
+        DatabaseManager.getInstance().createEmotionEvent(
+            this.state.selectedSymbolID,
+            this.state.emoteNote,
+            tmpDateTime.getTime(),
             (error) => { alert(error) },
             () => { GlutonManager.getInstance().setMessage(2); GearManager.getInstance().sendMessage("msg 30") }
         );
