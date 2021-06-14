@@ -290,12 +290,6 @@ export default class FoodDiaryScreen extends React.Component {
                       }}
                     ></View>
                     <FoodTrackerSymbolGroup color={themeColor} selectedID={this.state.selectedMealKey} onChancedId={this.mealChangedHandler} />
-                    <HorizontalLineWithText color={themeColor} text={LanguageManager.getInstance().getText("IMAGE")} />
-                    <View style={{ alignItems: 'center' }}>
-                        <FoodDiaryImageEdit color={themeColor} navigation={this.props.navigation} onPictureTaken={(image) => this.setState({ photo: image })} />
-                    </View>
-                    <HorizontalLineWithText color={themeColor} text={LanguageManager.getInstance().getText("MEAL_GLUTEN")} />
-                    <FoodTrackerSymbolClassGroup color={themeColor} selectedID={this.state.selectedClassKey} onChancedId={this.classChangedHandler} />
                     <HorizontalLineWithText color={themeColor} text={LanguageManager.getInstance().getText("MEAL_NAME")} />
                     <View style={styles.containerPadding}>
                         <TextInputSingleLine color={themeColor}
@@ -305,6 +299,12 @@ export default class FoodDiaryScreen extends React.Component {
                             placeholderText={LanguageManager.getInstance().getText("MEAL_NAME_PLACEHOLDER")}
                         />
                     </View>
+                    <HorizontalLineWithText color={themeColor} text={LanguageManager.getInstance().getText("IMAGE")} />
+                    <View style={{ alignItems: 'center' }}>
+                        <FoodDiaryImageEdit color={themeColor} navigation={this.props.navigation} onPictureTaken={(image) => this.setState({ photo: image })} />
+                    </View>
+                    <HorizontalLineWithText color={themeColor} text={LanguageManager.getInstance().getText("MEAL_GLUTEN")} />
+                    <FoodTrackerSymbolClassGroup color={themeColor} selectedID={this.state.selectedClassKey} onChancedId={this.classChangedHandler} />
                     <HorizontalLineWithText color={themeColor} text={LanguageManager.getInstance().getText("MEAL_NOTES")} style={{ Top: 10 }} />
                     <NoteEdit color={themeColor}
                         ref={component => this._noteEdit = component}
