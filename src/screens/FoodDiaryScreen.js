@@ -85,6 +85,36 @@ export default class FoodDiaryScreen extends React.Component {
             'keyboardDidHide',
             this._keyboardDidHide,
         );
+        this.props.navigation.addListener('willFocus', () =>  {
+                this.receiveFocus();
+            }
+        );
+    }
+
+    receiveFocus = () => {
+        const eventData = this.props.navigation.getParam("event", false)
+        if(this.props.navigation.getParam("edit", true) && eventData){
+            const objData = JSON.parse(eventData.objData);
+            console.log(objData)
+            // Object {
+            //     "culprit": false,
+            //         "icon": null,
+            //         "name": "Chips",
+            //         "note": "My Notes",
+            //         "rating": 0,
+            //         "tag": 1, breakfats lunch dinner
+            //         "type": 0, gluten yes/maybe/no
+            // }
+            this.setState({
+                foodEntryName: objData.name,
+                selectedClassKey: objData.type,
+                selectedMealKey: objData.tag,
+                foodRating: objData.rating,
+                foodEntryNote:objData.note,
+                selectedDateAndTime: new Date(eventData.created),
+                edit : true,
+            })
+        }
     }
 
     componentWillUnmount() {
@@ -157,6 +187,7 @@ export default class FoodDiaryScreen extends React.Component {
     }
 
     classChangedHandler = (tag) => {
+        console.log("class changed handler", tag)
         this.setState({
             selectedClassKey: tag,
         });
@@ -192,7 +223,14 @@ export default class FoodDiaryScreen extends React.Component {
     saveData(goHome) {
         let tmpDateTime = this.state.selectedDateAndTime
         tmpDateTime.setFullYear(tmpDateTime.getFullYear());
-        DatabaseManager.getInstance().createMealEvent(this.state.foodEntryName, this.state.selectedClassKey, this.state.selectedMealKey, this.state.foodRating, this.state.foodEntryNote, this.state.photo, tmpDateTime.getTime(),
+        DatabaseManager.getInstance().createMealEvent(
+            this.state.foodEntryName,
+            this.state.selectedClassKey,
+            this.state.selectedMealKey,
+            this.state.foodRating,
+            this.state.foodEntryNote,
+            this.state.photo,
+            tmpDateTime.getTime(),
             (error) => { alert(error) },
             () => { GlutonManager.getInstance().setMessage(2); GearManager.getInstance().sendMessage("msg 31") }
         );
@@ -272,6 +310,7 @@ export default class FoodDiaryScreen extends React.Component {
 
     render() {
         const marginToUse = 0;// ((this.state.keyboardOpen) ? 300 : 0);
+        console.log("state:", this.state)
         return (
             //extraScrollHeight not supoorted out-of-the-box in android see here https://github.com/AyushAppin/react-native-keyboard-aware-scroll-view
             <>
@@ -279,17 +318,20 @@ export default class FoodDiaryScreen extends React.Component {
                 <KeyboardAwareScrollView style={{ backgroundColor: "#FFFFFF" }} extraScrollHeight={20} scrollEnabled={true} enableAutomaticScroll={true} >
                     <HeaderBanner color={themeColor} imageSource={require('../assets/images/FoodTracker/meal_icon.png')} />
                     <HorizontalLineWithText color={themeColor} text={LanguageManager.getInstance().getText("DATE")} />
-                    <DayPicker ref={component => this._dayChooser = component} textString="SYMPTOM_OCCURED" onDateChanged={this.dateEditedHandler} />
+                    <DayPicker ref={component => this._dayChooser = component} textString="SYMPTOM_OCCURED"
+                               dateAndTime = {this.state.selectedDateAndTime} onDateChanged={this.dateEditedHandler} />
                     <HorizontalLineWithText color={themeColor} text={LanguageManager.getInstance().getText("TIME")} />
-                    <TimePicker ref={component => this._timePicker = component} textString="EATEN_AT" onTimeChanged={this.timeEditedHandler} />
+                    <TimePicker ref={component => this._timePicker = component} textString="EATEN_AT"
+                                dateAndTime = {this.state.selectedDateAndTime} onTimeChanged={this.timeEditedHandler} />
                     <HorizontalLineWithText iconClickEvent={this.toggleShowFoodInformation} color={themeColor} text={LanguageManager.getInstance().getText("TYPES")} />
                     <View
                     onLayout={event => {
                         const layout = event.nativeEvent.layout;
                         this.addInformationLayout(layout);
                       }}
-                    ></View>
-                    <FoodTrackerSymbolGroup color={themeColor} selectedID={this.state.selectedMealKey} onChancedId={this.mealChangedHandler} />
+                    />
+                    <FoodTrackerSymbolGroup color={themeColor}
+                                            selectedID={this.state.selectedMealKey} onChancedId={this.mealChangedHandler} />
                     <HorizontalLineWithText color={themeColor} text={LanguageManager.getInstance().getText("MEAL_NAME")} />
                     <View style={styles.containerPadding}>
                         <TextInputSingleLine color={themeColor}
@@ -297,6 +339,7 @@ export default class FoodDiaryScreen extends React.Component {
                             onTextChanged={this.nameEditedHandler}
                             style={{ Top: 10 }}
                             placeholderText={LanguageManager.getInstance().getText("MEAL_NAME_PLACEHOLDER")}
+                            preText={this.state.foodEntryName}
                         />
                     </View>
                     <HorizontalLineWithText color={themeColor} text={LanguageManager.getInstance().getText("IMAGE")} />
@@ -308,7 +351,7 @@ export default class FoodDiaryScreen extends React.Component {
                     <HorizontalLineWithText color={themeColor} text={LanguageManager.getInstance().getText("MEAL_NOTES")} style={{ Top: 10 }} />
                     <NoteEdit color={themeColor}
                         ref={component => this._noteEdit = component}
-                        note={this.state.symptomEntryNote}
+                        note={this.state.foodEntryNote}
                         onTextChanged={this.noteEditedHandler}
                         style={{ Top: 10 }}
                         placeholderText={LanguageManager.getInstance().getText("MEAL_NOTES_PLACEHOLDER")}
@@ -320,7 +363,7 @@ export default class FoodDiaryScreen extends React.Component {
                                 <Text style={{ textAlign: 'center', color: '#707070' }}>cancel</Text>
                             </TouchableHighlight>
                             <TouchableHighlight style={styles.buttonSaveAndCancel} onPress={() => this.saveCurrentData(true)}>
-                                <Text style={{ textAlign: 'center', color: '#707070' }}>save</Text>
+                                <Text style={{ textAlign: 'center', color: '#707070' }}>{this.state.edit? "Update":"Save"}</Text>
                             </TouchableHighlight>
                         </View>
                     </View>

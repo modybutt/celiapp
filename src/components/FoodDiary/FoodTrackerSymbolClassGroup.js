@@ -47,6 +47,14 @@ export default class FoodTrackerSymbolClassGroup extends React.Component {
         }
     }
 
+    componentDidUpdate(prevProps){
+        if(prevProps.selectedID !== this.props.selectedID){
+            this.setState({
+                selectedID: this.props.selectedID
+            });
+        }
+    }
+
     render() {
             return (
                 <View style={styles.buttonContainer}>

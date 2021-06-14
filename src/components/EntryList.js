@@ -231,7 +231,7 @@ export default class EntryList extends React.Component {
           //<TouchableOpacity onPress={() => this.props.navigation.navigate('ViewMeal', { event: item })}>
           <HistoryEntry
             onLeftButtonClicked={() => { this.toggleCulprit(item); }}
-            onMiddleButtonClicked={() => { }}
+            onEditButtonClicked={() => this.props.navigation.navigate('AddMeal', { event: item, edit: true })}
             onRightButtonClicked={() => this.props.navigation.navigate('DeleteScreen', { event: item })}
             navigationName={LanguageManager.getInstance().getText(objData.name)}
             title={time}
