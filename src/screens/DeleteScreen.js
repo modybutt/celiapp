@@ -6,7 +6,7 @@ import HeaderBanner from '../components/HeaderBanner';
 import Layout from '../constants/Layout';
 import moment from 'moment';
 import avatarAndy from "../assets/images/avatar_menu/avatar_lincy.png";
-import { Emotion, Severity, Symptoms } from '../../constants/Events';
+import { Emotion, Severity, Symptoms } from '../constants/Events';
 
 import {
     images as symptom_images

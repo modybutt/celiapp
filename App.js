@@ -66,9 +66,11 @@ export default class App extends React.Component {
   
     this.setState({
       isSplashReady: true,
+      didShowOnBoarding: true,
       //didShowOnBoarding: false,
-      didShowOnBoarding: !!settings.didShowOnBoarding,
-	    didShowGoalSettingsPage: !!settings.didShowGoalSettingsPage,
+      //didShowOnBoarding: !!settings.didShowOnBoarding,
+      //didShowGoalSettingsPage: false,
+      didShowGoalSettingsPage: !!settings.didShowGoalSettingsPage,
       hasUserId: !!settings.userId,
       userId: settings.userId,
       password: settings.password,
