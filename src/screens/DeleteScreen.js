@@ -6,6 +6,7 @@ import HeaderBanner from '../components/HeaderBanner';
 import Layout from '../constants/Layout';
 import moment from 'moment';
 import avatarAndy from "../assets/images/avatar_menu/avatar_lincy.png";
+import { Severity, Symptoms } from '../../constants/Events';
 
 import {
     images as symptom_images
@@ -123,7 +124,32 @@ export default class DeleteScreen extends React.Component {
         }
         return image;
     }
+    
+    symptomToText(id) {
+      switch (id) {
+        case Symptoms.NO_SYMPTOMS.id: return "No Symptom";
+        case Symptoms.BLOATING.id: return "Bloating";
+        case Symptoms.DIARRHEA.id: return "Diarrhea";
+        case Symptoms.HEADACHE.id: return "Headache";
+        case Symptoms.IRRITABILITY.id: return "Irritability";
+        case Symptoms.ABDOMINAL_DISCOMFORT.id: return "Abdominal Discomfort";
+        case Symptoms.NAUSEA.id: return "Nausea";
+        case Symptoms.LOSS_OF_APPETITE.id: return "Loss of Appetite";
+        case Symptoms.RUMBLING_IN_STOMACH.id: return "Rumbling in Stomach";
+        case Symptoms.TENESMUS.id: return "Tenesmus";
+        case Symptoms.HUNGER_PAINS.id: return "Hunger Pains";
+        case Symptoms.LOW_ENERGY.id: return "Low Energy";
+        case Symptoms.FOOD_CRAVING.id: return "Food Craving";
+      }
+    }
 
+    severityToText(id) {
+      switch (id) {
+        case Severity.LOW: return "Mild";
+        case Severity.MODERATE: return "Moderate";
+        case Severity.SEVERE: return "Severe";
+      }
+    }
 
     render() {
         let objData = JSON.parse(this.state.event.objData);
@@ -151,7 +177,9 @@ export default class DeleteScreen extends React.Component {
                                             <Text style={[styles.entryText, styles.entryTitle]}>{time}</Text>
                                             <Border color={color} />
                                             <Text style={[styles.entryText, styles.entrySubtitle]}>
-                                                You register {objData.severity} {objData.symptomID} at {smallTime}. You noted: "{objData.note}"
+                                                Symptom:{"\t"}{this.symptomToText(objData.symptomID)}{"\n"}
+                                                Severity:{"\t"}{this.severityToText(objData.severity)}{"\n"}
+                                                Note:{"\t\t"}{objData.note}
                                             </Text>
                                         </View>
                                     </View>
