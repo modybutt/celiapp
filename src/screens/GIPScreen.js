@@ -64,7 +64,34 @@ export default class GIPScreen extends React.Component {
             'keyboardDidHide',
             this._keyboardDidHide,
         );
+        this.props.navigation.addListener('willFocus', () =>  {
+                this.receiveFocus();
+            }
+        );
+    }
 
+    receiveFocus = () => {
+        const eventData = this.props.navigation.getParam("event", false)
+        if(this.props.navigation.getParam("edit", false) && eventData){
+            const objData = JSON.parse(eventData.objData);
+            console.log(objData)
+            // Object {
+            //     "note": "gluten notes
+            //     ",
+            //     "photo": null,
+            //         "result": 1,
+            //         "timestamp": 1623704492799,
+            // }
+            this.setState({
+                //     selectedSymptoms : [{symptomID: objData.symptomID,severity: objData.severity }],
+                //     symptomEntryNote : objData.note,
+                gipManualResult: objData.result,
+                gipEntryNote: objData.note,
+                photo: objData.photo,
+                selectedDateAndTime: new Date(eventData.created),
+                edit : true,
+            })
+        }
     }
 
     componentWillUnmount() {
@@ -219,10 +246,12 @@ export default class GIPScreen extends React.Component {
                 <HeaderBanner color={themeColor} imageSource={require('../assets/images/GipTracker/gip_icon.png')}/>
                     
                     <HorizontalLineWithText color={themeColor} text={LanguageManager.getInstance().getText("DATE")} />
-                    <DayPicker ref={component => this._dayChooser = component} textString="SYMPTOM_OCCURED" onDateChanged={this.dateEditedHandler} />
+                    <DayPicker ref={component => this._dayChooser = component} textString="SYMPTOM_OCCURED"
+                               dateAndTime = {this.state.selectedDateAndTime} onDateChanged={this.dateEditedHandler} />
 
                     <HorizontalLineWithText color={themeColor} text={LanguageManager.getInstance().getText("TIME")} />
-                    <TimePicker ref={component => this._timePicker = component} textString="TAKEN_AT" onTimeChanged={this.timeEditedHandler} />
+                    <TimePicker ref={component => this._timePicker = component} textString="TAKEN_AT"
+                                dateAndTime = {this.state.selectedDateAndTime} onTimeChanged={this.timeEditedHandler} />
                     <HorizontalLineWithText color={themeColor} text={LanguageManager.getInstance().getText("PICTURE")} />
                     <View style={{ alignItems: 'center' }}>
                         <FoodDiaryImageEdit color={themeColor} navigation={this.props.navigation} onPictureTaken={(image) => this.setState({ photo: image, modified: true })} />
@@ -233,10 +262,16 @@ export default class GIPScreen extends React.Component {
                         const layout = event.nativeEvent.layout;
                         this.addInformationLayout(layout);
                       }}
-                    ></View>
-                    <GipTrackerSymbolClassGroup color={themeColor} selectedID={this.state.gipManualResult} onChancedId={this.gipManualResultHandler} />
+                    />
+                    <GipTrackerSymbolClassGroup
+                        color={themeColor}
+                        selectedID={this.state.gipManualResult}
+                        onChancedId={this.gipManualResultHandler} />
                     <HorizontalLineWithText color={themeColor} text={LanguageManager.getInstance().getText("NOTES")} style={{ Top: 10 }} />
-                    <NoteEdit color={themeColor} ref={component => this._noteEdit = component} note={this.state.symptomEntryNote} onTextChanged={this.noteEditedHandler} style={{ Top: 10 }} />
+                    <NoteEdit color={themeColor}
+                              ref={component => this._noteEdit = component}
+                              note={this.state.gipEntryNote}
+                              onTextChanged={this.noteEditedHandler} style={{ Top: 10 }} />
 
                     <View style={styles.buttonContainer}>
                         <View style={styles.buttonSubContainer}>
@@ -244,13 +279,16 @@ export default class GIPScreen extends React.Component {
                                 <Text style={{ textAlign: 'center', color: '#707070' }}>cancel</Text>
                             </TouchableHighlight>
                             <TouchableHighlight style={styles.buttonSaveAndCancel} onPress={() => this.saveCurrentData(true)}>
-                                <Text style={{ textAlign: 'center', color: '#707070' }}>save</Text>
+                                <Text style={{ textAlign: 'center', color: '#707070' }}>{this.state.edit? "Update":"Save"}</Text>
                             </TouchableHighlight>
                         </View>
                     </View>
 
                     {this.state.showSymptomInformation &&
-                    <GipInformation color={themeColor} position={this.state.informationPosition}></GipInformation>
+                        <GipInformation
+                            color={themeColor}
+                            position={this.state.informationPosition}>
+                        </GipInformation>
                     }
 
                     <View>
