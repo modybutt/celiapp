@@ -335,7 +335,8 @@ export default class FoodDiaryScreen extends React.Component {
             <>
                 <SafeAreaView style={{flex: 0, backgroundColor: themeColor}}/>
                 <KeyboardAwareScrollView style={{backgroundColor: "#FFFFFF"}} extraScrollHeight={20}
-                                         scrollEnabled={true} enableAutomaticScroll={true}>
+                                         scrollEnabled={true} enableAutomaticScroll={true}
+                                         keyboardShouldPersistTaps="always">
                     <HeaderBanner color={themeColor}
                                   imageSource={require('../assets/images/FoodTracker/meal_icon.png')}/>
                     <HorizontalLineWithText color={themeColor} text={LanguageManager.getInstance().getText("DATE")}/>

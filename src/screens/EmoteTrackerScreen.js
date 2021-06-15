@@ -49,7 +49,7 @@ export default class EmoteTrackerScreen extends React.Component {
         this._noteEdit.deleteNote();
     }
 
-    componentWillMount() {
+    UNSAFE_componentWillMount() {
         this.setState({
             selectedDateAndTime: this.props.navigation.state.params.selectedDateAndTime
         });
@@ -173,7 +173,7 @@ export default class EmoteTrackerScreen extends React.Component {
         return (
             <>
                 <SafeAreaView style={{ flex: 0, backgroundColor: themeColor }} />
-                <KeyboardAwareScrollView style={{backgroundColor: "#fff"}}>
+                <KeyboardAwareScrollView style={{backgroundColor: "#fff"}} keyboardShouldPersistTaps="always">
                     <HeaderBanner color={themeColor} imageSource={require('../assets/images/EmoteTracker/mood_icon.png')} />
                     <HorizontalLineWithText color={themeColor} text={LanguageManager.getInstance().getText("DATE")} />
                     <DayPicker ref={component => this._dayChooser = component} textString="SYMPTOM_OCCURED"
