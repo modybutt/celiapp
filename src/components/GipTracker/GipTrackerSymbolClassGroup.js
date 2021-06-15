@@ -54,7 +54,7 @@ export default class GipTrackerSymbolClassGroup extends React.Component {
             });
         }
     }
-    
+
     render() {
             return (
                 <View style={styles.buttonContainer}>

@@ -221,7 +221,7 @@ export default class EmoteTrackerScreen extends React.Component {
                     </View>
 
                     {this.state.showEmotionInformation &&
-                    <EmotionInformation color={themeColor} position={this.state.informationPosition}></EmotionInformation>
+                    <EmotionInformation color={themeColor} position={this.state.informationPosition}/>
                     }
 
                 </KeyboardAwareScrollView>
@@ -272,7 +272,7 @@ export default class EmoteTrackerScreen extends React.Component {
     }
 
     handleCancelButton = () => {
-        if (this.state.modified == true) {
+        if (this.state.modified === true) {
             this.showBackDiscardDialog()
         } else {
             this.navigateHome()

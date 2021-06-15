@@ -1,7 +1,7 @@
 import React from 'react';
-import { SafeAreaView, View, Keyboard, TouchableHighlight, StyleSheet, Text } from 'react-native';
+import {Keyboard, SafeAreaView, StyleSheet, Text, TouchableHighlight, View} from 'react-native';
 import Dialog from "react-native-dialog";
-import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view'
+import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view'
 import DatabaseManager from '../manager/DatabaseManager';
 import NoteEdit from '../components/NoteEdit';
 import DayPicker from '../components/DayPicker';
@@ -64,7 +64,7 @@ export default class GIPScreen extends React.Component {
             'keyboardDidHide',
             this._keyboardDidHide,
         );
-        this.props.navigation.addListener('willFocus', () =>  {
+        this.props.navigation.addListener('willFocus', () => {
                 this.receiveFocus();
             }
         );
@@ -72,7 +72,7 @@ export default class GIPScreen extends React.Component {
 
     receiveFocus = () => {
         const eventData = this.props.navigation.getParam("event", false)
-        if(this.props.navigation.getParam("edit", false) && eventData){
+        if (this.props.navigation.getParam("edit", false) && eventData) {
             const objData = JSON.parse(eventData.objData);
             console.log(objData)
             // Object {
@@ -89,7 +89,7 @@ export default class GIPScreen extends React.Component {
                 gipEntryNote: objData.note,
                 photo: objData.photo,
                 selectedDateAndTime: new Date(eventData.created),
-                edit : true,
+                edit: true,
                 originalEventData: eventData,
             })
         }
@@ -167,7 +167,7 @@ export default class GIPScreen extends React.Component {
     }
 
     saveCurrentData(goHome) {
-        if (this.state.photo != null || this.state.modified == true) {
+        if (this.state.photo != null || this.state.modified === true) {
             this.saveData(goHome)
         } else {
             this.showSaveEmptyDialog()
@@ -177,7 +177,7 @@ export default class GIPScreen extends React.Component {
     saveData(goHome) {
         let tmpDateTime = this.state.selectedDateAndTime
         tmpDateTime.setFullYear(tmpDateTime.getFullYear());
-        if(this.state.edit){
+        if (this.state.edit) {
             DatabaseManager.getInstance().updateGipEvent(
                 this.state.originalEventData.id,
                 this.state.gipManualResult,
@@ -192,9 +192,10 @@ export default class GIPScreen extends React.Component {
                     GlutonManager.getInstance().setMessage(2);
                     GearManager.getInstance().sendMessage("msg 31")
                 });
-        }else {
+        } else {
             if (this.state.photo) {
-                UploadManager.getInstance().uploadGIPImage(this.state.photo, () => { });
+                UploadManager.getInstance().uploadGIPImage(this.state.photo, () => {
+                });
             }
             DatabaseManager.getInstance().createGIPEvent(
                 this.state.gipManualResult,
@@ -216,7 +217,7 @@ export default class GIPScreen extends React.Component {
     }
 
     handleCancelButton = () => {
-        if (this.state.modified == true) {
+        if (this.state.modified === true) {
             this.showBackDiscardDialog()
         } else {
             this.navigateHome()
@@ -228,26 +229,26 @@ export default class GIPScreen extends React.Component {
     }
 
     showBackDiscardDialog() {
-        this.setState({ cancelSaveDialogVisible: true });
+        this.setState({cancelSaveDialogVisible: true});
     };
 
     showSaveEmptyDialog() {
-        this.setState({ saveAsEmptyGIPDialogVisible: true });
+        this.setState({saveAsEmptyGIPDialogVisible: true});
     }
 
     handleBack() {
-        this.setState({ cancelSaveDialogVisible: false });
-        this.setState({ saveAsEmptyGIPDialogVisible: false });
+        this.setState({cancelSaveDialogVisible: false});
+        this.setState({saveAsEmptyGIPDialogVisible: false});
     };
 
     handleDiscard() {
-        this.setState({ cancelSaveDialogVisible: false });
-        this.setState({ saveAsEmptyGIPDialogVisible: false });
+        this.setState({cancelSaveDialogVisible: false});
+        this.setState({saveAsEmptyGIPDialogVisible: false});
         this.navigateHome()
     };
 
-    addInformationLayout(layout){
-        this.setState({informationPosition:layout});
+    addInformationLayout(layout) {
+        this.setState({informationPosition: layout});
     }
 
     toggleShowSymptomInformation = () => {
@@ -255,58 +256,63 @@ export default class GIPScreen extends React.Component {
     }
 
     render() {
-        const tags = [LanguageManager.getInstance().getText("GLUTEN"), LanguageManager.getInstance().getText("NO_GLUTEN"), LanguageManager.getInstance().getText("UNSURE")];
-        const meals = [LanguageManager.getInstance().getText("BREAKFAST"), LanguageManager.getInstance().getText("LUNCH"), LanguageManager.getInstance().getText("DINNER"), LanguageManager.getInstance().getText("SNACK")];
         return (
             <>
-                <SafeAreaView style={{ flex: 0, backgroundColor: themeColor }} />
+                <SafeAreaView style={{flex: 0, backgroundColor: themeColor}}/>
                 <KeyboardAwareScrollView style={{backgroundColor: "#fff"}}>
-                <HeaderBanner color={themeColor} imageSource={require('../assets/images/GipTracker/gip_icon.png')}/>
-                    
-                    <HorizontalLineWithText color={themeColor} text={LanguageManager.getInstance().getText("DATE")} />
-                    <DayPicker ref={component => this._dayChooser = component} textString="SYMPTOM_OCCURED"
-                               dateAndTime = {this.state.selectedDateAndTime} onDateChanged={this.dateEditedHandler} />
+                    <HeaderBanner color={themeColor} imageSource={require('../assets/images/GipTracker/gip_icon.png')}/>
 
-                    <HorizontalLineWithText color={themeColor} text={LanguageManager.getInstance().getText("TIME")} />
+                    <HorizontalLineWithText color={themeColor} text={LanguageManager.getInstance().getText("DATE")}/>
+                    <DayPicker ref={component => this._dayChooser = component} textString="SYMPTOM_OCCURED"
+                               dateAndTime={this.state.selectedDateAndTime} onDateChanged={this.dateEditedHandler}/>
+
+                    <HorizontalLineWithText color={themeColor} text={LanguageManager.getInstance().getText("TIME")}/>
                     <TimePicker ref={component => this._timePicker = component} textString="TAKEN_AT"
-                                dateAndTime = {this.state.selectedDateAndTime} onTimeChanged={this.timeEditedHandler} />
-                    <HorizontalLineWithText color={themeColor} text={LanguageManager.getInstance().getText("PICTURE")} />
-                    <View style={{ alignItems: 'center' }}>
-                        <FoodDiaryImageEdit color={themeColor} navigation={this.props.navigation} onPictureTaken={(image) => this.setState({ photo: image, modified: true })} />
+                                dateAndTime={this.state.selectedDateAndTime} onTimeChanged={this.timeEditedHandler}/>
+                    <HorizontalLineWithText color={themeColor} text={LanguageManager.getInstance().getText("PICTURE")}/>
+                    <View style={{alignItems: 'center'}}>
+                        <FoodDiaryImageEdit color={themeColor} navigation={this.props.navigation}
+                                            onPictureTaken={(image) => this.setState({photo: image, modified: true})}/>
                     </View>
-                    <HorizontalLineWithText iconClickEvent={this.toggleShowSymptomInformation} color={themeColor} text={LanguageManager.getInstance().getText("TAGS")} />
+                    <HorizontalLineWithText iconClickEvent={this.toggleShowSymptomInformation} color={themeColor}
+                                            text={LanguageManager.getInstance().getText("TAGS")}/>
                     <View
-                    onLayout={event => {
-                        const layout = event.nativeEvent.layout;
-                        this.addInformationLayout(layout);
-                      }}
+                        onLayout={event => {
+                            const layout = event.nativeEvent.layout;
+                            this.addInformationLayout(layout);
+                        }}
                     />
                     <GipTrackerSymbolClassGroup
                         color={themeColor}
                         selectedID={this.state.gipManualResult}
-                        onChancedId={this.gipManualResultHandler} />
-                    <HorizontalLineWithText color={themeColor} text={LanguageManager.getInstance().getText("NOTES")} style={{ Top: 10 }} />
+                        onChancedId={this.gipManualResultHandler}/>
+                    <HorizontalLineWithText color={themeColor} text={LanguageManager.getInstance().getText("NOTES")}
+                                            style={{Top: 10}}/>
                     <NoteEdit color={themeColor}
                               ref={component => this._noteEdit = component}
                               note={this.state.gipEntryNote}
-                              onTextChanged={this.noteEditedHandler} style={{ Top: 10 }} />
+                              onTextChanged={this.noteEditedHandler} style={{Top: 10}}/>
 
                     <View style={styles.buttonContainer}>
                         <View style={styles.buttonSubContainer}>
                             <TouchableHighlight style={styles.buttonSaveAndCancel} onPress={this.handleCancelButton}>
-                                <Text style={{ textAlign: 'center', color: '#707070' }}>cancel</Text>
+                                <Text style={{textAlign: 'center', color: '#707070'}}>cancel</Text>
                             </TouchableHighlight>
-                            <TouchableHighlight style={styles.buttonSaveAndCancel} onPress={() => this.saveCurrentData(true)}>
-                                <Text style={{ textAlign: 'center', color: '#707070' }}>{this.state.edit? "Update":"Save"}</Text>
+                            <TouchableHighlight style={styles.buttonSaveAndCancel}
+                                                onPress={() => this.saveCurrentData(true)}>
+                                <Text style={{
+                                    textAlign: 'center',
+                                    color: '#707070'
+                                }}>{this.state.edit ? "Update" : "Save"}</Text>
                             </TouchableHighlight>
                         </View>
                     </View>
 
                     {this.state.showSymptomInformation &&
-                        <GipInformation
-                            color={themeColor}
-                            position={this.state.informationPosition}>
-                        </GipInformation>
+                    <GipInformation
+                        color={themeColor}
+                        position={this.state.informationPosition}>
+                    </GipInformation>
                     }
 
                     <View>
@@ -315,8 +321,10 @@ export default class GIPScreen extends React.Component {
                             <Dialog.Description>
                                 {LanguageManager.getInstance().getText("WANT_TO_SAVE_EMPTY_GIP")}
                             </Dialog.Description>
-                            <Dialog.Button label={LanguageManager.getInstance().getText("No")} onPress={() => this.handleBack()} />
-                            <Dialog.Button label={LanguageManager.getInstance().getText("YES")} onPress={() => this.saveData(true)} />
+                            <Dialog.Button label={LanguageManager.getInstance().getText("No")}
+                                           onPress={() => this.handleBack()}/>
+                            <Dialog.Button label={LanguageManager.getInstance().getText("YES")}
+                                           onPress={() => this.saveData(true)}/>
                         </Dialog.Container>
                     </View>
                     <View>
@@ -325,8 +333,10 @@ export default class GIPScreen extends React.Component {
                             <Dialog.Description>
                                 {LanguageManager.getInstance().getText("DO_YOU_WANT_TO_DISCARD")}
                             </Dialog.Description>
-                            <Dialog.Button label={LanguageManager.getInstance().getText("No")} onPress={() => this.handleBack()} />
-                            <Dialog.Button label={LanguageManager.getInstance().getText("YES")} onPress={() => this.handleDiscard()} />
+                            <Dialog.Button label={LanguageManager.getInstance().getText("No")}
+                                           onPress={() => this.handleBack()}/>
+                            <Dialog.Button label={LanguageManager.getInstance().getText("YES")}
+                                           onPress={() => this.handleDiscard()}/>
                         </Dialog.Container>
                     </View>
                 </KeyboardAwareScrollView>
@@ -336,7 +346,7 @@ export default class GIPScreen extends React.Component {
 }
 
 
-var styles = StyleSheet.create({
+const styles = StyleSheet.create({
     headText: {
         fontSize: 20,
         textAlign: 'center',
