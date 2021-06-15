@@ -113,7 +113,7 @@ var styles = StyleSheet.create({
     },
     text: {
         paddingTop: 3,
-        fontSize: 10,
+        fontSize: 9,
         textAlign: 'center',
         color: "#707070",
     },
