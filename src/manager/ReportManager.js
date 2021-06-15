@@ -265,8 +265,8 @@ export default class ReportManager {
     console.log("generating report for ", str, now && now.toDateString())
     now = now || new Date()
     const getDbStartDate =  DatabaseManager.getInstance().getDBCreatedDate();
-
     const startOfWeek = DateUtil.getStartOfThisWeekBeginningMonday(now);
+
     const endOfWeek = DateUtil.getEndOfThisFullWeekEndingSunday(now);
 
     const startOfPenultimateWeek = DateUtil.getStartOfPreviousFullWeekBeginningMonday(now);
@@ -279,6 +279,7 @@ export default class ReportManager {
     let penultimateWeek = penultimateWeekData.init(startOfPenultimateWeek, endOfPenultimateWeek, new Date())
 
     console.log("before promise ==============================================================")
+
     Promise.all([getDbStartDate, thisWeek, penultimateWeek])
       .then(([dbStartDate, _, __]) => {
         console.log("after promise")
@@ -294,12 +295,10 @@ export default class ReportManager {
           return;
         }
 
-
-        let endOfFollowingWeek = new Date(endOfWeek.getTime())
+        let endOfFollowingWeek = new Date(endOfWeek)
         endOfFollowingWeek.setDate(endOfFollowingWeek.getDate()+7)
         
         this.reportText.followingReportExists = endOfFollowingWeek < new Date(Date.now())
-
 
         this.reportText.dailyActivity = [0, 1, 2, 3, 4, 5, 6].map(day => thisWeekData.activityRateForDay(day))
         this.reportText.weekEndingDate = endOfWeek

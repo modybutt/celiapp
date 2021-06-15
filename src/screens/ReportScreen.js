@@ -78,7 +78,7 @@ export default class ReportScreen extends React.Component {
 
   showPreviousWeekReport = () => {
     const prevWeekDate = this.addDays(this.state.dateForReport, -7)
-    console.log("Show previous week");
+    console.log("Show previous week:", prevWeekDate.toString());
     this.showWeekReportForDate(prevWeekDate)
   } 
 
