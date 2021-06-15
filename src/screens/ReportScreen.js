@@ -114,7 +114,7 @@ export default class ReportScreen extends React.Component {
 
     return (
       <View style={styles.container}>
-        <WeekDisplay dailyActivity={this.state.reportData.dailyActivity} />
+        <WeekDisplay dailyActivity={this.state.reportData.dailyActivity} startDate={this.state.reportData.startOfWeek}/>
         <BestDay 
           handlePressLeft = {this.showPreviousWeekReport} handlePressRight={this.showFollowingWeekReport}
           showPreviousReportButton = {reportData.previousReportExists}  showNextReportButton = {reportData.followingReportExists}

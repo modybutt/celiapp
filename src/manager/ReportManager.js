@@ -278,7 +278,7 @@ export default class ReportManager {
     let thisWeek = thisWeekData.init(startOfWeek, endOfWeek, new Date())
     let penultimateWeek = penultimateWeekData.init(startOfPenultimateWeek, endOfPenultimateWeek, new Date())
 
-    console.log("before promise")
+    console.log("before promise ==============================================================")
     Promise.all([getDbStartDate, thisWeek, penultimateWeek])
       .then(([dbStartDate, _, __]) => {
         console.log("after promise")
@@ -303,6 +303,7 @@ export default class ReportManager {
 
         this.reportText.dailyActivity = [0, 1, 2, 3, 4, 5, 6].map(day => thisWeekData.activityRateForDay(day))
         this.reportText.weekEndingDate = endOfWeek
+        this.reportText.startOfWeek = startOfWeek
 
         this.reportText.bestDayHeading = "Unknown"
         this.reportText.bestDayBody = "Too little activity to calculate"

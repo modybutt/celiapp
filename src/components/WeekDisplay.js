@@ -8,26 +8,39 @@ export default class LoggedEntry extends React.Component
 {
 	render()
 	{
-		return <Week dailyActivity={this.props.dailyActivity} showToday={this.props.showToday}/>
+		return <Week dailyActivity={this.props.dailyActivity} showToday={this.props.showToday} startDate={this.props.startDate}/>
 	}
 }
 
-const Day=({name, percent, highlightDayLabel}) => 
+const Day=({name, percent, highlightDayLabel, dayOfMonth}) =>
   <View style={styles.day} >
     <Text style={[styles.dayLabel, { 
 		color: highlightDayLabel ? mainActivityColor : '#c3c3c3'}]}> 
 		{name} </Text>
 		
 	<CircularProgressBar color={mainActivityColor} progress={percent}
-				innerSize={33} outerSize={38} innerStrokeWidth={1} outerStrokeWidth={4} size={40}/>
+				innerSize={33} outerSize={38} innerStrokeWidth={1} outerStrokeWidth={4} size={40} text={dayOfMonth}/>
   </View>
 
-const Week=({dailyActivity, showToday})=> 
+const Week=({dailyActivity, showToday, startDate})=>
 {
+	let d = new Date(startDate)
 	const today = (new Date().getDay() - 1) % 7;
-	
+
 	const days = ["Mo","Tu","We","Th","Fr","Sa","Su"].map(
-		(day, i)=> <Day key = {i} name ={day} percent = {dailyActivity[i]} highlightDayLabel={i === today && showToday}/>
+		(day, i)=> {
+			let dateAsNumber = null
+			if(startDate){
+				dateAsNumber = d.getDate();
+				d.setDate(d.getDate()+1);
+			}
+			return(<Day
+				key = {i}
+				name ={day}
+				percent = {dailyActivity[i]}
+				highlightDayLabel={i === today && showToday}
+				dayOfMonth={dateAsNumber}/>)
+		}
 	)
 
 	return (
