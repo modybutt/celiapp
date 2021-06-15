@@ -34,9 +34,13 @@ test('get start current week', () => {
     expect(du.getStartOfThisWeekBeginningMonday(sun18_Apr_2021)).toEqual(mon12_Apr_2021);
 });
 
-test('get start current week', () => {
+const tue01_Jun_2021 = new Date("2021-06-01T13:59:59.999")
+const sun06_Jun_2021_midnight = new Date("2021-06-06T23:59:59.999")
+
+test('get end current week', () => {
     expect(du.getEndOfThisFullWeekEndingSunday(mon12_Apr_2021)).toEqual(sun18_Apr_2021_midnight);
     expect(du.getEndOfThisFullWeekEndingSunday(sun18_Apr_2021)).toEqual(sun18_Apr_2021_midnight);
+    expect(du.getEndOfThisFullWeekEndingSunday(tue01_Jun_2021)).toEqual(sun06_Jun_2021_midnight);
 });
 
 test('get same time previous week', () => {

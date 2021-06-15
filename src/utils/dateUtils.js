@@ -1,6 +1,6 @@
 export default class DateUtil {
   static getPreviousSunday(now) {
-    var date = now || new Date();
+    var date = now ? new Date(now) : new Date();
     var dayOfWeek = date.getDay();
     var prevSunday = new Date(date);
     prevSunday.setDate(date.getDate() - (dayOfWeek == 0 ? 7 : dayOfWeek));
@@ -42,7 +42,7 @@ export default class DateUtil {
   }
 
   static getStartOfThisWeekBeginningMonday(now) {
-    now = now || new Date()
+    now = now ? new Date(now) : new Date()
     var previousSunday = DateUtil.getPreviousSunday(now);
     var startOfWeek = new Date(now)
     startOfWeek.setDate(previousSunday.getDate() + 1);
@@ -51,11 +51,12 @@ export default class DateUtil {
   }
 
   static getEndOfThisFullWeekEndingSunday(now) {
-    now = now || new Date()
+    now = now ? new Date(now) : new Date()
     var previousSunday = DateUtil.getPreviousSunday(now);
-    var endOfWeek = new Date(now)
+    var endOfWeek = new Date(previousSunday)
     endOfWeek.setDate(previousSunday.getDate() + 7);
     endOfWeek.setHours(23, 59, 59, 999);
+
     return endOfWeek;
   }
 
@@ -64,7 +65,7 @@ export default class DateUtil {
   static dateAsDaysAgo = (date) => DateUtil.fullDaysSinceEpoch(new Date()) - DateUtil.fullDaysSinceEpoch(date);
 
   static sameTimeAWeekPrevious = date => {
-    d = date ? new Date(date) : new Date()
+    let d = date ? new Date(date) : new Date()
     d.setDate(d.getDate() - 7)
     return d
   }
