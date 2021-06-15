@@ -218,7 +218,7 @@ export default class App extends React.Component {
             : <UsernameDialog onLogin={this.handleUserLogin} onRegister={this.handleUserRegistration} />
         }
 
-        <FlashMessage position="bottom" duration={6000} />
+        <FlashMessage position="top" duration={6000} />
       </View>
     );
   }

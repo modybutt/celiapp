@@ -99,7 +99,7 @@ export default class Wardrobe extends React.Component {
           style={styles.navigator}>
         </InitWardrobeNavigator>
         {/** <MenuButton navigation={this.props.navigation} />*/}
-        <FlashMessage position="bottom" duration={5000} />
+        <FlashMessage position="top" duration={5000} />
       </View>
     );
   }
