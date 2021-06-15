@@ -93,7 +93,7 @@ export default class FoodDiaryScreen extends React.Component {
 
     receiveFocus = () => {
         const eventData = this.props.navigation.getParam("event", false)
-        if(this.props.navigation.getParam("edit", true) && eventData){
+        if(this.props.navigation.getParam("edit", false) && eventData){
             const objData = JSON.parse(eventData.objData);
             console.log(objData)
             // Object {
@@ -113,6 +113,7 @@ export default class FoodDiaryScreen extends React.Component {
                 foodEntryNote:objData.note,
                 selectedDateAndTime: new Date(eventData.created),
                 edit : true,
+                originalEventData: eventData
             })
         }
     }
@@ -223,17 +224,37 @@ export default class FoodDiaryScreen extends React.Component {
     saveData(goHome) {
         let tmpDateTime = this.state.selectedDateAndTime
         tmpDateTime.setFullYear(tmpDateTime.getFullYear());
-        DatabaseManager.getInstance().createMealEvent(
-            this.state.foodEntryName,
-            this.state.selectedClassKey,
-            this.state.selectedMealKey,
-            this.state.foodRating,
-            this.state.foodEntryNote,
-            this.state.photo,
-            tmpDateTime.getTime(),
-            (error) => { alert(error) },
-            () => { GlutonManager.getInstance().setMessage(2); GearManager.getInstance().sendMessage("msg 31") }
-        );
+        if(this.state.edit){
+            DatabaseManager.getInstance().updateMealEvent(
+                this.state.originalEventData.id,
+                this.state.foodEntryName,
+                this.state.selectedClassKey,
+                this.state.selectedMealKey,
+                this.state.foodRating,
+                this.state.foodEntryNote,
+                this.state.photo,
+                tmpDateTime.getTime(),
+                (error) => { alert(error) },
+                () => { GlutonManager.getInstance().setMessage(2); GearManager.getInstance().sendMessage("msg 31") }
+            );
+        }else {
+            DatabaseManager.getInstance().createMealEvent(
+                this.state.foodEntryName,
+                this.state.selectedClassKey,
+                this.state.selectedMealKey,
+                this.state.foodRating,
+                this.state.foodEntryNote,
+                this.state.photo,
+                tmpDateTime.getTime(),
+                (error) => {
+                    alert(error)
+                },
+                () => {
+                    GlutonManager.getInstance().setMessage(2);
+                    GearManager.getInstance().sendMessage("msg 31")
+                }
+            );
+        }
         // AchievementAddition
         if (this.state.selectedMealKey == 0) {
             if (this.state.selectedClassKey == 0) {

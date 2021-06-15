@@ -92,6 +92,7 @@ export default class EmoteTrackerScreen extends React.Component {
                 emoteNote: objData.note,
                 selectedDateAndTime: new Date(eventData.created),
                 edit : true,
+                originalEventData: eventData
             })
         }
     }
@@ -231,15 +232,36 @@ export default class EmoteTrackerScreen extends React.Component {
 
     saveCurrentData = (goHome) => {
         let tmpDateTime = this.state.selectedDateAndTime
-        DatabaseManager.getInstance().createEmotionEvent(
-            this.state.selectedSymbolID,
-            this.state.emoteNote,
-            tmpDateTime.getTime(),
-            (error) => { alert(error) },
-            () => { GlutonManager.getInstance().setMessage(2); GearManager.getInstance().sendMessage("msg 30") }
-        );
-        EmotionStore.setEmotionId(this.state.selectedSymbolID, tmpDateTime);
+        if(this.state.edit){
+            DatabaseManager.getInstance().updateEmotionEvent(
+                this.state.originalEventData.id,
+                this.state.selectedSymbolID,
+                this.state.emoteNote,
+                tmpDateTime.getTime(),
+                (error) => {
+                    alert(error)
+                },
+                () => {
+                    GlutonManager.getInstance().setMessage(2);
+                    GearManager.getInstance().sendMessage("msg 30")
+                }
+            );
 
+        }else {
+            DatabaseManager.getInstance().createEmotionEvent(
+                this.state.selectedSymbolID,
+                this.state.emoteNote,
+                tmpDateTime.getTime(),
+                (error) => {
+                    alert(error)
+                },
+                () => {
+                    GlutonManager.getInstance().setMessage(2);
+                    GearManager.getInstance().sendMessage("msg 30")
+                }
+            );
+            EmotionStore.setEmotionId(this.state.selectedSymbolID, tmpDateTime);
+        }
         if (goHome) {
             setTimeout(() => this.navigateHome(), 100);
         }

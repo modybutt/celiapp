@@ -90,6 +90,7 @@ export default class GIPScreen extends React.Component {
                 photo: objData.photo,
                 selectedDateAndTime: new Date(eventData.created),
                 edit : true,
+                originalEventData: eventData,
             })
         }
     }
@@ -176,22 +177,39 @@ export default class GIPScreen extends React.Component {
     saveData(goHome) {
         let tmpDateTime = this.state.selectedDateAndTime
         tmpDateTime.setFullYear(tmpDateTime.getFullYear());
-        if (this.state.photo) {
-            UploadManager.getInstance().uploadGIPImage(this.state.photo, () => { });
-        }
-
-        DatabaseManager.getInstance().createGIPEvent(
-            this.state.gipManualResult,
-            this.state.gipEntryNote,
-            this.state.photo,
-            tmpDateTime.getTime(),
-            (error) => { alert(error) },
-            () => {
-                GlutonManager.getInstance().setMessage(2);
-                GearManager.getInstance().sendMessage("msg 31")
+        if(this.state.edit){
+            DatabaseManager.getInstance().updateGipEvent(
+                this.state.originalEventData.id,
+                this.state.gipManualResult,
+                this.state.gipEntryNote,
+                this.state.photo,
+                tmpDateTime.getTime(),
+                tmpDateTime.getTime(),
+                (error) => {
+                    alert(error)
+                },
+                () => {
+                    GlutonManager.getInstance().setMessage(2);
+                    GearManager.getInstance().sendMessage("msg 31")
+                });
+        }else {
+            if (this.state.photo) {
+                UploadManager.getInstance().uploadGIPImage(this.state.photo, () => { });
             }
-        );
-
+            DatabaseManager.getInstance().createGIPEvent(
+                this.state.gipManualResult,
+                this.state.gipEntryNote,
+                this.state.photo,
+                tmpDateTime.getTime(),
+                (error) => {
+                    alert(error)
+                },
+                () => {
+                    GlutonManager.getInstance().setMessage(2);
+                    GearManager.getInstance().sendMessage("msg 31")
+                }
+            );
+        }
         if (goHome) {
             setTimeout(() => this.navigateHome(), 100);
         }

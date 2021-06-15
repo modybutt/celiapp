@@ -223,8 +223,6 @@ export default class DatabaseManager {
     });
   }
 
-
-  //unused
   updateSymptomEvent(eventID, symptomID, severity, note, dateTime, onError, onSuccess) {
     let objData = {
       symptomID,
@@ -271,18 +269,18 @@ export default class DatabaseManager {
     this.createEvent(Events.Food, timestamp, objData, onError, onSuccess);
   }
 
-  //unused
-  updateMealEvent(eventID, name, type, tag, rating, note, onError, onSuccess) {
+  updateMealEvent(eventID, name, type, tag, rating, note, icon, dateTime, onError, onSuccess) {
     let objData = {
       name,
       type,
       tag,
       rating,
-      //icon,
+      icon,
       note
     }
 
-    this.updateEvent(eventID, objData, onError, onSuccess);
+    console.log("saving food event:",eventID, objData, dateTime)
+    this.updateEventWithTime(eventID, objData, dateTime, onError, onSuccess);
   }
   
   toggleCulpritOnMealEvent(item, onError, onSuccess) {
@@ -310,8 +308,18 @@ export default class DatabaseManager {
     this.createEvent(Events.Emotion, timestamp, objData, onError, onSuccess);
   }
 
-  /******************************************************************* 
-   *                          LOG_EVENT TRACKER 
+  updateEmotionEvent(eventID, type, note, dateTime, onError, onSuccess) {
+    let objData = {
+      type,
+      note
+    }
+
+    console.log("saving emote event:",eventID, objData, dateTime)
+
+    this.updateEventWithTime(eventID, objData, dateTime, onError, onSuccess);
+  }
+  /*******************************************************************
+   *                          LOG_EVENT TRACKER
    ********************************************************************/
   // create log event:
   createLogEvent(objData, onError, onSuccess) {
@@ -330,15 +338,6 @@ export default class DatabaseManager {
   }
 
 
-  //unused
-  updateEmotionEvent(eventID, type, note, onError, onSuccess) {
-    let objData = {
-      type,
-      note
-    }
-
-    this.updateEvent(eventID, objData, onError, onSuccess);
-  }
 
   /******************************************************************* 
   *                          GIP TRACKER 
@@ -354,6 +353,19 @@ export default class DatabaseManager {
     }
 
     this.createEvent(Events.GIP, timestamp, objData, onError, onSuccess);
+  }
+
+  updateGipEvent(eventID, result, note, photo, timestamp, dateTime, onError,  onSuccess) {
+    let objData = {
+      result,
+      note,
+      photo,
+      timestamp
+    }
+
+    console.log("saving GIP event:",eventID, objData, dateTime)
+
+    this.updateEventWithTime(eventID, objData, dateTime, onError, onSuccess);
   }
 
   /******************************************************************* 
