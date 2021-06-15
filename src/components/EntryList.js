@@ -214,7 +214,7 @@ export default class EntryList extends React.Component {
             navigationName={LanguageManager.getInstance().getText(objData.name)}
             title={time}
             subtitle={severityText + " " + LanguageManager.getInstance().getText(objData.name)}
-            viewMiddleButtonText={'edit'}
+            viewMiddleButtonText={'View'}
             viewRightButtonText={'delete'}
             color={color}
             image={image}
@@ -237,7 +237,7 @@ export default class EntryList extends React.Component {
             title={time}
             subtitle={LanguageManager.getInstance().getText(objData.name)}
             //viewLeftButtonText={'culprit'}
-            viewMiddleButtonText={'edit'}
+            viewMiddleButtonText={'View'}
             viewRightButtonText={'delete'}
             color={color}
             image={image}
@@ -258,7 +258,7 @@ export default class EntryList extends React.Component {
             navigationName={LanguageManager.getInstance().getText(objData.name)}
             title={time}
             subtitle={LanguageManager.getInstance().getText(objData.note)}
-            viewMiddleButtonText={'edit'}
+            viewMiddleButtonText={'View'}
             viewRightButtonText={'delete'}
             color={color}
             image={image}
@@ -280,7 +280,7 @@ export default class EntryList extends React.Component {
             navigationName={LanguageManager.getInstance().getText(objData.name)}
             title={time}
             subtitle={LanguageManager.getInstance().getText(objData.note)}
-            viewMiddleButtonText={'edit'}
+            viewMiddleButtonText={'View'}
             viewRightButtonText={'delete'}
             color={color}
             image={image}
