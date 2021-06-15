@@ -8,6 +8,7 @@ import HeaderMenuButton from '../components/HeaderMenuButton';
 import Dialog from "react-native-dialog";
 import goalsettingSpeechBubble from '../assets/images/goalsetting_speechbubble.svg';
 import avatarAndy from "../assets/images/avatar_menu/avatar_lincy.png";
+import AchievementRecordManager from "../manager/buddyManager/AchievementRecordManager";
 
 const Avatar = (props) =>
 	<View style={styles.avatarContainer}>
@@ -99,6 +100,9 @@ export default class QuizScreen extends React.Component {
     
     selectAnswer(userAnswer) {
       this.setState({selected: userAnswer});
+      if (userAnswer == this.state.correct) {
+        AchievementRecordManager.increaseCountForAchievementRecord('QUESTIONRIGHT');
+      }
     }
 
     render() {

@@ -18,5 +18,11 @@
         "challengename": "Add 10 Meals",
         "points": 30,
         "type": "ONETIME"
+    }, {
+        "id": "10QUESTIONSRIGHT",
+        "message": "Answered 10 Questions Correctly",
+        "challengename": "Answer 10 Questions Correctly",
+        "points": 30,
+        "type": "ONETIME"
     }]
 }

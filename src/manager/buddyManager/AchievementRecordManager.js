@@ -31,5 +31,10 @@ export default class AchievementRecordManager{
         if(id == "MEAL" && count >= 10){
             AchievementManager.triggerAchievement("10MEALSADDED");
         }
+
+        // 10QUESTIONSRIGHT Achievement
+        if(id == "QUESTIONRIGHT" && count >= 10){
+            AchievementManager.triggerAchievement("10QUESTIONSRIGHT");
+        }
     }
 }
