@@ -389,7 +389,7 @@ export default class FoodDiaryScreen extends React.Component {
                     <View style={styles.buttonContainer}>
                         <View style={styles.buttonSubContainer}>
                             <TouchableHighlight style={styles.buttonSaveAndCancel} onPress={this.handleCancelButton}>
-                                <Text style={{textAlign: 'center', color: '#707070'}}>cancel</Text>
+                                <Text style={{textAlign: 'center', color: '#707070'}}>Cancel</Text>
                             </TouchableHighlight>
                             <TouchableHighlight style={styles.buttonSaveAndCancel}
                                                 onPress={() => this.saveCurrentData(true)}>

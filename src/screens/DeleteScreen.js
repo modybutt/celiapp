@@ -328,10 +328,10 @@ const BottomPart = ({ leftButtonClicked, rightButtonClicked }) =>
         <View style={styles.buttonContainer}>
             <View style={styles.buttonSubContainer}>
                 <TouchableHighlight style={styles.button} onPress={leftButtonClicked}>
-                    <Text style={{ textAlign: 'center', color: '#707070' }}>cancel</Text>
+                    <Text style={{ textAlign: 'center', color: '#707070' }}>Cancel</Text>
                 </TouchableHighlight>
                 <TouchableHighlight style={styles.button} onPress={rightButtonClicked}>
-                    <Text style={{ textAlign: 'center', color: '#707070' }}>delete</Text>
+                    <Text style={{ textAlign: 'center', color: '#707070' }}>Delete</Text>
                 </TouchableHighlight>
             </View>
         </View>

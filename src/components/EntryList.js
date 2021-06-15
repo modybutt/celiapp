@@ -215,7 +215,7 @@ export default class EntryList extends React.Component {
             title={time}
             subtitle={severityText + " " + LanguageManager.getInstance().getText(objData.name)}
             viewMiddleButtonText={'View'}
-            viewRightButtonText={'delete'}
+            viewRightButtonText={'Delete'}
             color={color}
             image={image}
             onLayout={object => this.itemHeights[index] = object.nativeEvent.layout.height}
@@ -238,7 +238,7 @@ export default class EntryList extends React.Component {
             subtitle={LanguageManager.getInstance().getText(objData.name)}
             //viewLeftButtonText={'culprit'}
             viewMiddleButtonText={'View'}
-            viewRightButtonText={'delete'}
+            viewRightButtonText={'Delete'}
             color={color}
             image={image}
             onLayout={object => this.itemHeights[index] = object.nativeEvent.layout.height}
@@ -259,7 +259,7 @@ export default class EntryList extends React.Component {
             title={time}
             subtitle={LanguageManager.getInstance().getText(objData.note)}
             viewMiddleButtonText={'View'}
-            viewRightButtonText={'delete'}
+            viewRightButtonText={'Delete'}
             color={color}
             image={image}
             onLayout={object => this.itemHeights[index] = object.nativeEvent.layout.height}
@@ -281,7 +281,7 @@ export default class EntryList extends React.Component {
             title={time}
             subtitle={LanguageManager.getInstance().getText(objData.note)}
             viewMiddleButtonText={'View'}
-            viewRightButtonText={'delete'}
+            viewRightButtonText={'Delete'}
             color={color}
             image={image}
             onLayout={object => this.itemHeights[index] = object.nativeEvent.layout.height}
