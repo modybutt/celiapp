@@ -14,7 +14,7 @@ import HUNGER_PAIN_ICON from '../assets/images/SymptomTracker/hunger_pains.png';
 import FOOD_CRAVING_ICON from '../assets/images/SymptomTracker/food_craving.png';
 import TENESMUS_ICON from '../assets/images/SymptomTracker/tenesmus.png';
 import LOW_ENERGY_ICON from '../assets/images/SymptomTracker/low_energy.png';
-import Events from '../constants/Events';
+import Events, { GIPLogFrequency } from '../constants/Events';
 
 export default class DatabaseManager {
 
@@ -489,7 +489,7 @@ export default class DatabaseManager {
                 dailySymptoms: settings.noSymptoms || 3,
                 dailyEmotions: settings.noEmotions || 3,
                 dailyMeals: settings.noMeals || 3,
-                dailyGips: settings.noGips || 1
+                dailyGips: settings.gipGoalIndex || GIPLogFrequency.ThricePerWeek
               }
             })					
           }

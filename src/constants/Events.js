@@ -7,6 +7,14 @@ export default Events = {
   "LogEvent": 4,
 };
 
+//index should start at 1.
+export const GIPLogFrequency = 
+{
+	"Daily": 1,
+	"ThricePerWeek": 2,
+	"Never": 3
+}
+
 export const Meals = {
   BREAKFAST: 0,
   LUNCH: 1,

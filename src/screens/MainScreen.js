@@ -17,7 +17,7 @@ import ReportManager from '../manager/ReportManager';
 import WeekDisplay from '../components/WeekDisplay';
 import { TouchableOpacity } from 'react-native-gesture-handler';
 import DatabaseManager from '../manager/DatabaseManager';
-import Events from '../constants/Events';
+import Events, { GIPLogFrequency } from '../constants/Events';
 import { SvgXml } from 'react-native-svg';
 import LanguageManager from '../manager/LanguageManager';
 
@@ -36,6 +36,21 @@ export default class MainScreen extends React.Component {
 	  {
 		  showInfoModal: false
 	  };
+
+	getDailyGipGoal(dailyGoal)
+	{		
+		const today = (new Date().getDay() - 1) % 7;
+		
+		switch (dailyGoal)
+		{
+			case GIPLogFrequency.Never:
+				return 0;
+			case GIPLogFrequency.ThricePerWeek:
+				//TODO: remove the black-magic numbers or else start viewing student code in a different light smh.
+				return today === 0 || today === 3 || today === 5 ? 1 : 0;
+			case GIPLogFrequency.Daily: return 1;
+		}
+	}
 	
 	render() {
 		if(!this.state.reportData || !this.state.dailyEventEntries || !this.state.dailyGoals) return (<View></View>)
@@ -99,7 +114,7 @@ export default class MainScreen extends React.Component {
 						viewallText={'view all GIP results'}
 						color={Colors.gip} 
 						image={gipImage}
-						dailyGoal={dailyGoals.dailyGips}
+						dailyGoal={this.getDailyGipGoal(dailyGoals.dailyGips)}
 						actual={dailyEventEntries.noGips}
 						/>
 						:null}
@@ -127,8 +142,8 @@ export default class MainScreen extends React.Component {
 						dailySymptoms: settings.noSymptoms || 3,
 						dailyEmotions: settings.noEmotions || 3,
 						dailyMeals: settings.noMeals || 3,
-						dailyGips: settings.noGips || 1
-					}					
+						dailyGips: settings.gipGoalIndex || GIPLogFrequency.ThricePerWeek
+					}
 				});
 			}
 		);

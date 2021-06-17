@@ -16,19 +16,44 @@ import mealImage from '../assets/images/cutlery_white.svg';
 import gipImage from '../assets/images/gip.svg';
 import * as Icon from '@expo/vector-icons';
 import DatabaseManager from "../manager/DatabaseManager";
+import { GIPLogFrequency } from '../constants/Events';
 
 export default class GoalSettingScreen extends React.Component
 {
 	state =
 	{
-		minNoMeals: 3,
-		minNoSymptoms: 3,
-		minNoEmotions: 3,
-		minNoGips: 1,
+		minNoMeals: 1,
+		minNoSymptoms: 1,
+		minNoEmotions: 1
+	}
+	
+	getGipGoalText(index)
+	{
+		switch (index)
+		{
+			case GIPLogFrequency.Daily: 
+				return { text1: 'I want to register', text2: 'a GIP result', text3: 'every day.\n' };
+			case GIPLogFrequency.ThricePerWeek:
+			default:
+				return { text1: 'I want to register', text2: 'a GIP result', text3: 'three days a week\n(Monday, Thursday and Saturday.)' }
+			case GIPLogFrequency.Never:
+					return { text1: 'I want to register', text2: 'no GIP results.', text3: '\n' };
+		}
+	}
+
+	setGipGoal(index)
+	{
+		if (index < 1)
+			return GIPLogFrequency.Daily;
+		return index % 4;
 	}
 
 	render()
 	{
+		if (this.state.gipGoalIndex === undefined)
+			return null;
+
+		let gipGoal = this.getGipGoalText(this.state.gipGoalIndex);
 		return <View style={styles.container}>
 			<Header />
 			<Text style={{
@@ -48,7 +73,7 @@ export default class GoalSettingScreen extends React.Component
 							text={<LogText 
 								text1='I want to register ' 
 								noItems={this.state.noSymptoms} 
-								text2='symptoms ' 
+								text2={this.state.noSymptoms === 1 ? 'symptom ' : 'symptoms '}
 								text3='each day.' 
 								color={Colors.symptom}
 								upPressed={() => {this.setState({noSymptoms: this.state.noSymptoms + 1})}}
@@ -59,7 +84,7 @@ export default class GoalSettingScreen extends React.Component
 							text={<LogText 
 								text1='I want to register ' 
 								noItems={this.state.noMeals} 
-								text2='meals ' 
+								text2={this.state.noMeals === 1 ? 'meal ' : 'meals'}
 								text3='each day.' 
 								color={Colors.meal}
 								upPressed={() => {this.setState({noMeals: this.state.noMeals + 1})}}
@@ -70,7 +95,7 @@ export default class GoalSettingScreen extends React.Component
 							text={<LogText 
 								text1='I want to register ' 
 								noItems={this.state.noEmotions} 
-								text2='energy levels ' 
+								text2={this.state.noEmotions === 1 ? 'energy level ' : 'energy levels '}
 								text3='each day.' 
 								color={Colors.emotion}
 								upPressed={() => {this.setState({noEmotions: this.state.noEmotions + 1})}}
@@ -79,13 +104,12 @@ export default class GoalSettingScreen extends React.Component
 
 						<Goal color={Colors.gip} image={gipImage}
 							text={<LogText 
-								text1='I want to register ' 
-								noItems={this.state.noGips} 
-								text2={this.state.noGips === 1 ? 'GIP result ' : 'GIP results '}
-								text3='each day.' 
+								text1={gipGoal.text1}
+								text2={gipGoal.text2}
+								text3={gipGoal.text3}								
 								color={Colors.gip}
-								upPressed={() => {this.setState({noGips: this.state.noGips + 1})}}
-								downPressed={() => {this.setState({noGips: Math.max(this.state.minNoGips, this.state.noGips - 1)})}}
+								upPressed={() => {this.setState({gipGoalIndex: Math.min(3, this.state.gipGoalIndex + 1)})}}
+								downPressed={() => {this.setState({gipGoalIndex: Math.max(1, this.state.gipGoalIndex - 1)})}}
 								/>}/>
 					</View>
 
@@ -98,7 +122,7 @@ export default class GoalSettingScreen extends React.Component
 							DatabaseManager.getInstance().saveSettings('noSymptoms', this.state.noSymptoms, (error) => { alert(error) }, null);
 							DatabaseManager.getInstance().saveSettings('noEmotions', this.state.noEmotions, (error) => { alert(error) }, null);
 							DatabaseManager.getInstance().saveSettings('noMeals', this.state.noMeals, (error) => { alert(error) }, null);
-							DatabaseManager.getInstance().saveSettings('noGips', this.state.noGips, (error) => { alert(error) }, null);
+							DatabaseManager.getInstance().saveSettings('gipGoalIndex', this.state.gipGoalIndex, (error) => { alert(error) }, null);
 							if (this.props.onSaveButtonPressed)
 							{
 								this.props.onSaveButtonPressed();
@@ -117,12 +141,12 @@ export default class GoalSettingScreen extends React.Component
 			let settings = {};		
 			for (var i in _array) {			
 			  settings[_array[i].name] = JSON.parse(_array[i].objData);
-			}		
+			}
 			this.setState({
 				noSymptoms: settings.noSymptoms || 3,
 				noEmotions: settings.noEmotions || 3,
 				noMeals: settings.noMeals || 3,
-				noGips: settings.noGips || 1
+				gipGoalIndex: settings.gipGoalIndex || GIPLogFrequency.ThricePerWeek
 			});
 		  }
 		);
@@ -285,7 +309,7 @@ const styles = StyleSheet.create
 		display: 'flex',
 		flexDirection: 'row',
 		marginLeft: 15,
-		marginRight: 20,
+		marginRight: 20
 	},
 
 	headerContainer: 
