@@ -24,7 +24,10 @@ export default class GoalSettingScreen extends React.Component
 	{
 		minNoMeals: 1,
 		minNoSymptoms: 1,
-		minNoEmotions: 1
+		minNoEmotions: 1,
+		maxNoMeals: 10,
+		maxNoSymptoms: 10,
+		maxNoEmotions: 10
 	}
 	
 	getGipGoalText(index)
@@ -76,6 +79,8 @@ export default class GoalSettingScreen extends React.Component
 								text2={this.state.noSymptoms === 1 ? 'symptom ' : 'symptoms '}
 								text3='each day.' 
 								color={Colors.symptom}
+								lowerLimit={this.state.minNoSymptoms}
+								upperLimit={this.state.maxNoSymptoms}
 								upPressed={() => {this.setState({noSymptoms: this.state.noSymptoms + 1})}}
 								downPressed={() => {this.setState({noSymptoms: Math.max(this.state.minNoSymptoms, this.state.noSymptoms - 1)})}}
 								/>}/>
@@ -87,6 +92,8 @@ export default class GoalSettingScreen extends React.Component
 								text2={this.state.noMeals === 1 ? 'meal ' : 'meals'}
 								text3='each day.' 
 								color={Colors.meal}
+								lowerLimit={this.state.minNoMeals}
+								upperLimit={this.state.maxNoMeals}
 								upPressed={() => {this.setState({noMeals: this.state.noMeals + 1})}}
 								downPressed={() => {this.setState({noMeals: Math.max(this.state.minNoMeals, this.state.noMeals - 1)})}}
 								/>}/>
@@ -98,6 +105,8 @@ export default class GoalSettingScreen extends React.Component
 								text2={this.state.noEmotions === 1 ? 'energy level ' : 'energy levels '}
 								text3='each day.' 
 								color={Colors.emotion}
+								lowerLimit={this.state.minNoEmotions}
+								upperLimit={this.state.maxNoEmotions}
 								upPressed={() => {this.setState({noEmotions: this.state.noEmotions + 1})}}
 								downPressed={() => {this.setState({noEmotions: Math.max(this.state.minNoEmotions, this.state.noEmotions - 1)})}}
 								/>}/>
@@ -108,6 +117,10 @@ export default class GoalSettingScreen extends React.Component
 								text2={gipGoal.text2}
 								text3={gipGoal.text3}								
 								color={Colors.gip}
+								lowerLimit={1}
+								upperLimit={3}
+								hideNoItems={true}
+								noItems={this.state.gipGoalIndex}
 								upPressed={() => {this.setState({gipGoalIndex: Math.min(3, this.state.gipGoalIndex + 1)})}}
 								downPressed={() => {this.setState({gipGoalIndex: Math.max(1, this.state.gipGoalIndex - 1)})}}
 								/>}/>
@@ -153,35 +166,35 @@ export default class GoalSettingScreen extends React.Component
 	  }
 }
 
-const ChevronsAndText = ({text, noItems, color, upPressed, downPressed}) =>
+const ChevronsAndText = ({text, noItems, hideNoItems, color, lowerLimit, upperLimit, upPressed, downPressed}) =>
 {
 	return <View style={[{flexDirection: 'column'}, Platform.OS === 'android' ? styles.chevronsAndroid : '']}>
-			<TouchableOpacity onPress={() => upPressed()}>
+			<TouchableOpacity disabled={noItems === upperLimit} onPress={() => upPressed()}>
 				<Icon.EvilIcons style={{
 					textAlign: 'center',
 					marginBottom: -4
-				}} name='chevron-up' size={30} color={color}/>
+				}} name='chevron-up' size={30} color={noItems === upperLimit ? '#CECECE' : color}/>
 			</TouchableOpacity>
 			
-			<Text style={{ color: color, fontWeight: 'bold' }}>
-				{noItems} {text}
+			<Text style={{ color: color, fontWeight: 'bold' }}>				
+				{hideNoItems ? '' : noItems} {text}
 			</Text>
 
-			<TouchableOpacity onPress={() => downPressed()}>
+			<TouchableOpacity disabled={noItems === lowerLimit} onPress={() => downPressed()}>
 				<Icon.EvilIcons style={{
 					textAlign: 'center'
-				}} name='chevron-down' size={30} color={color}/>
+				}} name='chevron-down' size={30} color={noItems === lowerLimit ? '#CECECE' : color}/>
 			</TouchableOpacity>
 		</View>
 }
 
-const LogText = ({text1, text2, noItems, text3, color, upPressed, downPressed}) =>
+const LogText = ({text1, text2, noItems, hideNoItems, text3, color, lowerLimit, upperLimit, upPressed, downPressed}) =>
 {
 	return <View style={{marginTop: Platform.OS === 'android' ? 0 : -18, marginLeft: window.width * .05}}> 
 			<Text style={{fontSize: 16, width: window.width * 0.7}}>
 			<Text style={{color:'#707070' }}>{text1}</Text>
 			<View style={{display: 'flex', marginTop: -26}} >
-				<ChevronsAndText color={color} noItems={noItems} text={text2} upPressed={upPressed} downPressed={downPressed}/>
+				<ChevronsAndText color={color} hideNoItems={hideNoItems} noItems={noItems} text={text2} lowerLimit={lowerLimit} upperLimit={upperLimit} upPressed={upPressed} downPressed={downPressed}/>
 			</View>
 			{'\n'}
 			<Text style={{color:'#707070'}}>{text3}</Text>
