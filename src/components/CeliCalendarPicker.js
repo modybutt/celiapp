@@ -5,7 +5,8 @@ import LanguageManager from "../manager/LanguageManager";
 import DatabaseManager from '../manager/DatabaseManager';
 import moment from 'moment';
 
-const specialColor = "#E91F64";
+const borderEntryColor = "#E91F64";
+const selectedColor = "#E23873"; 
 
 export default class CeliCalendarPicker extends React.Component {
     onfocus = () =>
@@ -31,9 +32,9 @@ export default class CeliCalendarPicker extends React.Component {
                     date: date,
                     style: {
                         //backgroundColor: 'lightblue',
-                        borderColor: specialColor,
-                        borderWidth: 2,
-                      
+
+                        borderColor: borderEntryColor,
+                        borderWidth: 2,                      
                     }, textStyle: { fontWeight: 'bold' }
                 });
             }
@@ -42,9 +43,14 @@ export default class CeliCalendarPicker extends React.Component {
     }
 
   render() {
+	  const todaySelected = new Date(this.props.selectedDate).toDateString() === new Date().toDateString();
     return (
       <View style={styles.container}>
         <CalendarPicker
+		  selectedDayColor={selectedColor}
+		  selectedDayTextColor={'white'}
+		  todayBackgroundColor={'white'}		  
+		  todayTextStyle={{color: todaySelected ? 'white' : selectedColor, textDecorationLine: 'underline'}}
           maxDate= {new Date()}
           customDatesStyles= {this.state.customDatesStyles}
           onDateChange={(date, type) => {this.props.onDateChange(date);}}
