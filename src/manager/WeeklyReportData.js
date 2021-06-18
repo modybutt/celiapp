@@ -1,5 +1,5 @@
 import DateUtil from '../utils/dateUtils';
-import Events, {Emotion, Gluten, Severity, Symptoms} from '../constants/Events';
+import Events, {Emotion, getGipGoalToday, GIPLogFrequency, Gluten, Severity, Symptoms} from '../constants/Events';
 
 log = (msg, e) => {
     console.log(msg, " : ", e);
@@ -30,9 +30,24 @@ export default class WeeklyReportData {
         ]);
     }
 
+    targetDailyScore = (day) => {
+        const s = getGipGoalToday(this.TARGET_DAILY_GIP_INDEX, DateUtil.dayOfWeek(day.date)) +
+        this.TARGET_MEALS_PER_DAY +
+        this.TARGET_SYMPTOMS_PER_DAY +
+        this.TARGET_EMOTIONS_PER_DAY
+
+        console.log("Daily score target", s , ":", this.TARGET_MEALS_PER_DAY )
+        return s;
+    }
+
     getGoals = () => this.dataBase.getDailyGoals()
         .then((goals) => {
             this.goals = goals.dailyGoals
+            this.TARGET_DAILY_GIP_INDEX = goals.dailyGoals.dailyGips
+            this.TARGET_MEALS_PER_DAY =  goals.dailyGoals.dailyMeals
+            this.TARGET_SYMPTOMS_PER_DAY =  goals.dailyGoals.dailySymptoms
+            this.TARGET_EMOTIONS_PER_DAY =  goals.dailyGoals.dailyEmotions
+
             console.log("Got goals", this.goals)
 
         })
@@ -54,8 +69,6 @@ export default class WeeklyReportData {
                         .filter(event => event.eventType !== Events.LogEvent)
                         .map(this.jsonifyEvent)
                     console.log("data filtered, start = ", startOfPeriod)
-                    this.calcBestDay()
-                    console.log("best day calculated, start = ", startOfPeriod)
                     resolve("done")
                 })
                 .catch(err => console.log("Report data access error:", err.message, err));
@@ -72,12 +85,14 @@ export default class WeeklyReportData {
             );
         })
 
-    TARGET_DAILY_SCORE = 9
+    //TARGET_DAILY_SCORE = 9
+    TARGET_DAILY_GIP_INDEX = GIPLogFrequency.ThricePerWeek
     TARGET_MEALS_PER_DAY = 3
     TARGET_SYMPTOMS_PER_DAY = 3
     TARGET_EMOTIONS_PER_DAY = 3
 
     targetActivityCounter = (day) =>
+        Math.min(day.gipTests, getGipGoalToday(this.TARGET_DAILY_GIP_INDEX, DateUtil.dayOfWeek(day.date))) +
         Math.min(day.mealCount, this.TARGET_MEALS_PER_DAY) +
         Math.min(day.emotionCount, this.TARGET_EMOTIONS_PER_DAY) +
         Math.min(day.symptomCount, this.TARGET_SYMPTOMS_PER_DAY)
@@ -173,7 +188,7 @@ export default class WeeklyReportData {
                 }))
             .map(day => ({
                 ...day,
-                activity: this.targetActivityCounter(day) / this.TARGET_DAILY_SCORE
+                activity: (day.date instanceof Date) ? this.targetActivityCounter(day) / this.targetDailyScore(day) : 0
             }))
 
         this.bestDay = this.enrichedDays.reduce((bestDay, thisDay) => bestDay.score > thisDay.score ? bestDay : thisDay)

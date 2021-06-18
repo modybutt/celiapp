@@ -283,6 +283,10 @@ export default class ReportManager {
     Promise.all([getDbStartDate, thisWeek, penultimateWeek])
       .then(([dbStartDate, _, __]) => {
         console.log("after promise")
+        
+        thisWeekData.calcBestDay()
+        penultimateWeekData.calcBestDay()
+
         this.reportText.title = this.reportTitle(endOfWeek)
 
         if (dbStartDate > startOfPenultimateWeek) { penultimateWeekData = null }

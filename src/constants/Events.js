@@ -15,6 +15,23 @@ export const GIPLogFrequency =
 	"Never": 3
 }
 
+export const getGipGoalToday = (gipGoal, dayIndex) =>
+{
+  switch (gipGoal)
+  {
+    case GIPLogFrequency.Never:
+      return 0;
+    case GIPLogFrequency.ThricePerWeek:
+      const MONDAY=0;
+      const THURSDAY=3;
+      const SATURDAY=5;
+      return [MONDAY, THURSDAY, SATURDAY].includes(dayIndex) ? 1: 0;
+    case GIPLogFrequency.Daily: return 1;
+
+    default: return 0;
+  }
+}
+
 export const Meals = {
   BREAKFAST: 0,
   LUNCH: 1,
