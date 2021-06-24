@@ -89,16 +89,7 @@ export default class FoodDiaryScreen extends React.Component {
         const eventData = this.props.navigation.getParam("event", false)
         if (this.props.navigation.getParam("edit", false) && eventData) {
             const objData = JSON.parse(eventData.objData);
-            console.log(objData)
-            // Object {
-            //     "culprit": false,
-            //         "icon": null,
-            //         "name": "Chips",
-            //         "note": "My Notes",
-            //         "rating": 0,
-            //         "tag": 1, breakfats lunch dinner
-            //         "type": 0, gluten yes/maybe/no
-            // }
+
             this.setState({
                 foodEntryName: objData.name,
                 selectedClassKey: objData.type,
@@ -107,7 +98,8 @@ export default class FoodDiaryScreen extends React.Component {
                 foodEntryNote: objData.note,
                 selectedDateAndTime: new Date(eventData.created),
                 edit: true,
-                originalEventData: eventData
+                originalEventData: eventData,
+                photo: this.state.photo || objData.icon,
             })
         }
     }
@@ -370,7 +362,8 @@ export default class FoodDiaryScreen extends React.Component {
                     <HorizontalLineWithText color={themeColor} text={LanguageManager.getInstance().getText("IMAGE")}/>
                     <View style={{alignItems: 'center'}}>
                         <FoodDiaryImageEdit color={themeColor} navigation={this.props.navigation}
-                                            onPictureTaken={(image) => this.setState({photo: image})}/>
+                                            snapshot = {this.state.photo}
+                                            onPictureTaken={(image) => this.setState({photo: image, modified: true})}/>
                     </View>
                     <HorizontalLineWithText color={themeColor}
                                             text={LanguageManager.getInstance().getText("MEAL_GLUTEN")}/>

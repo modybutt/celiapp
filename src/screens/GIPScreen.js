@@ -87,7 +87,7 @@ export default class GIPScreen extends React.Component {
                 //     symptomEntryNote : objData.note,
                 gipManualResult: objData.result,
                 gipEntryNote: objData.note,
-                photo: objData.photo,
+                photo: this.state.photo || objData.photo,
                 selectedDateAndTime: new Date(eventData.created),
                 edit: true,
                 originalEventData: eventData,
@@ -256,6 +256,7 @@ export default class GIPScreen extends React.Component {
     }
 
     render() {
+        console.log("state:", this.state);
         return (
             <>
                 <SafeAreaView style={{flex: 0, backgroundColor: themeColor}}/>
@@ -272,7 +273,11 @@ export default class GIPScreen extends React.Component {
                     <HorizontalLineWithText color={themeColor} text={LanguageManager.getInstance().getText("PICTURE")}/>
                     <View style={{alignItems: 'center'}}>
                         <FoodDiaryImageEdit color={themeColor} navigation={this.props.navigation}
-                                            onPictureTaken={(image) => this.setState({photo: image, modified: true})}/>
+                                            onPictureTaken={(image) => {
+                                                this.setState({photo: image, modified: true})
+                                                console.log("New Photo", image)
+                                            }}
+                                            snapshot = {this.state.photo} />
                     </View>
                     <HorizontalLineWithText iconClickEvent={this.toggleShowSymptomInformation} color={themeColor}
                                             text={LanguageManager.getInstance().getText("TAGS")}/>

@@ -10,17 +10,24 @@ export default class FoodDiaryImageEdit extends React.Component {
 
     state = {
         snapshot: this.props.snapshot == null ? null : this.props.snapshot,
+        newPicture: false
     }
 
     onPictureTaken(picture) {
-        this.setState({snapshot: picture});
+        console.log("picture taken", picture)
+        this.setState({snapshot: picture, newPicture: true});
 
         if (this.props.onPictureTaken != null) {
             this.props.onPictureTaken(picture);
         }
     }
 
-    
+    componentDidUpdate(prevProps) {
+        console.log("CDU: photo:", this.props.snapshot)
+        if (!this.state.newPicture && this.state.snapshot !== this.props.snapshot) {
+            this.setState({snapshot: this.props.snapshot});
+        }
+    }
 
     render() {
         if (this.props.active == null || this.props.active == true) {

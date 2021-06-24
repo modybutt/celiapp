@@ -60,7 +60,7 @@ export default class CameraScreen extends React.Component {
                   });
                 }}
               >
-                <Icon.Ionicons name='md-swap' color={this.props.focused ? Colors.tabIconSelected : Colors.tabIconDefault} size={40} />
+                <Icon.Ionicons name='swap-horizontal'  color={this.props.focused ? Colors.tabIconSelected : Colors.tabIconDefault} size={40} />
               </TouchableOpacity>
               <View style={styles.triggerContainer}>
                 {this.state.computing == false 
