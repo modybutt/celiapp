@@ -177,7 +177,7 @@ export default class DeleteScreen extends React.Component {
         switch (this.state.event.eventType) {
             case Events.Symptom: {
                 const color = '#1DBBA0';
-                image = this.getSymptomImageSource(objData.symptomID);
+                const image = this.getSymptomImageSource(objData.symptomID);
 
                 return (
                     <>
@@ -211,7 +211,7 @@ export default class DeleteScreen extends React.Component {
             }
             case Events.Food: {
                 let color = '#3398DE';
-                image = this.getFoodImageSource(objData.type);
+                const image = this.getFoodImageSource(objData.type);
                 return (
                     <>
                         <SafeAreaView style={{ flex: 0, backgroundColor: specialColor }} />
@@ -242,7 +242,7 @@ export default class DeleteScreen extends React.Component {
             }
             case Events.GIP: {
                 let color = '#FF8D1E';
-                image = this.getGipImageSource(objData.result);
+                const image = this.getGipImageSource(objData.result);
                 return (
                     <>
                         <SafeAreaView style={{ flex: 0, backgroundColor: specialColor }} />
@@ -359,7 +359,6 @@ const styles = StyleSheet.create
             justifyContent: 'center',
             alignItems: 'center',
             width: window.width,
-            height: '40%',
             //backgroundColor: '#f7f7f7',
             marginBottom: 5,
         },
@@ -391,7 +390,7 @@ const styles = StyleSheet.create
             fontSize: 16
         },
         iconImage: {
-            height: '15%',
+            height: window.width * 0.15,
             aspectRatio: 1,
             resizeMode: 'contain',
         },
