@@ -1,9 +1,9 @@
 {
   "expo": {
-    "name": "CeliApp",
+    "name": "Gluten Buddy",
     "icon": "./src/assets/images/web_hi_res_512.png",
     "version": "0.2.21",
-    "slug": "CeliApp",
+    "slug": "Gluten_Buddy",
     "orientation": "portrait",
     "ios": {
       "buildNumber": "129",

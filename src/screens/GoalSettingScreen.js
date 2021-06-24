@@ -215,7 +215,7 @@ const Header = () =>
 	return <View style={styles.headerContainer}>
 		<SvgXml width='25' height='25' xml={celiAppLogo}/>
 		<Text style={styles.headerText}>
-			Celiapp
+			Gluten Buddy
 		</Text>
 	</View>
 }

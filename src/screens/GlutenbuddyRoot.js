@@ -62,7 +62,7 @@ import Color from '../constants/Colors'
 export default class GlutenbuddyRoot extends React.Component {
 
   static navigationOptions = ({ navigation }) => ({
-    	headerTitle:<ImageHeader color={Color.mainscreenColor} title={"Celiapp"}/>
+    	headerTitle:<ImageHeader color={Color.mainscreenColor} title={"Gluten Buddy"}/>
 	});
 
   componentDidMount() {

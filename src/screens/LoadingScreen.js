@@ -27,7 +27,7 @@ export default class LoadingScreen extends React.Component {
         justifyContent: 'space-around',
         alignItems: 'center'
       }}>
-        <Text style={{fontSize: 40, fontWeight: 'bold'}}>CeliApp</Text>
+        <Text style={{fontSize: 40, fontWeight: 'bold'}}>Gluten Buddy</Text>
         <View>
           <SvgXml style={{
 

@@ -41,7 +41,7 @@ export default class SignIn extends React.Component {
           height: Dimensions.get('window').height
         }}>
           <View></View>
-          <Text style={styles.title}>CeliApp</Text>
+          <Text style={styles.title}>Gluten Buddy</Text>
           <Image style={styles.logo} source={LOGO} />
           <View style={styles.container}>
             <Text>Welcome to the 21-day challenge!</Text>

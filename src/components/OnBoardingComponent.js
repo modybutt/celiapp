@@ -38,7 +38,7 @@ const OnBoardingHeader = ({header}) =>
 	if (header) return <View style={styles.headerContainer}>
 			<SvgXml width='35' xml={celiAppLogo}/>
 			<Text style={styles.headerText}>
-				Celiapp
+				Gluten Buddy
 			</Text>
 		</View>
 	return null;
@@ -66,7 +66,7 @@ const CeliappIconWithText = ({}) =>
 		<SvgXml style={{
 
 			}} width="90" height="90" xml={celiAppLogo}/>
-		<Text style={styles.iconTitleText}>Celiapp</Text>
+		<Text style={styles.iconTitleText}>Gluten Buddy</Text>
 	</View>
 }
 
