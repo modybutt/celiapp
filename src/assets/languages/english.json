@@ -36,6 +36,7 @@
 		"CANCEL": "Cancel",
 		"DO_YOU_WANT_TO_SAVE": "Do you want to save the entries?",
 		"BACK": "Back",
+		"CONTINUE_EDITING" : "Continue editing",
 		"DISCARD": "Discard",
 		"DO_YOU_WANT_TO_DISCARD": "Do you really want to discard the entries?",
 		"SYMPTOM_OCCURED": "Occurred at: ",

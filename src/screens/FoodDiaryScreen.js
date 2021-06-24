@@ -405,7 +405,7 @@ export default class FoodDiaryScreen extends React.Component {
                             <Dialog.Description>
                                 {LanguageManager.getInstance().getText("WANT_TO_SAVE_EMPTY_FOOD")}
                             </Dialog.Description>
-                            <Dialog.Button label={LanguageManager.getInstance().getText("BACK")}
+                            <Dialog.Button label={LanguageManager.getInstance().getText("CONTINUE_EDITING")}
                                            onPress={() => this.handleBack()}/>
                             <Dialog.Button label={LanguageManager.getInstance().getText("YES")}
                                            onPress={() => this.saveData(true)}/>
@@ -417,7 +417,7 @@ export default class FoodDiaryScreen extends React.Component {
                             <Dialog.Description>
                                 {LanguageManager.getInstance().getText("DO_YOU_WANT_TO_DISCARD")}
                             </Dialog.Description>
-                            <Dialog.Button label={LanguageManager.getInstance().getText("BACK")}
+                            <Dialog.Button label={LanguageManager.getInstance().getText("CONTINUE_EDITING")}
                                            onPress={() => this.handleBack()}/>
                             <Dialog.Button label={LanguageManager.getInstance().getText("DISCARD")}
                                            onPress={() => this.handleDiscard()}/>

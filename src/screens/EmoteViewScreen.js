@@ -69,7 +69,7 @@ export default class EmoteViewScreen extends React.Component {
 						<Dialog.Description>
 						{LanguageManager.getInstance().getText("DO_YOU_WANT_TO_DELETE")}
 						</Dialog.Description>
-						<Dialog.Button label={LanguageManager.getInstance().getText("BACK")} onPress={() => this.setState({showDeleteConfirmDialog: false})} />
+						<Dialog.Button label={LanguageManager.getInstance().getText("NO")} onPress={() => this.setState({showDeleteConfirmDialog: false})} />
 						<Dialog.Button label={LanguageManager.getInstance().getText("DELETE")} onPress={() => this.deleteEntry()} />
 					</Dialog.Container>
 				</View>

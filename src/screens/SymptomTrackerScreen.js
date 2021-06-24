@@ -234,7 +234,7 @@ export default class SymptomTrackerScreen extends React.Component {
                             <Dialog.Description>
                                 {LanguageManager.getInstance().getText("DO_YOU_WANT_TO_DISCARD")}
                             </Dialog.Description>
-                            <Dialog.Button label={LanguageManager.getInstance().getText("BACK")} onPress={this.handleBack} />
+                            <Dialog.Button label={LanguageManager.getInstance().getText("CONTINUE_EDITING")} onPress={this.handleBack} />
                             <Dialog.Button label={LanguageManager.getInstance().getText("DISCARD")} onPress={this.handleDiscard} />
                         </Dialog.Container>
                     </View>
