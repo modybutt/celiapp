@@ -200,12 +200,15 @@ export default class EntryList extends React.Component {
         const color = '#1DBBA0';
         let severityText = 'no symptom';
         switch (objData.severity) {
-          case 1: severityText = 'Mild'; break;
-          case 2: severityText = 'Moderate'; break;
-          case 3: severityText = 'Severe'; break;
+          case 1: severityText = 'Mild '; break;
+          case 2: severityText = 'Moderate '; break;
+          case 3: severityText = 'Severe '; break;
         }
         let image = this.getSymptomImageSource(objData.symptomID);
-        if (objData.symptomID === 0) objData.name = 'NO_SYMPTOMS'; //TODO: Temp solution. Needs to be an entry in the database
+        if (objData.symptomID === 0){
+          objData.name = 'NO_SYMPTOMS';
+          severityText = '';
+        } //TODO: Temp solution. Needs to be an entry in the database
         return (
           //<TouchableOpacity onPress={() => this.props.navigation.navigate('ViewSymptom', { event: item })}>
           <HistoryEntry
@@ -213,7 +216,7 @@ export default class EntryList extends React.Component {
             onRightButtonClicked={() => this.props.navigation.navigate('DeleteScreen', { event: item })}
             navigationName={LanguageManager.getInstance().getText(objData.name)}
             title={time}
-            subtitle={severityText + " " + LanguageManager.getInstance().getText(objData.name)}
+            subtitle={severityText + LanguageManager.getInstance().getText(objData.name)}
             viewMiddleButtonText={'View'}
             viewRightButtonText={'Delete'}
             color={color}
