@@ -26,7 +26,7 @@ export default class EmotionInformation extends React.Component {
             } >
                 <View style={[styles.subContainer, this.colorStyle]}>
                     <Text style={styles.text}>By entering your energy level you can get insight into how your diet positively or negatively influences it.</Text>
-                    <Text style={styles.text}>in the daily report screen <Icon.Ionicons
+                    <Text style={styles.text}>In the daily report screen <Icon.Ionicons
                         name={"md-calendar"}
                         size={26}
                         style={{ marginBottom: -3 }}
