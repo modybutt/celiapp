@@ -1,6 +1,6 @@
 ![Project Logo](/.github/logos/combined_logos.png)
 
-# Gluten Buddy
+# Gluten Buddy (formerly Celiapp)
 
 An app to help people with [coeliac disease](https://en.wikipedia.org/wiki/Coeliac_disease) control their intake of gluten.
 
