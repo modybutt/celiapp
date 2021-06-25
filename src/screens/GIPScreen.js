@@ -260,7 +260,7 @@ export default class GIPScreen extends React.Component {
         return (
             <>
                 <SafeAreaView style={{flex: 0, backgroundColor: themeColor}}/>
-                <KeyboardAwareScrollView style={{backgroundColor: "#fff"}} keyboardShouldPersistTaps="always">
+                <KeyboardAwareScrollView style={{backgroundColor: "#fff"}} keyboardShouldPersistTaps="handled">
                     <HeaderBanner color={themeColor} imageSource={require('../assets/images/GipTracker/gip_icon.png')}/>
 
                     <HorizontalLineWithText color={themeColor} text={LanguageManager.getInstance().getText("DATE")}/>
