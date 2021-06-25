@@ -17,6 +17,7 @@ import FlashMessage from 'react-native-flash-message';
 import { showMessage } from "react-native-flash-message";
 import OnBoardingScreen from './src/screens/OnboardingScreen';
 import GoalSettingScreen from "./src/screens/GoalSettingScreen";
+import {GIPLogFrequency} from "./src/constants/Events";
 
 export default class App extends React.Component {
   state = {
@@ -120,18 +121,25 @@ export default class App extends React.Component {
     const defaultUsingGIPFlag = true;
     const usingGIP = data.usingGIP===undefined ? defaultUsingGIPFlag : data.usingGIP
 
+    let gipGoalIndex = GIPLogFrequency.Never;
+
+    if(data.usingGIP)
+      gipGoalIndex = data.gip3PerWeek ? GIPLogFrequency.ThricePerWeek : GIPLogFrequency.Daily;
+
     this.setState({
       hasUserId: true,
       userId: username,
       password: pw,
       gamify: data.gamify,
-      usingGIP: usingGIP
+      usingGIP: usingGIP,
+      gipGoalIndex: gipGoalIndex
     });
 
     DatabaseManager.getInstance().saveSettings('userId', username, (error) => { alert(error) }, null);
     DatabaseManager.getInstance().saveSettings('password', pw, (error) => { alert(error) }, null);
     DatabaseManager.getInstance().saveSettings('gamify', data.gamify === true ? 1 : -1, (error) => { alert(error) }, null);
     DatabaseManager.getInstance().saveSettings('usingGIP', usingGIP === true ? 1 : -1, (error) => { alert(error) }, null);
+    DatabaseManager.getInstance().saveSettings('gipGoalIndex', gipGoalIndex, (error) => { alert(error) }, null);
 
     // set gamification flag in Store:
     if (data.gamify !== LoggingStore.gamificationFlag) {
