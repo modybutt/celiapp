@@ -20,6 +20,7 @@ import DatabaseManager from '../manager/DatabaseManager';
 import Events, { GIPLogFrequency } from '../constants/Events';
 import { SvgXml } from 'react-native-svg';
 import LanguageManager from '../manager/LanguageManager';
+import {NavigationEvents} from "react-navigation";
 
 export default class MainScreen extends React.Component {
 	
@@ -62,7 +63,6 @@ export default class MainScreen extends React.Component {
 		//TODO: set text dynamically from reportmanager.
 		return (
 			<View>
-					
 				<View style={styles.container}>
 					<WeekDisplay showToday={true} dailyActivity={reportData.dailyActivity}/>
 					<Avatar showModal={this.state.showInfoModal} onShowModal={() => this.setState({showInfoModal: true})}/>
@@ -187,16 +187,22 @@ export default class MainScreen extends React.Component {
 
 	componentDidMount() 
 	{
-		this.props.navigation.addListener('willFocus', () => 
+		this.fetchData();
+		this.props.navigation.addListener('willFocus', async () =>
 		{			
-			ReportManager.weeklyReport(this.receiveData);
-
-			this.getDailyTrackerAndGoalInfo();
+			this.fetchData();
 		});
 	}
 
+	fetchData = () => {
+		console.log("fetching data======================================")
+		ReportManager.weeklyReport(this.receiveData);
+		this.getDailyTrackerAndGoalInfo();
+	}
+
 	receiveData = (data) => 
-	{ 
+	{
+		console.log("receiving data======================================")
 		this.setState({ reportData : data });
 	}
 }
