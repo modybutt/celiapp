@@ -62,12 +62,15 @@ export default class HistoryEntry extends React.Component {
 	render() {
 		return (
 			<View style={styles.dropShadow}>
-				<Animated.View style=
-					{{
-						transform: [{ translateX: this.state.transformValue }]
-					}}
-					onTouchMove={(evt) => this.touchMove(evt)}
-					onTouchEnd={(evt) => this.touchEnd(evt)}>
+				<TouchableOpacity onPress={this.props.onEditButtonClicked}>
+				<Animated.View
+					// style=
+					// {{
+					// 	transform: [{ translateX: this.state.transformValue }]
+					// }}
+					// onTouchMove={(evt) => this.touchMove(evt)}
+					// onTouchEnd={(evt) => this.touchEnd(evt)}
+				>
 					<Entry title={this.props.title}
 						subtitle={this.props.subtitle}
 						color={this.props.color}
@@ -78,44 +81,45 @@ export default class HistoryEntry extends React.Component {
 						navigationName={this.props.navigationName}
 					/>
 				</Animated.View>
-				<View style={this.props.viewLeftButtonText ? styles.viewAllContentWrapper3Button : styles.viewAllContentWrapper2Button}>
-          { this.props.viewLeftButtonText ?
-    				<TouchableOpacity onPress={
-              () => {
-                this.props.onLeftButtonClicked();
-                this.startAnimation(AnimationState.CLOSE, 0);
-              }
-            }>
-    					<View style={[styles.button, { backgroundColor: this.props.color }]}>
-    						<Text style={{
-    							fontSize: 16,
-    							color: 'white',
-    							textAlign: 'center'
-    						}}>{this.props.viewLeftButtonText}</Text>
-    					</View>
-    				</TouchableOpacity>
-            : <View />}
-					<View style={{width:5}}></View>
-					<TouchableOpacity onPress={this.props.onEditButtonClicked}>
-						<View style={[styles.button, { backgroundColor: this.props.color }]}>
-							<Text style={{
-								fontSize: 16,
-								color: 'white',
-								textAlign: 'center',
-							}}>{this.props.viewMiddleButtonText}</Text>
-						</View>
-					</TouchableOpacity>
-					<View style={{width:5}}></View>
-					<TouchableOpacity onPress={this.props.onRightButtonClicked}>
-						<View style={[styles.button, { backgroundColor: this.props.color }]}>
-							<Text style={{
-								fontSize: 16,
-								color: 'white',
-								textAlign: 'center',
-							}}>{this.props.viewRightButtonText}</Text>
-						</View>
-					</TouchableOpacity>
-				</View>
+				</TouchableOpacity>
+			{/*	<View style={this.props.viewLeftButtonText ? styles.viewAllContentWrapper3Button : styles.viewAllContentWrapper2Button}>*/}
+          {/*{ this.props.viewLeftButtonText ?*/}
+    		{/*		<TouchableOpacity onPress={*/}
+          {/*    () => {*/}
+          {/*      this.props.onLeftButtonClicked();*/}
+          {/*      //this.startAnimation(AnimationState.CLOSE, 0);*/}
+          {/*    }*/}
+          {/*  }>*/}
+    		{/*			<View style={[styles.button, { backgroundColor: this.props.color }]}>*/}
+    		{/*				<Text style={{*/}
+    		{/*					fontSize: 16,*/}
+    		{/*					color: 'white',*/}
+    		{/*					textAlign: 'center'*/}
+    		{/*				}}>{this.props.viewLeftButtonText}</Text>*/}
+    		{/*			</View>*/}
+    		{/*		</TouchableOpacity>*/}
+          {/*  : <View />}*/}
+			{/*		<View style={{width:5}}></View>*/}
+			{/*		<TouchableOpacity onPress={this.props.onEditButtonClicked}>*/}
+			{/*			<View style={[styles.button, { backgroundColor: this.props.color }]}>*/}
+			{/*				<Text style={{*/}
+			{/*					fontSize: 16,*/}
+			{/*					color: 'white',*/}
+			{/*					textAlign: 'center',*/}
+			{/*				}}>{this.props.viewMiddleButtonText}</Text>*/}
+			{/*			</View>*/}
+			{/*		</TouchableOpacity>*/}
+			{/*		<View style={{width:5}}></View>*/}
+			{/*		<TouchableOpacity onPress={this.props.onRightButtonClicked}>*/}
+			{/*			<View style={[styles.button, { backgroundColor: this.props.color }]}>*/}
+			{/*				<Text style={{*/}
+			{/*					fontSize: 16,*/}
+			{/*					color: 'white',*/}
+			{/*					textAlign: 'center',*/}
+			{/*				}}>{this.props.viewRightButtonText}</Text>*/}
+			{/*			</View>*/}
+			{/*		</TouchableOpacity>*/}
+			{/*	</View>*/}
 			</View>);
 	}
 }

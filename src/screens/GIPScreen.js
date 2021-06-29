@@ -91,6 +91,8 @@ export default class GIPScreen extends React.Component {
                 selectedDateAndTime: new Date(eventData.created),
                 edit: true,
                 originalEventData: eventData,
+                eventId:eventData.id,
+                deleteThisEntry: this.props.navigation.getParam("deleteEntry",null)
             })
         }
     }
@@ -247,6 +249,11 @@ export default class GIPScreen extends React.Component {
         this.navigateHome()
     };
 
+    handleDeleteButton = () =>{
+        this.state.deleteThisEntry(this.state.eventId);
+        this.props.navigation.goBack();
+    };
+
     addInformationLayout(layout) {
         this.setState({informationPosition: layout});
     }
@@ -310,6 +317,9 @@ export default class GIPScreen extends React.Component {
                                     color: '#707070'
                                 }}>{this.state.edit ? "Update" : "Save"}</Text>
                             </TouchableHighlight>
+                            {this.state.deleteThisEntry &&  <TouchableHighlight style={styles.buttonSaveAndCancel} onPress={this.handleDeleteButton}>
+                                <Text style={{textAlign: 'center', color: '#707070'}}>Delete</Text>
+                            </TouchableHighlight> }
                         </View>
                     </View>
 

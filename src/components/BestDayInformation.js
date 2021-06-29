@@ -23,7 +23,7 @@ export default class BestDayInformation extends React.Component {
                               onLayout={event => {
                                   const layout = event.nativeEvent.layout;
                                   console.log("layouttxt:", layout)}}>
-                            Your BEST DAY is calculated based on how well you are felling and how close you get to meeting you daily goals.
+                            Your BEST DAY is calculated based on how well you are feeling and how close you get to meeting your daily goals.
                         </Text>
                     </View>
 

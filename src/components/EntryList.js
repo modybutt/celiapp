@@ -189,7 +189,17 @@ export default class EntryList extends React.Component {
     return image;
   }
 
+  deleteEntry = (id) => {
+    DatabaseManager.getInstance().deleteEvent(id,
+        (error) => { alert(error) },
+        () => {
+          GlutonManager.getInstance().setMessage(4);
+        }
+    );
+  }
+
   renderItem(item, index) {
+    const {navigation: {navigate, state: {key}}} = this.props;
     let objData = JSON.parse(item.objData);
     let createdDate = moment(item.created);
 
@@ -256,7 +266,12 @@ export default class EntryList extends React.Component {
         return (
           //<TouchableOpacity onPress={() => this.props.navigation.navigate('ViewGIP', { event: item })}>
           <HistoryEntry
-              onEditButtonClicked={() => this.props.navigation.navigate('AddGIP', { event: item, edit: true })}
+              onEditButtonClicked={() => this.props.navigation.navigate('AddGIP', {
+                event: item,
+                edit: true,
+                deleteThisEntry: this.deleteEntry,
+                key: "EditScreen"
+              })}
             onRightButtonClicked={() => this.props.navigation.navigate('DeleteScreen', { event: item })}
             navigationName={LanguageManager.getInstance().getText(objData.name)}
             title={time}
@@ -278,7 +293,12 @@ export default class EntryList extends React.Component {
         return (
           //<TouchableOpacity onPress={() => this.props.navigation.navigate('ViewEmote', { event: item })}>
           <HistoryEntry
-              onEditButtonClicked={() => this.props.navigation.navigate('AddEmote', { event: item, edit: true })}
+            onEditButtonClicked={() => this.props.navigation.navigate('AddEmote',
+                {
+                  event: item,
+                  edit: true,
+                  deleteThisEntry: () => this.props.navigation.navigate('DeleteScreen', { event: item })
+                })}
             onRightButtonClicked={() => this.props.navigation.navigate('DeleteScreen', { event: item })}
             navigationName={LanguageManager.getInstance().getText(objData.name)}
             title={time}
