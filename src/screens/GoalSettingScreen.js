@@ -117,8 +117,8 @@ export default class GoalSettingScreen extends React.Component
 								text2={gipGoal.text2}
 								text3={gipGoal.text3}								
 								color={Colors.gip}
-								lowerLimit={1}
-								upperLimit={3}
+								lowerLimit={this.state.gipGoalIndex}
+								upperLimit={this.state.gipGoalIndex}
 								hideNoItems={true}
 								noItems={this.state.gipGoalIndex}
 								upPressed={() => {this.setState({gipGoalIndex: Math.min(3, this.state.gipGoalIndex + 1)})}}
