@@ -241,6 +241,7 @@ export default class GIPScreen extends React.Component {
     handleBack() {
         this.setState({cancelSaveDialogVisible: false});
         this.setState({saveAsEmptyGIPDialogVisible: false});
+        this.setState({deleteDialogVisible: false});
     };
 
     handleDiscard() {
@@ -250,6 +251,10 @@ export default class GIPScreen extends React.Component {
     };
 
     handleDeleteButton = () =>{
+        this.setState({deleteDialogVisible: true});
+    };
+
+    handleDelete = () =>{
         this.state.deleteThisEntry(this.state.eventId);
         this.props.navigation.goBack();
     };
@@ -317,7 +322,7 @@ export default class GIPScreen extends React.Component {
                                     color: '#707070'
                                 }}>{this.state.edit ? "Update" : "Save"}</Text>
                             </TouchableHighlight>
-                            {this.state.deleteThisEntry &&  <TouchableHighlight style={styles.buttonSaveAndCancel} onPress={this.handleDeleteButton}>
+                            {this.state.edit &&  <TouchableHighlight style={styles.buttonSaveAndCancel} onPress={this.handleDeleteButton}>
                                 <Text style={{textAlign: 'center', color: '#707070'}}>Delete</Text>
                             </TouchableHighlight> }
                         </View>
@@ -343,10 +348,22 @@ export default class GIPScreen extends React.Component {
                         </Dialog.Container>
                     </View>
                     <View>
-                        <Dialog.Container visible={this.state.cancelSaveDialogVisible}>
+                        <Dialog.Container visible={this.state.cancelDeleteDialogVisible}>
                             <Dialog.Title>{LanguageManager.getInstance().getText("DISCARD")}</Dialog.Title>
                             <Dialog.Description>
                                 {LanguageManager.getInstance().getText("DO_YOU_WANT_TO_DISCARD")}
+                            </Dialog.Description>
+                            <Dialog.Button label={LanguageManager.getInstance().getText("No")}
+                                           onPress={() => this.handleBack()}/>
+                            <Dialog.Button label={LanguageManager.getInstance().getText("YES")}
+                                           onPress={() => this.handleDelete()}/>
+                        </Dialog.Container>
+                    </View>
+                    <View>
+                        <Dialog.Container visible={this.state.deleteDialogVisible}>
+                            <Dialog.Title>{LanguageManager.getInstance().getText("DELETE")}</Dialog.Title>
+                            <Dialog.Description>
+                                {LanguageManager.getInstance().getText("DO_YOU_WANT_TO_DELETE")}
                             </Dialog.Description>
                             <Dialog.Button label={LanguageManager.getInstance().getText("No")}
                                            onPress={() => this.handleBack()}/>
