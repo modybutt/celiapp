@@ -32,6 +32,7 @@ import {
   images as gip_images
 } from '../components/GipTracker/GipTrackerClassConstants';
 
+import GlutonManager from '../manager/GlutonManager';
 
 export default class EntryList extends React.Component {
   state = {
@@ -222,7 +223,12 @@ export default class EntryList extends React.Component {
         return (
           //<TouchableOpacity onPress={() => this.props.navigation.navigate('ViewSymptom', { event: item })}>
           <HistoryEntry
-            onEditButtonClicked={() => this.props.navigation.navigate('AddSymptom', { event: item, edit: true })}
+            onEditButtonClicked={() => this.props.navigation.navigate('AddSymptom',
+                {
+                  event: item,
+                  edit: true,
+                  deleteThisEntry: this.deleteEntry,
+                })}
             onRightButtonClicked={() => this.props.navigation.navigate('DeleteScreen', { event: item })}
             navigationName={LanguageManager.getInstance().getText(objData.name)}
             title={time}
@@ -244,7 +250,12 @@ export default class EntryList extends React.Component {
           //<TouchableOpacity onPress={() => this.props.navigation.navigate('ViewMeal', { event: item })}>
           <HistoryEntry
             onLeftButtonClicked={() => { this.toggleCulprit(item); }}
-            onEditButtonClicked={() => this.props.navigation.navigate('AddMeal', { event: item, edit: true })}
+            onEditButtonClicked={() => this.props.navigation.navigate('AddMeal',
+                {
+                  event: item,
+                  edit: true,
+                  deleteThisEntry: this.deleteEntry,
+                })}
             onRightButtonClicked={() => this.props.navigation.navigate('DeleteScreen', { event: item })}
             navigationName={LanguageManager.getInstance().getText(objData.name)}
             title={time}
@@ -270,7 +281,6 @@ export default class EntryList extends React.Component {
                 event: item,
                 edit: true,
                 deleteThisEntry: this.deleteEntry,
-                key: "EditScreen"
               })}
             onRightButtonClicked={() => this.props.navigation.navigate('DeleteScreen', { event: item })}
             navigationName={LanguageManager.getInstance().getText(objData.name)}
@@ -297,7 +307,7 @@ export default class EntryList extends React.Component {
                 {
                   event: item,
                   edit: true,
-                  deleteThisEntry: () => this.props.navigation.navigate('DeleteScreen', { event: item })
+                  deleteThisEntry: this.deleteEntry,
                 })}
             onRightButtonClicked={() => this.props.navigation.navigate('DeleteScreen', { event: item })}
             navigationName={LanguageManager.getInstance().getText(objData.name)}

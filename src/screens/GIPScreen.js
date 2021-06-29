@@ -92,7 +92,7 @@ export default class GIPScreen extends React.Component {
                 edit: true,
                 originalEventData: eventData,
                 eventId:eventData.id,
-                deleteThisEntry: this.props.navigation.getParam("deleteEntry",null)
+                deleteThisEntry: this.props.navigation.getParam("deleteThisEntry",null)
             })
         }
     }
@@ -348,7 +348,7 @@ export default class GIPScreen extends React.Component {
                         </Dialog.Container>
                     </View>
                     <View>
-                        <Dialog.Container visible={this.state.cancelDeleteDialogVisible}>
+                        <Dialog.Container visible={this.state.cancelSaveDialogVisible}>
                             <Dialog.Title>{LanguageManager.getInstance().getText("DISCARD")}</Dialog.Title>
                             <Dialog.Description>
                                 {LanguageManager.getInstance().getText("DO_YOU_WANT_TO_DISCARD")}
@@ -356,7 +356,7 @@ export default class GIPScreen extends React.Component {
                             <Dialog.Button label={LanguageManager.getInstance().getText("No")}
                                            onPress={() => this.handleBack()}/>
                             <Dialog.Button label={LanguageManager.getInstance().getText("YES")}
-                                           onPress={() => this.handleDelete()}/>
+                                           onPress={() => this.handleDiscard()}/>
                         </Dialog.Container>
                     </View>
                     <View>
@@ -368,7 +368,7 @@ export default class GIPScreen extends React.Component {
                             <Dialog.Button label={LanguageManager.getInstance().getText("No")}
                                            onPress={() => this.handleBack()}/>
                             <Dialog.Button label={LanguageManager.getInstance().getText("YES")}
-                                           onPress={() => this.handleDiscard()}/>
+                                           onPress={() => this.handleDelete()}/>
                         </Dialog.Container>
                     </View>
                 </KeyboardAwareScrollView>

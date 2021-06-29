@@ -100,6 +100,8 @@ export default class FoodDiaryScreen extends React.Component {
                 edit: true,
                 originalEventData: eventData,
                 photo: this.state.photo || objData.icon,
+                eventId:eventData.id,
+                deleteThisEntry: this.props.navigation.getParam("deleteThisEntry",null)
             })
         }
     }
@@ -303,12 +305,22 @@ export default class FoodDiaryScreen extends React.Component {
     handleBack() {
         this.setState({cancelSaveDialogVisible: false});
         this.setState({saveAsEmptyFoodDialogVisible: false});
+        this.setState({deleteDialogVisible: false});
     };
 
     handleDiscard() {
         this.setState({cancelSaveDialogVisible: false});
         this.setState({saveAsEmptyFoodDialogVisible: false});
         this.navigateHome()
+    };
+
+    handleDeleteButton = () =>{
+        this.setState({deleteDialogVisible: true});
+    };
+
+    handleDelete = () =>{
+        this.state.deleteThisEntry(this.state.eventId);
+        this.props.navigation.goBack();
     };
 
 
@@ -392,6 +404,9 @@ export default class FoodDiaryScreen extends React.Component {
                                     color: '#707070'
                                 }}>{this.state.edit ? "Update" : "Save"}</Text>
                             </TouchableHighlight>
+                            {this.state.edit &&  <TouchableHighlight style={styles.buttonSaveAndCancel} onPress={this.handleDeleteButton}>
+                                <Text style={{textAlign: 'center', color: '#707070'}}>Delete</Text>
+                            </TouchableHighlight> }
                         </View>
                     </View>
 
@@ -421,6 +436,18 @@ export default class FoodDiaryScreen extends React.Component {
                                            onPress={() => this.handleBack()}/>
                             <Dialog.Button label={LanguageManager.getInstance().getText("DISCARD")}
                                            onPress={() => this.handleDiscard()}/>
+                        </Dialog.Container>
+                    </View>
+                    <View>
+                        <Dialog.Container visible={this.state.deleteDialogVisible}>
+                            <Dialog.Title>{LanguageManager.getInstance().getText("DELETE")}</Dialog.Title>
+                            <Dialog.Description>
+                                {LanguageManager.getInstance().getText("DO_YOU_WANT_TO_DELETE")}
+                            </Dialog.Description>
+                            <Dialog.Button label={LanguageManager.getInstance().getText("No")}
+                                           onPress={() => this.handleBack()}/>
+                            <Dialog.Button label={LanguageManager.getInstance().getText("YES")}
+                                           onPress={() => this.handleDelete()}/>
                         </Dialog.Container>
                     </View>
                 </KeyboardAwareScrollView>

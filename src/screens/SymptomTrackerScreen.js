@@ -58,7 +58,9 @@ export default class SymptomTrackerScreen extends React.Component {
                 symptomEntryNote : objData.note,
                 selectedDateAndTime: new Date(eventData.created),
                 edit : true,
-                originalEventData: eventData
+                originalEventData: eventData,
+                eventId:eventData.id,
+                deleteThisEntry: this.props.navigation.getParam("deleteThisEntry",null)
             })
         }
     }
@@ -138,6 +140,7 @@ export default class SymptomTrackerScreen extends React.Component {
 
     handleBack = () => {
         this.setState({ cancelSaveDialogVisible: false });
+        this.setState({deleteDialogVisible: false});
     };
 
     handleDiscard = () => {
@@ -187,14 +190,22 @@ export default class SymptomTrackerScreen extends React.Component {
         });
     }
 
+    handleDeleteButton = () =>{
+        this.setState({deleteDialogVisible: true});
+    };
+
+    handleDelete = () =>{
+        this.state.deleteThisEntry(this.state.eventId);
+        this.props.navigation.goBack();
+    };
+
     toggleShowSymptomInformation = () => {
         this.setState({showSymptomInformation: !this.state.showSymptomInformation})
     }
 
     render() {
         console.log("Symptom tracker state:", this.state)
-        return (
-            <>
+        return (<>
                 <SafeAreaView style={{ flex: 0, backgroundColor: themeColor }} />
                 <KeyboardAwareScrollView style={{ backgroundColor: "#fff" }} keyboardShouldPersistTaps="handled">
                     {/* <TextInput onSubmitEditing={Keyboard.dismiss} /> */}
@@ -222,6 +233,9 @@ export default class SymptomTrackerScreen extends React.Component {
                             <TouchableHighlight style={styles.buttonSaveAndCancel} onPress={this.saveCurrentData}>
                                 <Text style={{ textAlign: 'center', color: '#707070' }}>{this.state.edit? "Update":"Save"}</Text>
                             </TouchableHighlight>
+                            {this.state.edit &&  <TouchableHighlight style={styles.buttonSaveAndCancel} onPress={this.handleDeleteButton}>
+                                <Text style={{textAlign: 'center', color: '#707070'}}>Delete</Text>
+                            </TouchableHighlight> }
                         </View>
                     </View>
                     {this.state.showSymptomInformation &&
@@ -236,6 +250,18 @@ export default class SymptomTrackerScreen extends React.Component {
                             </Dialog.Description>
                             <Dialog.Button label={LanguageManager.getInstance().getText("CONTINUE_EDITING")} onPress={this.handleBack} />
                             <Dialog.Button label={LanguageManager.getInstance().getText("DISCARD")} onPress={this.handleDiscard} />
+                        </Dialog.Container>
+                    </View>
+                    <View>
+                        <Dialog.Container visible={this.state.deleteDialogVisible}>
+                            <Dialog.Title>{LanguageManager.getInstance().getText("DELETE")}</Dialog.Title>
+                            <Dialog.Description>
+                                {LanguageManager.getInstance().getText("DO_YOU_WANT_TO_DELETE")}
+                            </Dialog.Description>
+                            <Dialog.Button label={LanguageManager.getInstance().getText("No")}
+                                           onPress={() => this.handleBack()}/>
+                            <Dialog.Button label={LanguageManager.getInstance().getText("YES")}
+                                           onPress={() => this.handleDelete()}/>
                         </Dialog.Container>
                     </View>
                     {/* <KeyboardListener

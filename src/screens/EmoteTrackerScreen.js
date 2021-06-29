@@ -92,7 +92,9 @@ export default class EmoteTrackerScreen extends React.Component {
                 emoteNote: objData.note,
                 selectedDateAndTime: new Date(eventData.created),
                 edit : true,
-                originalEventData: eventData
+                originalEventData: eventData,
+                eventId:eventData.id,
+                deleteThisEntry: this.props.navigation.getParam("deleteThisEntry",null)
             })
         }
     }
@@ -161,6 +163,15 @@ export default class EmoteTrackerScreen extends React.Component {
         })
     }
 
+    handleDeleteButton = () =>{
+        this.setState({deleteDialogVisible: true});
+    };
+
+    handleDelete = () =>{
+        this.state.deleteThisEntry(this.state.eventId);
+        this.props.navigation.goBack();
+    };
+
     toggleShowEmotionInformation = () => {
         this.setState({showEmotionInformation: !this.state.showEmotionInformation})
     }
@@ -205,6 +216,9 @@ export default class EmoteTrackerScreen extends React.Component {
                             <TouchableHighlight style={styles.buttonSaveAndCancel} onPress={this.saveCurrentData}>
                                 <Text style={{ textAlign: 'center', color: '#707070' }}>{this.state.edit? "Update":"Save"}</Text>
                             </TouchableHighlight>
+                            {this.state.edit &&  <TouchableHighlight style={styles.buttonSaveAndCancel} onPress={this.handleDeleteButton}>
+                                <Text style={{textAlign: 'center', color: '#707070'}}>Delete</Text>
+                            </TouchableHighlight> }
                         </View>
                     </View>
 
@@ -219,7 +233,18 @@ export default class EmoteTrackerScreen extends React.Component {
                             <Dialog.Button label={LanguageManager.getInstance().getText("DISCARD")} onPress={this.handleDiscard} />
                         </Dialog.Container>
                     </View>
-
+                    <View>
+                        <Dialog.Container visible={this.state.deleteDialogVisible}>
+                            <Dialog.Title>{LanguageManager.getInstance().getText("DELETE")}</Dialog.Title>
+                            <Dialog.Description>
+                                {LanguageManager.getInstance().getText("DO_YOU_WANT_TO_DELETE")}
+                            </Dialog.Description>
+                            <Dialog.Button label={LanguageManager.getInstance().getText("No")}
+                                           onPress={() => this.handleBack()}/>
+                            <Dialog.Button label={LanguageManager.getInstance().getText("YES")}
+                                           onPress={() => this.handleDelete()}/>
+                        </Dialog.Container>
+                    </View>
                     {this.state.showEmotionInformation &&
                     <EmotionInformation color={themeColor} position={this.state.informationPosition}/>
                     }
@@ -285,6 +310,7 @@ export default class EmoteTrackerScreen extends React.Component {
 
     handleBack = () => {
         this.setState({ cancelSaveDialogVisible: false });
+        this.setState({deleteDialogVisible: false});
     };
 
     handleDiscard = () => {
