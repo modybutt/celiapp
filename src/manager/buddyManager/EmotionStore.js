@@ -77,16 +77,16 @@ class EmotionStore {
     setSad = () => {
         this.eyeType = "Close";
         this.eyebrowType= "RaisedExcited";
-        this.mouthType="Sad";
+        this.mouthType="Serious";
         this.accessoriesTypeEmotion="Blank"; // for testing purpose
 
     }
 
     @action
     setSuperSad = () => {
-        this.eyeType = "Cry";
+        this.eyeType = "Close";
         this.eyebrowType= "SadConcerned";
-        this.mouthType="ScreamOpen";
+        this.mouthType="Sad";
         this.accessoriesTypeEmotion="Blank"; // for testing purpose
     }
 }

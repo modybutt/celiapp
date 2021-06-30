@@ -3,8 +3,10 @@ import { View, Text, Button, StyleSheet, Image } from "react-native";
 import WardrobeMain from "./../WardrobeInitTiles";
 import CeliLogger from '../../../../../analytics/analyticsManager';
 import Interactions from '../../../../../constants/Interactions';
+import IconSizes from './IconSizes';
 
 var onTabbarPress = true;
+
 const WardrobeCategoryGlasses = ({ navigation }) => {
   // this body is be for tab switches via swipes only!
   /*this.focusListener = */
@@ -41,7 +43,7 @@ WardrobeCategoryGlasses.navigationOptions = {
     return (
       <Image
         source={require("./CategoryImages/glasses.png")}
-        style={{ height: focused ? 32 : 21, width: focused ? 32 : 21, tintColor: tintColor }}
+        style={{ height: focused ? IconSizes.focused : IconSizes.unfocused, width: focused ? IconSizes.focused : IconSizes.unfocused, tintColor: tintColor }}
       />
     );
   },

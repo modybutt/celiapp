@@ -22,11 +22,18 @@ import { SvgXml } from 'react-native-svg';
 import LanguageManager from '../manager/LanguageManager';
 import {NavigationEvents} from "react-navigation";
 
+//avatar related imports
+import { Avatar } from "../components/Glutenbuddy/avataaars-lib/react-native-avataaars/dist";
+import LoggingStore from "../../src/manager/buddyManager/LoggingStore";
+import AvatarStore from "../manager/buddyManager/GlutenBuddyStore";
+import EmotionStore from "../manager/buddyManager/EmotionStore";
+import EmotionDisplayIcon from "../components/EmotionDisplayIcon";
+
 export default class MainScreen extends React.Component {
 	
 	static navigationOptions = ({ navigation }) => 
 	({
-    	headerTitle:<ImageHeader color={Colors.mainscreenColor} title={"Gluten Buddy"}/>
+    	headerTitle: () => {<ImageHeader color={Colors.mainscreenColor} title={"Gluten Buddy"}/>}
 	});
 
 	constructor(props) {
@@ -65,7 +72,7 @@ export default class MainScreen extends React.Component {
 			<View>
 				<View style={styles.container}>
 					<WeekDisplay showToday={true} dailyActivity={reportData.dailyActivity}/>
-					<Avatar showModal={this.state.showInfoModal} onShowModal={() => this.setState({showInfoModal: true})}/>
+					<AvatarDisplay showAvatarCustomization={()=>this.showAvatarCustomization()} showModal={this.state.showInfoModal} onShowModal={() => this.setState({showInfoModal: true})}/>
 					<LoggedEntry
 						navigation={this.props.navigation}
 						onAddButtonClicked={(navigationName) => this.props.navigation.navigate(navigationName, {'selectedDateAndTime' : new Date() })}
@@ -122,6 +129,10 @@ export default class MainScreen extends React.Component {
 				</View>				
 			</View>			
 		);
+	}
+
+	showAvatarCustomization() {
+		this.props.navigation.navigate("Wardrobe")
 	}
 
 	getDailyTrackerAndGoalInfo()
@@ -204,6 +215,7 @@ export default class MainScreen extends React.Component {
 	{
 		console.log("receiving data======================================")
 		this.setState({ reportData : data });
+		//console.log(data)
 	}
 }
 
@@ -226,8 +238,8 @@ const MainScreenInfoModal = ({showModal, onModalPressed}) =>
 						}}/>
 						<Text style={styles.infoModalText}>
 							{modalText1}{'\n\n'}
-							{modalText2}{'\n\n'}
-							<SvgXml width={50} heighht={50} xml={halfwayprogress}/> 
+							{modalText2}{'\n'}
+							<SvgXml width={40} heighht={40} xml={halfwayprogress}/> 
 							{modalText3}{'\n\n'}
 							{modalText4}
 						</Text>
@@ -238,11 +250,39 @@ const MainScreenInfoModal = ({showModal, onModalPressed}) =>
 	return null;
 }
 
-const Avatar = ({showModal, onShowModal}) =>
+const AvatarDisplay = ({showModal, onShowModal, showAvatarCustomization}) =>
 {
 	const loggedEntriesTextColor = showModal ? '#707070' : '#7f7f7f';
+
 	return <View style={styles.avatarContainer}>
-			<Image style={styles.avatar} source={avatarAndy}/>
+			{/*TODO: if gamification is active show avatar, else show lincy */}
+
+			
+				
+				{
+				LoggingStore.gamificationFlag === true ? 
+					<TouchableOpacity onPress={()=>showAvatarCustomization()}>
+						<Avatar
+							size={styles.avatar.height}
+							style={styles.avatar}
+							avatarStyle={AvatarStore.avatarStyle}
+							topType={AvatarStore.topType}
+							hairColor={AvatarStore.hairColor}
+							facialHairType={AvatarStore.facialHairType}
+							facialHairColor={AvatarStore.facialHairColor}
+							clotheType={AvatarStore.clotheType}
+							clotheColor={AvatarStore.clotheColor}
+							skinColor={AvatarStore.skinColor}
+							graphicType={AvatarStore.graphicType}
+							accessoriesType={AvatarStore.accessoriesType}
+							eyeType={EmotionStore.eyeType}
+							eyebrowType={EmotionStore.eyebrowType}
+							mouthType={EmotionStore.mouthType}
+						/>
+					</TouchableOpacity>
+				:
+				<Image style={styles.avatar} source={avatarAndy}/>
+				}
 			<View style={styles.loggedInfoContainer}>
 			<Text style={{fontSize: window.height * .03, color: loggedEntriesTextColor}}>Your logs today</Text>
 			<View style={styles.informationBackground}>
@@ -353,7 +393,7 @@ const styles = StyleSheet.create
 	{
 		width: window.width * 0.55,
 		left: window.width * 0.1,
-		top: window.height * 0.42,
+		top: window.height * 0.40,
 		alignSelf: 'center',
 		position: 'absolute', 
 		color: 'white',

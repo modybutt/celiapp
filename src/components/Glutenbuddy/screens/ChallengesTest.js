@@ -25,36 +25,36 @@ export default class ChallengesTest extends Component{
     render(){
         return (
             <View style={styles.container}>
-              <Button title="Add glutenfree breakfast - 15 Points" onPress={this.AddMealPress}></Button>
-              <Button title="Add breakfast with gluten - 0 points" onPress={this.AddGlutenMealPress}></Button>
-              <Button title="Add Symptom - 10 Points" onPress={this.AddCalendarPress}></Button>
-              <Button title="Reset points" onPress={this.ResetPress}></Button>
-              <Button title="Check Symptoms Added" onPress={this.CheckSymptomsAdded}></Button>
-              <Button title="Add glutenfree breakfast yesterday" onPress={this.AddGlutenFreeBreakfastYesterday}></Button>
+              <Button title="Add glutenfree breakfast - 15 Points" onPress={this.addMealPress}></Button>
+              <Button title="Add breakfast with gluten - 0 points" onPress={this.addGlutenMealPress}></Button>
+              <Button title="Add Symptom - 10 Points" onPress={this.addCalendarPress}></Button>
+              <Button title="Reset points" onPress={this.resetPress}></Button>
+              <Button title="Check Symptoms Added" onPress={this.checkSymptomsAdded}></Button>
+              <Button title="Add glutenfree breakfast yesterday" onPress={this.addGlutenFreeBreakfastYesterday}></Button>
             </View>
           )
     }
-    AddMealPress(){
+    addMealPress(){
      AchievementManager.triggerAchievement('MEALADDED');
-     EntryManager.AddEntry('GLUTENFREEBREAKFAST');
+     EntryManager.addEntry('GLUTENFREEBREAKFAST');
     }
-    AddCalendarPress(){
+    addCalendarPress(){
       AchievementManager.triggerAchievement('SYMPTOMADDED');
       AchievementRecordManager.increaseCountForAchievementRecord('SYMPTOMADDED');
     }
-    ResetPress(){
+    resetPress(){
       AsyncStorage.clear();
     }
-    AddGlutenMealPress(){
-      EntryManager.AddEntry('GLUTENBREAKFAST');
+    addGlutenMealPress(){
+      EntryManager.addEntry('GLUTENBREAKFAST');
     }
-    async CheckSymptomsAdded(){
+    async checkSymptomsAdded(){
       await AchievementRecordManager.getCountForAchievementRecord('SYMPTOMADDED');
     }
-    AddGlutenFreeBreakfastYesterday(){
+    addGlutenFreeBreakfastYesterday(){
       AchievementManager.triggerAchievement('MEALADDED');
       var yesterday = new Date();
       yesterday.setDate(yesterday.getDate()-1);
-      EntryManager.AddEntryWithFakeTime('GLUTENFREEBREAKFAST', yesterday);
+      EntryManager.addEntryWithFakeTime('GLUTENFREEBREAKFAST', yesterday);
     }
 }

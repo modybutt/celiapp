@@ -6,6 +6,7 @@ import WardrobeCategoryHairColor from "../WardrobeCategories/WardrobeCategoryHai
 import WardrobeCategoryGlasses from "../WardrobeCategories/WardrobeCategoryGlasses";
 import WardrobeCategoryHairstyle from "../WardrobeCategories/WardrobeCategoryHairstyle";
 import WardrobeCategorySkinColor from "../WardrobeCategories/WardrobeCategorySkinColor";
+import Colors from "../../../../../constants/Colors";
 
 const AppNavigator = createMaterialTopTabNavigator(
   {
@@ -18,13 +19,16 @@ const AppNavigator = createMaterialTopTabNavigator(
   },
   {
     tabBarOptions: {
-      activeTintColor: "white",
-      inactiveTintColor: "tomato",
+      activeTintColor: Colors.textOnMainScreenColor,
+      inactiveTintColor: Colors.tabIconDefault,
       showIcon: true,
       showLabel: false,
       style: {
-        backgroundColor: "#4295f5",
+        backgroundColor: Colors.mainscreenColor,
       },
+      indicatorStyle: {
+        backgroundColor: Colors.textOnMainScreenColor,
+      }
     },
     lazy: false,
   }

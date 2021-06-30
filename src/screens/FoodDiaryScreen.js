@@ -89,7 +89,6 @@ export default class FoodDiaryScreen extends React.Component {
         const eventData = this.props.navigation.getParam("event", false)
         if (this.props.navigation.getParam("edit", false) && eventData) {
             const objData = JSON.parse(eventData.objData);
-
             this.setState({
                 foodEntryName: objData.name,
                 selectedClassKey: objData.type,
@@ -176,7 +175,7 @@ export default class FoodDiaryScreen extends React.Component {
     }
 
     classChangedHandler = (tag) => {
-        console.log("class changed handler", tag)
+        //console.log("class changed handler", tag)
         this.setState({
             selectedClassKey: tag,
         });
@@ -247,36 +246,22 @@ export default class FoodDiaryScreen extends React.Component {
                     GearManager.getInstance().sendMessage("msg 31")
                 }
             );
-        }
-        // AchievementAddition
-        if (this.state.selectedMealKey === 0) {
+            
+        
+            // AchievementAddition
+            let entryID = "MEALADDED_GLUTEN";
             if (this.state.selectedClassKey === 0) {
-                EntryManager.AddEntry("GLUTENBREAKFAST");
+                entryID = "MEALADDED_GLUTEN";
             }
-            if (this.state.selectedClassKey === 1) {
-                EntryManager.AddEntry("GLUTENFREEBREAKFAST");
+            else if (this.state.selectedClassKey === 1) {
+                entryID = "MEALADDED_NOGLUTEN";
             }
-            if (this.state.selectedClassKey === 2) {
-                EntryManager.AddEntry("UNSUREBREAKFAST");
+            else if (this.state.selectedClassKey === 2) {
+                entryID = "MEALADDED_UNKNOWN";
             }
+            AchievementManager.triggerAchievement(entryID);
+            EntryManager.addEntry(entryID);
         }
-        if (this.state.selectedMealKey === 1) {
-            if (this.state.selectedClassKey === 0) {
-
-            }
-            if (this.state.selectedClassKey === 1) {
-                EntryManager.AddEntry("GLUTENFREELUNCH");
-            }
-        }
-        if (this.state.selectedMealKey === 2) {
-            if (this.state.selectedClassKey === 0) {
-
-            }
-            if (this.state.selectedClassKey === 1) {
-                EntryManager.AddEntry("GLUTENFREEDINNER");
-            }
-        }
-        AchievementManager.triggerAchievement("MEALADDED");
         if (goHome) {
             setTimeout(() => this.navigateHome(), 100);
         }
@@ -333,7 +318,7 @@ export default class FoodDiaryScreen extends React.Component {
     }
 
     render() {
-        console.log("state:", this.state)
+        //console.log("state:", this.state)
         return (
             //extraScrollHeight not supoorted out-of-the-box in android see here https://github.com/AyushAppin/react-native-keyboard-aware-scroll-view
             <>

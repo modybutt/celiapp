@@ -5,8 +5,8 @@ import AppNavigator from "./WardrobeRouter";
 
 const Router = createAppContainer(AppNavigator);
 
-export default () => (
-  <View style={{ flex: 1 }}>
+export default (props) => (
+  <View style={{ flex: 2 }}>
     <Router />
   </View>
 );

@@ -4,7 +4,7 @@ import StreakManager from "./StreakManager";
 
 
 export default class EntryManager{
-    static async AddEntry(id){
+    static async addEntry(id){
         //new Date = Timestamp mit aktuellem Datum und Zeit
         var currdate = new Date();
         var entry = require("../../config/entries.json").entries.find(element=>element.id == id);
@@ -13,10 +13,14 @@ export default class EntryManager{
         //alert('Meal added @ ' + currdate.toString());
         await AchievementRecordManager.increaseCountForAchievementRecordByType(entry.type);
         var streak = require("../../config/streaks.json").streaks.find(element=>element.entryid == id);
+        if (streak === undefined) {
+            console.log("#WARNING no streak found for ID: ",id);
+            return;
+        }
         await StreakManager.checkStreak(streak.id);
     }
 
-    static async AddEntryWithFakeTime(id, date){
+    static async addEntryWithFakeTime(id, date){
         var currdate = date;
         var entry = require("../../config/entries.json").entries.find(element=>element.id == id);
         await AsyncStorage.setItem("LastEntry", currdate.toString());
@@ -24,6 +28,10 @@ export default class EntryManager{
         //alert('Meal added @ ' + currdate.toString());
         await AchievementRecordManager.increaseCountForAchievementRecordByType(entry.type);
         var streak = require("../../config/streaks.json").streaks.find(element => element.entryid == id);
+        if (streak === undefined) {
+            console.log("#WARNING no streak found for ID: ", id);
+            return;
+        }
         await StreakManager.checkStreak(streak.id);
     }
 }

@@ -1,19 +1,19 @@
 {
     "entries": [{
-        "id": "GLUTENFREEBREAKFAST",
-        "type": "MEAL"
+        "id": "MEALADDED_NOGLUTEN",
+        "type": "MEALADDED"
     },{
-        "id": "GLUTENFREELUNCH",
-        "type": "MEAL"
+        "id": "MEALADDED_GLUTEN",
+        "type": "MEALADDED"
     },{
-        "id": "GLUTENFREEDINNER",
-        "type": "MEAL"
+        "id": "MEALADDED_UNKNOWN",
+        "type": "MEALADDED"
     },{
-        "id": "GLUTENBREAKFAST",
-        "type": "GLUTENMEAL"
+        "id": "GIPADDED_GLUTEN",
+        "type": "GIPADDED"
     },{
-        "id": "UNSUREBREAKFAST",
-        "type": "MEAL"
+        "id": "GIPADDED_NOGLUTEN",
+        "type": "GIPADDED"
     }
 ]
 }

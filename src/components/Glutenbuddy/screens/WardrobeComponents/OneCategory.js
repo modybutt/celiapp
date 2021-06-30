@@ -14,6 +14,7 @@ import store from "../../../../manager/buddyManager/GlutenBuddyStore";
 import { showMessage, hideMessage } from "react-native-flash-message";
 import CeliLogger from "../../../../analytics/analyticsManager";
 import Interactions from '../../../../constants/Interactions';
+import Colors from '../../../../constants/Colors'
 
 
 var selectedCategory = "SelectedCategory";
@@ -187,11 +188,11 @@ class OneItem extends Component {
 
 const styles = StyleSheet.create({
   textLvlOk: {
-    color: "#000",
+    color: Colors.textOnMainScreenColor,
     fontWeight: "bold",
     fontSize: 14, // px
     padding: 2,
-    backgroundColor: "green",
+    backgroundColor: Colors.mainscreenColor,
     textAlign: "center",
   },
   textLvlNotOk: {
@@ -203,29 +204,31 @@ const styles = StyleSheet.create({
     textAlign: "center",
   },
   oneItemContainerSelected: {
-    width: 100,
+    width: 104,
     padding: (0, 0),
     marginRight: 8,
     borderWidth: 4,
     borderRadius: 10,
-    borderColor: "blue",
-    backgroundColor: "#b5d1ff", //, #4db9d6  "#AAF0D1", //  90EE90
+    borderColor: Colors.mainscreenColor,
+    backgroundColor: "rgba(255,245,245,1)" //"#b5d1ff", //, #4db9d6  "#AAF0D1", //  90EE90
   },
   oneItemContainerUnlocked: {
     width: 100,
     padding: (0, 0),
     marginRight: 8,
     borderRadius: 10,
-    backgroundColor: "#b5d1ff", //, #4db9d6  "#AAF0D1", //  90EE90
+    backgroundColor: "white",//"#b5d1ff", //, #4db9d6  "#AAF0D1", //  90EE90
+    opacity: 1
   },
   oneItemContainerLocked: {
     width: 100,
     padding: (0, 0),
     marginRight: 8,
-    borderWidth: 4,
+    borderWidth: 0,
     borderRadius: 10,
     borderColor: "grey",
-    backgroundColor: "orange",
+    backgroundColor: "white",
+    opacity: 0.3
   },
 });
 

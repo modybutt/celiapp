@@ -9,23 +9,27 @@ const hydrate = create({
 class GlutenBuddyStore {  
 
 // default values:
-@observable size = 200;
+@observable size = 150;
 @observable avatarStyle = Platform.OS === 'ios' ? "Circle" : "Transparent";
-@observable topType = "ShortHairShortCurly";
+@observable topType = "ShortHairShortFlat";
 @observable accessoriesType = "Blank"; // categoryGlasses
 @observable hairColor = "Black";
 @observable facialHairType = "Blank"; // e.g. MoustacheMagnum; BeardMedium -> Not for teenagers;
-@observable clotheType = "CollarSweater";
-@observable clotheColor = "PastelBlue";
+@observable facialHairColor = "Black";
+@observable clotheType = "ShirtCrewNeck";
+@observable clotheColor = "Black";
 @observable skinColor = "Tanned";
+@observable graphicType = "Skull";
 
-@observable activeTopTypeId = 20011;
-@observable activeAccessoriesTypeId = 30048;
-@observable activeHairColorId = 50063;
-@observable activeFacialHairTypeId = 0;
-@observable activeClotheTypeId = 10002;
-@observable activeClotheColorId = 10002;
-@observable activeSkinColorId = 40055;
+@observable activeTopTypeId = 20022;
+@observable activeAccessoriesTypeId = 30001;
+@observable activeHairColorId = 50001;
+@observable activeFacialHairTypeId = 70001;
+@observable activeFacialHairColorId = 60001;
+@observable activeClotheTypeId = 10001;
+@observable activeClotheColorId = 90001;
+@observable activeSkinColorId = 40001;
+@observable activeGraphicTypeId = 80001;
 
 // semi persistent points:
 @observable score = 0;
@@ -54,6 +58,10 @@ class GlutenBuddyStore {
     this.facialHairType = value;
   };
   @action
+  setFacialHairColor = (value) => {
+    this.facialHairColor = value;
+  };
+  @action
   setClotheType = (value) => {
     this.clotheType = value;
   };
@@ -64,6 +72,10 @@ class GlutenBuddyStore {
   @action
   setSkinColor = (value) => {
     this.skinColor = value;
+  };
+  @action
+  setGraphicType = (value) => {
+    this.graphicType = value;
   };
   @action
   setActiveTopTypeId = (value) => {
@@ -82,6 +94,10 @@ class GlutenBuddyStore {
     this.activeFacialHairTypeId = value;
   };
   @action
+  setActiveFacialHairColorId = (value) => {
+    this.activeFacialHairColorId = value;
+  };
+  @action
   setActiveClotheTypeId = (value) => {
     this.activeClotheTypeId = value;
   };
@@ -92,6 +108,10 @@ class GlutenBuddyStore {
   @action
   setActiveSkinColorId = (value) => {
     this.activeSkinColorId = value;
+  };
+  @action
+  setActiveGraphicTypeId = (value) => {
+    this.activeGraphicTypeId = value;
   };
 
   @action
@@ -130,17 +150,21 @@ const schema = {
   accessoriesType: true,
   hairColor: true,
   facialHairType: true,
+  facialHairColor: true,
   clotheType: true,
   clotheColor: true,
   skinColor: true,
+  graphicType: true,
 
   activeTopTypeId: true,
   activeAccessoriesTypeId: true,
   activeHairColorId: true,
   activeFacialHairTypeId: true,
+  activeFacialHairColorId: true,
   activeClotheTypeId: true,
   activeClotheColorId: true,
   activeSkinColorId: true,
+  activeGraphicTypeId: true,
 };
 
 const store = new GlutenBuddyStore();
@@ -152,9 +176,11 @@ hydrate("topType", persistingStore);
 hydrate("accessoriesType", persistingStore);
 hydrate("hairColor", persistingStore);
 hydrate("facialHairType", persistingStore);
+hydrate("facialHairColor", persistingStore);
 hydrate("clotheType", persistingStore);
 hydrate("clotheColor", persistingStore);
 hydrate("skinColor", persistingStore);
+hydrate("graphicType", persistingStore);
 hydrate("score", persistingStore);
 hydrate("currentLevel", persistingStore);
 hydrate("thisLevelBegin", persistingStore); // for progress bar

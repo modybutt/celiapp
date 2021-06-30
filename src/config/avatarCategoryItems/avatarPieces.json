@@ -1,0 +1,812 @@
+[
+    
+    {
+        "categoryTitle": "Shirt",
+        "sectionID": 1,
+        "pieceType": "clothe",
+        "items": [
+
+              {
+                "id": 10001,
+                "clotheType": "ShirtCrewNeck",
+                "clotheColor": "Black",
+                "minLevel": 1,
+                "imgSubtitle": "Crew Neck"
+              },
+              {
+                "id": 10002,
+                "clotheType": "ShirtScoopNeck",
+                "clotheColor": "Black",
+                "minLevel": 1,
+                "imgSubtitle": "Scoop Neck"
+              },
+              {
+                "id": 10003,
+                "clotheType": "GraphicShirt",
+                "clotheColor": "Black",
+                "minLevel": 1,
+                "imgSubtitle": "Shirt with Logo"
+              }, 
+              {
+                "id": 10004,
+                "clotheType": "ShirtVNeck",
+                "clotheColor": "Black",
+                "minLevel": 2,
+                "imgSubtitle": "Shirt V Neck"
+              },  
+              {
+                "id": 10005,
+                "clotheType": "Hoodie",
+                "clotheColor": "Black",
+                "minLevel": 3,
+                "imgSubtitle": "Hoodie"
+              },
+              {
+                "id": 10006,
+                "clotheType": "Overall",
+                "clotheColor": "Black",
+                "minLevel": 4,
+                "imgSubtitle": "Overall"
+              },         
+              {
+                "id": 10007,
+                "clotheType": "BlazerSweater",
+                "clotheColor": "Black",
+                "minLevel": 5,
+                "imgSubtitle": "Blazer"
+              },
+              {
+                "id": 10008,
+                "clotheType": "CollarSweater",
+                "clotheColor": "Black",
+                "minLevel": 5,
+                "imgSubtitle": "Collar"
+              }
+        
+        ]
+    },
+    {
+        
+        "categoryTitle": "Shirt Color",
+        "sectionID": 9,
+        "pieceType": "clothe",
+        "items": [
+            {
+                "id": 90001,
+                "clotheType": "CollarSweater",
+                "clotheColor": "Black",
+                "minLevel": 1,
+                "imgSubtitle": "Black"
+            },
+            {
+                "id": 90002,
+                "clotheType": "CollarSweater",
+                "clotheColor": "Blue01",
+                "minLevel": 1,
+                "imgSubtitle": "Blue 1"
+            },
+            {
+                "id": 90003,
+                "clotheType": "CollarSweater",
+                "clotheColor": "Blue02",
+                "minLevel": 6,
+                "imgSubtitle": "Blue 2"
+            },
+            {
+                "id": 90004,
+                "clotheType": "CollarSweater",
+                "clotheColor": "Blue03",
+                "minLevel": 7,
+                "imgSubtitle": "Blue 3"
+            },
+            {
+                "id": 90005,
+                "clotheType": "CollarSweater",
+                "clotheColor": "Gray01",
+                "minLevel": 2,
+                "imgSubtitle": "Gray 1"
+            },
+            {
+                "id": 90006,
+                "clotheType": "CollarSweater",
+                "clotheColor": "Gray02",
+                "minLevel": 6,
+                "imgSubtitle": "Gray 2"
+            },
+            {
+                "id": 90007,
+                "clotheType": "CollarSweater",
+                "clotheColor": "Heather",
+                "minLevel": 3,
+                "imgSubtitle": "Heather"
+            },
+            {
+                "id": 90008,
+                "clotheType": "CollarSweater",
+                "clotheColor": "PastelBlue",
+                "minLevel": 4,
+                "imgSubtitle": "PastelBlue"
+            },
+            {
+                "id": 90009,
+                "clotheType": "CollarSweater",
+                "clotheColor": "PastelGreen",
+                "minLevel": 4,
+                "imgSubtitle": "PastelGreen"
+            },
+            {
+                "id": 90010,
+                "clotheType": "CollarSweater",
+                "clotheColor": "PastelOrange",
+                "minLevel": 4,
+                "imgSubtitle": "PastelOrange"
+            },
+            {
+                "id": 90011,
+                "clotheType": "CollarSweater",
+                "clotheColor": "PastelRed",
+                "minLevel": 4,
+                "imgSubtitle": "PastelRed"
+            },
+            {
+                "id": 90012,
+                "clotheType": "CollarSweater",
+                "clotheColor": "PastelYellow",
+                "minLevel": 4,
+                "imgSubtitle": "PastelYellow"
+            },
+            {
+                "id": 90013,
+                "clotheType": "CollarSweater",
+                "clotheColor": "Pink",
+                "minLevel": 5,
+                "imgSubtitle": "Pink"
+            },
+            {
+                "id": 90014,
+                "clotheType": "CollarSweater",
+                "clotheColor": "Red",
+                "minLevel": 1,
+                "imgSubtitle": "Red"
+            },
+            {
+                "id": 90015,
+                "clotheType": "CollarSweater",
+                "clotheColor": "White",
+                "minLevel": 8,
+                "imgSubtitle": "White"
+            }
+        ]
+
+    }, 
+    {
+        "categoryTitle": "Shirt Logo",
+        "sectionID": 8,
+        "pieceType": "clothe",
+        "items": [
+            {
+                "id":80001,
+                "graphicType":"Skull",
+                "clotheType": "GraphicShirt",
+                "clotheColor": "Black",
+                "minLevel": 1,
+                "imgSubtitle": "Skull"               
+            },
+            {
+                "id":80002,
+                "graphicType":"SkullOutline",
+                "clotheType": "GraphicShirt",
+                "clotheColor": "Black",
+                "minLevel": 1,
+                "imgSubtitle": "SkullOutline"                
+            },
+            {
+                "id":80003,
+                "graphicType":"Bat",
+                "clotheType": "GraphicShirt",
+                "clotheColor": "Black",
+                "minLevel": 1,
+                "imgSubtitle": "Bat"               
+            },
+            {
+                "id":80004,
+                "graphicType":"Cumbia",
+                "clotheType": "GraphicShirt",
+                "clotheColor": "Black",
+                "minLevel": 2,
+                "imgSubtitle": "Cumbia"               
+            },
+            {
+                "id":80005,
+                "graphicType":"Deer",
+                "clotheType": "GraphicShirt",
+                "clotheColor": "Black",
+                "minLevel": 2,
+                "imgSubtitle": "Deer"              
+            },
+            {
+                "id":80006,
+                "graphicType":"Diamond",
+                "clotheType": "GraphicShirt",
+                "clotheColor": "Black",
+                "minLevel": 3,
+                "imgSubtitle": "Diamond"              
+            },
+            {
+                "id":80007,
+                "graphicType":"Hola",
+                "clotheType": "GraphicShirt",
+                "clotheColor": "Black",
+                "minLevel": 3,
+                "imgSubtitle": "Hola"             
+            },
+            {
+                "id":80008,
+                "graphicType":"Selena",
+                "clotheType": "GraphicShirt",
+                "clotheColor": "Black",
+                "minLevel": 4,
+                "imgSubtitle": "Selena"             
+            },
+            {
+                "id":80009,
+                "graphicType":"Pizza",
+                "clotheType": "GraphicShirt",
+                "clotheColor": "Black",
+                "minLevel": 4,
+                "imgSubtitle": "Pizza"             
+            },
+            {
+                "id":80010,
+                "graphicType":"Resist",
+                "clotheType": "GraphicShirt",
+                "clotheColor": "Black",
+                "minLevel": 5,
+                "imgSubtitle": "Resist"              
+            },
+            {
+                "id":80011,
+                "graphicType":"Bear",
+                "clotheType": "GraphicShirt",
+                "clotheColor": "Black",
+                "minLevel": 6,
+                "imgSubtitle": "Bear"              
+            }
+
+        ]
+    },{
+      "categoryTitle":"Hairstyle",
+      "sectionID":2,
+      "pieceType":"top",
+      "items": [
+          {
+              "id": 20001,
+              "topType": "NoHair",
+              "hairColor": "Black",
+              "minLevel": 2,
+              "imgSubtitle": "Bald"
+            },
+            {
+              "id": 20002,
+              "topType": "LongHairBigHair",
+              "hairColor": "Black",
+              "minLevel": 2,
+              "imgSubtitle": "Long Hair"
+            }, 
+            {
+              "id": 20003,
+              "topType": "LongHairBob",
+              "hairColor": "Black",
+              "minLevel": 1,
+              "imgSubtitle": "Bob"
+            }, 
+            {
+              "id": 20004,
+              "topType": "LongHairBun",
+              "hairColor": "Black",
+              "minLevel": 3,
+              "imgSubtitle": "Long Bun"
+            },  
+            {
+              "id": 20005,
+              "topType": "LongHairCurly",
+              "hairColor": "Black",
+              "minLevel": 4,
+              "imgSubtitle": "Long Curly"
+            },   
+            {
+              "id": 20006,
+              "topType": "LongHairCurvy",
+              "hairColor": "Black",
+              "minLevel": 4,
+              "imgSubtitle": "Long Curvy"
+            },   
+            {
+              "id": 20007,
+              "topType": "LongHairDreads",
+              "hairColor": "Black",
+              "minLevel": 5,
+              "imgSubtitle": "Long Dreads"
+            },
+            {
+              "id": 20008,
+              "topType": "LongHairFrida",
+              "hairColor": "Black",
+              "minLevel": 5,
+              "imgSubtitle": "Long Frida"
+            },               
+            {
+              "id": 20009,
+              "topType": "LongHairFro",
+              "hairColor": "Black",
+              "minLevel": 4,
+              "imgSubtitle": "Afro"
+            },
+            {
+              "id": 20010,
+              "topType": "LongHairFroBand",
+              "hairColor": "Black",
+              "minLevel": 4,
+              "imgSubtitle": "Afro Band"
+            },
+            {
+              "id": 20011,
+              "topType": "LongHairMiaWallace",
+              "hairColor": "Black",
+              "minLevel": 6,
+              "imgSubtitle": "Mia Wallace"
+            },
+            {
+              "id": 20012,
+              "topType": "LongHairNotTooLong",
+              "hairColor": "Black",
+              "minLevel": 6,
+              "imgSubtitle": "Not Too Long"
+            },
+            {
+              "id": 20013,
+              "topType": "LongHairShavedSides",
+              "hairColor": "Black",
+              "minLevel": 5,
+              "imgSubtitle": "Long Shaved Sides"
+            }, 
+            {
+              "id": 20014,
+              "topType": "LongHairStraight",
+              "hairColor": "Black",
+              "minLevel": 3,
+              "imgSubtitle": "Straight"
+            },  
+            {
+              "id": 20015,
+              "topType": "LongHairStraight2",
+              "hairColor": "Black",
+              "minLevel": 4,
+              "imgSubtitle": "Straight 2"
+            },  
+            {
+              "id": 20016,
+              "topType": "LongHairStraightStrand",
+              "hairColor": "Black",
+              "minLevel": 2,
+              "imgSubtitle": "Straight Strand"
+            },    
+            {
+              "id": 20017,
+              "topType": "ShortHairDreads01",
+              "hairColor": "Black",
+              "minLevel": 6,
+              "imgSubtitle": "Dreads 1"
+            },  
+            {
+              "id": 20018,
+              "topType": "ShortHairDreads02",
+              "hairColor": "Black",
+              "minLevel": 6,
+              "imgSubtitle": "Dreads 2"
+            }, 
+            {
+              "id": 20019,
+              "topType": "ShortHairFrizzle",
+              "hairColor": "Black",
+              "minLevel": 4,
+              "imgSubtitle": "Frizzle"
+            }, 
+            {
+              "id": 20020,
+              "topType": "ShortHairShaggyMullet",
+              "hairColor": "Black",
+              "minLevel": 3,
+              "imgSubtitle": "Shaggy"
+            },      
+            {
+              "id": 20021,
+              "topType": "ShortHairShortCurly",
+              "hairColor": "Black",
+              "minLevel": 2,
+              "imgSubtitle": "Short Curly"
+            },
+            {
+              "id": 20022,
+              "topType": "ShortHairShortFlat",
+              "hairColor": "Black",
+              "minLevel": 1,
+              "imgSubtitle": "Flat"
+            },
+            {
+              "id": 20023,
+              "topType": "ShortHairShortRound",
+              "hairColor": "Black",
+              "minLevel": 1,
+              "imgSubtitle": "Round"
+            },
+            {
+              "id": 20024,
+              "topType": "ShortHairShortWaved",
+              "hairColor": "Black",
+              "minLevel": 2,
+              "imgSubtitle": "Waved"
+            },
+            {
+              "id": 20025,
+              "topType": "ShortHairSides",
+              "hairColor": "Black",
+              "minLevel": 4,
+              "imgSubtitle": "Sides"
+            },
+            {
+              "id": 20026,
+              "topType": "ShortHairTheCaesar",
+              "hairColor": "Black",
+              "minLevel": 5,
+              "imgSubtitle": "Caesar"
+            },
+            {
+              "id": 20028,
+              "topType": "Hijab",
+              "hairColor": "Black",
+              "minLevel": 3,
+              "imgSubtitle": "Hijab"
+            },
+            {
+              "id": 20029,
+              "topType": "Turban",
+              "hairColor": "Black",
+              "minLevel": 3,
+              "imgSubtitle": "Turban"
+            },
+            {
+              "id": 20030,
+              "topType": "Hat",
+              "hairColor": "Black",
+              "minLevel": 5,
+              "imgSubtitle": "Hat"
+            },
+            {
+              "id": 20031,
+              "topType": "WinterHat1",
+              "hairColor": "Black",
+              "minLevel": 6,
+              "imgSubtitle": "Winter Hat 1"
+            },
+            {
+              "id": 20032,
+              "topType": "WinterHat2",
+              "hairColor": "Black",
+              "minLevel": 6,
+              "imgSubtitle": "Winter Hat 2"
+            },
+            {
+              "id": 20033,
+              "topType": "WinterHat3",
+              "hairColor": "Black",
+              "minLevel": 7,
+              "imgSubtitle": "Winter Hat 3"
+            },
+            {
+              "id": 20034,
+              "topType": "WinterHat4",
+              "hairColor": "Black",
+              "minLevel": 7,
+              "imgSubtitle": "Winter Hat 4"
+            }
+
+      ]
+  },
+  {
+      "categoryTitle":"Haircolor",
+      "sectionID":5,
+      "pieceType":"top",
+      "items": [
+
+            {
+              "id": 50001,
+              "hairColor": "Black",
+              "topType": "LongHairBob",
+              "minLevel": 1,
+              "imgSubtitle": "Black"
+            },
+            {
+              "id": 50002,
+              "hairColor": "Red",
+              "topType": "LongHairBob",
+              "minLevel": 2,
+              "imgSubtitle": "Red"
+            },
+            {
+              "id": 50003,
+              "hairColor": "Blonde",
+              "topType": "LongHairBob",
+              "minLevel": 1,
+              "imgSubtitle": "Blonde"
+            },
+            {
+              "id": 50004,
+              "hairColor": "BlondeGolden",
+              "topType": "LongHairBob",
+              "minLevel": 4,
+              "imgSubtitle": "Blonde Golden"
+            },
+            {
+              "id": 50005,
+              "hairColor": "Brown",
+              "topType": "LongHairBob",
+              "minLevel": 3,
+              "imgSubtitle": "Brown"
+            },
+            {
+              "id": 50006,
+              "hairColor": "BrownDark",
+              "topType": "LongHairBob",
+              "minLevel": 2,
+              "imgSubtitle": "Brown Dark"
+            },
+            {
+              "id": 50007,
+              "hairColor": "PastelPink",
+              "topType": "LongHairBob",
+              "minLevel": 5,
+              "imgSubtitle": "Pastel Pink"
+            },
+            {
+              "id": 50008,
+              "hairColor": "Platinum",
+              "topType": "LongHairBob",
+              "minLevel": 4,
+              "imgSubtitle": "Platinum"
+            },{
+              "id": 50009,
+              "hairColor": "SilverGray",
+              "topType": "LongHairBob",
+              "minLevel": 5,
+              "imgSubtitle": "SilverGray"
+            },
+            {
+              "id": 50010,
+              "hairColor": "Auburn",
+              "topType": "LongHairBob",
+              "minLevel": 2,
+              "imgSubtitle": "Auburn"
+            }
+      ]
+  },
+  {
+      "categoryTitle": "Facial Hair",
+      "sectionID": 7,
+      "pieceType": "facialHair",
+      "items": [
+          {
+              "id":70001,
+              "facialHairType":"Blank",
+              "facialHairColor":"Black",
+              "minLevel": 1,
+              "imgSubtitle": "No Beard"
+          },
+          {
+              "id":70002,
+              "facialHairType":"BeardLight",
+              "facialHairColor":"Black",
+              "minLevel": 1,
+              "imgSubtitle": "Beard Light"
+          },
+          {
+              "id":70003,
+              "facialHairType":"BeardMajestic",
+              "facialHairColor":"Black",
+              "minLevel": 2,
+              "imgSubtitle": "Beard Majestic"
+          },
+          {
+              "id":70004,
+              "facialHairType":"BeardMedium",
+              "facialHairColor":"Black",
+              "minLevel": 3,
+              "imgSubtitle": "Beard Medium"
+          },
+
+          {
+              "id":70005,
+              "facialHairType":"MoustacheFancy",
+              "facialHairColor":"Black",
+              "minLevel": 4,
+              "imgSubtitle": "Moustache Fancy"
+          },            
+          {
+              "id":70006,
+              "facialHairType":"MoustacheMagnum",
+              "facialHairColor":"Black",
+              "minLevel": 5,
+              "imgSubtitle": "Moustache Magnum"            
+          }
+      ]
+  },
+  {
+    "categoryTitle":"Facial Haircolor",
+    "sectionID":6,
+    "pieceType":"facialHair",
+    "items": [
+
+          {
+            "id": 60001,
+            "facialHairColor": "Black",
+            "facialHairType": "BeardLight",
+            "minLevel": 1,
+            "imgSubtitle": "Black"
+          },
+          {
+            "id": 60002,
+            "facialHairColor": "Red",
+            "facialHairType": "BeardLight",
+            "minLevel": 2,
+            "imgSubtitle": "Red"
+          },
+          {
+            "id": 60003,
+            "facialHairColor": "Blonde",
+            "facialHairType": "BeardLight",
+            "minLevel": 1,
+            "imgSubtitle": "Blonde"
+          },
+          {
+            "id": 60004,
+            "facialHairColor": "BlondeGolden",
+            "facialHairType": "BeardLight",
+            "minLevel": 4,
+            "imgSubtitle": "Blonde Golden"
+          },
+          {
+            "id": 60005,
+            "facialHairColor": "Brown",
+            "facialHairType": "BeardLight",
+            "minLevel": 3,
+            "imgSubtitle": "Brown"
+          },
+          {
+            "id": 60006,
+            "facialHairColor": "BrownDark",
+            "facialHairType": "BeardLight",
+            "minLevel": 2,
+            "imgSubtitle": "Brown Dark"
+          },
+          {
+            "id": 60007,
+            "facialHairColor": "Auburn",
+            "facialHairType": "BeardLight",
+            "minLevel": 5,
+            "imgSubtitle": "Auburn"
+          },
+          {
+            "id": 60008,
+            "facialHairColor": "Platinum",
+            "facialHairType": "BeardLight",
+            "minLevel": 4,
+            "imgSubtitle": "Platinum"
+          }
+    ]
+  },
+  {
+      "categoryTitle":"Glasses",
+      "sectionID":3,
+      "pieceType":"accessories",
+      "items": [
+          {
+              "id": 30001,
+              "accessoriesType": "Blank",
+              "minLevel": 1,
+              "imgSubtitle": "No Glasses"
+            },
+            {
+              "id": 30002,
+              "accessoriesType": "Kurt",
+              "minLevel": 2,
+              "imgSubtitle": "White Sun"
+            },
+            {
+              "id": 30003,
+              "accessoriesType": "Prescription01",
+              "minLevel": 3,
+              "imgSubtitle": "Prescription 1"
+            },
+            {
+              "id": 30004,
+              "accessoriesType": "Prescription02",
+              "minLevel": 3,
+              "imgSubtitle": "Prescription 2"
+            },
+            {
+              "id": 30005,
+              "accessoriesType": "Round",
+              "minLevel": 4,
+              "imgSubtitle": "Round"
+            },
+            {
+              "id": 30006,
+              "accessoriesType": "Sunglasses",
+              "minLevel": 4,
+              "imgSubtitle": "Sunglasses"
+            },
+            {
+              "id": 30007,
+              "accessoriesType": "Wayfarers",
+              "minLevel": 5,
+              "imgSubtitle": "Wayfarers"
+            }        
+      ]
+  },
+    {
+        "categoryTitle": "Skin Color",
+        "sectionID": 4,
+        "pieceType": "skin",
+        "items": [
+            {
+                "id": 40001,
+                "skinColor": "Tanned",
+                "minLevel": 1,
+                "imgSubtitle": "Tanned",
+                "fallbackColor": "#FD9841"
+              },
+              {
+                "id": 40002,
+                "skinColor": "Yellow",
+                "minLevel": 1,
+                "imgSubtitle": "Yellow",
+                "fallbackColor":"#F8D25C"
+              },
+              {
+                "id": 40003,
+                "skinColor": "Pale",
+                "minLevel": 1,
+                "imgSubtitle": "Pale",
+                "fallbackColor": "#FFDBB4"
+              },
+              {
+                "id": 40004,
+                "skinColor": "Light",
+                "minLevel": 1,
+                "imgSubtitle": "Light",
+                "fallbackColor": "#EDB98A"
+              },
+              {
+                "id": 40005,
+                "skinColor": "Brown",
+                "minLevel": 1,
+                "imgSubtitle": "Brown",
+                "fallbackColor": "#D08B5B"
+              },
+              {
+                "id": 40006,
+                "skinColor": "DarkBrown",
+                "minLevel": 1,
+                "imgSubtitle": "Dark Brown",
+                "fallbackColor": "#AE5D29"
+              },
+              {
+                "id": 40007,
+                "skinColor": "Black",
+                "minLevel": 1,
+                "imgSubtitle": "Black",
+                "fallbackColor": "#614335"
+              }
+        ]
+    }
+]

@@ -17,6 +17,8 @@ import CeliLogger from '../analytics/analyticsManager';
 import Interactions from '../constants/Interactions';
 import UploadManager from '../manager/UploadManager';
 import GipInformation from '../components/GipTracker/GipInformation'
+import AchievementManager from '../manager/buddyManager/AchievementManager';
+import EntryManager from '../manager/buddyManager/EntryManager';
 
 const themeColor = '#FF8D1E';
 
@@ -212,6 +214,16 @@ export default class GIPScreen extends React.Component {
                     GearManager.getInstance().sendMessage("msg 31")
                 }
             );
+
+            let gipType = "GIPADDED_GLUTEN";
+            if (this.state.gipManualResult == 0) {
+                gipType = "GIPADDED_GLUTEN";
+            } else if (this.state.gipManualResult == 1) {
+                gipType = "GIPADDED_NOGLUTEN";
+            }
+            AchievementManager.triggerAchievement(gipType);
+            EntryManager.addEntry(gipType);
+
         }
         if (goHome) {
             setTimeout(() => this.navigateHome(), 100);

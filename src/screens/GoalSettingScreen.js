@@ -111,7 +111,7 @@ export default class GoalSettingScreen extends React.Component
 								downPressed={() => {this.setState({noEmotions: Math.max(this.state.minNoEmotions, this.state.noEmotions - 1)})}}
 								/>}/>
 						
-						{this.props.screenProps.usingGIP ?
+						{this.props.usingGIP ?
 						<Goal color={Colors.gip} image={gipImage} 
 							text={<LogText 
 								text1={gipGoal.text1}

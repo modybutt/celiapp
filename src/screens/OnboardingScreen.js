@@ -9,6 +9,7 @@ import emotionIcon from '../assets/images/smiley_face_white.svg';
 import gipIcon from '../assets/images/gip.svg';
 import Colors from "../constants/Colors";
 import LanguageManager from "../manager/LanguageManager";
+import { abs } from "react-native-reanimated";
 
 export default class OnBoardingScreen extends React.Component
 {
@@ -60,15 +61,20 @@ export default class OnBoardingScreen extends React.Component
 		});
 	 }
 
+	touchBegin(evt) 
+	{
+		this.setState({touchBeginPos: evt.nativeEvent.locationX})
+	}
+
 	touchMove(evt)
 	{		
 		if (this.state.canAnimate)
 		{
 			const currentScreenIndex = this.state.currentScreenIndex;
-			if (currentScreenIndex < 5 && this.state.touchStartXPos - evt.nativeEvent.locationX > 2)
+			if (currentScreenIndex < 5 && this.state.touchStartXPos - evt.nativeEvent.locationX > 5)
 			{
 				this.startAnimationLeft();							
-			} else if (currentScreenIndex > 0 && this.state.touchStartXPos - evt.nativeEvent.locationX < -2)
+			} else if (currentScreenIndex > 0 && this.state.touchStartXPos - evt.nativeEvent.locationX < -5)
 			{			
 				this.startAnimationRight();
 			}
@@ -76,10 +82,18 @@ export default class OnBoardingScreen extends React.Component
 		}				
 	}
 
-	touchEnd()
+	touchEnd(evt)
 	{
+		const currentScreenIndex = this.state.currentScreenIndex;
+		//also react on plain touches instead of swipes
+		if (this.state.canAnimate && currentScreenIndex < 5 && this.state.touchBeginPos !== undefined && (Math.abs(this.state.touchBeginPos-evt.nativeEvent.locationX) < 5)) {
+			this.startAnimationLeft();
+		} else {
+			console.log("no touch condition ", this.state.touchBeginPos, this.state.canAnimate, evt.nativeEvent.locationX,(Math.abs(this.state.touchBeginPos-evt.nativeEvent.locationX) < 5));
+		}
 		this.setState({canAnimate: true});
 		this.setState({touchStartXPos: undefined});
+		this.setState({touchBeginXPos: undefined});
 	}
 
 	render()
@@ -88,7 +102,9 @@ export default class OnBoardingScreen extends React.Component
 		return (
 			<View 
 				onTouchMove={(evt) => this.touchMove(evt)}
-				onTouchEnd={() => this.touchEnd()}>
+				onTouchStart={(evt) => this.touchBegin(evt)}
+				onTouchEnd={(evt) => this.touchEnd(evt)}>
+					
 
 				<View style={{
 						position: 'absolute'					

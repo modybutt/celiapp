@@ -1,9 +1,11 @@
 import { AsyncStorage } from "react-native";
 import { showMessage } from "react-native-flash-message";
-import loggingStore from "../buddyManager/LoggingStore"
+import Colors from "../../constants/Colors";
+import loggingStore from "../buddyManager/LoggingStore";
 
 export default class AchievementManager {
   static async triggerAchievement(achievementID) {
+    //console.log("triggeredAchievement: ", achievementID)
     if (this.achievementsJson == undefined) {
       this.achievementsJson = require("../../config/achievements.json").achievements;
     }
@@ -22,29 +24,38 @@ export default class AchievementManager {
       }
     }
     await this.increaseLevelPoints(achievement.points);
-    var alertmsg = achievement.message + " - " + achievement.points + " points";
+    var alertmsg = achievement.message + ": +" + achievement.points + " points";
     if (await this.checkLevelIncrease()) {
-      var currentlevel = await this.getCurrentLevel();
-      alertmsg += "\nReached level " + currentlevel.toString() + "!";
+      var currentLevelName = await this.getCurrentLevelName();
+      alertmsg += "\nReached level " + currentLevelName + "!";
     }
-    await this.sendAchievementAlert(alertmsg);
+    if (achievement.type == "ONETIME") {
+      await this.sendAchievementAlert(alertmsg, type="achievement", this.colorForID(achievement.id));
+    } else {
+      await this.sendAchievementAlert(alertmsg);
+    }
   }
+
+  //dirty: this does not only check the level, but also save it
   static async checkLevelIncrease() {
-    var levelpoints = await this.getLevelPoints();
-    var level = await this.getCurrentLevel();
-    var oldlevel = level;
-    var i = 0;
+    let levelpoints = await this.getLevelPoints();
+    let level = await this.getCurrentLevel();
+    let levelName = await this.getCurrentLevelName();
+    let oldlevel = level;
+    let i = 0;
     while (i < this.levelJson.length) {
-      if (levelpoints <= this.levelJson[i].points - 1) {
+      if (levelpoints >= this.levelJson[i].points) {
         if (level < this.levelJson[i].level) {
-          level = this.levelJson[i].level - 1;
-          i = this.levelJson.length;
+          level = this.levelJson[i].level;
+          levelName = this.levelJson[i].name;
+          break; //i = this.levelJson.length;
         }
       }
       i++;
     }
     if (oldlevel < level) {
       await AsyncStorage.setItem("level", level.toString());
+      await AsyncStorage.setItem("levelName", levelName);
       return true;
     } else {
       return false;
@@ -60,6 +71,31 @@ export default class AchievementManager {
     }
     //console.debug("DB: level ", level);
     return parseInt(level);
+  }
+
+  static async getCurrentLevelName() {
+    var levelName = "1";
+    levelName = await AsyncStorage.getItem("levelName");
+    if (levelName == null) {
+      levelName = "Novice";
+      await AsyncStorage.setItem("levelName", levelName);
+    }
+    //console.debug("DB: level ", level);
+    return levelName;
+  }
+
+  static async getNextLevelName() {
+    let level = "1";
+    level = await AsyncStorage.getItem("level");
+    if (this.levelJson == undefined) {
+      this.levelJson = require("../../config/levels.json").levels;
+    }
+    let levels = this.levelJson
+    if (level > 0 && level < levels.length) {
+      return levels[level].name;
+    } else {
+      return "";
+    }
   }
 
   static async getLevelPoints() {
@@ -79,25 +115,77 @@ export default class AchievementManager {
     await AsyncStorage.setItem("points", levelpoints.toString());
   }
 
-  static sendAchievementAlert(text) {
+  static colorForID(id) {
+      if (id ) {
+        if (id.includes("MEAL")) {
+          return Colors.meal
+        } else if (id.includes("SYMPTOM")) {
+          return Colors.symptom
+        } else if (id.includes("GIP")) {
+          return Colors.gip
+        } else if (id.includes("ENERGY")) {
+          return Colors.emotion
+        }
+      }
+      return Colors.mainscreenColor
+  }
+
+  static sendAchievementAlert(text, type='entry', color=undefined) {
     if(loggingStore.gamificationFlag){
+
+      let messageType = "success"
+      let messageColor = ""
+      let message = "Experience Points Earned!"
+
+      if (type === "entry") {
+        messageType = "success"
+        messageColor = color ? color : "#5cb85c"
+      } else if (type === "achievement") {
+        messageType = "info"
+        messageColor = color ? color: "#5bc0de"
+        message = "New Achievement!"
+      }
+
       showMessage({
-        message: "Achievement earned!",
+        message: message,
         description: text,
-        type: "success"
+        type: messageType,
+        backgroundColor: messageColor
       });
     }
   }
 
   static async getCurrentLevelBounds() {
-    var currentLevel = await this.getCurrentLevel();
+    let currentLevel = await this.getCurrentLevel();
     if (!currentLevel) {
       console.error("DB: getCurrentLevel() failed.");
       return;
     }
 
-    var temp = require("../../config/levels.json").levels;
+    if (this.levelJson == undefined) {
+      this.levelJson = require("../../config/levels.json").levels;
+    }
 
+    let levels = this.levelJson
+
+    if (currentLevel > 0 && currentLevel <= levels.length) {
+      let lowerBound = levels[currentLevel-1].points
+      let upperBound = -1;
+      if (currentLevel >= levels.length) {
+        upperBound = Number.MAX_SAFE_INTEGER;
+      } else {
+        upperBound = levels[currentLevel].points-1; //points form next level
+      }
+      //console.log("level " + currentLevel + " lower "  + lowerBound + " upper " + upperBound);
+      return [lowerBound, upperBound];
+    } else {
+      console.log("#WARNING: No bounds for current level " + currentLevel);
+      return [0,-1];
+    }
+
+   
+
+    /*
     //bounds for level 1:
     if (currentLevel < 2 && temp[0].points && temp[0].level) {
       //console.debug("DB: lower: 0, upper: ", temp[0].points - 1);
@@ -129,5 +217,6 @@ export default class AchievementManager {
       return [lower, upper];
     }
     return [0, -1];
+    */
   }
 }

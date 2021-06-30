@@ -16,6 +16,8 @@ import EmotionStore from '../manager/buddyManager/EmotionStore';
 import CeliLogger from '../analytics/analyticsManager';
 import Interactions from '../constants/Interactions';
 import EmotionInformation from '../components/EmoteTracker/EmotionInformation';
+import AchievementManager from '../manager/buddyManager/AchievementManager';
+import AchievementRecordManager from '../manager/buddyManager/AchievementRecordManager';
 
 const themeColor = '#9958B7';
 
@@ -286,6 +288,10 @@ export default class EmoteTrackerScreen extends React.Component {
                 }
             );
             EmotionStore.setEmotionId(this.state.selectedSymbolID, tmpDateTime);
+            
+            AchievementManager.triggerAchievement("ENERGYADDED");
+            AchievementRecordManager.increaseCountForAchievementRecord("ENERGYADDED");
+
         }
         if (goHome) {
             setTimeout(() => this.navigateHome(), 100);

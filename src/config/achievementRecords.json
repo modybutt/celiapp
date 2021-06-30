@@ -1,13 +1,28 @@
 {
-    "achievementrecords": [ {
+    "achievementRecords": [ {
         "id": "MEALADDED",
         "name": "Meals added",
         "icon": "restaurant",
-        "recordtype": "MEAL"
+        "recordType": "MEALADDED"
     },{
         "id": "SYMPTOMADDED",
         "name": "Symptoms added",
         "icon": "healing",
-        "recordtype": "SYMPTOM"
+        "recordType": "SYMPTOMADDED"
+    },{
+        "id": "GIPADDED",
+        "name": "GIPs added",
+        "icon": "healing",
+        "recordType": "GIPADDED"
+    },{
+        "id": "ENERGYADDED",
+        "name": "Energy levels added",
+        "icon": "healing",
+        "recordType": "ENERGYADDED"
+    },{
+        "id": "QUESTIONRIGHT",
+        "name": "Correct answer given",
+        "icon": "healing",
+        "recordType": "QUESTIONRIGHT"
     }]
 }

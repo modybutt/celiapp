@@ -56,3 +56,22 @@ var Piece = (function (_super) {
     return Piece;
 }(React.Component));
 export { Piece };
+
+var PieceLogger = (function (_super) {
+    __extends(PieceLogger, _super);
+    function PieceLogger() {
+        console.log("creating piece")
+        return _super !== null && _super.apply(this, arguments) || this;
+    }
+    PieceLogger.prototype.render = function () {
+        var pieceSize = this.props.pieceSize;
+        var svgXml = ReactDOMServer.renderToString(React.createElement(PieceReact, __assign({}, this.props)));
+        //console.log("svg: " + svgXml);
+        if (this.props.svgCallback) {
+            this.props.svgCallback(svgXml);
+        }
+        return (React.createElement(SvgXml, { xml: svgXml, width: Number(pieceSize), height: Number(pieceSize) }));
+    };
+    return PieceLogger;
+}(React.Component));
+export { PieceLogger };

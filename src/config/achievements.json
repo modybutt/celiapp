@@ -1,28 +1,174 @@
 {
     "achievements": [ {
-        "id": "MEALADDED",
-        "message": "Added Meal",
-        "challengename": "Add a meal",
-        "points": 15,
+        "id": "MEALADDED_GLUTEN",
+        "message": "Added a gluten meal",
+        "challengename": "Add a meal containging gluten",
+        "points": 2,
+        "type": "REPEATABLE"
+    },{
+        "id": "MEALADDED_NOGLUTEN",
+        "message": "Added a glutenfree meal",
+        "challengename": "Add a glutenfree meal",
+        "points": 5,
+        "type": "REPEATABLE"
+    },{
+        "id": "MEALADDED_UNKNOWN",
+        "message": "Added an unknown meal",
+        "challengename": "Add an unknown meal",
+        "points": 1,
         "type": "REPEATABLE"
     },{
         "id": "SYMPTOMADDED",
-        "message": "Added Symptom",
+        "message": "Added a symptom",
         "challengename": "Add a symptom",
-        "points": 10,
+        "points": 5,
         "type": "REPEATABLE"
 
-    }, {
+    },{
+        "id": "ENERGYADDED",
+        "message": "Added an energy level",
+        "challengename": "Add an energy level",
+        "points": 3,
+        "type": "REPEATABLE"
+
+    },{
+        "id": "GIPADDED_GLUTEN",
+        "message": "Added a positive GIP  result",
+        "challengename": "Add a positive GIP result",
+        "points": 1,
+        "type": "REPEATABLE"
+
+    },{
+        "id": "GIPADDED_NOGLUTEN",
+        "message": "Added a negative GIP result",
+        "challengename": "Add a negative GIP result",
+        "points": 2,
+        "type": "REPEATABLE"
+
+    },
+    
+    {
         "id": "10MEALSADDED",
-        "message": "Added 10 Meals",
-        "challengename": "Add 10 Meals",
-        "points": 30,
+        "message": "Congratulations - you added 10 meals",
+        "challengename": "Add 10 meals",
+        "points": 10,
         "type": "ONETIME"
-    }, {
+    },{
+        "id": "20MEALSADDED",
+        "message": "Congratulations - you added 20 meals",
+        "challengename": "Add 20 meals",
+        "points": 10,
+        "type": "ONETIME"
+    },{
+        "id": "50MEALSADDED",
+        "message": "Congratulations - you added 50 meals",
+        "challengename": "Add 50 meals",
+        "points": 10,
+        "type": "ONETIME"
+    },{
+        "id": "100MEALSADDED",
+        "message": "Congratulations - you added 100 meals",
+        "challengename": "Add 100 meals",
+        "points": 20,
+        "type": "ONETIME"
+    },
+    
+    {
+        "id": "10SYMPTOMSADDED",
+        "message": "Congratulations - you added 10 symptoms",
+        "challengename": "Add 10 symptoms",
+        "points": 10,
+        "type": "ONETIME"
+    },{
+        "id": "20SYMPTOMSADDED",
+        "message": "Congratulations - you added 20 symptoms",
+        "challengename": "Add 20 symptoms",
+        "points": 10,
+        "type": "ONETIME"
+    },{
+        "id": "50SYMPTOMSADDED",
+        "message": "Congratulations - you added 50 symptoms",
+        "challengename": "Add 50 symptoms",
+        "points": 10,
+        "type": "ONETIME"
+    },{
+        "id": "100SYMPTOMSADDED",
+        "message": "Congratulations - you added 100 symptoms",
+        "challengename": "Add 100 symptoms",
+        "points": 20,
+        "type": "ONETIME"
+    },
+
+    {
+        "id": "10ENERGYADDED",
+        "message": "Congratulations - you added 10 energy levels",
+        "challengename": "Add 10 energy levels",
+        "points": 10,
+        "type": "ONETIME"
+    },{
+        "id": "20ENERGYADDED",
+        "message": "Congratulations - you added 20 energy levels",
+        "challengename": "Add 20 energy levels",
+        "points": 10,
+        "type": "ONETIME"
+    },{
+        "id": "50ENERGYADDED",
+        "message": "Congratulations - you added 50 energy levels",
+        "challengename": "Add 50 energy levels",
+        "points": 10,
+        "type": "ONETIME"
+    },{
+        "id": "100ENERGYADDED",
+        "message": "Congratulations - you added 100 energy levels",
+        "challengename": "Add 100 energy levels",
+        "points": 20,
+        "type": "ONETIME"
+    },
+    
+    {
+        "id": "3GIPSADDED",
+        "message": "Congratulations - you added 3 GIP results",
+        "challengename": "Add 3 GIP results",
+        "points": 10,
+        "type": "ONETIME"
+    },{
+        "id": "5GIPSADDED",
+        "message": "Congratulations - you added 5 GIP results",
+        "challengename": "Add 5 GIP results",
+        "points": 10,
+        "type": "ONETIME"
+    },{
+        "id": "10GIPSADDED",
+        "message": "Congratulations - you added 10 GIP results",
+        "challengename": "Add 10 GIP results",
+        "points": 20,
+        "type": "ONETIME"
+    },
+    
+    {
+        "id": "5QUESTIONSRIGHT",
+        "message": "Congratulations - you answered 5 questions correctly",
+        "challengename": "Answer 5 questions correctly",
+        "points": 5,
+        "type": "ONETIME"
+    },{
         "id": "10QUESTIONSRIGHT",
-        "message": "Answered 10 Questions Correctly",
-        "challengename": "Answer 10 Questions Correctly",
-        "points": 30,
+        "message": "Congratulations - you answered 10 questions correctly",
+        "challengename": "Answer 10 questions correctly",
+        "points": 10,
         "type": "ONETIME"
-    }]
+    },{
+        "id": "20QUESTIONSRIGHT",
+        "message": "Congratulations - you answered 20 questions correctly",
+        "challengename": "Answer 20 questions correctly",
+        "points": 10,
+        "type": "ONETIME"
+    },{
+        "id": "30QUESTIONSRIGHT",
+        "message": "Congratulations - you answered 30 questions correctly",
+        "challengename": "Answer 30 questions correctly",
+        "points": 10,
+        "type": "ONETIME"
+    }
+]
 }
