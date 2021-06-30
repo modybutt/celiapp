@@ -109,6 +109,7 @@ export default class ReportScreen extends React.Component {
     if (!this.state.reportData) return (<View><Text>Generating report ...</Text></View>)
     reportData = this.state.reportData;
 
+    console.log("ReportData: ", reportData.bestDayBody)
     console.log("GIP flag", this.props.screenProps.usingGIP)
     console.log("screen props", this.props.screenProps)
 
@@ -214,6 +215,7 @@ function InfoBox({ info, image, color, onAddClicked }) {
       <Text style={[styles.infoBoxSubtext]}>{info.sub}</Text>
       <View style={styles.rightWrapper}></View>
     </View>
+    {/** 
     <View style={[styles.addIcon, { backgroundColor: color }]}>
       <TouchableOpacity onPress={onAddClicked}>
         <View>
@@ -221,6 +223,7 @@ function InfoBox({ info, image, color, onAddClicked }) {
         </View>
       </TouchableOpacity>
     </View>
+    */}
   </View>)
 }
 
@@ -245,6 +248,7 @@ const styles = StyleSheet.create({
     right: 5,
     bottom: 5,
     position: 'absolute',
+    top: 10,
     width: 20,
     height: 20,
     borderRadius: 10,
@@ -262,6 +266,7 @@ const styles = StyleSheet.create({
 
   infoBox: {
     maxWidth: infoBoxWidth,
+    width: infoBoxWidth,
     height: infoBoxWidth,
     backgroundColor: Colors.infoBoxBackground,
     margin: 4,
@@ -305,11 +310,14 @@ const styles = StyleSheet.create({
     padding: 8,
     display: 'flex',
     flexDirection: 'row',
-    justifyContent: 'flex-start',
-    alignItems: 'flex-start',
+    justifyContent: 'center',
+    alignItems: 'center',
   },
 
   bestDayCaption: {
+    paddingTop: 10,
+    fontSize: 20,
+    fontWeight: "bold",
     color: textColor,
   },
   bestDayBody: {
@@ -317,10 +325,11 @@ const styles = StyleSheet.create({
     maxWidth: width*0.80,
   },
   bestDayHeading: {
-    fontSize: 20,
+    //fontSize: 20,
     fontWeight: "bold",
     color: textColor,
     maxWidth: width*0.80,
+    marginBottom:5
   },
 
   container: {
