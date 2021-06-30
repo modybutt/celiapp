@@ -110,8 +110,9 @@ export default class GoalSettingScreen extends React.Component
 								upPressed={() => {this.setState({noEmotions: this.state.noEmotions + 1})}}
 								downPressed={() => {this.setState({noEmotions: Math.max(this.state.minNoEmotions, this.state.noEmotions - 1)})}}
 								/>}/>
-
-						<Goal color={Colors.gip} image={gipImage}
+						
+						{this.props.screenProps.usingGIP ?
+						<Goal color={Colors.gip} image={gipImage} 
 							text={<LogText 
 								text1={gipGoal.text1}
 								text2={gipGoal.text2}
@@ -123,7 +124,7 @@ export default class GoalSettingScreen extends React.Component
 								noItems={this.state.gipGoalIndex}
 								upPressed={() => {this.setState({gipGoalIndex: Math.min(3, this.state.gipGoalIndex + 1)})}}
 								downPressed={() => {this.setState({gipGoalIndex: Math.max(1, this.state.gipGoalIndex - 1)})}}
-								/>}/>
+								/>}/> : null}
 					</View>
 
 				</View>
