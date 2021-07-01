@@ -44,7 +44,7 @@ export default class DateUtil {
   static getStartOfThisWeekBeginningMonday(now) {
     now = now ? new Date(now) : new Date()
     var previousSunday = DateUtil.getPreviousSunday(now);
-    var startOfWeek = new Date(now)
+    var startOfWeek = new Date(previousSunday)
     startOfWeek.setDate(previousSunday.getDate() + 1);
     startOfWeek.setHours(0, 0, 0, 0);
     return startOfWeek;

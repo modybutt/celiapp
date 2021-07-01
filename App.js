@@ -209,7 +209,7 @@ export default class App extends React.Component {
           : this.state.hasUserId
             ? this.state.didShowOnBoarding ? this.state.didShowGoalSettingsPage ? <AppNavigator  screenProps={{usingGIP : this.state.usingGIP}} /> :
 			
-			<GoalSettingScreen onSaveButtonPressed={() =>
+			<GoalSettingScreen usingGIP={this.state.usingGIP} onSaveButtonPressed={() =>
 				{
 					this.setState({didShowGoalSettingsPage: true});
 					DatabaseManager.getInstance().saveSettings('didShowGoalSettingsPage', true, (error) => { alert(error) }, null);

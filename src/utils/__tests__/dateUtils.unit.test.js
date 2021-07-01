@@ -1,3 +1,4 @@
+import WardrobeCategoryEyeColor from '../../components/Glutenbuddy/screens/WardrobeComponents/WardrobeCategories/WardrobeCategoryEyeColor';
 import du from '../dateUtils';
 
 const mon19_Apr_2021 = new Date("2021-4-19")
@@ -12,6 +13,8 @@ const tue20_Apr_2021 = new Date("2021-04-20")
 const tue13_Apr_2021 = new Date("2021-04-13T13:00:35")
 const mon29_Mar_2021 = new Date("2021-3-29")
 const sun11_Apr_2021_midnight = new Date("2021-04-11T23:59:59.999")
+const thu01_Jul_2021 = new Date("2021-07-01")
+const mon28_Jun_2021 = new Date("2021-06-28")
 
 
 test('get previous sunday', () => {
@@ -32,6 +35,7 @@ test('get start previous week', () => {
 test('get start current week', () => {
     expect(du.getStartOfThisWeekBeginningMonday(mon19_Apr_2021)).toEqual(mon19_Apr_2021);
     expect(du.getStartOfThisWeekBeginningMonday(sun18_Apr_2021)).toEqual(mon12_Apr_2021);
+    expect(du.getStartOfThisWeekBeginningMonday(thu01_Jul_2021)).toEqual(mon28_Jun_2021);
 });
 
 const tue01_Jun_2021 = new Date("2021-06-01T13:59:59.999")
