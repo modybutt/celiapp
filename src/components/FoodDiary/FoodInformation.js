@@ -29,7 +29,7 @@ export default class FoodInformation extends React.Component {
                 <View style={[styles.subContainer, this.colorStyle]}>
                     <Text style={styles.text}>By entering your meals you can get better insight into your diet.</Text>
                     <Text style={styles.text}>In the weekly report screen <SvgXml style={{ marginBottom: -5 }} width="15" height="15" fill='#e91f64' xml={ReportIcon} /> you can see how well your are mastering it!</Text>
-                    <Text style={styles.text}>Research has proven that people who are conscious of what they eat, feel better, are more confident and are less prone to become depressed.</Text>
+                    <Text style={styles.text}>Research has shown that people who are conscious of what they eat, feel better, are more confident and demonstrate improved mental health.</Text>
                 </View>
             </View>
         );
