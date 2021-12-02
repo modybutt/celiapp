@@ -28,13 +28,20 @@ export default class LoggedEntry extends React.Component
 	componentDidMount()
 	{
 		//this.setDefaultState();
-		this.props.navigation.addListener('willFocus', () => {this.setState({
+		this.focusListener = this.props.navigation.addListener('willFocus', () => {this.setState({
 			transformValue: new Animated.Value(0),
 			touchStartXPos: -1,
 			canAnimate: true,
 			currentAnimation: 'no-animation',
 			animationState : AnimationState.CLOSE
 		})});
+	}
+
+	componentWillUnmount()
+	{
+		if (this.focusListener != null) {
+			this.focusListener.remove();
+		}
 	}
 
 	startAnimation = (newAnimationState, toValue) => 
