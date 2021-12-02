@@ -194,8 +194,36 @@ export default class App extends React.Component {
     //TODO get new auth token
     if (token) {
       UploadManager.getInstance().setToken(token);
+      console.log('Preparing upload...', new Date().getTime())
       DatabaseManager.getInstance().fetchUnrecordedData((_, error) => console.error(error), (_, data) => {
-        UploadManager.getInstance().uploadData(data, () => { DatabaseManager.getInstance().updateLastRecorded(); });
+        //console.log('data to upload:', data);
+        let lastModified = null;
+
+        //get the timestamp of the last returned record in events/symptoms.
+        //TODO: for future versions it might be a better idea to have an uploaded-property in each record to show if it hasn't been uploaded yet, instead of just having a global timestamp.
+        if (data.symptoms != null) {
+          if (data.symptoms.length > 0) {
+            lastModified = data.symptoms[data.symptoms.length-1].modified;
+          }
+        }
+        if (data.events != null) {
+          if (data.events.length > 0) {
+            let modified = data.events[data.events.length-1].modified;
+            if (lastModified === null || lastModified === 0 || lastModified < modified) {
+              lastModified = modified;
+            }
+          }
+        }
+        console.log('Last modified timeStamp in upload data: ', lastModified);
+        //TODO: should we actually only uploadData if events or symptoms are present instead of submitting empty arrays?
+        UploadManager.getInstance().uploadData(data, () => { 
+            if (lastModified !== null && lastModified > 0) { 
+              //only update the lastRecorded date if we actually submitted symptoms/events 
+              //to avoid losing new entries that haven't been written to the DB at the time of fetching the "unrecorded" data.
+              DatabaseManager.getInstance().updateLastRecorded(lastModified); 
+            }
+            console.log('Finished upload ',new Date().getTime()) 
+        });
       });
     }
   }

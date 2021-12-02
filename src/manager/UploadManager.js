@@ -42,7 +42,9 @@ export default class UploadManager {
       } else {
         console.warn('Upload failed!');
       }
-    });
+    }).catch((error) => { 
+      console.log('Data upload error:',error, new Date())
+    }) ;
   }
 
   uploadGIPImage(image, onSuccess){
