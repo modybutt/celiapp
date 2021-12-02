@@ -196,7 +196,7 @@ export default class DatabaseManager {
   }
 
   fetchUnrecordedSymptoms(tx, lastRecorded, onError, onSuccess) {
-    tx.executeSql('SELECT * FROM symptoms WHERE modified > ?', [lastRecorded], onSuccess, onError);
+    tx.executeSql('SELECT * FROM symptoms WHERE modified > ? ORDER BY modified ASC', [lastRecorded], onSuccess, onError);
   }
 
   //Public
@@ -463,7 +463,7 @@ export default class DatabaseManager {
 
   fetchUnrecordedEvents(tx, lastRecorded, onError, onSuccess) {
     console.log("--> last recorded content", lastRecorded)
-    tx.executeSql('SELECT * FROM events WHERE modified > ?',
+    tx.executeSql('SELECT * FROM events WHERE modified > ? ORDER BY modified ASC',
       [lastRecorded], onSuccess, onError);
   }
 
@@ -526,7 +526,7 @@ export default class DatabaseManager {
         null,
         (_, { rows: { _array } }) => {
           let lastRecorded = Math.round(_array[0].objData, 0);
-          console.log('lastRecorded is ' + lastRecorded);
+          console.log('lastRecorded is ' + lastRecorded, _array[0]);
           this.fetchUnrecordedSymptoms(
             tx,
             lastRecorded,
@@ -547,12 +547,12 @@ export default class DatabaseManager {
       (_, success) => onSuccess(null, unrecordedData));
   }
 
-  updateLastRecorded() {
+  updateLastRecorded(timeStamp = Date.now()) {
     this.db.transaction(tx => {
-      tx.executeSql('UPDATE settings SET objData = ? WHERE name = "lastRecorded"', [Date.now()]);
+      tx.executeSql('UPDATE settings SET objData = ? WHERE name = "lastRecorded"', [timeStamp]);
     },
       (_, error) => console.error(JSON.stringify(error)),
-      (_, success) => console.log('Updated lastRecorded')
+      (_, success) => console.log('Updated lastRecorded: ',timeStamp)
     );
   }
 
