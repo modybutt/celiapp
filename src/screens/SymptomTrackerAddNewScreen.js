@@ -52,22 +52,29 @@ export default class SymptomTrackerAddNewScreen extends React.Component{
 
     render(){
         return(
-            <View>
-                <View style={{flexDirection: "row", justifyContent: "space-between", alignItems: 'center', width: Dimensions.get('window').width, height: 80}}>
-                    <Text style={styles.TextStyle}>Name: </Text>
-                    <View style={{width:Dimensions.get('window').width-80, paddingBottom: 18}}>
-                        <TextInputSingleLine ref={component => this._search = component} onTextChanged={this.nameEditedHandler}/>
-                    </View>
-                </View>       
-            </View>
+          <View style={[styles.container, { width: Dimensions.get('window').width }]}>
+              <Text style={styles.text}>Name: </Text>
+              <View style={[styles.textInputContainer, { width: Dimensions.get('window').width - 100 }]}>
+                  <TextInputSingleLine ref={component => this._search = component} onTextChanged={this.nameEditedHandler}/>
+              </View>
+          </View>
         )
     }
 
 }
 
 var styles = StyleSheet.create({
-    TextStyle:{
-       fontSize: 15,
-       fontWeight: 'bold',
-    }
-   });
+  container: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    height: 80,
+    margin: 25
+  },
+  text: {
+     fontSize: 15,
+     fontWeight: 'bold',
+  },
+  textInputContainer: {
+    paddingBottom: 18
+  }
+});

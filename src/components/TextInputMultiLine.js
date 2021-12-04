@@ -62,6 +62,7 @@ export default class TextFieldMultiline extends React.Component {
                 editable = {true}
                 maxLength = {400}
                 multiline = {true}
+                placeholder={this.props.placeholderText || ""}
             />
         </View>
     );
@@ -81,7 +82,8 @@ const styles = StyleSheet.create({
            borderRadius: 20,
            marginLeft: 10,
            marginRight: 10,
-           alignContent: 'space-around'
+           alignContent: 'space-around',
+           padding: 10
            }
 });
 

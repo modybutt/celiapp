@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
-import { TouchableOpacity, Text, Alert, Animated, Image, Easing, View, StyleSheet } from 'react-native';
+import { TouchableOpacity, Text, Alert, Animated, Image, Easing, View, StyleSheet, Platform } from 'react-native';
 import Dialog from "react-native-dialog";
+
+import Constants from 'expo-constants';
 
 // constants
 import {
@@ -37,16 +39,16 @@ const HIGH_COLOR = 'rgb(255, 0, 0)';
 export default class SymptomIconButton extends Component {
 
 	//Prop: type -->  1 == left icon, 2 == normal 3 == right icon. -- Changes the placement of the severity chooser icons around the symptom icon
-	//Prop: type -->  4 == MoreSymptomsButton, 5 CreateSymptomButton
+	//Prop: type -->  4 == MoreSymptomsButton, 5 CreateSymptomButton, 6 NoSymptomButton
 	//Prop: symptomID --> 1 - 7 --> systemIcons. 0 --> more symptoms button. All IDs higher than that show the userDefinedIcon.
-	
+
 	constructor(props) {
-		super(props);			
-	
+		super(props);
+
 		this.animatedValue = new Animated.Value(0);
 		this.topLeftValue = new Animated.Value(0);
 		this.topCenterValue = new Animated.Value(0);
-		this.topRightValue = new Animated.Value(0);	
+		this.topRightValue = new Animated.Value(0);
 	}
 
 	state = {
@@ -65,18 +67,23 @@ export default class SymptomIconButton extends Component {
 			this.props.onSymptomDeselected(this.props.symptomID, this.state.selectedSeverity);
 		}
 
-		DatabaseManager.getInstance().deleteSymptom(this.props.symptomID, 
-			(error) => {alert(error)}, 
+		DatabaseManager.getInstance().deleteSymptom(this.props.symptomID,
+			(error) => {alert(error)},
 			() => {this.props.onSymptomDeleted()}
 		);
 	};
-	
+
 	handleAddButtonPress = () => {
 		if(this.props.type == 4){
 			this.props.navigation.navigate("MoreSymptoms", this.props.moreSymptomsParams)
 		}else if (this.props.type == 5) {
 			this.props.navigation.navigate("AddNewSymptom")
-		}else{
+        }else if (this.props.type == 6)
+        {
+            this.onPressNoSymptoms();
+        }
+        else
+        {
 			if (this.state.selectedSeverity == 0) {
 				this.callAnimation(false);
 			} else {
@@ -97,18 +104,31 @@ export default class SymptomIconButton extends Component {
 			else {
 				if(this.props.canOpenSeverity){
 					this.animate(1);
-					this.setState({zIndexNumber: 1})					
+					this.setState({zIndexNumber: 1})
 					this.props.onSeverityChooserHandled(false, this.props.symptomID);
 					this.setState({selected: !selected});
 				}else{
 					if(setEnabled){
-						//Alert.alert("hallo");
 						this.props.onSeverityChooserHandled(true, this.props.symptomID);
 					}
 				}
-			}	
+			}
 	}
 
+    onPressNoSymptoms()
+    {
+        const { selected } = this.state;
+        this.setState({selected: !selected, selectedSeverity: selected ? 0 : 1});
+        if (selected)
+        {
+            this.props.onSymptomDeselected(this.props.symptomID, 1);
+        }
+        else 
+        {
+            this.props.onSymptomSelected(this.props.symptomID, 1);
+        }
+        this.props.onSeverityChooserHandled(true);
+    }
 
 	onPressYellow = () => {
 		this.setState({selectedSeverity: 1})
@@ -254,7 +274,6 @@ export default class SymptomIconButton extends Component {
 				top: -30,
 				left: 85,
 			};
-	
 		}else if(this.props.type == 3){
 			center = {
 				top: 15,
@@ -304,9 +323,14 @@ export default class SymptomIconButton extends Component {
 			case 3: bigBubbleColor= HIGH_COLOR; break;
 		}
 
+		let { selected } = this.state;
+		let zIndex = selected ? 100 : 0;
+
 		if (this.props.active == null || this.props.active == true) {
 			return (
-				<View style={{marginTop: 60, opacity: this.props.opacity}}>
+				<View style={(Platform.OS === 'ios') ?
+          {marginTop: 60, opacity: this.props.opacity, zIndex: zIndex} :
+          {marginTop: 60, opacity: this.props.opacity}}>
 					<Animated.View
 						style={[
 							style.bigBubble,
@@ -319,7 +343,7 @@ export default class SymptomIconButton extends Component {
 										}),
 									},
 								],
-								backgroundColor: bigBubbleColor,
+								backgroundColor: bigBubbleColor
 							},
 						]}
 					>
@@ -493,7 +517,7 @@ const style = StyleSheet.create({
 		alignItems: 'center',
 		backgroundColor: bubbleColorOrange,
 		height: smallBubbleSize,
-		width: smallBubbleSize,		
+		width: smallBubbleSize,
 		borderWidth: 1,
 		borderColor: 'grey',
 		borderRadius: smallBubbleSize / 2,

@@ -1,4 +1,3 @@
-
 import React from 'react';
 import {Text, View, Alert} from 'react-native';
 import TextInputMultiLine from './TextInputMultiLine';
@@ -34,7 +33,12 @@ export default class NoteEdit extends React.Component{
         return(
             <View>
                 <View style={{height: 150}}>
-                     <TextInputMultiLine ref={component => this._textInputMultiLine = component} text = {this.state.note} onTextChanged={this.noteEditedHandled}/>
+                     <TextInputMultiLine
+                        ref={component => this._textInputMultiLine = component}
+                        text = {this.state.note}
+                        onTextChanged={this.noteEditedHandled}
+                        placeholderText={this.props.placeholderText || ""}
+                     />
                 </View>
                 <HorizontalLine/>
             </View>

@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, StyleSheet, Alert } from 'react-native';
+import { View, StyleSheet, Image, Alert } from 'react-native';
 import ActionButton from 'react-native-action-button';
 import * as Icon from '@expo/vector-icons';
 import LanguageManager from '../manager/LanguageManager';
@@ -19,8 +19,10 @@ export default class MenuButton extends React.Component {
       }
 
       return (
-          <View style={styles.container}>
               <ActionButton buttonColor="rgba(231,76,60,1)">
+                <ActionButton.Item buttonColor='#00000000' title={LanguageManager.getInstance().getText("ADD_GIP_RESULT")} onPress={() => this.props.navigation.navigate('AddGIP')}>
+                  <Image source ={require('../assets/images/GIP_icon.png')}/>
+                </ActionButton.Item>
                 <ActionButton.Item buttonColor='#9b59b6' title={LanguageManager.getInstance().getText("ADD_EMOTION")} onPress={() => this.props.navigation.navigate('AddEmote')}>
                   <Icon.Ionicons name="md-happy" style={styles.actionButtonIcon} />
                 </ActionButton.Item>
@@ -31,16 +33,17 @@ export default class MenuButton extends React.Component {
                   <Icon.Ionicons name="md-medkit" style={styles.actionButtonIcon} />
                 </ActionButton.Item>
               </ActionButton>                
-          </View>
       );
     }  
 }
 
 const styles = StyleSheet.create({
     container: {
-        width: '100%',
-        height: '100%',
-        position: 'absolute',
+      position: 'absolute',
+      bottom: 75,
+      right: 10,
+      height: 50,
+      width: 200
     },
     actionButtonIcon: {
       fontSize: 35,
