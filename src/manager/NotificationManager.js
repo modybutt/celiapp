@@ -1,5 +1,4 @@
 import { Alert, Platform } from 'react-native';
-import * as Permissions from 'expo-permissions';
 import LanguageManager from './LanguageManager';
 import Constants from 'expo-constants';
 import * as Notifications from 'expo-notifications';
@@ -37,10 +36,10 @@ const subscription = Notifications.addNotificationResponseReceivedListener(notif
 
 //request permission to send notifications to user.
 async function getiOSNotificationPermission() {
-    const { status } = await Permissions.getAsync(Permissions.NOTIFICATIONS);
+    const { status } = await Notifications.requestPermissionsAsync();//Permissions.getAsync(Permissions.NOTIFICATIONS);
     if (status !== 'granted') 
     {
-        await Permissions.askAsync(Permissions.NOTIFICATIONS);
+        await Notifications.requestPermissionsAsync();
     }
 };
 

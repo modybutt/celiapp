@@ -1,7 +1,6 @@
 import React from 'react';
 import { Text, View, TouchableOpacity, ActivityIndicator, StyleSheet } from 'react-native';
 import * as Icon from '@expo/vector-icons';
-import * as Permissions from 'expo-permissions';
 import { Camera } from 'expo-camera';
 import LanguageManager from '../manager/LanguageManager';
 import Colors from '../constants/Colors';
@@ -19,7 +18,7 @@ export default class CameraScreen extends React.Component {
   };
 
   async componentDidMount() {
-    const { status } = await Permissions.askAsync(Permissions.CAMERA);
+    const { status } = await Camera.requestPermissionsAsync();//Permissions.askAsync(Permissions.CAMERA);
     this.setState({ hasCameraPermission: status === 'granted' });
   }
 

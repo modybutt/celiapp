@@ -2,15 +2,15 @@
   "expo": {
     "name": "Gluten Buddy",
     "icon": "./src/assets/images/web_hi_res_512.png",
-    "version": "0.2.27",
+    "version": "0.2.30",
     "slug": "Gluten_Buddy",
     "orientation": "portrait",
     "ios": {
-      "buildNumber": "137",
+      "buildNumber": "140",
       "bundleIdentifier": "ie.itcarlow.CeliApp"
     },
     "android": {
-      "versionCode": 137,
+      "versionCode": 142,
       "googleServicesFile": "./google-services.json",
       "package": "ie.itcarlow.glutenBuddy",
       "adaptiveIcon": {
